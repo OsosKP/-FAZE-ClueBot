@@ -76,25 +76,4 @@ public class FloorSquare implements BoardSquare {
     public int[] getLocation() {
         return location;
     }
-
-    @Override
-    public BoardSquare getNorthPointer() {
-        return northPointer;
-    }
-
-    @Override
-    public BoardSquare getSouthPointer() {
-        return southPointer;
-    }
-
-    @Override
-    public BoardSquare getEastPointer() {
-        return eastPointer;
-    }
-
-    @Override
-    public BoardSquare getWestPointer() {
-        return westPointer;
-    }
-
 }
