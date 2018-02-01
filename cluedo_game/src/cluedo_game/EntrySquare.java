@@ -1,11 +1,11 @@
 package cluedo_game;
 
 public class EntrySquare implements BoardSquare{
-	int[] position = new int[2];
-	RoomSquare roomAssigned;
-	RoomSquare roomDestination;
-	int referenceNumber;
-	boolean playerOn;
+	private int[] position = new int[2];
+	private RoomSquare roomAssigned;
+	private RoomSquare roomDestination;
+	private int referenceNumber;
+	private boolean playerOn;
 	
 	EntrySquare(int x, int y, RoomSquare roomAssigned, RoomSquare roomDestination, int refNum){
 		position[0] = x;
@@ -22,9 +22,15 @@ public class EntrySquare implements BoardSquare{
 	public RoomSquare getRoomName() {
 		return roomAssigned;
 	}
+	
+	public int getRefNum() {
+		return this.referenceNumber;
+	}
+	
 	public RoomSquare getRoomDestination() {
 		return roomDestination;
 	}
+	
 	public boolean isPlayerOn() {
 		return playerOn;
 	}

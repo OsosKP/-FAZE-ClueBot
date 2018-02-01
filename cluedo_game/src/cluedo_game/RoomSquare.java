@@ -3,22 +3,23 @@ package cluedo_game;
 import java.util.ArrayList;
 
 public class RoomSquare implements BoardSquare {
-	public String name;
-	public Weapon weaponInRoom = null;
-	public RoomSquare seacretPassage = null;
-	
-	ArrayList<Player> playersInRoom = new ArrayList();
+	private String name;
+	private Weapon weaponInRoom = null;
+	private RoomSquare seacretPassage = null;
+	private boolean isMurderRoom = false; //determines if this is the room which the murder took place
+	private int[] position = new int[2];
+
+	ArrayList<Token> playersInRoom = new ArrayList();
 	ArrayList<EntrySquare> doorway = new ArrayList();
 	
-	
-
 	public RoomSquare(String name, ArrayList<EntrySquare> doorway) {
 		this.name = name;
 		this.doorway = doorway;
 	}
 	
-	public RoomSquare(String name, RoomSquare seacretPassage, ArrayList<EntrySquare> doorway) {
-		super();
+	public RoomSquare(String name,int x, int y, RoomSquare seacretPassage, ArrayList<EntrySquare> doorway) {
+		this.position[0] = x;
+		this.position[1] = y;
 		this.name = name;
 		this.seacretPassage = seacretPassage;
 		this.doorway = doorway;
@@ -54,12 +55,12 @@ public class RoomSquare implements BoardSquare {
 	}
 
 
-	public ArrayList<Player> getPlayersInRoom() {
+	public ArrayList<Token> getPlayersInRoom() {
 		return playersInRoom;
 	}
 
 
-	public void setPlayersInRoom(ArrayList<Player> playersInRoom) {
+	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {
 		this.playersInRoom = playersInRoom;
 	}
 
@@ -76,7 +77,6 @@ public class RoomSquare implements BoardSquare {
 
 	@Override
 	public int[] getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return position;
 	}
 }
