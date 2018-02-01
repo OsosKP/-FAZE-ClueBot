@@ -22,7 +22,6 @@ public class FloorSquare implements BoardSquare {
 		this.playerOn = null;
 	}
 
-
 	public void setPlayerOn(Token playerOn) {
         this.playerOn = playerOn;
     }
