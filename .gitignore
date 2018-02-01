@@ -6,5 +6,8 @@
 *.idea
 *.iml
 *.settings
-/.metadata/
-/.recommenders/
+*.metadata
+*.recommenders
+*.gdoc
+*.gsheet
+
