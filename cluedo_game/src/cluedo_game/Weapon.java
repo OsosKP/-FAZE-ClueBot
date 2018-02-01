@@ -3,33 +3,26 @@ package cluedo_game;
 public class Weapon {
 	private String name;
 	private RoomSquare room; //because the weapon is bound to a room, we can just store a pointer
-	private boolean isMurderWeaopn = false;
-	
-	public Weapon(String name, boolean isMurderWeaopn, RoomSquare roomPlacement) {
+	private boolean isMurderWeapon = false;
+
+	//Constructor
+	public Weapon(String name, boolean isMurderWeapon, RoomSquare roomPlacement) {
 		this.name = name;
-		this.isMurderWeaopn = isMurderWeaopn;
+		this.isMurderWeapon = isMurderWeapon;
 		this.room = roomPlacement;
 	}
 
-	public String getName() {
-		return name;
-	}
+	//
+	//Accessors
+	//
+	public String getName(){return name;}
+	public RoomSquare getRoom(){return room;}
+	public boolean isMurderWeapon(){return isMurderWeapon;}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public RoomSquare getRoom() {
-		return room;
-	}
-	
-	public boolean isMurderWeaopn() {
-		return isMurderWeaopn;
-	}
+	//
+	//Mutators
+	//
+	public void setName(String name){this.name = name;}
+	public void setMurderWeaopn(boolean isMurderWeapon){ this.isMurderWeapon = isMurderWeapon;}
 
-	public void setMurderWeaopn(boolean isMurderWeaopn) {
-		this.isMurderWeaopn = isMurderWeaopn;
-	}
-	
-	
 }

@@ -6,7 +6,10 @@ public class EntrySquare implements BoardSquare{
 	private RoomSquare roomDestination;
 	private int referenceNumber;
 	private boolean playerOn;
-	
+
+	//
+	//Constructors
+	//
 	EntrySquare(int x, int y, RoomSquare roomAssigned, RoomSquare roomDestination, int refNum){
 		position[0] = x;
 		position[1] = y;
@@ -14,29 +17,20 @@ public class EntrySquare implements BoardSquare{
 		this.roomDestination = roomDestination;
 		this.referenceNumber = refNum;
 	}
-	
-	public void changePlayerOn(boolean x) {
-		playerOn = x;
-	}
 
-	public RoomSquare getRoomName() {
-		return roomAssigned;
-	}
-	
-	public int getRefNum() {
-		return this.referenceNumber;
-	}
-	
-	public RoomSquare getRoomDestination() {
-		return roomDestination;
-	}
-	
-	public boolean isPlayerOn() {
-		return playerOn;
-	}
-
+	//
+	//Accessors
+	//
+	public RoomSquare getRoomName() {return roomAssigned;}
+	public int getRefNum() {return this.referenceNumber;}
+	public RoomSquare getRoomDestination() {return roomDestination;}
+	public boolean isPlayerOn() {return playerOn;}
 	@Override
-	public int[] getLocation() {
-		return position;
-	}
+	public int[] getLocation() {return position;}
+
+	//
+	//Mutators
+	//
+	public void changePlayerOn(boolean x) {playerOn = x;}
+
 }
