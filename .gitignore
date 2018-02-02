@@ -1,0 +1,13 @@
+*.DS_STORE
+/*.DS_STORE
+*classpath
+*.project
+*.git
+*.idea
+*.iml
+*.settings
+*.metadata
+*.recommenders
+*.gdoc
+*.gsheet
+
