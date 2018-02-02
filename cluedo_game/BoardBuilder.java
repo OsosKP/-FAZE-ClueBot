@@ -10,32 +10,32 @@ public class BoardBuilder {
      */
     public void addEntrySquares(){
         // Add Kitchen Entry
-        board[4][6] = new EntrySquare(4, 6, Kitchen, 1);
+        board[6][4] = new EntrySquare(6, 4, Kitchen, 1);
         // Add 3 Ballroom Entries
-        board[8][5] = new EntrySquare(8, 5, Ballroom, 1);
-        board[9][7] = new EntrySquare(9, 7, Ballroom, 2);
-        board[14][7] = new EntrySquare(14, 7, Ballroom, 3);
+        board[5][8] = new EntrySquare(5, 8, Ballroom, 1);
+        board[7][9] = new EntrySquare(7, 9, Ballroom, 2);
+        board[7][14] = new EntrySquare(7, 14, Ballroom, 3);
         // Add Conservatory Entry
-        board[18][4] = new EntrySquare(18, 4, Conservatory, 1);
+        board[4][18] = new EntrySquare(4, 18, Conservatory, 1);
         // Add Dining Room Entries
-        board[7][12] = new EntrySquare(7, 12, DiningRoom, 1);
-        board[6][15] = new EntrySquare(6, 15, DiningRoom, 2);
+        board[12][7] = new EntrySquare(12, 7, DiningRoom, 1);
+        board[15][6] = new EntrySquare(15, 6, DiningRoom, 2);
         // Add Billiard Room Entries
-        board[18][9] = new EntrySquare(18, 9, BilliardRoom, 1);
-        board[22][12] = new EntrySquare(22, 12, BilliardRoom, 2);
+        board[9][18] = new EntrySquare(9, 18, BilliardRoom, 1);
+        board[12][22] = new EntrySquare(12, 22, BilliardRoom, 2);
         // Add Library Entries
-        board[17][16] = new EntrySquare(17, 16, Library, 1);
-        board[20][14] = new EntrySquare(20, 14, Library, 2);
+        board[16][17] = new EntrySquare(16, 17, Library, 1);
+        board[14][20] = new EntrySquare(14, 20, Library, 2);
         // Add Lounge Entry
-        board[2][21] = new EntrySquare(2, 21, Lounge, 1);
+        board[19][6] = new EntrySquare(19, 6, Lounge, 1);
         // Add Hall Entries
-        board[11][18] = new EntrySquare(11, 18, Hall, 1);
-        board[12][18] = new EntrySquare(12, 18, Hall, 2);
-        board[14][20] = new EntrySquare(14, 20, Hall, 3);
+        board[18][11] = new EntrySquare(18, 11, Hall, 1);
+        board[18][12] = new EntrySquare(18, 12, Hall, 2);
+        board[20][14] = new EntrySquare(20, 14, Hall, 3);
         // Add Study Entry
-        board[17][21] = new EntrySquare(17, 21, Study, 1);
+        board[21][17] = new EntrySquare(17, 21, Study, 1);
         // Add Cellar Entry. The Token enters the Cellar to attempt a guess
-        board[12][16] = new EntrySquare(12, 16, Cellar, 1);
+        board[16][12] = new EntrySquare(16, 12, Cellar, 1);
     }
 
     /**
@@ -50,8 +50,9 @@ public class BoardBuilder {
      * walls so they're impassable.
      */
     public void addBarriersAndSpawnPoints(){
+        int i;  // Indexing loops
         // Loop to assign top edge barrier squares
-        for(int i = 0; i < 24; i++){
+        for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
             if(i == 9)
                 board[i][0] = new FloorSquare(i, 0, White);
@@ -62,7 +63,7 @@ public class BoardBuilder {
         }
 
         // Loop to assign left edge barrier squares
-        for(int i = 0; i < 25 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[0][17] is a spawn point
             if(i == 17)
                 board[0][i] = new FloorSquare(0, i, Mustard);
@@ -71,7 +72,7 @@ public class BoardBuilder {
         }
 
         // Loop to assign right edge barrier squares
-        for(int i = 0; i < 25 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6)
                 board[23][i] = new FloorSquare(23, i, Peacock);
@@ -82,12 +83,51 @@ public class BoardBuilder {
         }
 
         // Loop to assign bottom edge barrier squares
-        for(int i = 0; i < 24; i++){
+        for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7)
                 board[i][24] = new FloorSquare(i, 24, Scarlet);
             else
                 board[i][24] = new WallSquare(i, 24);
+        }
+
+        // Two impassable squares at the top - see Documentation
+        board[6][1] = new WallSquare(6, 1);
+        board[17][1] = new WallSquare(17, 1);
+
+    }
+
+    public void addWalls(){
+        int i, j;   // Indexing loops
+
+        // Kitchen
+        for(i = 1; i < 7; i++) {
+            for (j = 1; j < 6; j++) {
+                // Ensure this isn't an entry square
+                if(i != 6 && j != 4)
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Ballroom
+        for(i = 2; i < 8; i++){
+            for(j = 8; j < 16 ; j++) {
+                // Ensure this isn't an entry square
+                if(!(i == 5 && j == 8) && !(i == 7 && (j == 9 || j == 14)))
+                board[i][j] = new WallSquare(i, j);
+            }
+        }
+        for(j = 10; j < 14; j++)
+            board[1][j] = new WallSquare(1, j);
+
+        // Conservatory
+        for(i = 1; i < 23; i++){
+            for(j = 18; j < 24 ; j++){
+                // Ensure this isn't an entry square
+                // This time we also account for Conservatory's weird shape
+                if(!(j == 18 && (i == 4 || i == 5)))
+                    board[i][j] = new WallSquare(i, j);
+            }
         }
 
     }
