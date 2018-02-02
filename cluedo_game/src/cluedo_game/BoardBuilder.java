@@ -7,9 +7,8 @@ public class BoardBuilder {
      * addEntrySquare
      * This method assigns the appropriate board squares as entries
      * to the corresponding rooms.
-     * @return A GameBoard with all of the EntrySquares filled in
      */
-    public BoardSquare[][] addEntrySquares(){
+    public void addEntrySquares(){
         // Add Kitchen Entry
         board[4][6] = EntrySquare(4, 6, Kitchen, 1);
         // Add 3 Ballroom Entries
