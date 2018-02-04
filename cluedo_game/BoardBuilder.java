@@ -1,6 +1,10 @@
 package cluedo_game;
 
 public class BoardBuilder {
+    /*
+    Since BoardSquare is an interface, we can declare an entire array
+    of BoardSquare 'objects' and then turn them into our square types as needed.
+     */
     private BoardSquare[][] board = new BoardSquare[24][25];
 
     /**
@@ -97,6 +101,12 @@ public class BoardBuilder {
 
     }
 
+    /**
+     * addWalls
+     * This method uses loops to create all of the rooms on the board.
+     * We are declaring room tiles as WallSquares and making the impassable,
+     * and the room itself will be a separate object to which a token is transported.
+     */
     public void addWalls(){
         int i, j;   // Indexing loops
 
@@ -130,6 +140,77 @@ public class BoardBuilder {
             }
         }
 
+        // Dining Room
+        for(i = 9; i < 16; i++){
+            for(j = 1; j < 8; j++){
+                if(!(i == 9 && (j == 5 || j == 6 || j == 7)))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Cellar
+        for(i = 10; i < 17; i++){
+            for(j = 10; j < 15; j++){
+                if(!(i == 16 && j == 12))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Billiard Room
+        for(i = 8; i < 13; i++){
+            for(j = 18; j < 23; j++){
+                if(!((i == 9 && j == 18) || (i == 12 && j == 22)))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Library
+        for(i = 14; i < 19; i++){
+            for(j = 17; j < 23; j++){
+                if(!((i == 14 && j == 17) || (i == 18 && j == 17))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Lounge
+        for(i = 19; i < 24; i++){
+            for(j = 1; j < 7; j++){
+                if(!(i == 19 && j == 6))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Hall
+        for(i = 18; i < 24; i++){
+            for(j = 9; j < 15; j++){
+                if(!((i == 8 && (j == 11 || j == 12)) || (i == 20 && j == 14)))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+        // Study
+        for(i = 21; i < 24; i++){
+            for(j = 17; j < 23; j++){
+                if(!(i == 21 && j == 17))
+                    board[i][j] = new WallSquare(i, j);
+            }
+        }
+
+    }
+
+    /**
+     * addFloorSquares
+     * Loops through the entire board. Every square that isn't a WallSquare
+     * or an EntrySquare is made into a passable FloorSquare.
+     */
+    public void addFloorSquares(){
+        for(int i = 1; i < 24; i++){
+            for(int j = 1; j < 23; j++){
+                if(!(board[i][j] instanceof WallSquare
+                    || board[i][j] instanceof EntrySquare))
+                        board[i][j] = new FloorSquare(i, j);
+            }
+        }
     }
 
 }
