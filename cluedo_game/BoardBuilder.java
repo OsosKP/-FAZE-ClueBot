@@ -1,11 +1,30 @@
 package cluedo_game;
 
+import java.util.ArrayList;
+
 public class BoardBuilder {
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
     private BoardSquare[][] board = new BoardSquare[24][25];
+    /* Will store all the players in the game */
+    private Token[] playerArray;
+  
+    /* This will allow is to access the rooms on the fly */
+    private Room Ballroom;
+    private Room Conservatory;
+    private Room DiningRoom;
+    private Room BilliardRoom;
+    private Room Library;
+    private Room Lounge;
+    private Room Hall;
+    private Room Kitchen;
+    private Room Study;
+    private Room Cellar;
+    
+    /* Will prevent us from breaking everything */
+    private boolean entrySquaresCreated = false;
 
     /**
      * addEntrySquare
@@ -40,6 +59,8 @@ public class BoardBuilder {
         board[21][17] = new EntrySquare(17, 21, Study, 1);
         // Add Cellar Entry. The Token enters the Cellar to attempt a guess
         board[16][12] = new EntrySquare(16, 12, Cellar, 1);
+        //useful so we dont screw up later
+        entrySquaresCreated = true;
     }
 
     /**
@@ -211,6 +232,61 @@ public class BoardBuilder {
                         board[i][j] = new FloorSquare(i, j);
             }
         }
+    }
+    
+    public void createRooms() {
+    	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
+    		
+    		/* Creating the Rooms with Multiple Entrances*/
+    		
+    		/* Will be used to store the entrances for the individual rooms */
+    		ArrayList<EntrySquare> entrances = new ArrayList<>();
+    		
+    		/* Creating Ballroom Object*/
+    		entrances.add((EntrySquare)board[5][8]);
+    		entrances.add((EntrySquare)board[7][9]);
+    		entrances.add((EntrySquare)board[7][14]);
+    		Ballroom = new Room("Ballroom",entrances);
+    		
+    		entrances.clear(); //clearing the arrayList, since we need it to hold the entranceSquares for the next object
+    		
+    		/* Creating Dining Room Object */
+    		entrances.add((EntrySquare)board[12][7]);
+    		entrances.add((EntrySquare)board[15][6]);
+    		DiningRoom = new Room("DiningRoom", entrances);
+    		
+    		entrances.clear();
+    		
+    		/* Creating BilliardRoom Object */
+    		entrances.add((EntrySquare)board[9][18]);
+    		entrances.add((EntrySquare)board[12][22]);
+    		BilliardRoom = new Room("BilliardRoom", entrances);
+    		
+    		entrances.clear();
+    		
+    		/* Creating Library Object */
+    		entrances.add((EntrySquare)board[16][17]);
+    		entrances.add((EntrySquare)board[14][20]);
+    		Library = new Room("Library", entrances);
+    		
+    		entrances.clear();
+    		
+    		/* Creating Hall Object */
+    		entrances.add((EntrySquare)board[18][11]);
+    		entrances.add((EntrySquare)board[18][12]);
+    		entrances.add((EntrySquare)board[20][14]);
+    		Hall = new Room("Hall", entrances);
+    		
+    		entrances.clear();
+    		
+    						
+    				
+
+    	}
+    	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
+    		this.addEntrySquares();
+    		this.createRooms();
+    	}
     }
 
 
