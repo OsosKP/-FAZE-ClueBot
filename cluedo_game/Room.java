@@ -31,26 +31,12 @@ public class Room implements BoardSquare {
 	 * just construct an ArrayList for doorway within the constructor then add the single
 	 * EntrySquare argument for the doorway.
 	 * @param name String representation of the name of the room
-	 * @param doorway The entryway to the room
 	 * @param secretPassage A pointer to the room to which this room's passage leads
 	 */
-	public Room(String name, EntrySquare doorway, Room secretPassage) {
+	public Room(String name, Room secretPassage) {
 		this.name = name;
 		this.doorway = new ArrayList<>();
-		this.doorway.add(doorway);
 		this.secretPassage = secretPassage;
-	}
-
-	public static void populateRoomList(BoardSquare[][] board){
-		/*
-		First, the rooms with only one entry and a secret passage
-		 */
-		/*	This isn't working, not sure why yet
-		Room Kitchen = new Room("Kitchen", board[6][4], Study);
-		Room Study = new Room("Study", board[21][17], Kitchen);
-		Room Conservatory = new Room("Conservatory", board[4][18], Lounge);
-		Room Lounge = new Room("Lounge", (EntrySquare)board[19][6], Conservatory);
-		*/
 	}
 
 	//
