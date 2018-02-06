@@ -8,6 +8,9 @@ public class BoardBuilder {
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
     private BoardSquare[][] board = new BoardSquare[24][25];
+    /* Will store all the players in the game */
+    private Token[] playerArray;
+  
     /* This will allow is to access the rooms on the fly */
     private Room Ballroom;
     private Room Conservatory;
