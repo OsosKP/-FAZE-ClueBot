@@ -1,11 +1,25 @@
 package cluedo_game;
 
+import java.util.ArrayList;
+
 public class BoardBuilder {
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
     private BoardSquare[][] board = new BoardSquare[24][25];
+    /* This will allow is to access the rooms on the fly */
+    private Room Ballroom;
+    private Room Conservatory;
+    private Room DiningRoom;
+    private Room BilliardRoom;
+    private Room Library;
+    private Room Lounge;
+    private Room Hall;
+    private Room Kitchen;
+    private Room Study;
+    private Room Cellar;
+    private boolean entrySquaresCreated = false;
 
     /**
      * addEntrySquare
@@ -40,6 +54,8 @@ public class BoardBuilder {
         board[21][17] = new EntrySquare(17, 21, Study, 1);
         // Add Cellar Entry. The Token enters the Cellar to attempt a guess
         board[16][12] = new EntrySquare(16, 12, Cellar, 1);
+        //useful so we dont screw up later
+        entrySquaresCreated = true;
     }
 
     /**
@@ -211,6 +227,18 @@ public class BoardBuilder {
                         board[i][j] = new FloorSquare(i, j);
             }
         }
+    }
+    
+    public void createRooms() {
+    	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
+    		ArrayList<EntrySquare> entrances = new ArrayList<>();
+    		
+    		Room ballroom = new Room("ballroom",entrances);
+    	}
+    	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
+    		this.addEntrySquares();
+    		this.createRooms();
+    	}
     }
 
 }
