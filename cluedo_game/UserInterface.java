@@ -10,11 +10,23 @@ import javax.swing.*;
  *  Text Display Box
  */
 public class UserInterface extends JPanel {
-    public JFrame buildGUI(){
-        JFrame display = new JFrame();
+    private JPanel boardImage = BoardImage.buildBoardDisplay();
+    private JFrame display = new JFrame();
+
+    public UserInterface(){
+        this.buildGUI();
+    }
+
+
+    public void buildGUI(){
         display.setSize(960, 855);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        display.add(boardImage);
     }
+
+
+
+
 }
