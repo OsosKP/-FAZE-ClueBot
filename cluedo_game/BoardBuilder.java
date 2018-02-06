@@ -286,7 +286,7 @@ public class BoardBuilder {
     		this.createRooms();
     	}
     }
-
+    
     /* Getters for the different rooms */
 	public Room getBallroom() {
 		return Ballroom;
@@ -327,7 +327,4 @@ public class BoardBuilder {
 	public Room getCellar() {
 		return Cellar;
 	}
-    
-    
-
 }
