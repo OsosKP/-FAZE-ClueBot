@@ -279,14 +279,55 @@ public class BoardBuilder {
     		
     		entrances.clear();
     		
-    						
-    				
-
+    		
     	}
     	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
     		this.createRooms();
     	}
     }
+
+    /* Getters for the different rooms */
+	public Room getBallroom() {
+		return Ballroom;
+	}
+
+	public Room getConservatory() {
+		return Conservatory;
+	}
+
+	public Room getDiningRoom() {
+		return DiningRoom;
+	}
+
+	public Room getBilliardRoom() {
+		return BilliardRoom;
+	}
+
+	public Room getLibrary() {
+		return Library;
+	}
+
+	public Room getLounge() {
+		return Lounge;
+	}
+
+	public Room getHall() {
+		return Hall;
+	}
+
+	public Room getKitchen() {
+		return Kitchen;
+	}
+
+	public Room getStudy() {
+		return Study;
+	}
+
+	public Room getCellar() {
+		return Cellar;
+	}
+    
+    
 
 }
