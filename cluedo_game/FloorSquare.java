@@ -22,6 +22,11 @@ public class FloorSquare implements BoardSquare {
   		this.playerOn = null;
   	}
 
+  	public FloorSquare(){
+        this.spawnPoint = null;
+        // This is just a dummy square to check type
+    }
+
     //
     //Accessors
     //
@@ -29,6 +34,22 @@ public class FloorSquare implements BoardSquare {
     public Token getSpawnPoint() {return spawnPoint;}
     @Override
     public int[] getLocation() {return location;}
+
+    /**
+     * getSquareType
+     * This method returns an object of type FloorSquare
+     * This is used to check that the object containing this method is a FloorSquare
+     * @return temporary object of type FloorSquare
+     */
+    @Override
+    public BoardSquare getSquareType() {
+        return new FloorSquare();
+    }
+
+    @Override
+    public boolean isPlayerOn() {
+        return (this.playerOn != null);
+    }
 
     //
     //Mutators

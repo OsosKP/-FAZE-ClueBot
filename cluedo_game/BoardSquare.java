@@ -9,4 +9,6 @@ public interface BoardSquare{
      * @return An integer array of the x and y coordinates
      */
     int[] getLocation();
+    BoardSquare getSquareType();
+    boolean isPlayerOn();
 }

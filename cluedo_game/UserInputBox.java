@@ -9,9 +9,11 @@ public class UserInputBox {
     JTextField input = new JTextField(FIELD_WIDTH);
     JLabel promptLabel = new JLabel("What would you like to do?");
 
-    class UserInputListener implements ActionListener {
+    class UserInputListener_FloorSquare implements ActionListener {
         public void actionPerformed(ActionEvent event){
             String inputString = input.getText().toLowerCase();
+            if((AcceptedUserInputs.getFloorNavigation().contains(inputString))
+                && PlayerMovement.movementCheck)
 
         }
     }
