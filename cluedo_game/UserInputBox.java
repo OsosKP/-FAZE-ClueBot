@@ -12,8 +12,10 @@ public class UserInputBox {
     class UserInputListener_FloorSquare implements ActionListener {
         public void actionPerformed(ActionEvent event){
             String inputString = input.getText().toLowerCase();
-            if((AcceptedUserInputs.getFloorNavigation().contains(inputString))
-                && PlayerMovement.movementCheck)
+            if((AcceptedUserInputs.getFloorNavigation().contains(inputString))){
+
+            }
+
 
         }
     }

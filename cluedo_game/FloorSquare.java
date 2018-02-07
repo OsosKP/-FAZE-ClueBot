@@ -5,6 +5,11 @@ public class FloorSquare implements BoardSquare {
     private Token playerOn;         // The player token currently on the square
     private final Token spawnPoint; // The player who spawns on this square
     private int[] location;         // Coordinates of this square on the board
+    // Navigational pointers
+    private BoardSquare above;
+    private BoardSquare below;
+    private BoardSquare toLeft;
+    private BoardSquare toRight;
 
     //
     //Constructor
@@ -51,10 +56,42 @@ public class FloorSquare implements BoardSquare {
         return (this.playerOn != null);
     }
 
+    public BoardSquare getAbove() { return this.above; }
+    public BoardSquare getBelow() { return this.below; }
+    public BoardSquare getLeft() { return this.toLeft; }
+    public BoardSquare getRight() { return this.toRight; }
+
     //
     //Mutators
     //
   	public void setPlayerOn(Token playerOn) {this.playerOn = playerOn;}
     public void removePlayerOn() {this.playerOn = null;}
 
+    /**
+     * setGeography
+     * Places pointers to the square above, below, to the left and to the right of this one
+     * @param board the game board
+     */
+    public void setGeography(Board board){
+        // Set a pointer to the square above this one
+        if(this.location[0] > 0)
+            this.above = board.getSquare(this.location[0]-1, this.location[1]);
+        else
+            this.above = null;
+        // Set a pointer to the square below this one
+        if(this.location[0] < 23)
+            this.below = board.getSquare(this.location[0]+1, this.location[1]);
+        else
+            this.below = null;
+        // Set a pointer to the square to the left of this one
+        if(this.location[1] > 0)
+            this.toLeft = board.getSquare(this.location[0], this.location[1]-1);
+        else
+            this.toLeft = null;
+        // Set a pointer to the square to the right of this one
+        if(this.location[1] < 24)
+            this.toRight = board.getSquare(this.location[0], this.location[1]+1);
+        else
+            this.toRight = null;
+    }
 }

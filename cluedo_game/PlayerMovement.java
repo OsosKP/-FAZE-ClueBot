@@ -4,7 +4,8 @@ package cluedo_game;
  * This method receives instructions from the user input and moves the player's token accordingly
  */
 public class PlayerMovement {
-    public static boolean movementCheck(BoardSquare[][] board, Token player, String move, int xLoc, int yLoc){
+    public static boolean movementCheck(Board board, Token player, String move){
+        BoardSquare square = player.getSquare(board);
         switch(move){
             case "up":
                 /*
@@ -13,10 +14,15 @@ public class PlayerMovement {
                 The square above the player is traversable (a FloorSquare or EntrySquare)
                 There is no player on the above square
                  */
-                if(xLoc > 0 && !(board[xLoc-1][yLoc].getSquareType() instanceof WallSquare)
-                        && !board[xLoc-1][yLoc].isPlayerOn()){
-
-                }
+                if((square.getAbove() instanceof FloorSquare || square.getAbove() instanceof EntrySquare)
+                        && !(square.isPlayerOn())){
+                    square.getAbove().setPlayerOn(player);
+                    square.removePlayerOn();
+                    return true;
+            }
+            default:
+                System.out.println("Error");
         }
+        return false;
     }
 }
