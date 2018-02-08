@@ -1,10 +1,11 @@
 package cluedo_game;
 
+import com.sun.jna.platform.win32.Netapi32Util;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * UserInterface
@@ -16,9 +17,19 @@ import java.util.ArrayList;
 public class UserInterface extends JPanel {
 //    private JPanel boardImage = BoardImage.buildBoardDisplay();
     private JFrame display = new JFrame();
+    private UserInputBox in = new UserInputBox();
+    private JPanel input = in.createInputPanel();
+    private OutputTextDisplay out = new OutputTextDisplay();
+    private JPanel output = out.createOutputPanel();
+
+    private JPanel userDisplay = new JPanel();
 
     public UserInterface(){
         this.buildGUI();
+    }
+
+    public void updateOutput(String newText){
+        out.update(output, newText);
     }
 
 
@@ -27,14 +38,17 @@ public class UserInterface extends JPanel {
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        UserInputBox in = new UserInputBox();
-        JPanel input = in.createInputPanel();
+        userDisplay.setLayout(new BorderLayout());
+        userDisplay.add(input, BorderLayout.WEST);
+        userDisplay.add(output, BorderLayout.EAST);
 
-        display.add(input);
+        display.add(userDisplay);
         display.setVisible(true);
     }
 
-
+    /**
+     * The user input portion of the GUI
+     */
     private class UserInputBox {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
@@ -42,7 +56,6 @@ public class UserInterface extends JPanel {
         private JPanel inputPanel;
 
         public UserInputBox(){
-            createInputPanel();
             inputPanel = createInputPanel();
         }
 
@@ -70,6 +83,36 @@ public class UserInterface extends JPanel {
 
             return input;
         }
+    }
+
+    /**
+     * The user output portion of the GUI
+     */
+    private class OutputTextDisplay{
+        JLabel textOutput;
+
+        StringBuilder text = new StringBuilder();
+
+        public OutputTextDisplay(){
+            textOutput = new JLabel("");
+        }
+
+        public void update(JPanel panel, String in){
+            text.append(in);
+            text.append("\n");
+
+            textOutput.setText(text.toString());
+            panel.revalidate();
+        }
+
+        public JPanel createOutputPanel(){
+            JPanel output = new JPanel();
+            output.add(textOutput);
+
+            return output;
+        }
+
+
     }
 
 
