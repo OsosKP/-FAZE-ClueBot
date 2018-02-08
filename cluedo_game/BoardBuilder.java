@@ -9,7 +9,8 @@ public class BoardBuilder {
      */
     private BoardSquare[][] board = new BoardSquare[24][25];
     /* Will store all the players in the game */
-    private Token[] playerArray;
+    playerList players = new playerList();
+    private int numPlayers = 0;
   
     /* This will allow is to access the rooms on the fly */
     private Room Ballroom;
@@ -79,10 +80,10 @@ public class BoardBuilder {
         // Loop to assign top edge barrier squares
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
-            if(i == 9)
-                board[i][0] = new FloorSquare(i, 0, White);
+            if(i == 9) 
+                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("White", 9, 0));
             else if(i == 14)
-                board[i][0] = new FloorSquare(i, 0, Green);
+                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("Green", 14, 0));
             else
                 board[i][0] = new WallSquare(i, 0);
         }
@@ -91,7 +92,7 @@ public class BoardBuilder {
         for(i = 0; i < 25 ; i++){
             // board[0][17] is a spawn point
             if(i == 17)
-                board[0][i] = new FloorSquare(0, i, Mustard);
+                board[0][i] = new FloorSquare(0, i, this.generatePlayer("Mustard", 0, 17));
             else
                 board[0][i] = new WallSquare(0, i);
         }
@@ -100,9 +101,9 @@ public class BoardBuilder {
         for(i = 0; i < 25 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6)
-                board[23][i] = new FloorSquare(23, i, Peacock);
+                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Peacock", 23, 6));
             else if(i == 19)
-                board[23][i] = new FloorSquare(23, i, Plum);
+                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Plum", 23, 19));
             else
                 board[23][i] = new WallSquare(23, i);
         }
@@ -111,7 +112,7 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7)
-                board[i][24] = new FloorSquare(i, 24, Scarlet);
+                board[i][24] = new FloorSquare(i, 24, this.generatePlayer("Scarlet", 7, 24));
             else
                 board[i][24] = new WallSquare(i, 24);
         }
@@ -188,7 +189,7 @@ public class BoardBuilder {
         // Library
         for(i = 14; i < 19; i++){
             for(j = 17; j < 23; j++){
-                if(!((i == 14 && j == 17) || (i == 18 && j == 17))
+                if(!((i == 14 && j == 17) || (i == 18 && j == 17)))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -285,6 +286,19 @@ public class BoardBuilder {
     		this.addEntrySquares();
     		this.createRooms();
     	}
+    }
+    /**
+     * creates, and fills the playerArray with the number of players who are wanting to play the game
+     * @param numPlayers
+     * @param playerNames
+     * @return
+     */
+    public Token generatePlayer(String name, int x, int y) { 
+    	//TODO turn this into some kinf of circe linked list
+    	//arrayList of all players, seperate from the turnList but contains the same obejct
+    	Token temp = new Token(x,y,name,numPlayers++);
+    	players.addFirst(temp);
+    	return temp;
     }
     
     /* Getters for the different rooms */

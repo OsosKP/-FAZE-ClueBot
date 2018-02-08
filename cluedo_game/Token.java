@@ -7,13 +7,14 @@ public class Token implements BoardSquare{
 	private boolean isMurderer = false;
 
 	//Constructor
-	public Token(int x, int y,String name, int playerNumber, boolean isMurderer) {
+	public Token(int x, int y,String name, int playerNumber) {
 		this.position[0] = x;
 		this.position[1] = y;
 		this.name = name;
 		this.playerNumber = playerNumber;
-		this.isMurderer = isMurderer;
 	}
+	
+	
 
 	//
 	//Accessors
