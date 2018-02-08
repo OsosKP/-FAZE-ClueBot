@@ -2,17 +2,17 @@ package cluedo_game;
 
 import java.util.ArrayList;
 
-public class BoardBuilder {
+public class Board {
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
-    private BoardSquare[][] board = new BoardSquare[24][25];
+    protected BoardSquare[][] board = new BoardSquare[24][25];
     /* Will store all the players in the game */
     playerList players = new playerList();
     private int numPlayers = 0;
   
-    /* This will allow is to access the rooms on the fly */
+    /* This will allow us to access the rooms on the fly */
     private Room Ballroom;
     private Room Conservatory;
     private Room DiningRoom;
@@ -26,6 +26,17 @@ public class BoardBuilder {
     
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
+
+    public Board(ArrayList<Token> playerList){
+        this.addEntrySquares();
+        this.addFloorSquares();
+        this.addWalls();
+
+        for(int i=0; i<24; i++){
+            for(int j=0; j<25; j++)
+                board[i][j].setGeography(this);
+        }
+    }
 
     /**
      * addEntrySquare
@@ -75,6 +86,7 @@ public class BoardBuilder {
      * implementation will look the same since we're making our Room Squares
      * walls so they're impassable.
      */
+    /*
     public void addBarriersAndSpawnPoints(){
         int i;  // Indexing loops
         // Loop to assign top edge barrier squares
@@ -122,7 +134,7 @@ public class BoardBuilder {
         board[17][1] = new WallSquare(17, 1);
 
     }
-
+*/
     /**
      * addWalls
      * This method uses loops to create all of the rooms on the board.
@@ -236,7 +248,7 @@ public class BoardBuilder {
     }
     
     public void createRooms() {
-    	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
+    	if (this.entrySquaresCreated) { //this is where we actually create the rooms
     		
     		/* Creating the Rooms with Multiple Entrances*/
     		
@@ -282,7 +294,7 @@ public class BoardBuilder {
     		
     		
     	}
-    	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
+    	else { //if we haven't created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
     		this.createRooms();
     	}
@@ -341,4 +353,12 @@ public class BoardBuilder {
 	public Room getCellar() {
 		return Cellar;
 	}
+
+    public BoardSquare[][] getBoard() {
+        return board;
+    }
+
+    public BoardSquare getSquare(int x, int y){
+	    return board[x][y];
+    }
 }
