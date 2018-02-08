@@ -2,7 +2,7 @@ package cluedo_game;
 
 import java.util.ArrayList;
 
-public class Room implements BoardSquare {
+public class Room {
 	private String name;
 	private Weapon weaponInRoom = null;
 	private Room secretPassage;
@@ -47,8 +47,6 @@ public class Room implements BoardSquare {
 	public Room getsecretPassage() {return secretPassage;}
 	public ArrayList<Token> getPlayersInRoom() {return playersInRoom;}
 	public ArrayList<EntrySquare> getDoorway() {return doorway;}
-	@Override
-	public int[] getLocation() {return position;}
 
 	//
 	//Mutators

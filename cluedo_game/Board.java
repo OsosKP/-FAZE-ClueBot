@@ -85,6 +85,7 @@ public class Board {
      * implementation will look the same since we're making our Room Squares
      * walls so they're impassable.
      */
+    /*
     public void addBarriersAndSpawnPoints(){
         int i;  // Indexing loops
         // Loop to assign top edge barrier squares
@@ -132,7 +133,7 @@ public class Board {
         board[17][1] = new WallSquare(17, 1);
 
     }
-
+*/
     /**
      * addWalls
      * This method uses loops to create all of the rooms on the board.
