@@ -72,7 +72,7 @@ public class FloorSquare implements BoardSquare {
      * Places pointers to the square above, below, to the left and to the right of this one
      * @param board the game board
      */
-    public void setGeography(Board board){
+    public void setGeography(BoardBuilder board){
         // Set a pointer to the square above this one
         if(this.location[0] > 0)
             this.above = board.getSquare(this.location[0]-1, this.location[1]);

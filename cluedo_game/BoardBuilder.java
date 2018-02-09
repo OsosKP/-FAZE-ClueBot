@@ -236,7 +236,7 @@ public class BoardBuilder {
     }
     
     public void createRooms() {
-    	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
+    	if (this.entrySquaresCreated) { //this is where we actually create the rooms
     		
     		/* Creating the Rooms with Multiple Entrances*/
     		
@@ -287,15 +287,10 @@ public class BoardBuilder {
     		this.createRooms();
     	}
     }
-    /**
-     * creates, and fills the playerArray with the number of players who are wanting to play the game
-     * @param numPlayers
-     * @param playerNames
-     * @return
-     */
+
     public Token generatePlayer(String name, int x, int y) { 
-    	//TODO turn this into some kinf of circe linked list
-    	//arrayList of all players, seperate from the turnList but contains the same obejct
+    	//TODO turn this into some kind of circularly linked list
+    	//arrayList of all players, separate from the turnList but contains the same object
     	Token temp = new Token(x,y,name,numPlayers++);
     	players.addFirst(temp);
     	return temp;
@@ -341,4 +336,8 @@ public class BoardBuilder {
 	public Room getCellar() {
 		return Cellar;
 	}
+
+	public BoardSquare getSquare(int xLoc, int yLoc) {
+	    return board[xLoc][yLoc];
+    }
 }
