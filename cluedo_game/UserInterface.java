@@ -70,9 +70,9 @@ public class UserInterface extends JPanel {
                 if(!(inputField.getText().equals(""))) {
                     out.update(output, inputField.getText());
                     inputField.setText("");
-                    inputField.requestFocus();
                     System.out.println("You have performed the action: " + inputField.getText());
                 }
+                inputField.requestFocus();
             }
         }
 
@@ -124,91 +124,92 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.setBackground(Color.GRAY);
             allowedCommandsDisplay.setForeground(Color.white);
 
-//            this.updateAllowedCommandsBasedOnSquare(null);
+            this.updateAllowedCommandsBasedOnSquare(null);
         }
 
-//        public void updateAllowedCommandsBasedOnSquare(Token p) {
-//            // This is for a readout to tell the player where they are
-//            JLabel locationReadout;
-//
-//            // The text in the readout depends on what square/room the player is on
-//            // p == null is for testing, won't be in the game
-//            if(p == null)
-//                locationReadout = new JLabel("Not on the board. Testing?");
-//            else if(p.getSquareOn() instanceof FloorSquare)
-//                locationReadout = new JLabel("You are on a Floor square.");
-//            // This will only be accessed after a player exits the room
-//            // Because when a player enters this square from a floor square, they are immediately taken to the room
-//            else if(p.getSquareOn() instanceof EntrySquare)
-//                locationReadout = new JLabel("You are on an Entry square to: "
-//                        + ((EntrySquare) p.getSquareOn()).getRoomName());
-//            else if(p.getSquareOn() instanceof WallSquare)
-//                locationReadout = new JLabel("Wall Square? Something went wrong...");
-//            else
-//                locationReadout = new JLabel("You are in the " + p.getInRoom().getName());
-//
-//            locationReadout.setForeground(Color.white);
-//            locationReadout.setHorizontalAlignment(JLabel.CENTER);
-//            allowedCommandsDisplay.add(locationReadout);
-//
-//            JLabel title = new JLabel("You May:");
-//            title.setForeground(Color.white);
-//            title.setHorizontalAlignment(JLabel.CENTER);
-//            allowedCommandsDisplay.add(title);
-//
-//            try {
-//                if (p != null && p.getInRoom() == null) {
-//                    switch (p.getSquareOn().getSquareType().toString()) {
-//                        case "floor":
-//                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-//                                JLabel d = new JLabel(s);
-//                                d.setForeground(Color.white);
-//                                d.setHorizontalAlignment(JLabel.CENTER);
-//                                allowedCommandsDisplay.add(d);
-//                            }
-//                            break;
-//                        case "entry":
-//                            for (String s : INPUTS_LIST.getEntryChoices()) {
-//                                JLabel d = new JLabel(s);
-//                                d.setForeground(Color.white);
-//                                d.setHorizontalAlignment(JLabel.CENTER);
-//                                allowedCommandsDisplay.add(d);
-//                            }
-//                            break;
-//                        case "wall":
-//                            throw new Exception("Player is on a wall square.");
-//                        default:
-//                            // Testing case for board creation
-//                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-//                                JLabel d = new JLabel(s);
-//                                d.setForeground(Color.yellow);
-//                                d.setHorizontalAlignment(JLabel.CENTER);
-//                                allowedCommandsDisplay.add(d);
-//                            }
-//                            break;
-//
-//                    }
-//                }
-//                else {
-//                    System.out.println("CHECK to see that we're getting floor nav");
-//                    ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
-//                    for (String s : options) {
-//                        /*
-//                        Check to make sure we're getting input
-//                         */
-//                        System.out.println(s);
-//
-//                        JLabel d = new JLabel(s);
-//                        d.setForeground(Color.white);
-//                        d.setHorizontalAlignment(JLabel.CENTER);
-//                        allowedCommandsDisplay.add(d);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.getMessage();
-//            }
-//            allowedCommandsDisplay.revalidate();
-//        }
+        public void updateAllowedCommandsBasedOnSquare(Token p) {
+            // This is for a readout to tell the player where they are
+            JLabel locationReadout;
+
+            // The text in the readout depends on what square/room the player is on
+            // p == null is for testing, won't be in the game
+            if(p == null)
+                locationReadout = new JLabel("Not on the board. Testing?");
+            else if(p.getSquareOn() instanceof FloorSquare)
+                locationReadout = new JLabel("You are on a Floor square.");
+            // This will only be accessed after a player exits the room
+            // Because when a player enters this square from a floor square, they are immediately taken to the room
+            else if(p.getSquareOn() instanceof EntrySquare)
+                locationReadout = new JLabel("You are on an Entry square to: "
+                        + ((EntrySquare) p.getSquareOn()).getRoomName());
+            else if(p.getSquareOn() instanceof WallSquare)
+                locationReadout = new JLabel("Wall Square? Something went wrong...");
+            else
+                locationReadout = new JLabel("You are in the " + p.getInRoom().getName());
+
+            locationReadout.setForeground(Color.white);
+            locationReadout.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(locationReadout);
+
+            JLabel title = new JLabel("You May:");
+            title.setForeground(Color.white);
+            title.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(title);
+
+            try {
+                if (p != null && p.getInRoom() == null) {
+                    switch (p.getSquareOn().getSquareType().toString()) {
+                        case "floor":
+                            for (String s : INPUTS_LIST.getFloorNavigation()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.white);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+                        case "entry":
+                            for (String s : INPUTS_LIST.getEntryChoices()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.white);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+                        case "wall":
+                            throw new Exception("Player is on a wall square.");
+                        default:
+                            // Testing case for board creation
+                            for (String s : INPUTS_LIST.getFloorNavigation()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.yellow);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+
+                    }
+                }
+                else {
+                    System.out.println("CHECK to see that we're getting floor nav");
+                    ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
+                    System.out.println("CHECK after getNav");
+                    for (String s : options) {
+                        /*
+                        Check to make sure we're getting input
+                         */
+                        System.out.println(s);
+
+                        JLabel d = new JLabel(s);
+                        d.setForeground(Color.white);
+                        d.setHorizontalAlignment(JLabel.CENTER);
+                        allowedCommandsDisplay.add(d);
+                    }
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            allowedCommandsDisplay.revalidate();
+        }
 
         public void update(JPanel panel, String in){
 
