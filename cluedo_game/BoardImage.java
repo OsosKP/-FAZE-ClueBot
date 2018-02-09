@@ -15,40 +15,19 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class BoardImage extends JPanel { 
-	//TODO get a grid layout ontop of the image
+	//TODO get 2 inner classes, one for the image, another for the grid
 	
-	private int width, height;
 	private JLabel[][] grid;
 	
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(getImage("/boardEdit.jpeg"), 0, 0, this);
-		this.setPreferredSize(new Dimension(552, 575));
-		this.returnBoardPanel(); //this 
-	}
+
+		/**
+		 * will attempt to load an image from a given filePath
+		 * @param filePath = the file path to the image we want 
+		 * @return an imageIcon object that we can use to create the JLabel
+		 */
+
 	
-	/**
-	 * will attempt to load an image from a given filePath
-	 * @param filePath = the file path to the image we want 
-	 * @return an imageIcon object that we can use to create the JLabel
-	 */
-	public Image getImage(String filePath) {
-		Image tempImage = null;
-		/* Now we need to try to load the image into the file system */
-		try {
-			/* Loads the image, and assigns it to the tempImage var */
-			URL imagePath = BoardImage.class.getResource(filePath);
-			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-			
-			/* Sets the height and width, if we wanted to know the dimensions of the img */
-			this.height = tempImage.getHeight(this);
-			this.width = tempImage.getWidth(this);
-		}
-		catch(Exception e){ //if the filePath does not exist, or something else messed up
-			System.err.println("We were not able to load the requested image form the given filePath: " + "\n" + filePath);
-		}
-		return tempImage;
-	}
+
 	/**
 	 * Creates and returns a JPanel based on the board image
 	 * @return
@@ -67,36 +46,65 @@ public class BoardImage extends JPanel {
 				this.add(grid[i][j]);
 			}
 		}
-		
 		/* KELSEY TRY AND USE THIS!!!! */
-//		JFrame frame = new JFrame("JPanel Example");
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		imagePanel test = new imagePanel();
+		JFrame frame = new JFrame("JPanel Example");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    // add the Jpanel to the main window
-	//    frame.add(this); 
-	  //  frame.setPreferredSize(new Dimension(552, 575));
-	  //  frame.setResizable(false);
+	    frame.add(test.paintMe()); 
+	    frame.setPreferredSize(new Dimension(552, 575));
+	    //frame.setResizable(false);
 
-//	    frame.pack();
-//	    frame.setVisible(true);		
+	    frame.pack();
+	    frame.setVisible(true);		
 	}
 
 	/**
 	 * returns the height of the image that is loaded into this jPanel
 	 * @return
 	 */
-	public int returnHeight() {
-		return this.height; 
-	}
+//	public int returnHeight(imagePanel temp) {
+//		return temp.height; 
+//	}
 	/**
 	 * returns the width of the image that is loaded into this jPanel
 	 * @return
 	 */
-	public int returnWidth() {
-		return this.width;
-	}
+//	public int returnWidth(imagePanel temp) {
+//		return temp.width;
+//	}
 
 	public static void main (String[] agrs) {
-	//	BoardImage test = new BoardImage();
-	//	test.returnBoardPanel();
+		BoardImage test = new BoardImage();
+		test.returnBoardPanel();
 	}
+}
+
+class imagePanel extends JPanel{
+	public imagePanel paintMe() {
+		JLabel temp = new JLabel();
+		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg")); 
+		temp.setIcon(icon);
+
+		this.add(temp);
+		return this;
+	}
+
+	public Image getImage(String filePath) {
+		int width, height;
+		Image tempImage = null;
+		/* Now we need to try to load the image into the file system */
+		try {
+			/* Loads the image, and assigns it to the tempImage var */
+			URL imagePath = BoardImage.class.getResource(filePath);
+			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
+			
+
+		}
+		catch(Exception e){ //if the filePath does not exist, or something else messed up
+			System.err.println("We were not able to load the requested image form the given filePath: " + "\n" + filePath);
+		}
+		return tempImage;
+	}
+
 }
