@@ -7,8 +7,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
 /*
 	TODO: Import the JPEG + get a grid layer over it
 	CURRENTLY working!! when you run this class, the image displays
@@ -18,6 +16,7 @@ import javax.imageio.ImageIO;
 public class BoardImage extends Applet { 
 	/* Will hold the image that we will draw, initially set = null so we could potentially load different images if we wanted to */
 	private Image board = null;
+	
 	/**
 	 * this will actually draw the image onto the panel	 
 	*/
@@ -27,6 +26,12 @@ public class BoardImage extends Applet {
 			board = getImage("boardEdit.jpeg");
 		}
 		Graphics2D g2 = (Graphics2D)g; //an alien face
+		int width, height;
+		
+		width = board.getWidth(this);
+		height = board.getHeight(this);
+		this.setSize(width, height);
+		
 		g2.drawImage(board, 0, 0, 566, 585, this); //image observer notifies everything else when the image actually is placed 
 	}
 	/**
