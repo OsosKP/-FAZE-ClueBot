@@ -2,6 +2,7 @@ package cluedo_game;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -67,7 +68,7 @@ public class BoardImage extends JPanel {
 		
 		JFrame frame = new JFrame("JPanel Example");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
+		frame.setPreferredSize(new Dimension(552, 575));
 	    // add the Jpanel to the main window
 	    frame.add(this); 
 	
