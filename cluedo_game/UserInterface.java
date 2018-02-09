@@ -1,7 +1,6 @@
 package cluedo_game;
 
 import com.intellij.ui.JBColor;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

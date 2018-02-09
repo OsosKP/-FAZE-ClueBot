@@ -1,6 +1,6 @@
 package cluedo_game;
 
-public class Token {
+public class Token implements BoardSquare{
 	private String name;
 	private int playerNumber;
 	private int[] position = new int[2]; //holding the position of the player
@@ -23,13 +23,11 @@ public class Token {
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
 	public boolean isMurderer() {return isMurderer;}
+	@Override
 	public int[] getLocation() { return position;}
 
-	public BoardSquare getSquare(Board board) {
-		return board.getSquare(this.position[0], this.position[1]);
-	}
 
-	//
+  //
 	//Mutators
 	//
 	public void setName(String name) {this.name = name;}
