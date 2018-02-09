@@ -11,7 +11,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
     playerList players = new playerList();
     private int numPlayers = 0;
-  
+
     /* This will allow is to access the rooms on the fly */
     private Room Ballroom;
     private Room Conservatory;
@@ -23,10 +23,24 @@ public class BoardBuilder {
     private Room Kitchen;
     private Room Study;
     private Room Cellar;
-    
+
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
 
+    //
+    // Accessors
+    //
+    public Room getBallroom() { return Ballroom;} //Returns Ballroom
+    public Room getConservatory() {return Conservatory;}//Returns conservatory
+    public Room getDiningRoom() {return DiningRoom;}//Returns Dining room
+    public Room getBilliardRoom() {return BilliardRoom;}//Return billiar room
+    public Room getLibrary() {return Library;}//Returns library
+    public Room getLounge() {return Lounge;}//Returns lounge
+    public Room getHall() {return Hall;}//Returns hall
+    public Room getKitchen() {return Kitchen;}//Return kitchen
+    public Room getStudy() {return Study;}//Return study
+    public Room getCellar() {return Cellar;}//Return Cellar
+    
     /**
      * addEntrySquare
      * This method assigns the appropriate board squares as entries
@@ -80,7 +94,7 @@ public class BoardBuilder {
         // Loop to assign top edge barrier squares
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
-            if(i == 9) 
+            if(i == 9)
                 board[i][0] = new FloorSquare(i, 0, this.generatePlayer("White", 9, 0));
             else if(i == 14)
                 board[i][0] = new FloorSquare(i, 0, this.generatePlayer("Green", 14, 0));
@@ -234,53 +248,53 @@ public class BoardBuilder {
             }
         }
     }
-    
+
     public void createRooms() {
     	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
-    		
+
     		/* Creating the Rooms with Multiple Entrances*/
-    		
+
     		/* Will be used to store the entrances for the individual rooms */
     		ArrayList<EntrySquare> entrances = new ArrayList<>();
-    		
+
     		/* Creating Ballroom Object*/
     		entrances.add((EntrySquare)board[5][8]);
     		entrances.add((EntrySquare)board[7][9]);
     		entrances.add((EntrySquare)board[7][14]);
     		Ballroom = new Room("Ballroom",entrances);
-    		
+
     		entrances.clear(); //clearing the arrayList, since we need it to hold the entranceSquares for the next object
-    		
+
     		/* Creating Dining Room Object */
     		entrances.add((EntrySquare)board[12][7]);
     		entrances.add((EntrySquare)board[15][6]);
     		DiningRoom = new Room("DiningRoom", entrances);
-    		
+
     		entrances.clear();
-    		
+
     		/* Creating BilliardRoom Object */
     		entrances.add((EntrySquare)board[9][18]);
     		entrances.add((EntrySquare)board[12][22]);
     		BilliardRoom = new Room("BilliardRoom", entrances);
-    		
+
     		entrances.clear();
-    		
+
     		/* Creating Library Object */
     		entrances.add((EntrySquare)board[16][17]);
     		entrances.add((EntrySquare)board[14][20]);
     		Library = new Room("Library", entrances);
-    		
+
     		entrances.clear();
-    		
+
     		/* Creating Hall Object */
     		entrances.add((EntrySquare)board[18][11]);
     		entrances.add((EntrySquare)board[18][12]);
     		entrances.add((EntrySquare)board[20][14]);
     		Hall = new Room("Hall", entrances);
-    		
+
     		entrances.clear();
-    		
-    		
+
+
     	}
     	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
@@ -293,52 +307,12 @@ public class BoardBuilder {
      * @param playerNames
      * @return
      */
-    public Token generatePlayer(String name, int x, int y) { 
+    public Token generatePlayer(String name, int x, int y) {
     	//TODO turn this into some kinf of circe linked list
     	//arrayList of all players, seperate from the turnList but contains the same obejct
     	Token temp = new Token(x,y,name,numPlayers++);
     	players.addFirst(temp);
     	return temp;
     }
-    
-    /* Getters for the different rooms */
-	public Room getBallroom() {
-		return Ballroom;
-	}
 
-	public Room getConservatory() {
-		return Conservatory;
-	}
-
-	public Room getDiningRoom() {
-		return DiningRoom;
-	}
-
-	public Room getBilliardRoom() {
-		return BilliardRoom;
-	}
-
-	public Room getLibrary() {
-		return Library;
-	}
-
-	public Room getLounge() {
-		return Lounge;
-	}
-
-	public Room getHall() {
-		return Hall;
-	}
-
-	public Room getKitchen() {
-		return Kitchen;
-	}
-
-	public Room getStudy() {
-		return Study;
-	}
-
-	public Room getCellar() {
-		return Cellar;
-	}
 }

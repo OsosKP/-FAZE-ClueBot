@@ -12,7 +12,7 @@ public class FloorSquare implements BoardSquare {
     private BoardSquare toRight;
 
     //
-    //Constructor
+    //Constructors
     //
     public FloorSquare(int x, int y, Token spawnPoint) {
 	    this.location[0] = x;
@@ -27,9 +27,8 @@ public class FloorSquare implements BoardSquare {
   		this.playerOn = null;
   	}
 
-  	public FloorSquare(){
+  	public FloorSquare(){ // This is just a dummy square to check type
         this.spawnPoint = null;
-        // This is just a dummy square to check type
     }
 
     //
