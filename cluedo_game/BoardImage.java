@@ -2,6 +2,7 @@ package cluedo_game;
 
 import java.applet.Applet;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,6 +18,8 @@ import javax.swing.JFrame;
 */
 
 public class BoardImage extends Component { 
+	private int width, height;
+
 	/* Will hold the image that we will draw, initially set = null so we could potentially load different images if we wanted to */
 	private Image board = null;
 	
@@ -29,7 +32,6 @@ public class BoardImage extends Component {
 			board = getImage("boardEdit.jpeg");
 		}
 		Graphics2D g2 = (Graphics2D)g; //an alien face
-		int width, height;
 		
 		/* Calling the image at its full size */
 		width = board.getWidth(this);
@@ -56,10 +58,19 @@ public class BoardImage extends Component {
 		return tempImage;
 	}
 	
+	public int returnHeight() {
+		return this.height; 
+	}
+	public int returnWidth() {
+		return this.width;
+	}
+	
 	public static void main(String[] agrs) { //simple test to see if works
         JFrame f = new JFrame("Load Image Sample");
+        BoardImage showMe = new BoardImage();
         f.add(new BoardImage());
         f.pack();
+        f.setPreferredSize(new Dimension(showMe.returnWidth(), showMe.returnHeight()));
         f.setVisible(true);
 	}
 	
