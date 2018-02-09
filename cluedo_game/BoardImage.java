@@ -1,24 +1,12 @@
 package cluedo_game;
 
-import java.applet.Applet;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-/*
-	TODO: Import the JPEG + get a grid layer over it
-	CURRENTLY working!! when you run this class, the image displays
-	Should be its own Jpanel, then set to the north side of the userInterface 
-*/
 
 public class BoardImage extends Component { 
 	private int width, height;
@@ -26,7 +14,7 @@ public class BoardImage extends Component {
 	/**
 	 * will attempt to load an image from a given filePath
 	 * @param filePath = the file path to the image we want 
-	 * @return an image object
+	 * @return an imageIcon object that we can use to create the JLabel
 	 */
 	public ImageIcon getImage(String filePath) {
 		Image tempImage = null;
@@ -37,6 +25,8 @@ public class BoardImage extends Component {
 			URL imagePath = BoardImage.class.getResource(filePath);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
 			returnMe = new ImageIcon(tempImage);
+			
+			/* Sets the height and width, if we wanted to know the dimensions of the img */
 			this.height = returnMe.getIconHeight();
 			this.width = returnMe.getIconWidth();
 		}
@@ -45,17 +35,41 @@ public class BoardImage extends Component {
 		}
 		return returnMe;
 	}
-	
+	/**
+	 * Creates and returns a JPanel based on the board image
+	 * @return
+	 */
+	public JPanel returnBoardPanel() {
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel(getImage("boardEdit.jpeg"));
+		panel.add(label);
+		
+		return panel;
+	}
+	/**
+	 * Creates and returns a JPanel based on any given image
+	 * @param filePath
+	 * @return
+	 */
+	public JPanel returnImagePanel(String filePath) {
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel(getImage(filePath));
+		panel.add(label);
+		
+		return panel;
+	}
+	/**
+	 * returns the height of the image that is loaded into this jPanel
+	 * @return
+	 */
 	public int returnHeight() {
 		return this.height; 
 	}
-	
+	/**
+	 * returns the width of the image that is loaded into this jPanel
+	 * @return
+	 */
 	public int returnWidth() {
 		return this.width;
 	}
-	
-	public static void main (String args[]) {
-		
-	}
-	
 }
