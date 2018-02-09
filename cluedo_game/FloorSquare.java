@@ -94,4 +94,6 @@ public class FloorSquare implements BoardSquare {
         else
             this.toRight = null;
     }
+
+    public String toString() { return "floor"; }
 }

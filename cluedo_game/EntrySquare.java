@@ -93,7 +93,7 @@ public class EntrySquare implements BoardSquare{
 	public BoardSquare getSquareType() {
 		return new EntrySquare();
 	}
-	
+	public String toString(){ return "entry"; }
 	
 
 }
