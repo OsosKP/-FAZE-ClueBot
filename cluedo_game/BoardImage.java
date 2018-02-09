@@ -8,10 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
@@ -37,13 +39,31 @@ public class BoardImage extends Component {
 			URL imagePath = BoardImage.class.getResource(filePath);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
 			returnMe = new ImageIcon(tempImage);
+			
 			this.height = returnMe.getIconHeight();
 			this.width = returnMe.getIconWidth();
+			
+			System.out.println(this.height);
+			
 		}
 		catch(Exception e){ //if the filePath does not exist, or something else messed up
 			System.err.println("We were not able to load the requested image form the given filePath: " + "\n" + filePath);
 		}
 		return returnMe;
+	}
+	
+	public void showMe() {
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel(getImage("boardEdit.jpeg"));
+		panel.add(label);
+	    JFrame frame = new JFrame("JPanel Example");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	 
+	    // add the Jpanel to the main window
+	    frame.add(panel); 
+	 
+	    frame.pack();
+	    frame.setVisible(true);
 	}
 	
 	public int returnHeight() {
@@ -54,8 +74,8 @@ public class BoardImage extends Component {
 		return this.width;
 	}
 	
-	public static void main (String args[]) {
-		
+	public static void main(String[] agrs) {
+		BoardImage test = new BoardImage();
+		test.showMe();
 	}
-	
 }
