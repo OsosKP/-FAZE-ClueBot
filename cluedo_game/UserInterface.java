@@ -14,39 +14,51 @@ import java.util.ArrayList;
  *  Text Display Box
  */
 public class UserInterface extends JPanel {
+    // Acceptable user inputs
     AcceptedUserInputs INPUTS_LIST;
-//    private JPanel boardImage = BoardImage.buildBoardDisplay();
+    // Frame which will contain the GUI
     private JFrame display = new JFrame();
+    // The user input portion of the display
+    // First it is built into 'in', then it is loaded into the 'input' JPanel
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
+    // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
-    // This will be replaced by the graphical board
-    private JPanel placeHolder = this.placeHolderPanel();
-
+    // The graphical component of the display
+    private BoardPanel image = new BoardPanel();
+    private JPanel imagePanel = image.getBoardImagePanel();
+    // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
+    /**
+     * The constructor for the UI which will set off a chain of events drawing all of the components
+     * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
+     */
     public UserInterface(){
         this.buildGUI();
     }
 
-    public void updateOutput(String newText){
-        out.update(output, newText);
-    }
-
-
+    /**
+     * buildGui creates the graphical aspect of the UI
+     */
     public void buildGUI(){
+        // Load list of acceptable commands
         INPUTS_LIST = new AcceptedUserInputs();
-        display.setSize(1600, 900);
+        // Set frame size to house JPanels
+        display.setSize(1366, 768);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // BorderLayout for overall JPanel
         userDisplay.setLayout(new BorderLayout());
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
-        userDisplay.add(placeHolder, BorderLayout.CENTER);
+        userDisplay.add(imagePanel, BorderLayout.CENTER);
 
+        // Add formatted JPanel to the frame
         display.add(userDisplay);
+        // Make the UI visible
         display.setVisible(true);
     }
 
@@ -230,13 +242,26 @@ public class UserInterface extends JPanel {
 
 
     }
-    // Just making this to stick it into the overall panel to help determine blocking
-    public JPanel placeHolderPanel(){
-        JPanel placeHolder = new JPanel();
-        JLabel ph = new JLabel("Placeholder Panel");
-        placeHolder.add(ph);
-        return placeHolder;
+
+    /**
+     * The graphical portion of the GUI
+     */
+    private class BoardPanel{
+        private BoardImage boardImage;
+        private JPanel boardImagePanel;
+
+        public BoardPanel(){
+            boardImage = new BoardImage();
+            this.boardImagePanel = this.boardImage.returnBoardPanel();
+        }
+
+        public JPanel getBoardImagePanel() {
+            return boardImagePanel;
+        }
     }
 
-
+// This update method for the text output might not be used
+//    public void updateOutput(String newText){
+//        out.update(output, newText);
+//    }
 }
