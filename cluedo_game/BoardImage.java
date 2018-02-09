@@ -18,26 +18,26 @@ public class BoardImage extends Component {
 	 */
 	public ImageIcon getImage(String filePath) {
 		Image tempImage = null;
-		ImageIcon returnMe = null;
+		ImageIcon image = null;
 		/* Now we need to try to load the image into the file system */
 		try {
 			/* Loads the image, and assigns it to the tempImage var */
 			URL imagePath = BoardImage.class.getResource(filePath);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-			returnMe = new ImageIcon(tempImage);
+			image = new ImageIcon(tempImage);
 			
 			/* Sets the height and width, if we wanted to know the dimensions of the img */
-			this.height = returnMe.getIconHeight();
-			this.width = returnMe.getIconWidth();
+			this.height = image.getIconHeight();
+			this.width = image.getIconWidth();
 		}
 		catch(Exception e){ //if the filePath does not exist, or something else messed up
-			System.err.println("We were not able to load the requested image form the given filePath: " + "\n" + filePath);
+			System.err.println("We were not able to load the requested image from the given filePath: " + "\n" + filePath);
 		}
-		return returnMe;
+		return image;
 	}
 	/**
 	 * Creates and returns a JPanel based on the board image
-	 * @return
+	 * @return JPanel with image
 	 */
 	public JPanel returnBoardPanel() {
 		JPanel panel = new JPanel();
@@ -48,10 +48,10 @@ public class BoardImage extends Component {
 	}
 	/**
 	 * Creates and returns a JPanel based on any given image
-	 * @param filePath
-	 * @return
+	 * @param filePath directory location of the image
+	 * @return a JPanel containing the given image
 	 */
-	public JPanel returnImagePanel(String filePath) {
+	public JPanel getImagePanel(String filePath) {
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel(getImage(filePath));
 		panel.add(label);
@@ -60,16 +60,16 @@ public class BoardImage extends Component {
 	}
 	/**
 	 * returns the height of the image that is loaded into this jPanel
-	 * @return
+	 * @return image height
 	 */
-	public int returnHeight() {
+	public int getHeight() {
 		return this.height; 
 	}
 	/**
 	 * returns the width of the image that is loaded into this jPanel
-	 * @return
+	 * @return image width
 	 */
-	public int returnWidth() {
+	public int getWidth() {
 		return this.width;
 	}
 }

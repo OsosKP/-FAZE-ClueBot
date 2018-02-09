@@ -23,7 +23,7 @@ public class BoardBuilder {
     private Room Kitchen;
     private Room Study;
     private Room Cellar;
-
+    
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
 
@@ -248,68 +248,63 @@ public class BoardBuilder {
             }
         }
     }
-
+    
     public void createRooms() {
-    	if (this.entrySquaresCreated == true) { //this is where we actually create the rooms
-
+    	if (this.entrySquaresCreated) { //this is where we actually create the rooms
+    		
     		/* Creating the Rooms with Multiple Entrances*/
-
+    		
     		/* Will be used to store the entrances for the individual rooms */
     		ArrayList<EntrySquare> entrances = new ArrayList<>();
-
+    		
     		/* Creating Ballroom Object*/
     		entrances.add((EntrySquare)board[5][8]);
     		entrances.add((EntrySquare)board[7][9]);
     		entrances.add((EntrySquare)board[7][14]);
     		Ballroom = new Room("Ballroom",entrances);
-
+    		
     		entrances.clear(); //clearing the arrayList, since we need it to hold the entranceSquares for the next object
-
+    		
     		/* Creating Dining Room Object */
     		entrances.add((EntrySquare)board[12][7]);
     		entrances.add((EntrySquare)board[15][6]);
     		DiningRoom = new Room("DiningRoom", entrances);
-
+    		
     		entrances.clear();
-
+    		
     		/* Creating BilliardRoom Object */
     		entrances.add((EntrySquare)board[9][18]);
     		entrances.add((EntrySquare)board[12][22]);
     		BilliardRoom = new Room("BilliardRoom", entrances);
-
+    		
     		entrances.clear();
-
+    		
     		/* Creating Library Object */
     		entrances.add((EntrySquare)board[16][17]);
     		entrances.add((EntrySquare)board[14][20]);
     		Library = new Room("Library", entrances);
-
+    		
     		entrances.clear();
-
+    		
     		/* Creating Hall Object */
     		entrances.add((EntrySquare)board[18][11]);
     		entrances.add((EntrySquare)board[18][12]);
     		entrances.add((EntrySquare)board[20][14]);
     		Hall = new Room("Hall", entrances);
-
+    		
     		entrances.clear();
-
-
+    		
+    		
     	}
     	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
     		this.createRooms();
     	}
     }
-    /**
-     * creates, and fills the playerArray with the number of players who are wanting to play the game
-     * @param numPlayers
-     * @param playerNames
-     * @return
-     */
-    public Token generatePlayer(String name, int x, int y) {
-    	//TODO turn this into some kinf of circe linked list
-    	//arrayList of all players, seperate from the turnList but contains the same obejct
+
+    public Token generatePlayer(String name, int x, int y) { 
+    	//TODO turn this into some kind of circularly linked list
+    	//arrayList of all players, separate from the turnList but contains the same object
     	Token temp = new Token(x,y,name,numPlayers++);
     	players.addFirst(temp);
     	return temp;
