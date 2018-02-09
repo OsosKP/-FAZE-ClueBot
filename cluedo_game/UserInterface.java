@@ -1,6 +1,6 @@
 package cluedo_game;
 
-import com.sun.jna.platform.win32.Netapi32Util;
+import com.intellij.ui.JBColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +21,8 @@ public class UserInterface extends JPanel {
     private JPanel input = in.createInputPanel();
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
+    // This will be replaced by the graphical board
+    private JPanel placeHolder = this.placeHolderPanel();
 
     private JPanel userDisplay = new JPanel();
 
@@ -34,13 +36,14 @@ public class UserInterface extends JPanel {
 
 
     public void buildGUI(){
-        display.setSize(960, 855);
+        display.setSize(1600, 900);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         userDisplay.setLayout(new BorderLayout());
-        userDisplay.add(input, BorderLayout.WEST);
+        userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
+        userDisplay.add(placeHolder, BorderLayout.CENTER);
 
         display.add(userDisplay);
         display.setVisible(true);
@@ -52,7 +55,8 @@ public class UserInterface extends JPanel {
     private class UserInputBox {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
-        private JLabel promptLabel = new JLabel("What would you like to do?");
+        private JLabel whoseTurnLabel = new JLabel("     It is now NAME's turn.");
+        private JLabel promptLabel = new JLabel("     What would you like to do?");
         private JPanel inputPanel;
 
         public UserInputBox(){
@@ -61,6 +65,7 @@ public class UserInterface extends JPanel {
 
         class UserInputListener_FloorSquare implements ActionListener {
             public void actionPerformed(ActionEvent event){
+                out.update(output, inputField.getText());
                 System.out.println("You have performed the action: " + inputField.getText());
             }
         }
@@ -76,9 +81,11 @@ public class UserInterface extends JPanel {
         public JPanel createInputPanel(){
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
+            input.setBorder(BorderFactory.createEtchedBorder(JBColor.lightGray, JBColor.black));
 
-            input.add(promptLabel, BorderLayout.NORTH);
-            input.add(inputField, BorderLayout.CENTER);
+            input.add(whoseTurnLabel, BorderLayout.NORTH);
+            input.add(promptLabel, BorderLayout.CENTER);
+            input.add(inputField, BorderLayout.SOUTH);
             input.add(createPerformActionButton(), BorderLayout.EAST);
 
             return input;
@@ -89,30 +96,41 @@ public class UserInterface extends JPanel {
      * The user output portion of the GUI
      */
     private class OutputTextDisplay{
-        JLabel textOutput;
-
-        StringBuilder text = new StringBuilder();
+        JTextArea textOutput;
+        JScrollPane scroller;
+        private int AREA_SIZE_MAX = 25;
+        int i = 1;
 
         public OutputTextDisplay(){
-            textOutput = new JLabel("");
+            textOutput = new JTextArea("", 10, 15);
+            textOutput.setEnabled(false);
+            textOutput.setLineWrap(true);
+            scroller = new JScrollPane(textOutput);
         }
 
         public void update(JPanel panel, String in){
-            text.append(in);
-            text.append("\n");
 
-            textOutput.setText(text.toString());
+            textOutput.append(in);
+            i++;
+            textOutput.append("\n\n");
+            i++;
+
             panel.revalidate();
         }
 
         public JPanel createOutputPanel(){
             JPanel output = new JPanel();
-            output.add(textOutput);
+            output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
+            output.add(scroller);
 
             return output;
         }
 
 
+    }
+    // Just making this to stick it into the overall panel to help determine blocking
+    public JPanel placeHolderPanel(){
+        return new JPanel();
     }
 
 
