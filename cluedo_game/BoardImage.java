@@ -1,15 +1,22 @@
 package cluedo_game;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class BoardImage extends Component { 
+	//TODO get a grid layout ontop of the image
+	
 	private int width, height;
+	private JLabel[][] grid;
 	
 	/**
 	 * will attempt to load an image from a given filePath
@@ -39,25 +46,37 @@ public class BoardImage extends Component {
 	 * Creates and returns a JPanel based on the board image
 	 * @return
 	 */
-	public JPanel returnBoardPanel() {
+	public void returnBoardPanel() {
 		JPanel panel = new JPanel();
-		JLabel label = new JLabel(getImage("boardEdit.jpeg"));
-		panel.add(label);
+
+		panel.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
+		panel.setLayout(new GridLayout(24, 25));
 		
-		return panel;
-	}
-	/**
-	 * Creates and returns a JPanel based on any given image
-	 * @param filePath
-	 * @return
-	 */
-	public JPanel returnImagePanel(String filePath) {
-		JPanel panel = new JPanel();
-		JLabel label = new JLabel(getImage(filePath));
-		panel.add(label);
+		grid = new JLabel[24][25];
 		
-		return panel;
+		for (int i = 0; i < 24; i++) {
+			for (int j = 0; j < 25; j++) {
+				grid[i][j] = new JLabel();
+				grid[i][j].setBorder(new LineBorder(Color.BLACK));
+				grid[i][j].setOpaque(true);
+				panel.add(grid[i][j]);
+			}
+		}
+		JLabel test = new JLabel();
+		test.setIcon(getImage("boardEdit.jpeg"));
+		panel.add(test);
+		
+		JFrame frame = new JFrame("JPanel Example");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	    // add the Jpanel to the main window
+	    frame.add(panel); 
+	
+	    frame.pack();
+	    frame.setVisible(true);		
 	}
+		
+	
 	/**
 	 * returns the height of the image that is loaded into this jPanel
 	 * @return
@@ -72,4 +91,11 @@ public class BoardImage extends Component {
 	public int returnWidth() {
 		return this.width;
 	}
+
+	public static void main (String[] agrs) {
+		BoardImage test = new BoardImage();
+		test.returnBoardPanel();
+	}
 }
+
+
