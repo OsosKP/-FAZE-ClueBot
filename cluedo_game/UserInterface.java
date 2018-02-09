@@ -1,7 +1,5 @@
 package cluedo_game;
 
-import com.sun.jna.platform.win32.Netapi32Util;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
