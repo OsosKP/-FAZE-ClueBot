@@ -82,4 +82,6 @@ public class WallSquare implements BoardSquare {
     public Token getPlayerOn() { return null; }
     @Override
     public boolean isPlayerOn(){ return false; }
+
+    public String toString() { return "wall"; }
 }

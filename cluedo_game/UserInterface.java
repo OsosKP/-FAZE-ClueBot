@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * UserInterface
@@ -103,19 +104,66 @@ public class UserInterface extends JPanel {
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
 
-            this.createAllowedCommentsDisplay();
+            this.createAllowedCommandsDisplay();
 
             scroller = new JScrollPane(textOutput);
         }
 
-        public void createAllowedCommentsDisplay(){
+        public void createAllowedCommandsDisplay(){
             allowedCommandsDisplay = new JPanel();
             allowedCommandsDisplay.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
             allowedCommandsDisplay.setLayout(new GridLayout(10, 1));
-            allowedCommandsDisplay.add(new JLabel("You may:"));
-            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 1"));
-            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 2"));
-            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 3"));
+            allowedCommandsDisplay.setOpaque(true);
+            allowedCommandsDisplay.setBackground(Color.GRAY);
+            allowedCommandsDisplay.setForeground(Color.white);
+        }
+
+        public void updateAllowedCommandsBasedOnSquare(Token p) {
+            // This is for a readout to tell the player where they are
+            JLabel locationReadout;
+            // The text in the readout depends on what square/room the player is on
+            if(p.getSquareOn() instanceof FloorSquare)
+                locationReadout = new JLabel("You are on a Floor square.");
+            JLabel title = new JLabel("You May:");
+            title.setForeground(Color.white);
+            title.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(title);
+
+            try {
+                if (p.getInRoom() == null) {
+                    switch (p.getSquareOn().getSquareType().toString()) {
+                        case "floor":
+                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.white);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+                        case "entry":
+                            for (String s : AcceptedUserInputs.getEntryChoices()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.white);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+                        case "wall":
+                            throw new Exception("Player is on a wall square.");
+                    }
+                } else {
+                    for (String s : AcceptedUserInputs.getRoomNavigation()) {
+                        JLabel d = new JLabel(s);
+                        d.setForeground(Color.white);
+                        d.setHorizontalAlignment(JLabel.CENTER);
+                        allowedCommandsDisplay.add(d);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
 
         }
 

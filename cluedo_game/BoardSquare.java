@@ -14,6 +14,7 @@ public interface BoardSquare{
     void setPlayerOn(Token playerOn);
     void removePlayerOn();
     Token getPlayerOn();
+    String toString();
     /**
      * setGeography
      * Places pointers to the square above, below, to the left and to the right of this one
