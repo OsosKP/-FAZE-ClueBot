@@ -1,6 +1,5 @@
 package cluedo_game;
 
-import com.intellij.ui.JBColor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -80,7 +79,7 @@ public class UserInterface extends JPanel {
         public JPanel createInputPanel(){
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
-            input.setBorder(BorderFactory.createEtchedBorder(JBColor.lightGray, JBColor.black));
+            input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
@@ -97,22 +96,33 @@ public class UserInterface extends JPanel {
     private class OutputTextDisplay{
         JTextArea textOutput;
         JScrollPane scroller;
-        private int AREA_SIZE_MAX = 25;
-        int i = 1;
+        JPanel allowedCommandsDisplay;
 
         public OutputTextDisplay(){
             textOutput = new JTextArea("", 10, 15);
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
+
+            this.createAllowedCommentsDisplay();
+
             scroller = new JScrollPane(textOutput);
+        }
+
+        public void createAllowedCommentsDisplay(){
+            allowedCommandsDisplay = new JPanel();
+            allowedCommandsDisplay.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
+            allowedCommandsDisplay.setLayout(new GridLayout(10, 1));
+            allowedCommandsDisplay.add(new JLabel("You may:"));
+            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 1"));
+            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 2"));
+            allowedCommandsDisplay.add(new JLabel("PLACEHOLDER 3"));
+
         }
 
         public void update(JPanel panel, String in){
 
             textOutput.append(in);
-            i++;
             textOutput.append("\n\n");
-            i++;
 
             panel.revalidate();
         }
@@ -121,6 +131,7 @@ public class UserInterface extends JPanel {
             JPanel output = new JPanel();
             output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
             output.add(scroller);
+            output.add(allowedCommandsDisplay);
 
             return output;
         }
