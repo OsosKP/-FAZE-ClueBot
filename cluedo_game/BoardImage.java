@@ -1,11 +1,14 @@
 package cluedo_game;
 
 import java.applet.Applet;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
+
+import javax.swing.JFrame;
 
 /*
 	TODO: Import the JPEG + get a grid layer over it
@@ -13,7 +16,7 @@ import java.net.URL;
 	Should be its own Jpanel, then set to the north side of the userInterface 
 */
 
-public class BoardImage extends Applet { 
+public class BoardImage extends Component { 
 	/* Will hold the image that we will draw, initially set = null so we could potentially load different images if we wanted to */
 	private Image board = null;
 	
@@ -28,11 +31,11 @@ public class BoardImage extends Applet {
 		Graphics2D g2 = (Graphics2D)g; //an alien face
 		int width, height;
 		
+		/* Calling the image at its full size */
 		width = board.getWidth(this);
 		height = board.getHeight(this);
-		this.setSize(width, height);
 		
-		g2.drawImage(board, 0, 0, 566, 585, this); //image observer notifies everything else when the image actually is placed 
+		g2.drawImage(board, 0, 0, width, height, this); //image observer notifies everything else when the image actually is placed 
 	}
 	/**
 	 * will attempt to load an image from a given filePath
@@ -52,4 +55,12 @@ public class BoardImage extends Applet {
 		}
 		return tempImage;
 	}
+	
+	public static void main(String[] agrs) { //simple test to see if works
+        JFrame f = new JFrame("Load Image Sample");
+        f.add(new BoardImage());
+        f.pack();
+        f.setVisible(true);
+	}
+	
 }
