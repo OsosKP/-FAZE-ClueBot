@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * UserInterface
@@ -65,6 +64,8 @@ public class UserInterface extends JPanel {
         class UserInputListener_FloorSquare implements ActionListener {
             public void actionPerformed(ActionEvent event){
                 out.update(output, inputField.getText());
+                inputField.setText("");
+                inputField.requestFocus();
                 System.out.println("You have performed the action: " + inputField.getText());
             }
         }
@@ -116,21 +117,41 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.setOpaque(true);
             allowedCommandsDisplay.setBackground(Color.GRAY);
             allowedCommandsDisplay.setForeground(Color.white);
+
+            this.updateAllowedCommandsBasedOnSquare(null);
         }
 
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // This is for a readout to tell the player where they are
             JLabel locationReadout;
+
             // The text in the readout depends on what square/room the player is on
-            if(p.getSquareOn() instanceof FloorSquare)
+            // p == null is for testing, won't be in the game
+            if(p == null)
+                locationReadout = new JLabel("Not on the board. Testing?");
+            else if(p.getSquareOn() instanceof FloorSquare)
                 locationReadout = new JLabel("You are on a Floor square.");
+            // This will only be accessed after a player exits the room
+            // Because when a player enters this square from a floor square, they are immediately taken to the room
+            else if(p.getSquareOn() instanceof EntrySquare)
+                locationReadout = new JLabel("You are on an Entry square to: "
+                        + ((EntrySquare) p.getSquareOn()).getRoomName());
+            else if(p.getSquareOn() instanceof WallSquare)
+                locationReadout = new JLabel("Wall Square? Something went wrong...");
+            else
+                locationReadout = new JLabel("You are in the " + p.getInRoom().getName());
+
+            locationReadout.setForeground(Color.white);
+            locationReadout.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(locationReadout);
+
             JLabel title = new JLabel("You May:");
             title.setForeground(Color.white);
             title.setHorizontalAlignment(JLabel.CENTER);
             allowedCommandsDisplay.add(title);
 
             try {
-                if (p.getInRoom() == null) {
+                if (p != null && p.getInRoom() == null) {
                     switch (p.getSquareOn().getSquareType().toString()) {
                         case "floor":
                             for (String s : AcceptedUserInputs.getFloorNavigation()) {
@@ -150,8 +171,19 @@ public class UserInterface extends JPanel {
                             break;
                         case "wall":
                             throw new Exception("Player is on a wall square.");
+                        default:
+                            // Testing case for board creation
+                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.yellow);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                allowedCommandsDisplay.add(d);
+                            }
+                            break;
+
                     }
-                } else {
+                }
+                else {
                     for (String s : AcceptedUserInputs.getRoomNavigation()) {
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.white);
@@ -163,8 +195,6 @@ public class UserInterface extends JPanel {
             } catch (Exception e) {
                 e.getMessage();
             }
-
-
         }
 
         public void update(JPanel panel, String in){
@@ -188,7 +218,10 @@ public class UserInterface extends JPanel {
     }
     // Just making this to stick it into the overall panel to help determine blocking
     public JPanel placeHolderPanel(){
-        return new JPanel();
+        JPanel placeHolder = new JPanel();
+        JLabel ph = new JLabel("Placeholder Panel");
+        placeHolder.add(ph);
+        return placeHolder;
     }
 
 
