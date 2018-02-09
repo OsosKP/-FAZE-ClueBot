@@ -7,16 +7,16 @@ public class AcceptedUserInputs {
      * These input lists are checked depending on what kind of square the user is on
      */
     // The player is moving on a general floorNavigation square
-    private final static ArrayList<String> floorNavigation = new ArrayList<>();
+    private final ArrayList<String> floorNavigation = new ArrayList<>();
     // The player is in the entryChoices to a room and may enter
-    private final static ArrayList<String> entryChoices = new ArrayList<>();
+    private final ArrayList<String> entryChoices = new ArrayList<>();
     // Making a guess or exiting
-    private final static ArrayList<String> weaponChoices = new ArrayList<>();
-    private final static ArrayList<String> characterChoices = new ArrayList<>();
+    private final ArrayList<String> weaponChoices = new ArrayList<>();
+    private final ArrayList<String> characterChoices = new ArrayList<>();
     // Room guesses are only allowed if they player is solving
-    private final static ArrayList<String> roomChoices = new ArrayList<>();
+    private final ArrayList<String> roomChoices = new ArrayList<>();
     // For 'exit', 'guess', etc.
-    private final static ArrayList<String> roomNavigation = new ArrayList<>();
+    private final ArrayList<String> roomNavigation = new ArrayList<>();
 
     public AcceptedUserInputs(){
         floorNavigation.add("up");
@@ -66,23 +66,34 @@ public class AcceptedUserInputs {
         roomNavigation.add("guess");
     }
 
-    public static ArrayList<String> getFloorNavigation() {
+    public ArrayList<String> getFloorNavigation() {
+
+        System.out.println("CHECK we are in getFloorNavigation");
+
+        for(String s : this.floorNavigation)
+            System.out.println(s);
+
         return floorNavigation;
     }
-    public static ArrayList<String> getEntryChoices() {
+    public ArrayList<String> getEntryChoices() {
         return entryChoices;
     }
-    public static ArrayList<String> getWeaponChoices() {
+    public ArrayList<String> getWeaponChoices() {
         return weaponChoices;
     }
-    public static ArrayList<String> getCharacterChoices() {
+    public ArrayList<String> getCharacterChoices() {
         return characterChoices;
     }
-    public static ArrayList<String> getRoomChoices() {
+    public ArrayList<String> getRoomChoices() {
         return roomChoices;
     }
-    public static ArrayList<String> getRoomNavigation() {
+    public ArrayList<String> getRoomNavigation() {
         return roomNavigation;
+    }
+
+    public void tester(){
+        for(String s : this.floorNavigation)
+            System.out.println(s);
     }
 
 

@@ -75,6 +75,15 @@ public class BoardImage extends Component {
 	    frame.pack();
 	    frame.setVisible(true);		
 	}
+	/**
+	 * Creates and returns a JPanel based on any given image
+	 * @param filePath
+	 * @return
+	 */
+	public JPanel returnImagePanel(String filePath) {
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel(getImage(filePath));
+		panel.add(label);
 		
 	
 	/**
@@ -97,5 +106,3 @@ public class BoardImage extends Component {
 		test.returnBoardPanel();
 	}
 }
-
-

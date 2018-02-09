@@ -20,7 +20,7 @@ public interface BoardSquare{
      * Places pointers to the square above, below, to the left and to the right of this one
      * @param board the game board
      */
-    void setGeography(Board board);
+    void setGeography(BoardBuilder board);
     BoardSquare getAbove();
     BoardSquare getBelow();
     BoardSquare getLeft();

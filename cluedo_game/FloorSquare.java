@@ -12,7 +12,7 @@ public class FloorSquare implements BoardSquare {
     private BoardSquare toRight;
 
     //
-    //Constructor
+    //Constructors
     //
     public FloorSquare(int x, int y, Token spawnPoint) {
 	    this.location[0] = x;
@@ -27,9 +27,8 @@ public class FloorSquare implements BoardSquare {
   		this.playerOn = null;
   	}
 
-  	public FloorSquare(){
+  	public FloorSquare(){ // This is just a dummy square to check type
         this.spawnPoint = null;
-        // This is just a dummy square to check type
     }
 
     //
@@ -72,7 +71,7 @@ public class FloorSquare implements BoardSquare {
      * Places pointers to the square above, below, to the left and to the right of this one
      * @param board the game board
      */
-    public void setGeography(Board board){
+    public void setGeography(BoardBuilder board){
         // Set a pointer to the square above this one
         if(this.location[0] > 0)
             this.above = board.getSquare(this.location[0]-1, this.location[1]);

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * UserInterface
@@ -13,37 +14,51 @@ import java.awt.event.ActionListener;
  *  Text Display Box
  */
 public class UserInterface extends JPanel {
-//    private JPanel boardImage = BoardImage.buildBoardDisplay();
+    // Acceptable user inputs
+    AcceptedUserInputs INPUTS_LIST;
+    // Frame which will contain the GUI
     private JFrame display = new JFrame();
+    // The user input portion of the display
+    // First it is built into 'in', then it is loaded into the 'input' JPanel
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
+    // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
-    // This will be replaced by the graphical board
-    private JPanel placeHolder = this.placeHolderPanel();
-
+    // The graphical component of the display
+    private BoardPanel image = new BoardPanel();
+    private JPanel imagePanel = image.getBoardImagePanel();
+    // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
+    /**
+     * The constructor for the UI which will set off a chain of events drawing all of the components
+     * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
+     */
     public UserInterface(){
         this.buildGUI();
     }
 
-    public void updateOutput(String newText){
-        out.update(output, newText);
-    }
-
-
+    /**
+     * buildGui creates the graphical aspect of the UI
+     */
     public void buildGUI(){
-        display.setSize(1600, 900);
+        // Load list of acceptable commands
+        INPUTS_LIST = new AcceptedUserInputs();
+        // Set frame size to house JPanels
+        display.setSize(1366, 768);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // BorderLayout for overall JPanel
         userDisplay.setLayout(new BorderLayout());
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
-        userDisplay.add(placeHolder, BorderLayout.CENTER);
+        userDisplay.add(imagePanel, BorderLayout.CENTER);
 
+        // Add formatted JPanel to the frame
         display.add(userDisplay);
+        // Make the UI visible
         display.setVisible(true);
     }
 
@@ -63,10 +78,13 @@ public class UserInterface extends JPanel {
 
         class UserInputListener_FloorSquare implements ActionListener {
             public void actionPerformed(ActionEvent event){
-                out.update(output, inputField.getText());
-                inputField.setText("");
+                // Only do this if the input field had something in it
+                if(!(inputField.getText().equals(""))) {
+                    out.update(output, inputField.getText());
+                    inputField.setText("");
+                    System.out.println("You have performed the action: " + inputField.getText());
+                }
                 inputField.requestFocus();
-                System.out.println("You have performed the action: " + inputField.getText());
             }
         }
 
@@ -154,7 +172,7 @@ public class UserInterface extends JPanel {
                 if (p != null && p.getInRoom() == null) {
                     switch (p.getSquareOn().getSquareType().toString()) {
                         case "floor":
-                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
+                            for (String s : INPUTS_LIST.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.white);
                                 d.setHorizontalAlignment(JLabel.CENTER);
@@ -162,7 +180,7 @@ public class UserInterface extends JPanel {
                             }
                             break;
                         case "entry":
-                            for (String s : AcceptedUserInputs.getEntryChoices()) {
+                            for (String s : INPUTS_LIST.getEntryChoices()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.white);
                                 d.setHorizontalAlignment(JLabel.CENTER);
@@ -173,7 +191,7 @@ public class UserInterface extends JPanel {
                             throw new Exception("Player is on a wall square.");
                         default:
                             // Testing case for board creation
-                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
+                            for (String s : INPUTS_LIST.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.yellow);
                                 d.setHorizontalAlignment(JLabel.CENTER);
@@ -184,17 +202,25 @@ public class UserInterface extends JPanel {
                     }
                 }
                 else {
-                    for (String s : AcceptedUserInputs.getRoomNavigation()) {
+                    System.out.println("CHECK to see that we're getting floor nav");
+                    ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
+                    System.out.println("CHECK after getNav");
+                    for (String s : options) {
+                        /*
+                        Check to make sure we're getting input
+                         */
+                        System.out.println(s);
+
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.white);
                         d.setHorizontalAlignment(JLabel.CENTER);
                         allowedCommandsDisplay.add(d);
                     }
                 }
-
             } catch (Exception e) {
                 e.getMessage();
             }
+            allowedCommandsDisplay.revalidate();
         }
 
         public void update(JPanel panel, String in){
@@ -216,13 +242,26 @@ public class UserInterface extends JPanel {
 
 
     }
-    // Just making this to stick it into the overall panel to help determine blocking
-    public JPanel placeHolderPanel(){
-        JPanel placeHolder = new JPanel();
-        JLabel ph = new JLabel("Placeholder Panel");
-        placeHolder.add(ph);
-        return placeHolder;
+
+    /**
+     * The graphical portion of the GUI
+     */
+    private class BoardPanel{
+        private BoardImage boardImage;
+        private JPanel boardImagePanel;
+
+        public BoardPanel(){
+            boardImage = new BoardImage();
+            this.boardImagePanel = this.boardImage.returnBoardPanel();
+        }
+
+        public JPanel getBoardImagePanel() {
+            return boardImagePanel;
+        }
     }
 
-
+// This update method for the text output might not be used
+//    public void updateOutput(String newText){
+//        out.update(output, newText);
+//    }
 }
