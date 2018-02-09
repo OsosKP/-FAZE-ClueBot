@@ -1,6 +1,7 @@
 package cluedo_game;
 
 import java.applet.Applet;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,6 +11,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /*
 	TODO: Import the JPEG + get a grid layer over it
@@ -61,17 +63,40 @@ public class BoardImage extends Component {
 	public int returnHeight() {
 		return this.height; 
 	}
+	
 	public int returnWidth() {
 		return this.width;
 	}
 	
-	public static void main(String[] agrs) { //simple test to see if works
-        JFrame f = new JFrame("Load Image Sample");
-        BoardImage showMe = new BoardImage();
-        f.add(new BoardImage());
-        f.pack();
-        f.setPreferredSize(new Dimension(showMe.returnWidth(), showMe.returnHeight()));
-        f.setVisible(true);
+	public static JPanel returnPanel(String path) {
+		JPanel pannel = new JPanel();
+		BoardImage showMe = new BoardImage();
+		
+		showMe.getImage(path);
+		pannel.add(showMe);
+		
+		return pannel;
+	}
+
+	public static void returnPanel() {
+		JPanel pannel = new JPanel();
+		BoardImage showMe = new BoardImage();
+		
+		pannel.add(showMe);
+	}
+	
+	public static void main (String args[]) {
+		JPanel pannel = new JPanel();
+		JFrame fuckThis = new JFrame();
+		BoardImage showMe = new BoardImage();
+
+		pannel.add(showMe);
+
+		fuckThis.setSize(showMe.getWidth(), showMe.getHeight());
+		fuckThis.setTitle("How does this work?");
+		
+		fuckThis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fuckThis.setVisible(true);
 	}
 	
 }
