@@ -23,6 +23,8 @@ public class BoardImage extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(getImage("/boardEdit.jpeg"), 0, 0, this);
+		this.setPreferredSize(new Dimension(552, 575));
+		this.returnBoardPanel();
 	}
 	
 	/**
@@ -66,12 +68,14 @@ public class BoardImage extends JPanel {
 			}
 		}
 		
+		/* KELSEY TRY AND USE THIS!!!! */
 		JFrame frame = new JFrame("JPanel Example");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(552, 575));
 	    // add the Jpanel to the main window
 	    frame.add(this); 
-	
+	    frame.setPreferredSize(new Dimension(552, 575));
+	    frame.setResizable(false);
+
 	    frame.pack();
 	    frame.setVisible(true);		
 	}
