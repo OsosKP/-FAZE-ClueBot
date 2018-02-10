@@ -34,7 +34,8 @@ public class BoardImage {
 		testing = test.BigTest();
 
 		testing.setLayout(new BorderLayout());
-		frame.setContentPane(testing);
+		frame.setContentPane(testing);https://stackoverflow.com/questions/594994/how-to-make-jtextfield-expand-with-a-borderlayout-java
+			
 		frame.add(test1.paintMe());
 
 
@@ -66,14 +67,6 @@ public class BoardImage {
 }
 
 class ImagePanel extends JPanel{
-	public ImagePanel paintMe() {
-		JLabel temp = new JLabel();
-		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg"));
-		temp.setIcon(icon);
-
-		this.add(temp);
-		return this;
-	}
 
 	public JLabel BigTest() {
 		JLabel temp = new JLabel();
@@ -101,6 +94,21 @@ class ImagePanel extends JPanel{
 		}
 		return tempImage;
 	}
+	
+	@Override
+    public Dimension getPreferredSize() {
+        return new Dimension(552, 575);
+	}
+	
+    @Override
+    public Dimension getMinimumSize() {
+        return new Dimension(552, 575);
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(552, 575);
+    }
 }
 
 class GridPanel extends JPanel{
@@ -126,5 +134,10 @@ class GridPanel extends JPanel{
 				this.add(grid[i][j]);
 			}
 		}
+	}
+	
+	@Override
+    public Dimension getPreferredSize() {
+        return new Dimension(552, 575);
 	}
 }
