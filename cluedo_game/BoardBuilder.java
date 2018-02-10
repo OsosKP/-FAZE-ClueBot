@@ -325,10 +325,5 @@ public class BoardBuilder {
     		System.err.println("Board Already Created!");
     	}
     }
-    
-    public static void main (String[] agrs) {
-    	BoardBuilder builderTest = new BoardBuilder();
-    	builderTest.createBoard();
-    }
 
 }

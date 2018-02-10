@@ -15,6 +15,8 @@ public class WallSquare implements BoardSquare {
      */
     
     public WallSquare(int x, int y){
+    	/* Initializing the location array */
+    	this.location = new int[2];
     	this.location[0] = x;
     	this.location[1] = y;
     }
@@ -63,8 +65,8 @@ public class WallSquare implements BoardSquare {
      * @return temporary object of type WallSquare
      */
     @Override
-    public BoardSquare getSquareType() {
-        return new WallSquare();
+    public String getSquareType() {
+        return "Wall";
     }
 
     public BoardSquare getAbove() { return this.above; }
