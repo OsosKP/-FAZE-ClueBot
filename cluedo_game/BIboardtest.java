@@ -1,3 +1,5 @@
+package cluedo_game;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -56,7 +58,7 @@ public class BIboardtest {
                     });
 
                     p.add(button);
-                } 
+                }
                 count++;
             }
         }
