@@ -1,12 +1,10 @@
 package cluedo_game;
 
-
-import javax.swing.*;
-
 public class test {
 
 	public static void main(String[] args) {
-		UserInterface ui = new UserInterface();
+		BoardBuilder bb = new BoardBuilder();
+		System.out.println(bb.getSquare(0,0).getSquareType().getClass());
+		BoardImageTest board = new BoardImageTest(bb);
 	}
-
 }

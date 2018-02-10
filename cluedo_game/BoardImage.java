@@ -78,6 +78,7 @@ class ImagePanel extends JPanel{
 		}
 		return tempImage;
 	}
+
 }
 
 class GridPanel extends JPanel{
@@ -103,5 +104,6 @@ class GridPanel extends JPanel{
 				this.add(grid[i][j]);
 			}
 		}
+
 	}
 }
