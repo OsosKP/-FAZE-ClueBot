@@ -9,8 +9,7 @@ public class BoardBuilder {
        	this.createRooms();
        	this.addEntrySquares();
        	this.addWalls();
-       	this.addFloorSquares();			
-    	
+       	this.addFloorSquares();				
 	}
 	
     /*
@@ -314,6 +313,9 @@ public class BoardBuilder {
     		this.addEntrySquares();
     		this.createRooms();
     	}
+    }
+    public BoardSquare[][] returnBoard(){
+    	return this.board;
     }
     /**
      * will over-write the current board
