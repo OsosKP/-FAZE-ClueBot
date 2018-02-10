@@ -3,6 +3,11 @@ package cluedo_game;
 import java.util.ArrayList;
 
 public class BoardBuilder {
+	
+	public BoardBuilder() {
+		
+	}
+	
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
@@ -11,6 +16,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private int numPlayers = 0;
+    private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
     private Room Ballroom;
@@ -304,12 +310,24 @@ public class BoardBuilder {
     		this.createRooms();
     	}
     }
+    /**
+     * will create the board and everything (hopefully wont break)
+     */
+    public void createBoard() {
+    	if (!this.boardCreated) {
+        	/* Calling classes to create board */
+        	this.createRooms();
+        	this.addEntrySquares();
+        	this.addWalls();
+        	this.addFloorSquares();		
+    	}
+    	else {
+    		System.err.println("Board Already Created!");
+    	}
+    }
+    
+    public static void main (String[] agrs) {
+    	BoardBuilder builderTest
+    }
 
-//    public Token generatePlayer(String name, int x, int y) {
-//    	//TODO turn this into some kind of circularly linked list
-//    	//arrayList of all players, separate from the turnList but contains the same object
-//    	Token temp = new Token(x,y,name,numPlayers++);
-//    	players.addFirst(temp);
-//    	return temp;
-//    }
 }
