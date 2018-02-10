@@ -29,26 +29,19 @@ public class BoardImage {
 		/* Creating the JFrame, setting default operations */
 		JFrame frame = new JFrame("JPanel Example");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
 		
-		/* Adding the JLayeredPame */
-		frame.setLayout(new BorderLayout());
-	    
-	    /* Trying to set the compmax bounds on the lpane -- should make sure that the grid falls exactly over the image */
-	   // lpane.setBounds(0, 0, 552, 575);
-
-		lPane.add(test, 0);
-		lPane.add(test1.paintMe(), 1);
-
+		JLabel testing = new JLabel();
+		testing = test.BigTest();
+	
+		testing.setLayout(new BorderLayout());
+		frame.setContentPane(testing);
+		frame.add(test1.paintMe());
 		
+		
+		frame.pack();
+		frame.setResizable(false);
+		frame.setVisible(true);
 
-	    frame.add(lPane); //we want to center all of our jPanels
-
-	    frame.setPreferredSize(new Dimension(552, 575));
-	    //frame.setResizable(false);
-
-	    frame.pack();
-	    frame.setVisible(true);		
 	}
 
 	/**
@@ -73,9 +66,23 @@ public class BoardImage {
 }
 
 class imagePanel extends JPanel{
-	protected void paintComponent(Graphics g) {		
-		super.paintComponent(g);
-		g.drawImage(this.getImage("/boardEdit.jpeg"), 0, 0, this);
+	public imagePanel paintMe() {
+		JLabel temp = new JLabel();
+		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg")); 
+		temp.setIcon(icon);
+
+		this.add(temp);
+		return this;
+	}
+	
+	public JLabel BigTest() {
+		JLabel temp = new JLabel();
+		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg")); 
+
+		temp.setIcon(icon);
+		temp.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
+		
+		return temp;
 	}
 
 	public Image getImage(String filePath) {
@@ -100,8 +107,9 @@ class gridPanel extends JPanel{
 	private JLabel[][] grid;
 
 	public gridPanel paintMe(){		
-	//	this.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
+		this.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
 		this.fillGrid();	
+		this.setOpaque(false);
 		return this;
 	}
 	
