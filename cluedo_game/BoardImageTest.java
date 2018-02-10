@@ -39,6 +39,22 @@ public class BoardImageTest {//
 			for (int j = 0; j < 25; j++) {
 				JButton tempButton = new JButton();
 				tempButton.setSize(25,25);
+				tempButton.setEnabled(false);//We can reenable it when we want to
+				switch (board.getSquare(i,j).getSquareType()){
+					case "Entry":
+						tempButton.setBackground(Color.GREEN);
+						tempButton.setForeground(Color.GREEN);
+					case "Floor":
+						tempButton.setBackground(Color.RED);
+						tempButton.setForeground(Color.RED);
+					case "Wall":
+						//tempButton.setBorderPainted(false);
+						tempButton.setBackground(Color.BLACK);
+						tempButton.setForeground(Color.BLACK);
+					default:
+						System.out.println("Something broke");
+						break;
+				}
 			}
 		}
 	}

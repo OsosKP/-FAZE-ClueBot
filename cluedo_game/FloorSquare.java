@@ -46,8 +46,8 @@ public class FloorSquare implements BoardSquare {
      * @return temporary object of type FloorSquare
      */
     @Override
-    public BoardSquare getSquareType() {
-        return new FloorSquare();
+    public String getSquareType() {
+        return "Floor";
     }
 
     @Override

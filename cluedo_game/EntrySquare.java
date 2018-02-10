@@ -90,10 +90,10 @@ public class EntrySquare implements BoardSquare{
 	 * @return temporary object of type EntrySquare
 	 */
 	@Override
-	public BoardSquare getSquareType() {
-		return new EntrySquare();
+	public String getSquareType() {
+		return "Entry";
 	}
 	public String toString(){ return "entry"; }
-	
+
 
 }
