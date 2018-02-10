@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BoardBuilder {
 	
 	public BoardBuilder() {
-		
+		//nothing
 	}
 	
     /*
@@ -327,7 +327,8 @@ public class BoardBuilder {
     }
     
     public static void main (String[] agrs) {
-    	BoardBuilder builderTest
+    	BoardBuilder builderTest = new BoardBuilder();
+    	builderTest.createBoard();
     }
 
 }

@@ -4,7 +4,7 @@ public class WallSquare implements BoardSquare {
     /*
         Instance variables
      */
-    private int[] location;         // Coordinates of this square on the board
+    private int[] location = null;         // Coordinates of this square on the board
     // Navigational pointers
     private BoardSquare above;
     private BoardSquare below;
@@ -13,6 +13,7 @@ public class WallSquare implements BoardSquare {
     /*
     Constructor
      */
+    
     public WallSquare(int x, int y){
     	this.location[0] = x;
     	this.location[1] = y;
