@@ -9,7 +9,7 @@ public class BoardBuilder {
      */
     private BoardSquare[][] board = new BoardSquare[24][25];
     /* Will store all the players in the game */
-    playerList players = new playerList();
+//    playerList players = new playerList();
     private int numPlayers = 0;
 
     /* This will allow is to access the rooms on the fly */
@@ -40,6 +40,9 @@ public class BoardBuilder {
     public Room getKitchen() {return Kitchen;}//Return kitchen
     public Room getStudy() {return Study;}//Return study
     public Room getCellar() {return Cellar;}//Return Cellar
+    public BoardSquare getSquare(int xLoc, int yLoc) {
+        return board[xLoc][yLoc];
+    }
     
     /**
      * addEntrySquare
@@ -89,53 +92,53 @@ public class BoardBuilder {
      * implementation will look the same since we're making our Room Squares
      * walls so they're impassable.
      */
-    public void addBarriersAndSpawnPoints(){
-        int i;  // Indexing loops
-        // Loop to assign top edge barrier squares
-        for(i = 0; i < 24; i++){
-            // board[9][0] and board[14][0] are both spawn points
-            if(i == 9)
-                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("White", 9, 0));
-            else if(i == 14)
-                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("Green", 14, 0));
-            else
-                board[i][0] = new WallSquare(i, 0);
-        }
-
-        // Loop to assign left edge barrier squares
-        for(i = 0; i < 25 ; i++){
-            // board[0][17] is a spawn point
-            if(i == 17)
-                board[0][i] = new FloorSquare(0, i, this.generatePlayer("Mustard", 0, 17));
-            else
-                board[0][i] = new WallSquare(0, i);
-        }
-
-        // Loop to assign right edge barrier squares
-        for(i = 0; i < 25 ; i++){
-            // board[23][6] and board[23][19] are both spawn points
-            if(i == 6)
-                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Peacock", 23, 6));
-            else if(i == 19)
-                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Plum", 23, 19));
-            else
-                board[23][i] = new WallSquare(23, i);
-        }
-
-        // Loop to assign bottom edge barrier squares
-        for(i = 0; i < 24; i++){
-            // board[7][24] is a spawn point
-            if(i == 7)
-                board[i][24] = new FloorSquare(i, 24, this.generatePlayer("Scarlet", 7, 24));
-            else
-                board[i][24] = new WallSquare(i, 24);
-        }
-
-        // Two impassable squares at the top - see Documentation
-        board[6][1] = new WallSquare(6, 1);
-        board[17][1] = new WallSquare(17, 1);
-
-    }
+//    public void addBarriersAndSpawnPoints(){
+//        int i;  // Indexing loops
+//        // Loop to assign top edge barrier squares
+//        for(i = 0; i < 24; i++){
+//            // board[9][0] and board[14][0] are both spawn points
+//            if(i == 9)
+//                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("White", 9, 0));
+//            else if(i == 14)
+//                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("Green", 14, 0));
+//            else
+//                board[i][0] = new WallSquare(i, 0);
+//        }
+//
+//        // Loop to assign left edge barrier squares
+//        for(i = 0; i < 25 ; i++){
+//            // board[0][17] is a spawn point
+//            if(i == 17)
+//                board[0][i] = new FloorSquare(0, i, this.generatePlayer("Mustard", 0, 17));
+//            else
+//                board[0][i] = new WallSquare(0, i);
+//        }
+//
+//        // Loop to assign right edge barrier squares
+//        for(i = 0; i < 25 ; i++){
+//            // board[23][6] and board[23][19] are both spawn points
+//            if(i == 6)
+//                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Peacock", 23, 6));
+//            else if(i == 19)
+//                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Plum", 23, 19));
+//            else
+//                board[23][i] = new WallSquare(23, i);
+//        }
+//
+//        // Loop to assign bottom edge barrier squares
+//        for(i = 0; i < 24; i++){
+//            // board[7][24] is a spawn point
+//            if(i == 7)
+//                board[i][24] = new FloorSquare(i, 24, this.generatePlayer("Scarlet", 7, 24));
+//            else
+//                board[i][24] = new WallSquare(i, 24);
+//        }
+//
+//        // Two impassable squares at the top - see Documentation
+//        board[6][1] = new WallSquare(6, 1);
+//        board[17][1] = new WallSquare(17, 1);
+//
+//    }
 
     /**
      * addWalls
@@ -296,18 +299,17 @@ public class BoardBuilder {
     		
     		
     	}
-    	else { //if we havent created the entry squares for some reason, this will prevent it from breaking everything
+    	else { //if we haven't created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
     		this.createRooms();
     	}
     }
 
-    public Token generatePlayer(String name, int x, int y) { 
-    	//TODO turn this into some kind of circularly linked list
-    	//arrayList of all players, separate from the turnList but contains the same object
-    	Token temp = new Token(x,y,name,numPlayers++);
-    	players.addFirst(temp);
-    	return temp;
-    }
-
+//    public Token generatePlayer(String name, int x, int y) {
+//    	//TODO turn this into some kind of circularly linked list
+//    	//arrayList of all players, separate from the turnList but contains the same object
+//    	Token temp = new Token(x,y,name,numPlayers++);
+//    	players.addFirst(temp);
+//    	return temp;
+//    }
 }
