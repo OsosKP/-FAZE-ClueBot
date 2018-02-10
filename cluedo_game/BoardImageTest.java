@@ -1,62 +1,76 @@
-package cluedo_game;
-
 import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import javax.swing.*;
-import javax.swing.JButton;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import java.io.File;
 
+public class BoardImageTest {
 
-// Input: BoardBuilder object
-// Output: GUI that runs game
+    public BoardImageTest(BufferedImage bi) {
+        int w = bi.getWidth();//Gets the width of the image
+        int h = bi.getHeight();//Gets the height of the image
+        int step = w/3;//Increments by thirds
+        JPanel p = new JPanel(new GridLayout(24,25));
+        p.setOpaque(false);
 
+        int count = 0;
+        for (int ii=0; ii<w; ii+=step) {
+            for (int jj=0; jj<h; jj+=step) {
+                // This is it - GET THE SUB IMAGE
+                Image icon = bi.getSubimage(jj, ii, step, step);
+                if (count%2==1) {
+                    JButton button = new JButton(new ImageIcon(icon));
 
-public class BoardImageTest {//
-	//Initialize all needed objects here for the sake of neatness
-	private JFrame gameBoard = new JFrame("Board");
-	private JButton[][] buttonArray = new JButton[25][24];
-	private BoardBuilder board;
+                    // remove the border - indicate action using a different icon
+                    button.setBorder(null);
 
-	public BoardImageTest(BoardBuilder board){
-		this.board=board;
-		//setUpBoard();
-	}
+                    // // make a 'pressed' icon..
+                    // BufferedImage iconPressed = new BufferedImage(step,step,BufferedImage.TYPE_INT_ARGB);
+                    // Graphics g = iconPressed.getGraphics();
+                    // g.drawImage(icon, 0, 0, p);
+                    // g.setColor(Color.GREEN);
+                    // g.drawRoundRect(
+                    //         0, 0,
+                    //         iconPressed.getWidth(p)-1, iconPressed.getHeight(p)-1,
+                    //         12, 12);
+                    // g.dispose();
+                    // button.setPressedIcon(new ImageIcon(iconPressed));
+					//
+                    // // make it transparent
+                    // //button.setContentAreaFilled(false);
+					//
+                    // button.setActionCommand(""+count);
+                    // button.addActionListener(new ActionListener(){
+                    //     @Override
+                    //     public void actionPerformed(ActionEvent ae) {
+                    //         System.out.println(ae.getActionCommand());
+                    //     }
+                    // });
 
-	public void setUpBoard(){
-		gameBoard.setSize(1000,1000);
-		gameBoard.getContentPane().setLayout(null);
-		gameBoard.setVisible(true);
-		gameBoard.getContentPane().setBackground(Color.DARK_GRAY);
+                    p.add(button);
+                } else {
+                    JLabel label = new JLabel(new ImageIcon(icon));
+                    p.add(label);
+                }
+                count++;
+            }
+        }
+        JPanel center = new JPanel(new GridBagLayout());
+        center.setBackground(Color.BLACK);
+        center.add(p);
+        JOptionPane.showMessageDialog(null, center);
+    }
 
-		JPanel boardPanel = new JPanel();
-		boardPanel.setBackground(Color.LIGHT_GRAY);
-		boardPanel.setBounds(0, 0, 1000, 1000);
-		gameBoard.getContentPane().add(boardPanel);
-		boardPanel.setLayout(new GridLayout(25, 24, 0, 0));
-
-	}
-
-	public void populateBoard(){
-		for (int i = 0; i < 24; i++) {//This code is from the original BoardImage class
-			for (int j = 0; j < 25; j++) {
-				JButton tempButton = new JButton();
-				tempButton.setSize(25,25);
-				tempButton.setEnabled(false);//We can reenable it when we want to
-				switch (board.getSquare(i,j).getSquareType()){
-					case "Entry":
-						tempButton.setBackground(Color.GREEN);
-						tempButton.setForeground(Color.GREEN);
-					case "Floor":
-						tempButton.setBackground(Color.RED);
-						tempButton.setForeground(Color.RED);
-					case "Wall":
-						//tempButton.setBorderPainted(false);
-						tempButton.setBackground(Color.BLACK);
-						tempButton.setForeground(Color.BLACK);
-					default:
-						System.out.println("Something broke");
-						break;
-				}
-			}
-		}
-	}
-
+    public static void main(String[] args) throws IOException {
+        final BufferedImage bi = ImageIO.read(new File("boardEdit.jpeg"));
+        SwingUtilities.invokeLater(new Runnable(){
+            @Override
+            public void run() {
+                new BoardImageTest(bi);
+            }
+        });
+    }
 }

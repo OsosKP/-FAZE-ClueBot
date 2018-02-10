@@ -34,7 +34,7 @@ public class BoardImage {
 
 		testing.setLayout(new BorderLayout());
 		frame.setContentPane(testing);
-			
+
 		frame.add(test1.paintMe());
 
 
