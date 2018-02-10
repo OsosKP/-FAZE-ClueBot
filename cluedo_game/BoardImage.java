@@ -34,7 +34,7 @@ public class BoardImage {
 
 		testing.setLayout(new BorderLayout());
 		frame.setContentPane(testing);
-			
+
 		frame.add(test1.paintMe());
 
 
@@ -78,21 +78,7 @@ class ImagePanel extends JPanel{
 		}
 		return tempImage;
 	}
-	
-	@Override
-    public Dimension getPreferredSize() {
-        return new Dimension(552, 575);
-	}
-	
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(552, 575);
-    }
 
-    @Override
-    public Dimension getMaximumSize() {
-        return new Dimension(552, 575);
-    }
 }
 
 class GridPanel extends JPanel{
@@ -118,10 +104,5 @@ class GridPanel extends JPanel{
 				this.add(grid[i][j]);
 			}
 		}
-	}
-	
-	@Override
-    public Dimension getPreferredSize() {
-        return new Dimension(552, 575);
 	}
 }
