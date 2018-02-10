@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
-public class biboardtest {
+public class BIboardtest {
 
-    public biboardtest(BufferedImage bi) {
+    public BIboardtest(BufferedImage bi) {
 
         JFrame frame = new JFrame("Test Bufferedimage");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,10 +56,7 @@ public class biboardtest {
                     });
 
                     p.add(button);
-                } else {
-                    JLabel label = new JLabel(new ImageIcon(icon));
-                    p.add(label);
-                }
+                } 
                 count++;
             }
         }
@@ -75,7 +72,7 @@ public class biboardtest {
         SwingUtilities.invokeLater(new Runnable(){
             @Override
             public void run() {
-                new biboardtest (bi);
+                new BIboardtest (bi);
             }
         });
     }
