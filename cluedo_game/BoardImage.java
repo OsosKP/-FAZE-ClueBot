@@ -17,7 +17,6 @@ import javax.swing.border.LineBorder;
 public class BoardImage extends JPanel { 
 	//TODO get 2 inner classes, one for the image, another for the grid
 	
-	private JLabel[][] grid;
 	
 
 		/**
@@ -37,17 +36,9 @@ public class BoardImage extends JPanel {
 		this.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
 		this.setLayout(new GridLayout(24, 25));
 		
-		grid = new JLabel[24][25];
-		
-		for (int i = 0; i < 24; i++) {
-			for (int j = 0; j < 25; j++) {
-				grid[i][j] = new JLabel();
-				grid[i][j].setBorder(new LineBorder(Color.BLACK));
-				this.add(grid[i][j]);
-			}
-		}
 		/* KELSEY TRY AND USE THIS!!!! */
 		imagePanel test = new imagePanel();
+		gridPanel test1 = new gridPanel();
 		JFrame frame = new JFrame("JPanel Example");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    // add the Jpanel to the main window
@@ -106,5 +97,28 @@ class imagePanel extends JPanel{
 		}
 		return tempImage;
 	}
+}
 
+class gridPanel extends JPanel{
+	private JLabel[][] grid;
+
+	public gridPanel paintMe() {
+		this.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
+		this.fillGrid();
+		return this;
+	}
+	
+	public void fillGrid() {
+		this.setLayout(new GridLayout(24, 25));
+		
+		grid = new JLabel[24][25];
+		
+		for (int i = 0; i < 24; i++) {
+			for (int j = 0; j < 25; j++) {
+				grid[i][j] = new JLabel();
+				grid[i][j].setBorder(new LineBorder(Color.BLACK));
+				this.add(grid[i][j]);
+			}
+		}
+	}
 }
