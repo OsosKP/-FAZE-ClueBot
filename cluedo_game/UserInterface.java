@@ -26,16 +26,22 @@ public class UserInterface extends JPanel {
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
     // The graphical component of the display
-    private BoardPanel image = new BoardPanel();
-    private JPanel imagePanel = image.getBoardImagePanel();
+//    private BoardPanel image = new BoardPanel();
+//    private JPanel imagePanel = image.getBoardImagePanel();
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
+
+    // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
+    private Token currentPlayer;
+
 
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
      */
     public UserInterface(){
+        // Placeholder player for testing
+        this.currentPlayer = new Token(5, 5, "TestPlayer", 1);
         this.buildGUI();
     }
 
@@ -46,7 +52,7 @@ public class UserInterface extends JPanel {
         // Load list of acceptable commands
         INPUTS_LIST = new AcceptedUserInputs();
         // Set frame size to house JPanels
-        display.setSize(1366, 768);
+        display.setSize(800, 700);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,7 +60,9 @@ public class UserInterface extends JPanel {
         userDisplay.setLayout(new BorderLayout());
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
-        userDisplay.add(imagePanel, BorderLayout.CENTER);
+        // Placeholder panel for image
+        userDisplay.add(placeHolder());
+//        userDisplay.add(imagePanel, BorderLayout.CENTER);
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -63,12 +71,23 @@ public class UserInterface extends JPanel {
     }
 
     /**
+     * Update the currentPlayer variable within the UI class
+     */
+    public void setCurrentPlayer(Token player){
+        this.currentPlayer = player;
+    }
+
+//    public static class Listeners {
+//
+//    }
+
+    /**
      * The user input portion of the GUI
      */
     private class UserInputBox {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
-        private JLabel whoseTurnLabel = new JLabel("     It is now NAME's turn.");
+        private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
         private JLabel promptLabel = new JLabel("     What would you like to do?");
         private JPanel inputPanel;
 
@@ -81,8 +100,10 @@ public class UserInterface extends JPanel {
                 // Only do this if the input field had something in it
                 if(!(inputField.getText().equals(""))) {
                     out.update(output, inputField.getText());
-                    inputField.setText("");
                     System.out.println("You have performed the action: " + inputField.getText());
+                    inputField.setText("");
+                    // Updating with a placeholder token for now
+                    updateInputDisplayPanel(currentPlayer);
                 }
                 inputField.requestFocus();
             }
@@ -99,6 +120,7 @@ public class UserInterface extends JPanel {
         public JPanel createInputPanel(){
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
+
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
@@ -106,7 +128,14 @@ public class UserInterface extends JPanel {
             input.add(inputField, BorderLayout.SOUTH);
             input.add(createPerformActionButton(), BorderLayout.EAST);
 
+            inputField.requestFocus();
+
+
             return input;
+        }
+
+        public void updateInputDisplayPanel(Token p){
+            whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
         }
     }
 
@@ -136,7 +165,7 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.setBackground(Color.GRAY);
             allowedCommandsDisplay.setForeground(Color.white);
 
-            this.updateAllowedCommandsBasedOnSquare(null);
+            this.updateAllowedCommandsBasedOnSquare(currentPlayer);
         }
 
         public void updateAllowedCommandsBasedOnSquare(Token p) {
@@ -169,7 +198,9 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.add(title);
 
             try {
-                if (p != null && p.getInRoom() == null) {
+                if(p == null)
+                    throw new Exception("Player found error");
+                if (p.getInRoom() == null) {
                     switch (p.getSquareOn().getSquareType().toString()) {
                         case "floor":
                             for (String s : INPUTS_LIST.getFloorNavigation()) {
@@ -239,29 +270,41 @@ public class UserInterface extends JPanel {
 
             return output;
         }
-
-
     }
 
     /**
      * The graphical portion of the GUI
      */
-    private class BoardPanel{
-        private BoardImage boardImage;
-        private JPanel boardImagePanel;
-
-        public BoardPanel(){
-            boardImage = new BoardImage();
-            this.boardImagePanel = this.boardImage.returnBoardPanel();
-        }
-
-        public JPanel getBoardImagePanel() {
-            return boardImagePanel;
-        }
-    }
+//    private class BoardPanel{
+//        private BoardImage boardImage;
+//        private JPanel boardImagePanel;
+//
+//        public BoardPanel(){
+//            boardImage = new BoardImage();
+//            this.boardImagePanel = this.boardImage.returnBoardPanel();
+//            boardImagePanel.setBackground(Color.BLACK);
+//
+//        }
+//
+//        public JPanel getBoardImagePanel() {
+//            return boardImagePanel;
+//        }
+//    }
 
 // This update method for the text output might not be used
 //    public void updateOutput(String newText){
 //        out.update(output, newText);
 //    }
+
+    /*
+    A placeholder JPanel while the image is being worked on
+     */
+    public JPanel placeHolder(){
+        JPanel tempPanel = new JPanel();
+        JLabel temp = new JLabel("Placeholder");
+        tempPanel.add(temp);
+        return tempPanel;
+    }
+
+
 }

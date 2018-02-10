@@ -10,7 +10,7 @@ public class Token {
 	private String locationAsString;
 
 	//Constructor
-	public Token(int x, int y,String name, int playerNumber) {
+	public Token(int x, int y, String name, int playerNumber) {
 		this.position[0] = x;
 		this.position[1] = y;
 
