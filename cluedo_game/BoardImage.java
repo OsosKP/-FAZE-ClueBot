@@ -16,11 +16,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class BoardImage { 
+public class BoardImage {
     private JPanel lPane = new JPanel(new CardLayout());
-	imagePanel test = new imagePanel();
-	gridPanel test1 = new gridPanel();
-	
+	ImagePanel test = new ImagePanel();
+	GridPanel test1 = new GridPanel();
+
 	/**
 	 * Creates and returns a JPanel based on the board image
 	 * @return
@@ -29,15 +29,15 @@ public class BoardImage {
 		/* Creating the JFrame, setting default operations */
 		JFrame frame = new JFrame("JPanel Example");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		JLabel testing = new JLabel();
 		testing = test.BigTest();
-	
+
 		testing.setLayout(new BorderLayout());
 		frame.setContentPane(testing);
 		frame.add(test1.paintMe());
-		
-		
+
+
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);
@@ -48,14 +48,14 @@ public class BoardImage {
 	 * returns the height of the image that is loaded into this jPanel
 	 * @return
 	 */
-//	public int returnHeight(imagePanel temp) {
-//		return temp.height; 
+//	public int returnHeight(ImagePanel temp) {
+//		return temp.height;
 //	}
 	/**
 	 * returns the width of the image that is loaded into this jPanel
 	 * @return
 	 */
-//	public int returnWidth(imagePanel temp) {
+//	public int returnWidth(ImagePanel temp) {
 //		return temp.width;
 //	}
 
@@ -65,23 +65,23 @@ public class BoardImage {
 	}
 }
 
-class imagePanel extends JPanel{
-	public imagePanel paintMe() {
+class ImagePanel extends JPanel{
+	public ImagePanel paintMe() {
 		JLabel temp = new JLabel();
-		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg")); 
+		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg"));
 		temp.setIcon(icon);
 
 		this.add(temp);
 		return this;
 	}
-	
+
 	public JLabel BigTest() {
 		JLabel temp = new JLabel();
-		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg")); 
+		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg"));
 
 		temp.setIcon(icon);
 		temp.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
-		
+
 		return temp;
 	}
 
@@ -93,7 +93,7 @@ class imagePanel extends JPanel{
 			/* Loads the image, and assigns it to the tempImage var */
 			URL imagePath = BoardImage.class.getResource(filePath);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-			
+
 
 		}
 		catch(Exception e){ //if the filePath does not exist, or something else messed up
@@ -103,21 +103,21 @@ class imagePanel extends JPanel{
 	}
 }
 
-class gridPanel extends JPanel{
+class GridPanel extends JPanel{
 	private JLabel[][] grid;
 
-	public gridPanel paintMe(){		
+	public GridPanel paintMe(){
 		this.setBounds(0, 0, 552, 575); //needed in order for 24x25 to work
-		this.fillGrid();	
+		this.fillGrid();
 		this.setOpaque(false);
 		return this;
 	}
-	
+
 	public void fillGrid() {
 		this.setLayout(new GridLayout(24, 25));
-		
+
 		grid = new JLabel[24][25];
-		
+
 		for (int i = 0; i < 24; i++) {
 			for (int j = 0; j < 25; j++) {
 				grid[i][j] = new JLabel();
