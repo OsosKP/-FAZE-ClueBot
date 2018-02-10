@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class BoardImage {
-    private JPanel lPane = new JPanel(new CardLayout());
 	ImagePanel test = new ImagePanel();
 	GridPanel test1 = new GridPanel();
 
@@ -31,10 +30,10 @@ public class BoardImage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel testing = new JLabel();
-		testing = test.BigTest();
+		testing = test.createImage();
 
 		testing.setLayout(new BorderLayout());
-		frame.setContentPane(testing);https://stackoverflow.com/questions/594994/how-to-make-jtextfield-expand-with-a-borderlayout-java
+		frame.setContentPane(testing);
 			
 		frame.add(test1.paintMe());
 
@@ -45,21 +44,6 @@ public class BoardImage {
 
 	}
 
-	/**
-	 * returns the height of the image that is loaded into this jPanel
-	 * @return
-	 */
-//	public int returnHeight(ImagePanel temp) {
-//		return temp.height;
-//	}
-	/**
-	 * returns the width of the image that is loaded into this jPanel
-	 * @return
-	 */
-//	public int returnWidth(ImagePanel temp) {
-//		return temp.width;
-//	}
-
 	public static void main (String[] agrs) {
 		BoardImage test = new BoardImage();
 		test.returnBoardPanel();
@@ -68,7 +52,7 @@ public class BoardImage {
 
 class ImagePanel extends JPanel{
 
-	public JLabel BigTest() {
+	public JLabel createImage() {
 		JLabel temp = new JLabel();
 		ImageIcon icon = new ImageIcon(this.getImage("/boardEdit.jpeg"));
 
