@@ -5,7 +5,12 @@ import java.util.ArrayList;
 public class BoardBuilder {
 	
 	public BoardBuilder() {
-		//nothing
+       	/* Calling classes to create board */
+       	this.createRooms();
+       	this.addEntrySquares();
+       	this.addWalls();
+       	this.addFloorSquares();			
+    	
 	}
 	
     /*
@@ -311,19 +316,33 @@ public class BoardBuilder {
     	}
     }
     /**
-     * will create the board and everything (hopefully wont break)
+     * will over-write the current board
      */
-    public void createBoard() {
-    	if (!this.boardCreated) {
-        	/* Calling classes to create board */
-        	this.createRooms();
-        	this.addEntrySquares();
-        	this.addWalls();
-        	this.addFloorSquares();		
-    	}
-    	else {
-    		System.err.println("Board Already Created!");
-    	}
+    public void RecreateBoard() {
+    	System.err.println("BOARD GETTING ERASED");
+    	
+    	board = new BoardSquare[24][25];
+    	numPlayers = 0;
+    	
+        Ballroom = null;
+        Conservatory = null;
+        DiningRoom = null;
+        BilliardRoom = null;
+        Library = null;
+        Lounge = null;
+        Hall = null;
+        Kitchen = null;
+        Study = null;
+        Cellar = null;
+        
+        /* Will prevent us from breaking everything */
+       entrySquaresCreated = false;
+    	
+       	/* Calling classes to create board */
+       	this.createRooms();
+       	this.addEntrySquares();
+       	this.addWalls();
+       	this.addFloorSquares();			
     }
 
 }

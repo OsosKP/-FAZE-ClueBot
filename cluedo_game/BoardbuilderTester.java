@@ -4,7 +4,7 @@ public class BoardbuilderTester {
    
     public static void main (String[] agrs) {
     	BoardBuilder builderTest = new BoardBuilder();
-    	builderTest.createBoard();
+    	builderTest.RecreateBoard();
     }
 
 }

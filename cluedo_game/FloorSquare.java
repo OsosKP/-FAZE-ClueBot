@@ -4,7 +4,7 @@ public class FloorSquare implements BoardSquare {
     //Instance Variables
     private Token playerOn;         // The player token currently on the square
     private final Token spawnPoint; // The player who spawns on this square
-    private int[] location;         // Coordinates of this square on the board
+    private int[] location = null;         // Coordinates of this square on the board
     // Navigational pointers
     private BoardSquare above;
     private BoardSquare below;
@@ -15,12 +15,17 @@ public class FloorSquare implements BoardSquare {
     //Constructors
     //
     public FloorSquare(int x, int y, Token spawnPoint) {
-	    this.location[0] = x;
+	    /* Initializing the array */
+    	this.location = new int[2];
+    	this.location[0] = x;
 	    this.location[1] = y;
   		this.spawnPoint = spawnPoint;
   	}
 
   	public FloorSquare(int x, int y) {
+	    /* Initializing the array */
+    	this.location = new int[2];
+    	
   		this.location[0] = x;
   		this.location[1] = y;
   		this.spawnPoint = null;
