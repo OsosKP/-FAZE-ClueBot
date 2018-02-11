@@ -18,7 +18,6 @@ public class Token {
 		this.playerNumber = playerNumber;
 		this.inRoom = null;
 		// This is set to the spawn point when the board is created
-		this.squareOn = null;
 	}
 
 	// When entering a room, player disappears from the board

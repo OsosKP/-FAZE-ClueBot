@@ -36,16 +36,29 @@ public class UserInterface extends JPanel {
     private Token[] playerList;
     private int playerListIndex;
 
+    BoardBuilder gameBoard;
+
 
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
      */
     public UserInterface(){
-        // Placeholder player for testing
+        // Placeholder board and players for testing
         playerListIndex = 0;
-        BoardBuilder.setPlayerList();
+        gameBoard = new BoardBuilder();
         this.playerList = BoardBuilder.getPlayerList();
+
+        /*
+        Temporary tester printing
+         */
+        for(Token p : playerList){
+            System.out.println("Name: " + p.getName());
+            System.out.println("\tLocation: " + p.getSquareOn().toString());
+        }
+
+
+
         this.currentPlayer = playerList[0];
         this.buildGUI();
     }
@@ -86,6 +99,11 @@ public class UserInterface extends JPanel {
 //
 //    }
 
+    public void refreshDisplay(Token p){
+        in.updateInputDisplayPanel(p);
+        out.updateAllowedCommandsBasedOnSquare(p);
+    }
+
     /**
      * The user input portion of the GUI
      */
@@ -111,7 +129,7 @@ public class UserInterface extends JPanel {
                     playerListIndex++;
                     currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
                     // Update input display with that player
-                    updateInputDisplayPanel(currentPlayer);
+                    refreshDisplay(currentPlayer);
                 }
                 inputField.requestFocus();
             }
@@ -154,13 +172,28 @@ public class UserInterface extends JPanel {
         JTextArea textOutput;
         JScrollPane scroller;
         JPanel allowedCommandsDisplay;
+        JLabel locationReadout;
+        JLabel possibleCommandsString;
+        JLabel commandsList;
 
         public OutputTextDisplay(){
             textOutput = new JTextArea("", 10, 15);
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
 
-            this.createAllowedCommandsDisplay();
+            createAllowedCommandsDisplay();
+
+            locationReadout = new JLabel("Welcome to Cluedo!");
+            locationReadout.setForeground(Color.white);
+            locationReadout.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(locationReadout);
+
+            possibleCommandsString = new JLabel("Possible Commands:");
+            possibleCommandsString.setForeground(Color.white);
+            possibleCommandsString.setHorizontalAlignment(JLabel.CENTER);
+            allowedCommandsDisplay.add(possibleCommandsString);
+
+            allowedCommandsDisplay.revalidate();
 
             scroller = new JScrollPane(textOutput);
         }
@@ -172,44 +205,37 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.setOpaque(true);
             allowedCommandsDisplay.setBackground(Color.GRAY);
             allowedCommandsDisplay.setForeground(Color.white);
-
-            this.updateAllowedCommandsBasedOnSquare(currentPlayer);
         }
 
         public void updateAllowedCommandsBasedOnSquare(Token p) {
-            // This is for a readout to tell the player where they are
-            JLabel locationReadout;
-
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing, won't be in the game
             if(p == null)
-                locationReadout = new JLabel("Not on the board. Testing?");
+                locationReadout.setText("Not on the board. Testing?");
             else if(p.getSquareOn() instanceof FloorSquare)
-                locationReadout = new JLabel("You are on a Floor square.");
+                locationReadout.setText("You are on a Floor square.");
             // This will only be accessed after a player exits the room
             // Because when a player enters this square from a floor square, they are immediately taken to the room
             else if(p.getSquareOn() instanceof EntrySquare)
-                locationReadout = new JLabel("You are on an Entry square to: "
+                locationReadout.setText("You are on an Entry square to: "
                         + ((EntrySquare) p.getSquareOn()).getRoomName());
             else if(p.getSquareOn() instanceof WallSquare)
-                locationReadout = new JLabel("Wall Square? Something went wrong...");
+                locationReadout.setText("Wall Square? Something went wrong...");
             else
-                locationReadout = new JLabel("You are in the " + p.getInRoom().getName());
+                locationReadout.setText("You are in the " + p.getInRoom().getName());
 
-            locationReadout.setForeground(Color.white);
-            locationReadout.setHorizontalAlignment(JLabel.CENTER);
-            allowedCommandsDisplay.add(locationReadout);
-
-            JLabel title = new JLabel("You May:");
-            title.setForeground(Color.white);
-            title.setHorizontalAlignment(JLabel.CENTER);
-            allowedCommandsDisplay.add(title);
+            /*
+            List of possible commands based on square
+            TODO: Remove, repopulate, re-add
+            This list of commands currently just keeps adding on rather than revalidating!
+             */
+//            allowedCommandsDisplay.remove(commandsList);
 
             try {
                 if(p == null)
                     throw new Exception("Player found error");
                 if (p.getInRoom() == null) {
-                    switch (p.getSquareOn().getSquareType().toString()) {
+                    switch (p.getSquareOn().getSquareType()) {
                         case "floor":
                             for (String s : INPUTS_LIST.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
@@ -241,15 +267,8 @@ public class UserInterface extends JPanel {
                     }
                 }
                 else {
-                    System.out.println("CHECK to see that we're getting floor nav");
                     ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
-                    System.out.println("CHECK after getNav");
                     for (String s : options) {
-                        /*
-                        Check to make sure we're getting input
-                         */
-                        System.out.println(s);
-
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.white);
                         d.setHorizontalAlignment(JLabel.CENTER);

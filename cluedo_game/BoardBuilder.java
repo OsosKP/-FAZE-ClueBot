@@ -30,6 +30,15 @@ public class BoardBuilder {
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
 
+    public BoardBuilder() {
+        /* Calling classes to create board */
+        setPlayerList();   // This method is temporary
+        this.createRooms();
+        this.addBarriersAndSpawnPoints();
+        this.addWalls();
+        this.addEntrySquares();
+        this.addFloorSquares();
+    }
 
 
     /*
@@ -50,18 +59,6 @@ public class BoardBuilder {
     }
     public static Token getPlayerByIndex(int index) {
         return players[index];
-    }
-
-
-
-    public BoardBuilder() {
-        /* Calling classes to create board */
-        setPlayerList();   // This method is temporary
-        this.createRooms();
-        this.addBarriersAndSpawnPoints();
-        this.addWalls();
-        this.addEntrySquares();
-        this.addFloorSquares();
     }
 
     //
@@ -142,10 +139,14 @@ public class BoardBuilder {
         // Loop to assign top edge barrier squares
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
-            if(i == 9)
+            if(i == 9) {
                 board[0][i] = new FloorSquare(i, 0, players[0]);
-            else if(i == 14)
+                players[0].setSquareOn(board[0][9]);
+            }
+            else if(i == 14) {
                 board[0][i] = new FloorSquare(i, 0, players[1]);
+                players[1].setSquareOn(board[0][14]);
+            }
             else
                 board[0][i] = new WallSquare(i, 0);
         }
@@ -153,8 +154,10 @@ public class BoardBuilder {
         // Loop to assign left edge barrier squares
         for(i = 0; i < 24 ; i++){
             // board[0][17] is a spawn point
-            if(i == 17)
+            if(i == 17) {
                 board[i][0] = new FloorSquare(0, i, players[2]);
+                players[2].setSquareOn(board[17][0]);
+            }
             else
                 board[i][0] = new WallSquare(0, i);
         }
@@ -162,10 +165,14 @@ public class BoardBuilder {
         // Loop to assign right edge barrier squares
         for(i = 0; i < 24 ; i++){
             // board[23][6] and board[23][19] are both spawn points
-            if(i == 6)
+            if(i == 6) {
                 board[i][23] = new FloorSquare(23, i, players[3]);
-            else if(i == 19)
+                players[3].setSquareOn(board[6][23]);
+            }
+            else if(i == 19) {
                 board[i][23] = new FloorSquare(23, i, players[4]);
+                players[4].setSquareOn(board[19][23]);
+            }
             else
                 board[i][23] = new WallSquare(23, i);
         }
@@ -173,8 +180,10 @@ public class BoardBuilder {
         // Loop to assign bottom edge barrier squares
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
-            if(i == 7)
+            if(i == 7) {
                 board[24][i] = new FloorSquare(i, 24, players[5]);
+                players[5].setSquareOn(board[24][7]);
+            }
             else
                 board[24][i] = new WallSquare(i, 24);
         }
@@ -182,7 +191,6 @@ public class BoardBuilder {
         // Two impassable squares at the top - see Documentation
         board[1][6] = new WallSquare(6, 1);
         board[1][17] = new WallSquare(17, 1);
-
     }
 
     /**

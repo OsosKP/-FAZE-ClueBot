@@ -67,12 +67,6 @@ public class AcceptedUserInputs {
     }
 
     public ArrayList<String> getFloorNavigation() {
-
-        System.out.println("CHECK we are in getFloorNavigation");
-
-        for(String s : this.floorNavigation)
-            System.out.println(s);
-
         return floorNavigation;
     }
     public ArrayList<String> getEntryChoices() {
@@ -90,13 +84,4 @@ public class AcceptedUserInputs {
     public ArrayList<String> getRoomNavigation() {
         return roomNavigation;
     }
-
-    public void tester(){
-        for(String s : this.floorNavigation)
-            System.out.println(s);
-    }
-
-
-
-
 }
