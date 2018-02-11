@@ -21,7 +21,7 @@ public class BoardImage {
 	 * default constructor
 	 */
 	public BoardImage() {
-		// Empty
+		this.createPanel();
 	}
 	/**
 	 * returns a panel that can be added to a JFrame
@@ -43,10 +43,10 @@ public class BoardImage {
 	 */
 	public void createPanel() {
         BufferedImage test = null;
-        
+
         try {
             test = ImageIO.read(new File("board.jpg"));
-        } 
+		}
         catch (IOException e) {
         	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
         	try {

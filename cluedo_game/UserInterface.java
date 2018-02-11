@@ -26,9 +26,15 @@ public class UserInterface extends JPanel {
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
+
+
+
     // The graphical component of the display
-    private BoardPanel image = new BoardPanel();
-    private JPanel imagePanel = image.getBoardImagePanel();
+//    private BoardPanel image = new BoardPanel();
+//    private JPanel imagePanel = image.getBoardImagePanel();
+
+
+
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
@@ -66,10 +72,11 @@ public class UserInterface extends JPanel {
 
         // BorderLayout for overall JPanel
         userDisplay.setLayout(new BorderLayout());
+        // Add the input and output panels in the appropriate positions
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        userDisplay.add(imagePanel);
+        userDisplay.add(placeHolder());
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -84,10 +91,6 @@ public class UserInterface extends JPanel {
         this.currentPlayer = player;
     }
 
-//    public static class Listeners {
-//
-//    }
-
     public void refreshDisplay(Token p){
         in.updateInputDisplayPanel(p);
         out.updateAllowedCommandsBasedOnSquare(p);
@@ -101,11 +104,6 @@ public class UserInterface extends JPanel {
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
         private JLabel promptLabel = new JLabel("     What would you like to do?");
-        private JPanel inputPanel;
-
-        public UserInputBox(){
-            inputPanel = createInputPanel();
-        }
 
         public JPanel createInputPanel(){
             JPanel input = new JPanel();
@@ -120,7 +118,6 @@ public class UserInterface extends JPanel {
             input.add(startGameButton, BorderLayout.EAST);
 
             inputField.requestFocus();
-
 
             return input;
         }
@@ -146,6 +143,7 @@ public class UserInterface extends JPanel {
                 input.add(createPerformActionButton(), BorderLayout.EAST);
                 updateInputDisplayPanel(currentPlayer);
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
+                inputField.setText("");
                 input.revalidate();
                 output.revalidate();
             }
@@ -345,7 +343,7 @@ public class UserInterface extends JPanel {
 
         public JPanel createOutputPanel(){
             JPanel output = new JPanel();
-            output.setLayout(new BoxLayout(output, BoxLayout.Y_AXIS));
+            output.setLayout(new GridLayout(2, 1));
             output.add(scroller);
             output.add(allowedCommandsDisplay);
 
