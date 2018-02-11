@@ -84,4 +84,35 @@ public class AcceptedUserInputs {
     public ArrayList<String> getRoomNavigation() {
         return roomNavigation;
     }
+
+    public boolean checkForValidUserInputNavigation(Token p, String in){
+        boolean matchFound = false;
+        // Perform these checks if the player is not in a room
+        if(p.getInRoom() == null) {
+            switch (p.getSquareOn().toString()) {
+                case "floor":
+                    for (String s : floorNavigation) {
+                        if (s.equals(in))
+                            matchFound = true;
+                    }
+                    break;
+                case "entry":
+                    for (String s : entryChoices) {
+                        if (s.equals(in))
+                            matchFound = true;
+                    }
+                default:
+                    System.out.println("ERROR in player location");
+            }
+        }
+        // If the player is in a room and NOT guessing, we come here
+        else{
+            for(String s : roomNavigation){
+                if(s.equals(in))
+                    matchFound = true;
+            }
+        }
+        return matchFound;
+    }
+
 }
