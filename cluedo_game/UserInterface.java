@@ -1,6 +1,7 @@
 package cluedo_game;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,16 +50,6 @@ public class UserInterface extends JPanel {
         gameBoard = new BoardBuilder();
         this.playerList = BoardBuilder.getPlayerList();
 
-        /*
-        Temporary tester printing
-         */
-        for(Token p : playerList){
-            System.out.println("Name: " + p.getName());
-            System.out.println("\tLocation: " + p.getSquareOn().toString());
-        }
-
-
-
         this.currentPlayer = playerList[0];
         this.buildGUI();
     }
@@ -80,7 +71,6 @@ public class UserInterface extends JPanel {
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
         userDisplay.add(placeHolder());
-//        userDisplay.add(imagePanel, BorderLayout.CENTER);
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -118,7 +108,10 @@ public class UserInterface extends JPanel {
             inputPanel = createInputPanel();
         }
 
-        class UserInputListener_FloorSquare implements ActionListener {
+        /**
+         * This ActionListener reads when somebody pressed the "Perform Action" button
+         */
+        class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event){
                 // Only do this if the input field had something in it
                 if(!(inputField.getText().equals(""))) {
@@ -137,7 +130,7 @@ public class UserInterface extends JPanel {
 
         private JButton createPerformActionButton(){
             JButton performAction = new JButton("Perform Action");
-            ActionListener listener = new UserInputListener_FloorSquare();
+            ActionListener listener = new UserInputListener();
             performAction.addActionListener(listener);
 
             return performAction;
@@ -174,7 +167,7 @@ public class UserInterface extends JPanel {
         JPanel allowedCommandsDisplay;
         JLabel locationReadout;
         JLabel possibleCommandsString;
-        JLabel commandsList;
+        JPanel possibleCommandsList;
 
         public OutputTextDisplay(){
             textOutput = new JTextArea("", 10, 15);
@@ -183,15 +176,16 @@ public class UserInterface extends JPanel {
 
             createAllowedCommandsDisplay();
 
-            locationReadout = new JLabel("Welcome to Cluedo!");
+            locationReadout = new JLabel("<html>Welcome to Cluedo!<br/>Possible Commands:</html>");
             locationReadout.setForeground(Color.white);
             locationReadout.setHorizontalAlignment(JLabel.CENTER);
-            allowedCommandsDisplay.add(locationReadout);
+            allowedCommandsDisplay.add(locationReadout, BorderLayout.NORTH);
 
-            possibleCommandsString = new JLabel("Possible Commands:");
-            possibleCommandsString.setForeground(Color.white);
-            possibleCommandsString.setHorizontalAlignment(JLabel.CENTER);
-            allowedCommandsDisplay.add(possibleCommandsString);
+            possibleCommandsList = new JPanel();
+            possibleCommandsList.setBackground(Color.GRAY);
+            possibleCommandsList.setLayout(new GridLayout(4, 1));
+            possibleCommandsList.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.BLACK));
+            allowedCommandsDisplay.add(possibleCommandsList, BorderLayout.CENTER);
 
             allowedCommandsDisplay.revalidate();
 
@@ -200,8 +194,8 @@ public class UserInterface extends JPanel {
 
         public void createAllowedCommandsDisplay(){
             allowedCommandsDisplay = new JPanel();
-            allowedCommandsDisplay.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
-            allowedCommandsDisplay.setLayout(new GridLayout(10, 1));
+            allowedCommandsDisplay.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.BLACK));
+            allowedCommandsDisplay.setLayout(new BorderLayout());
             allowedCommandsDisplay.setOpaque(true);
             allowedCommandsDisplay.setBackground(Color.GRAY);
             allowedCommandsDisplay.setForeground(Color.white);
@@ -213,23 +207,16 @@ public class UserInterface extends JPanel {
             if(p == null)
                 locationReadout.setText("Not on the board. Testing?");
             else if(p.getSquareOn() instanceof FloorSquare)
-                locationReadout.setText("You are on a Floor square.");
+                locationReadout.setText("<html>You are on a Floor square.<br/>Possible Commands:</html>");
             // This will only be accessed after a player exits the room
             // Because when a player enters this square from a floor square, they are immediately taken to the room
             else if(p.getSquareOn() instanceof EntrySquare)
-                locationReadout.setText("You are on an Entry square to: "
-                        + ((EntrySquare) p.getSquareOn()).getRoomName());
+                locationReadout.setText("<html>You are on an Entry square to: </br></html>"
+                        + ((EntrySquare) p.getSquareOn()).getRoomName() + "<html><br/>Possible Commands:</html>");
             else if(p.getSquareOn() instanceof WallSquare)
                 locationReadout.setText("Wall Square? Something went wrong...");
             else
-                locationReadout.setText("You are in the " + p.getInRoom().getName());
-
-            /*
-            List of possible commands based on square
-            TODO: Remove, repopulate, re-add
-            This list of commands currently just keeps adding on rather than revalidating!
-             */
-//            allowedCommandsDisplay.remove(commandsList);
+                locationReadout.setText("You are in the " + p.getInRoom().getName() + "<html><br/>Possible Commands:</html>");
 
             try {
                 if(p == null)
@@ -237,30 +224,31 @@ public class UserInterface extends JPanel {
                 if (p.getInRoom() == null) {
                     switch (p.getSquareOn().getSquareType()) {
                         case "floor":
-                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-                                JLabel d = new JLabel(s);
-                                d.setForeground(Color.white);
-                                d.setHorizontalAlignment(JLabel.CENTER);
-                                allowedCommandsDisplay.add(d);
-                            }
+//                            for (String s : INPUTS_LIST.getFloorNavigation()) {
+//                                JLabel d = new JLabel(s);
+//                                d.setForeground(Color.yellow);
+//                                d.setHorizontalAlignment(JLabel.CENTER);
+//                                possibleCommandsList.add(d);
+//                            }
                             break;
                         case "entry":
                             for (String s : INPUTS_LIST.getEntryChoices()) {
                                 JLabel d = new JLabel(s);
-                                d.setForeground(Color.white);
+                                d.setForeground(Color.yellow);
                                 d.setHorizontalAlignment(JLabel.CENTER);
-                                allowedCommandsDisplay.add(d);
+                                possibleCommandsList.add(d);
                             }
                             break;
                         case "wall":
                             throw new Exception("Player is on a wall square.");
                         default:
                             // Testing case for board creation
+                            possibleCommandsList.removeAll();
                             for (String s : INPUTS_LIST.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.yellow);
                                 d.setHorizontalAlignment(JLabel.CENTER);
-                                allowedCommandsDisplay.add(d);
+                                possibleCommandsList.add(d);
                             }
                             break;
 
@@ -270,9 +258,9 @@ public class UserInterface extends JPanel {
                     ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);
-                        d.setForeground(Color.white);
+                        d.setForeground(Color.yellow);
                         d.setHorizontalAlignment(JLabel.CENTER);
-                        allowedCommandsDisplay.add(d);
+                        possibleCommandsList.add(d);
                     }
                 }
             } catch (Exception e) {
