@@ -186,21 +186,23 @@ public class BoardImage {
 	 * @param finY = the final Y starting position
 	 * @return the JPanel that will represent the new bord
 	 */
-	public JPanel move(int initX, int initY, int finX, int finY) {
+	public JPanel move(int initY, int initX, int finY, int finX) {
 		/* Creating new JPanel -- set = to an empty layout */
 		JPanel newPanel = this.returnEmptyGridLayout();
 
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finX][finY] = this.editedBoard[initX][initY];
+		this.editedBoard[finY][finX] = this.editedBoard[initY][initX];
 
 		/* Returning the old JButton to its original colour */
-		this.editedBoard[initX][initY] = this.defaultBoard[initX][initY];
+		this.editedBoard[initY][initX] = this.defaultBoard[initY][initX];
 
 		/* Need to recreate the JPanel based on the new */
 		for (int rows = 0; rows < 25; rows++) {
 			for (int cols = 0; cols < 24; cols++) {
 				/* This *should* correctly re-add the JButtons to the JPanel */
-				newPanel.add(this.editedBoard[rows][cols]);
+				JButton temp = this.editedBoard[rows][cols];
+				temp.setBorder(null);
+				newPanel.add(temp);
 			}
 		}
 		return newPanel;

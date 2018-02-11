@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import java.util.concurrent.TimeUnit;
 
 /**
  * UserInterface
@@ -81,11 +82,21 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        userDisplay.add(placeHolder());
+        JPanel placeHolder = placeHolder();
+        userDisplay.add(placeHolder);
+
+        JPanel movementPanel = movementUpdate();
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
         // Make the UI visible
+        display.setVisible(true);
+
+        for (int i=0;i<100000;i++) System.out.println("hello");
+
+        display.setVisible(false);
+        userDisplay.remove(placeHolder);
+        userDisplay.add(movementPanel);
         display.setVisible(true);
     }
 
@@ -391,6 +402,24 @@ public class UserInterface extends JPanel {
         }
 
         JPanel tempPanel = boardimage.returnPanel(bi);
+        return tempPanel;
+    }
+
+    public JPanel movementUpdate(){
+
+        //This is super shit code that needs to be rewritten
+
+        BufferedImage bi = null;
+        BoardImage boardimage = new BoardImage();
+        try {
+            bi = ImageIO.read(new File("board1.jpg"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JPanel tempPanel = boardimage.returnPanel(bi);
+        tempPanel = boardimage.move(0,9,1,9);
         return tempPanel;
     }
 
