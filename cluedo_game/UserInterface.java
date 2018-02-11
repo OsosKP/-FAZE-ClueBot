@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 /**
  * UserInterface
@@ -375,9 +380,17 @@ public class UserInterface extends JPanel {
     A placeholder JPanel while the image is being worked on
      */
     public JPanel placeHolder(){
-        JPanel tempPanel = new JPanel();
-        JLabel temp = new JLabel("Placeholder");
-        tempPanel.add(temp);
+
+        BufferedImage bi = null;
+        BoardImage boardimage = new BoardImage();
+        try {
+            bi = ImageIO.read(new File("board1.jpg"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JPanel tempPanel = boardimage.returnPanel(bi);
         return tempPanel;
     }
 
