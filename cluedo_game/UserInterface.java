@@ -27,8 +27,8 @@ public class UserInterface extends JPanel {
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
     // The graphical component of the display
-//    private BoardPanel image = new BoardPanel();
-//    private JPanel imagePanel = image.getBoardImagePanel();
+    private BoardPanel image = new BoardPanel();
+    private JPanel imagePanel = image.getBoardImagePanel();
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
@@ -69,7 +69,7 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        userDisplay.add(placeHolder());
+        userDisplay.add(imagePanel);
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -356,21 +356,20 @@ public class UserInterface extends JPanel {
     /**
      * The graphical portion of the GUI
      */
-//    private class BoardPanel{
-//        private BoardImage boardImage;
-//        private JPanel boardImagePanel;
-//
-//        public BoardPanel(){
-//            boardImage = new BoardImage();
-//            this.boardImagePanel = this.boardImage.returnBoardPanel();
+    private class BoardPanel{
+        private BoardImage boardImage;
+        private JPanel boardImagePanel;
+
+        public BoardPanel(){
+            boardImage = new BoardImage();
+            boardImagePanel = boardImage.getImagePanel();
 //            boardImagePanel.setBackground(Color.BLACK);
-//
-//        }
-//
-//        public JPanel getBoardImagePanel() {
-//            return boardImagePanel;
-//        }
-//    }
+        }
+
+        public JPanel getBoardImagePanel() {
+            return boardImagePanel;
+        }
+    }
 
     /*
     A placeholder JPanel while the image is being worked on
