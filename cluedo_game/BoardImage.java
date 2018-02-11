@@ -131,7 +131,8 @@ public class BoardImage {
         /* Loop that goes through the given image, splitting it up, the  */
         for (int ii=0; ii<height; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
-            for (int jj=0; jj<width; jj+=step) {
+            yIndex = 0;
+        	for (int jj=0; jj<width; jj+=step) {
 
             	/* Getting the sub-image of the given BufferedImage */
             	System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
@@ -168,13 +169,12 @@ public class BoardImage {
                 this.editedBoard[xIndex][yIndex] = button;
                 
                 count++;
-                
+                yIndex++;
                 /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
                 p.add(button);
              }
             /* Incrementing array counters */
             xIndex++;
-            yIndex++;
         }
         return p;
 	}
@@ -183,7 +183,7 @@ public class BoardImage {
 		JPanel newPanel = null;
 		
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]
+		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of 
 		
 		
 		return newPanel;
