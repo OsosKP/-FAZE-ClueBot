@@ -28,81 +28,82 @@ public class BoardImage {
 	 */
 	public JPanel returnPanel(BufferedImage bi) {
 		this.bi = bi;
-		
-		JPanel p = this.returnEmptyGridLayou();
+
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
-		
+
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		return holder;
 	}
 	/**
-	 * returns a panel that can be added to a JFrame 
+	 * returns a panel that can be added to a JFrame
 	 * @return
 	 */
 	public JPanel returnPanel() {
         BufferedImage test = null;
-        
+
         try {
-            test = ImageIO.read(new File("board.jpg"));
-        } 
+            test = ImageIO.read(new File("board1.jpg"));
+        }
         catch (IOException e) {
         	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
         	try {
-            	URL url = new URL("https://i.imgur.com/A01Gmjw.jpg");//http://i.stack.imgur.com/SNN04.png
-            	bi = ImageIO.read(url);
+            	//URL url = new URL("https://i.imgur.com/DVoCYy1.png");
+            	//bi = ImageIO.read(url);
+				System.out.println("Uh oh");
         	}
         	catch (Exception q) {
         		System.err.println("Unable to find image file in local system AND has no conenction to imgur");
         	}
 
         }
-     
+
 		this.bi = test;
-		
-		JPanel p = this.returnEmptyGridLayou();
+
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
-		
+
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		return holder;
 	}
 	/**
-	 * test method that tests with the default map 
+	 * test method that tests with the default map
 	 * @param bi
 	 */
 	public void testMe(BufferedImage bi) {
         JFrame frame = new JFrame("Test Bufferedimage");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-		this.bi = bi;	
-		
-		JPanel p = this.returnEmptyGridLayou();
+
+		this.bi = bi;
+
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
-		
+
         /* Setting frame size -- Will be removed */
         frame.setSize(this.width,this.height);
-        frame.setVisible(true);	
-		
+        frame.setVisible(true);
+
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		frame.add(holder);
-		
+
 	}
 	/**
 	 * returns a JPanel with an empty grid layout -- will be filled with JButtons later
 	 * @return
 	 */
-	private JPanel returnEmptyGridLayou() {
-        /* Getting the width and height of the given image */ 
+	private JPanel returnEmptyGridLayout() {
+        /* Getting the width and height of the given image */
         width = bi.getWidth();
         height = bi.getHeight();
-        
+
         /* ?? */
-        step = height/23;
-        
+        step = 23;
+
         /* Creating JPanel -- will represent the grid that will overly the image */
-        JPanel p = new JPanel(new GridLayout(23,23));
+        JPanel p = new JPanel(new GridLayout(25,24));
         p.setOpaque(false);
         return p;
 	}
@@ -114,16 +115,16 @@ public class BoardImage {
 	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
         int count = 0;
-        
+
         /* Loop that goes through the given image, splitting it up, the  */
-        for (int ii=0; ii<width; ii+=step) {
+        for (int ii=0; ii<height; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
-            for (int jj=0; jj<height; jj+=step) {
-            	
+            for (int jj=0; jj<width; jj+=step) {
+
             	/* Getting the sub-image of the given BufferedImage */
             	System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
-                Image icon = bi.getSubimage(jj, ii, 23, 23);
-           
+                Image icon = bi.getSubimage(jj, ii, step, step);
+
                 /* Creating the button that will will have the image of this current section of the map*/
                 JButton button = new JButton(new ImageIcon(icon));
 
@@ -135,15 +136,14 @@ public class BoardImage {
                 /* Making sure that the pressed button looks the same as the old one -- besides the green outline  */
                 Graphics g = iconPressed.getGraphics();
                 g.drawImage(icon, 0, 0, p);
-                g.setColor(Color.GREEN);
+                g.setColor(Color.RED);
                 g.drawRoundRect(0, 0, iconPressed.getWidth(p)-1, iconPressed.getHeight(p)-1, 12, 12);
                 g.dispose();
                 button.setPressedIcon(new ImageIcon(iconPressed));
 
-                
                 button.setActionCommand(""+count);
                 button.addActionListener(new ActionListener(){
-                
+
                 /* What happens when we press the button? */
                 @Override
                   public void actionPerformed(ActionEvent ae) {
@@ -152,13 +152,13 @@ public class BoardImage {
                 });
                 /* Adding the button to the p JPanel */
                 p.add(button);
+				count++;
              }
-            count++;
         }
         return p;
 	}
 	/**
-	 * returns JPanel that will be used to hold the JPanel of buttons 
+	 * returns JPanel that will be used to hold the JPanel of buttons
 	 * @return
 	 */
 	private JPanel returnFinalJPanel() {
@@ -172,10 +172,10 @@ public class BoardImage {
 
         BufferedImage test = null;
         BoardImage testMe = new BoardImage();
-        
+
         try {
-            test = ImageIO.read(new File("board.jpg"));
-        } 
+            test = ImageIO.read(new File("board1.jpg"));
+        }
         catch (IOException e) {
             e.printStackTrace();
         }
