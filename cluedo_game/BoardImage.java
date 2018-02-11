@@ -20,13 +20,11 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
-	/* 2 arrays, one is going to be the default board (final) -- one is going to be the actual board */
-
 	/**
 	 * default constructor
 	 */
 	public BoardImage() {
-		this.createPanel();
+		//this.createPanel();
 	}
 	/**
 	 * returns a panel that can be added to a JFrame
