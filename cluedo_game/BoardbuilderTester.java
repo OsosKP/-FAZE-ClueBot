@@ -28,16 +28,16 @@ public class BoardbuilderTester {
         for (int rows = 0; rows < 24; rows++) {
         	for (int cols = 0; cols < 25; cols++) {
         		if (BoardSquareTest[rows][cols] instanceof FloorSquare) {
-        			System.out.print(" | Floor | ");
+        			System.out.print(" | *Floor* | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof WallSquare) {
         			System.out.print(" | Wall  | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof EntrySquare) {
-        			System.out.print(" | Entry | ");
+        			System.out.print(" | *Entry* | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof Room) {
-        			System.out.print(" | Room  | ");
+        			System.out.print(" | *Room*  | ");
         		}
         		else {
         			System.out.print(" | ??    |");
