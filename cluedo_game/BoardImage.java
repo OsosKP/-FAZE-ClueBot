@@ -15,7 +15,12 @@ public class BoardImage {
 	private int height = 0;
 	private int step = 0;
 	BufferedImage bi;
+	
 	private JPanel imagePanel;
+	private JButton[][] defaultBoard = new JButton[25][24];
+	private JButton[][] editedBoard = new JButton[25][24];
+	
+	/* 2 arrays, one is going to be the default board (final) -- one is going to be the actual board */
 
 	/**
 	 * default constructor
@@ -38,6 +43,21 @@ public class BoardImage {
 		holder.add(p);
 		return holder;
 	}
+	/**
+	 * returns the default array of JButtons
+	 * @return
+	 */
+	public JButton[][] returnDefultBoard(){
+		return this.defaultBoard;
+	}
+	/**
+	 * returns the edited array of JButtons
+	 * @return
+	 */
+	public JButton[][] returnEditedBoard(){
+		return this.editedBoard;
+	}
+	
 	/**
      * Sticks the image into a JPanel and makes that the instance variable for this class
 	 */
@@ -65,6 +85,9 @@ public class BoardImage {
 		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
 
+		
+		
+		
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		imagePanel = holder;
@@ -116,7 +139,11 @@ public class BoardImage {
 	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
         int count = 0;
-
+        
+        /* vars that deal e */
+        int xIndex = 0;
+        int yIndex = 0;
+        
         /* Loop that goes through the given image, splitting it up, the  */
         for (int ii=0; ii<height; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
@@ -151,13 +178,23 @@ public class BoardImage {
                          System.out.println(ae.getActionCommand());
                   }
                 });
+                
                 /* Adding the button to the p JPanel */
+                this.defaultBoard[xIndex][yIndex] = button;
+                this.editedBoard[xIndex][yIndex] = button;
+                
+                /* Incrementing array counters */
+                xIndex++;
+                yIndex++;
+                count++;
+                
+                /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
                 p.add(button);
-				count++;
              }
         }
         return p;
 	}
+
 	/**
 	 * returns JPanel that will be used to hold the JPanel of buttons
 	 * @return
