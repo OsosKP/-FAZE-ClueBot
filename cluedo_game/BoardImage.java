@@ -190,7 +190,7 @@ public class BoardImage {
 		JPanel newPanel = this.returnEmptyGridLayout();
 
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of
+		this.editedBoard[finX][finY] = this.editedBoard[initX][initY];
 
 		/* Returning the old JButton to its original colour */
 		this.editedBoard[initX][initY] = this.defaultBoard[initX][initY];
