@@ -184,7 +184,7 @@ public class BoardImage {
 	 * @param initY = the initial Y starting position
 	 * @param finX = the final X starting position
 	 * @param finY = the final Y starting position
-	 * @return the JPanel that will represent the new bord
+	 * @return the JPanel that will represent the new board
 	 */
 	public JPanel move(int initY, int initX, int finY, int finX) {
 		/* Creating new JPanel -- set = to an empty layout */
