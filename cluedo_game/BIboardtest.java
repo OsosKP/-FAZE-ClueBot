@@ -58,7 +58,7 @@ public class BIboardtest {
                     });
 
                     p.add(button);
-                } 
+                }
                 count++;
             }
         }
