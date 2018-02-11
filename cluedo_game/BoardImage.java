@@ -29,7 +29,7 @@ public class BoardImage {
 	public JPanel returnPanel(BufferedImage bi) {
 		this.bi = bi;
 		
-		JPanel p = this.returnEmptyGridLayou(bi);
+		JPanel p = this.returnEmptyGridLayou();
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();
@@ -60,7 +60,7 @@ public class BoardImage {
      
 		this.bi = test;
 		
-		JPanel p = this.returnEmptyGridLayou(bi);
+		JPanel p = this.returnEmptyGridLayou();
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();
