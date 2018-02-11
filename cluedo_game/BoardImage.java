@@ -15,16 +15,18 @@ public class BoardImage {
 	private int height = 0;
 	private int step = 0;
 	BufferedImage bi;
+	private JPanel imagePanel;
+
 	/**
 	 * default constructor
 	 */
 	public BoardImage() {
-		//nothing
+		this.createPanel();
 	}
 	/**
 	 * returns a panel that can be added to a JFrame
 	 * @param bi bufferedImage that will be loaded into the JPanel
-	 * @return
+	 * @return a JPanel that holds the buffered image
 	 */
 	public JPanel returnPanel(BufferedImage bi) {
 		this.bi = bi;
@@ -37,10 +39,9 @@ public class BoardImage {
 		return holder;
 	}
 	/**
-	 * returns a panel that can be added to a JFrame
-	 * @return
+     * Sticks the image into a JPanel and makes that the instance variable for this class
 	 */
-	public JPanel returnPanel() {
+	public void createPanel() {
         BufferedImage test = null;
 
         try {
@@ -54,7 +55,7 @@ public class BoardImage {
 				System.out.println("Uh oh");
         	}
         	catch (Exception q) {
-        		System.err.println("Unable to find image file in local system AND has no conenction to imgur");
+        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
         	}
 
         }
@@ -66,11 +67,11 @@ public class BoardImage {
 
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
-		return holder;
+		imagePanel = holder;
 	}
 	/**
 	 * test method that tests with the default map
-	 * @param bi
+	 * @param bi a buffered image to load into the class variable
 	 */
 	public void testMe(BufferedImage bi) {
         JFrame frame = new JFrame("Test Bufferedimage");
@@ -91,8 +92,8 @@ public class BoardImage {
 
 	}
 	/**
-	 * returns a JPanel with an empty grid layout -- will be filled with JButtons later
-	 * @return
+	 * Constructs an empty grid, places it in a JPanel and returns it
+	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
 	 */
 	private JPanel returnEmptyGridLayout() {
         /* Getting the width and height of the given image */
@@ -109,8 +110,8 @@ public class BoardImage {
 	}
 	/**
 	 * method that populates a JPanel with an array of buttons, which are colored with the image of the BufferedImage defined earlier
-	 * @param p
-	 * @return
+	 * @param p the JPanel to be populated
+	 * @return The JPanel after populating with buttons
 	 */
 	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
@@ -180,5 +181,9 @@ public class BoardImage {
             e.printStackTrace();
         }
         testMe.testMe(test);
+    }
+
+    public JPanel getImagePanel() {
+        return imagePanel;
     }
 }
