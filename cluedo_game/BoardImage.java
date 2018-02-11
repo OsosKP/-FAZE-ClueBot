@@ -43,20 +43,7 @@ public class BoardImage {
 		holder.add(p);
 		return holder;
 	}
-	/**
-	 * returns the default array of JButtons
-	 * @return
-	 */
-	public JButton[][] returnDefultBoard(){
-		return this.defaultBoard;
-	}
-	/**
-	 * returns the edited array of JButtons
-	 * @return
-	 */
-	public JButton[][] returnEditedBoard(){
-		return this.editedBoard;
-	}
+
 	
 	/**
      * Sticks the image into a JPanel and makes that the instance variable for this class
@@ -85,9 +72,6 @@ public class BoardImage {
 		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
 
-		
-		
-		
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		imagePanel = holder;
@@ -183,16 +167,26 @@ public class BoardImage {
                 this.defaultBoard[xIndex][yIndex] = button;
                 this.editedBoard[xIndex][yIndex] = button;
                 
-                /* Incrementing array counters */
-                xIndex++;
-                yIndex++;
                 count++;
                 
                 /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
                 p.add(button);
              }
+            /* Incrementing array counters */
+            xIndex++;
+            yIndex++;
         }
         return p;
+	}
+	
+	public JPanel move(int initX, int initY, int finX, int finY) {
+		JPanel newPanel = null;
+		
+		/* Assigning the colour of the new JButton */
+		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]
+		
+		
+		return newPanel;
 	}
 
 	/**
@@ -204,6 +198,20 @@ public class BoardImage {
         JPanel center = new JPanel(new GridBagLayout());
         center.setBackground(Color.BLACK);
         return center;
+	}
+	/**
+	 * returns the default array of JButtons
+	 * @return
+	 */
+	public JButton[][] returnDefultBoard(){
+		return this.defaultBoard;
+	}
+	/**
+	 * returns the edited array of JButtons
+	 * @return
+	 */
+	public JButton[][] returnEditedBoard(){
+		return this.editedBoard;
 	}
 
     public static void main(String[] args) throws IOException {
