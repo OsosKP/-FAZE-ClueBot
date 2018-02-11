@@ -39,7 +39,7 @@ public class BoardImage {
 		p = this.populateGrid(p);
 		
         /* Setting frame size -- Will be removed */
-        frame.setSize(this.width,this.width);
+        frame.setSize(this.width,this.height);
         frame.setVisible(true);	
 		
 		JPanel holder = this.returnFinalJPanel();
@@ -110,7 +110,7 @@ public class BoardImage {
 	}
 	
 	private JPanel returnFinalJPanel() {
-        /* Put the first JPanel in this one -- GridBagLaout messes with the spacing to make it look nicer */
+        /* Put the first JPanel in this one -- GridBagLayout messes with the spacing to make it look nicer */
         JPanel center = new JPanel(new GridBagLayout());
         center.setBackground(Color.BLACK);
         return center;

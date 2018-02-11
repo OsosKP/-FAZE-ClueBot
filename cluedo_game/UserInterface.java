@@ -1,7 +1,6 @@
 package cluedo_game;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +37,6 @@ public class UserInterface extends JPanel {
     private int playerListIndex;
 
     BoardBuilder gameBoard;
-
 
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
@@ -166,7 +164,6 @@ public class UserInterface extends JPanel {
         JScrollPane scroller;
         JPanel allowedCommandsDisplay;
         JLabel locationReadout;
-        JLabel possibleCommandsString;
         JPanel possibleCommandsList;
 
         public OutputTextDisplay(){
@@ -176,11 +173,19 @@ public class UserInterface extends JPanel {
 
             createAllowedCommandsDisplay();
 
+            /*
+            A static part of the output text display that will update based on where the player is,
+            but stays in the same place at the top of that JPanel.
+             */
             locationReadout = new JLabel("<html>Welcome to Cluedo!<br/>Possible Commands:</html>");
             locationReadout.setForeground(Color.white);
             locationReadout.setHorizontalAlignment(JLabel.CENTER);
             allowedCommandsDisplay.add(locationReadout, BorderLayout.NORTH);
 
+            /*
+            This portion of the output text display is refreshed every turn to display appropriate commands
+            based on whose turn it is and where they are.
+             */
             possibleCommandsList = new JPanel();
             possibleCommandsList.setBackground(Color.GRAY);
             possibleCommandsList.setLayout(new GridLayout(4, 1));
@@ -189,6 +194,9 @@ public class UserInterface extends JPanel {
 
             allowedCommandsDisplay.revalidate();
 
+            /*
+            The move history will be in a scrollable window
+             */
             scroller = new JScrollPane(textOutput);
         }
 
@@ -222,16 +230,18 @@ public class UserInterface extends JPanel {
                 if(p == null)
                     throw new Exception("Player found error");
                 if (p.getInRoom() == null) {
-                    switch (p.getSquareOn().getSquareType()) {
+                    switch (p.getSquareOn().toString()) {
                         case "floor":
-//                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-//                                JLabel d = new JLabel(s);
-//                                d.setForeground(Color.yellow);
-//                                d.setHorizontalAlignment(JLabel.CENTER);
-//                                possibleCommandsList.add(d);
-//                            }
+                            possibleCommandsList.removeAll();
+                            for (String s : INPUTS_LIST.getFloorNavigation()) {
+                                JLabel d = new JLabel(s);
+                                d.setForeground(Color.yellow);
+                                d.setHorizontalAlignment(JLabel.CENTER);
+                                possibleCommandsList.add(d);
+                            }
                             break;
                         case "entry":
+                            possibleCommandsList.removeAll();
                             for (String s : INPUTS_LIST.getEntryChoices()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.yellow);
@@ -242,15 +252,9 @@ public class UserInterface extends JPanel {
                         case "wall":
                             throw new Exception("Player is on a wall square.");
                         default:
-                            // Testing case for board creation
+                            // This case should never happen
                             possibleCommandsList.removeAll();
-                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-                                JLabel d = new JLabel(s);
-                                d.setForeground(Color.yellow);
-                                d.setHorizontalAlignment(JLabel.CENTER);
-                                possibleCommandsList.add(d);
-                            }
-                            break;
+                            throw new Exception("Error Finding Square Type");
 
                     }
                 }
@@ -304,11 +308,6 @@ public class UserInterface extends JPanel {
 //        public JPanel getBoardImagePanel() {
 //            return boardImagePanel;
 //        }
-//    }
-
-// This update method for the text output might not be used
-//    public void updateOutput(String newText){
-//        out.update(output, newText);
 //    }
 
     /*
