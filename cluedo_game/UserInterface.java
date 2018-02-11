@@ -261,6 +261,8 @@ public class UserInterface extends JPanel {
                 if(p == null)
                     throw new Exception("Player found error");
                 if (p.getInRoom() == null) {
+                    // If player is on a square, get the type of square and show their available
+                    // commands based on what is available from that square.
                     switch (p.getSquareOn().toString()) {
                         case "floor":
                             possibleCommandsList.removeAll();
@@ -354,20 +356,20 @@ public class UserInterface extends JPanel {
     /**
      * The graphical portion of the GUI
      */
-    private class BoardPanel{
-        private BoardImage boardImage;
-        private JPanel boardImagePanel;
-
-        public BoardPanel(){
-            boardImage = new BoardImage();
-            boardImagePanel = boardImage.getImagePanel();
+//    private class BoardPanel{
+//        private BoardImage boardImage;
+//        private JPanel boardImagePanel;
+//
+//        public BoardPanel(){
+//            boardImage = new BoardImage();
+//            boardImagePanel = boardImage.getImagePanel();
 //            boardImagePanel.setBackground(Color.BLACK);
-        }
-
-        public JPanel getBoardImagePanel() {
-            return boardImagePanel;
-        }
-    }
+//        }
+//
+//        public JPanel getBoardImagePanel() {
+//            return boardImagePanel;
+//        }
+//    }
 
     /*
     A placeholder JPanel while the image is being worked on
