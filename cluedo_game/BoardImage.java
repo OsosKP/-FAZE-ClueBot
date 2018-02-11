@@ -29,7 +29,7 @@ public class BoardImage {
 	public JPanel returnPanel(BufferedImage bi) {
 		this.bi = bi;
 		
-		JPanel p = this.returnEmptyGridLayou();
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();
@@ -60,7 +60,7 @@ public class BoardImage {
      
 		this.bi = test;
 		
-		JPanel p = this.returnEmptyGridLayou();
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();
@@ -77,7 +77,7 @@ public class BoardImage {
         
 		this.bi = bi;	
 		
-		JPanel p = this.returnEmptyGridLayou();
+		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
 		
         /* Setting frame size -- Will be removed */
@@ -93,7 +93,7 @@ public class BoardImage {
 	 * returns a JPanel with an empty grid layout -- will be filled with JButtons later
 	 * @return
 	 */
-	private JPanel returnEmptyGridLayou() {
+	private JPanel returnEmptyGridLayout() {
         /* Getting the width and height of the given image */ 
         width = bi.getWidth();
         height = bi.getHeight();
