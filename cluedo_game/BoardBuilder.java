@@ -3,16 +3,6 @@ package cluedo_game;
 import java.util.ArrayList;
 
 public class BoardBuilder {
-	
-	public BoardBuilder() {
-       	/* Calling classes to create board */
-       	this.createRooms();
-       	this.addBarriersAndSpawnPoints();
-       	this.addWalls();
-        this.addEntrySquares();
-        this.addFloorSquares();
-	}
-	
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
@@ -21,6 +11,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private int numPlayers = 0;
+    private Token[] players = new Token[6];
     private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
@@ -37,6 +28,38 @@ public class BoardBuilder {
     
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
+
+
+
+    /*
+    Temporary methods to create and access all 6 characters to test spawn points and printouts
+     */
+    public void setPlayerList() {
+        players[0] = this.generatePlayer(9, 0, "White");
+        players[1] = this.generatePlayer(14, 0, "Green");
+        players[2] = this.generatePlayer(0, 17, "Mustard");
+        players[3] = this.generatePlayer(23, 6, "Peacock");
+        players[4] = this.generatePlayer(23, 19, "Plum");
+        players[5] =this.generatePlayer(7, 24, "Scarlet");
+    }
+    public Token[] getPlayersList() {
+        return players;
+    }
+    public Token getPlayerByIndex(int index) {
+        return players[index];
+    }
+
+
+
+    public BoardBuilder() {
+        /* Calling classes to create board */
+        this.setPlayerList();   // This method is temporary
+        this.createRooms();
+        this.addBarriersAndSpawnPoints();
+        this.addWalls();
+        this.addEntrySquares();
+        this.addFloorSquares();
+    }
 
     //
     // Accessors
@@ -114,9 +137,9 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
             if(i == 9)
-                board[0][i] = new FloorSquare(i, 0, this.generatePlayer(9, 0, "White"));
+                board[0][i] = new FloorSquare(i, 0, players[0]);
             else if(i == 14)
-                board[0][i] = new FloorSquare(i, 0, this.generatePlayer(14, 0, "Green"));
+                board[0][i] = new FloorSquare(i, 0, players[1]);
             else
                 board[0][i] = new WallSquare(i, 0);
         }
@@ -125,7 +148,7 @@ public class BoardBuilder {
         for(i = 0; i < 24 ; i++){
             // board[0][17] is a spawn point
             if(i == 17)
-                board[i][0] = new FloorSquare(0, i, this.generatePlayer(0, 17, "Mustard"));
+                board[i][0] = new FloorSquare(0, i, players[2]);
             else
                 board[i][0] = new WallSquare(0, i);
         }
@@ -134,9 +157,9 @@ public class BoardBuilder {
         for(i = 0; i < 24 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6)
-                board[i][23] = new FloorSquare(23, i, this.generatePlayer(23, 6, "Peacock"));
+                board[i][23] = new FloorSquare(23, i, players[3]);
             else if(i == 19)
-                board[i][23] = new FloorSquare(23, i, this.generatePlayer(23, 19, "Plum"));
+                board[i][23] = new FloorSquare(23, i, players[4]);
             else
                 board[i][23] = new WallSquare(23, i);
         }
@@ -145,7 +168,7 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7)
-                board[24][i] = new FloorSquare(i, 24, this.generatePlayer(7, 24, "Scarlet"));
+                board[24][i] = new FloorSquare(i, 24, players[5]);
             else
                 board[24][i] = new WallSquare(i, 24);
         }

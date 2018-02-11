@@ -40,7 +40,7 @@ public class BoardbuilderTester {
         			System.out.print(" | *Room*  | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof FloorSquare && BoardSquareTest[rows][cols].isPlayerOn())
-					System.out.println(" | *Spawn* | ");
+					System.out.print(" | *Spawn* | ");
         		else {
         			System.out.print(" |   ??    | ");
         		}

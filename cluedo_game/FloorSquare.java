@@ -20,6 +20,7 @@ public class FloorSquare implements BoardSquare {
     	this.location[0] = x;
 	    this.location[1] = y;
   		this.spawnPoint = spawnPoint;
+  		this.playerOn = spawnPoint;
   	}
 
   	public FloorSquare(int x, int y) {
