@@ -18,17 +18,17 @@ public class PlayerList {
     }
 
 	
-	public Token removePlayer(int playerIndex){
-		if (playerIndex==7){
-			players[7]=null;
-		}
-		else{
-			for (int x=playerIndex;x<rear-1;x++){//Start at index, move everything after down
-				players[x]=players[x+1];
-			}
-		}
-		rear--;
-	}
+//	public Token removePlayer(int playerIndex){
+//		if (playerIndex==7){
+//			players[7]=null;
+//		}
+//		else{
+//			for (int x=playerIndex; x<rear-1; x++){//Start at index, move everything after down
+//				players[x]=players[x+1];
+//			}
+//		}
+//		rear--;
+//	}
 
 	public Token getNext(Token current) {return current;}
 	public String toString(){

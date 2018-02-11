@@ -7,16 +7,17 @@ public class BoardBuilder {
 	public BoardBuilder() {
        	/* Calling classes to create board */
        	this.createRooms();
-       	this.addEntrySquares();
+       	this.addBarriersAndSpawnPoints();
        	this.addWalls();
-       	this.addFloorSquares();				
+        this.addEntrySquares();
+        this.addFloorSquares();
 	}
 	
     /*
     Since BoardSquare is an interface, we can declare an entire array
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
-    private BoardSquare[][] board = new BoardSquare[24][25];
+    private BoardSquare[][] board = new BoardSquare[25][24];
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private int numPlayers = 0;
@@ -43,7 +44,7 @@ public class BoardBuilder {
     public Room getBallroom() { return Ballroom;} //Returns Ballroom
     public Room getConservatory() {return Conservatory;}//Returns conservatory
     public Room getDiningRoom() {return DiningRoom;}//Returns Dining room
-    public Room getBilliardRoom() {return BilliardRoom;}//Return billiar room
+    public Room getBilliardRoom() {return BilliardRoom;}//Return billiard room
     public Room getLibrary() {return Library;}//Returns library
     public Room getLounge() {return Lounge;}//Returns lounge
     public Room getHall() {return Hall;}//Returns hall
@@ -53,7 +54,12 @@ public class BoardBuilder {
     public BoardSquare getSquare(int xLoc, int yLoc) {
         return board[xLoc][yLoc];
     }
-    
+
+    public Token generatePlayer(int yPos, int xPos, String name){
+        Token player = new Token(xPos, yPos, name, ++numPlayers);
+        return player;
+    }
+
     /**
      * addEntrySquare
      * This method assigns the appropriate board squares as entries
@@ -87,7 +93,7 @@ public class BoardBuilder {
         board[21][17] = new EntrySquare(17, 21, Study, 1);
         // Add Cellar Entry. The Token enters the Cellar to attempt a guess
         board[16][12] = new EntrySquare(16, 12, Cellar, 1);
-        //useful so we dont screw up later
+        //useful so we don't screw up later
         entrySquaresCreated = true;
     }
 
@@ -102,53 +108,53 @@ public class BoardBuilder {
      * implementation will look the same since we're making our Room Squares
      * walls so they're impassable.
      */
-//    public void addBarriersAndSpawnPoints(){
-//        int i;  // Indexing loops
-//        // Loop to assign top edge barrier squares
-//        for(i = 0; i < 24; i++){
-//            // board[9][0] and board[14][0] are both spawn points
-//            if(i == 9)
-//                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("White", 9, 0));
-//            else if(i == 14)
-//                board[i][0] = new FloorSquare(i, 0, this.generatePlayer("Green", 14, 0));
-//            else
-//                board[i][0] = new WallSquare(i, 0);
-//        }
-//
-//        // Loop to assign left edge barrier squares
-//        for(i = 0; i < 25 ; i++){
-//            // board[0][17] is a spawn point
-//            if(i == 17)
-//                board[0][i] = new FloorSquare(0, i, this.generatePlayer("Mustard", 0, 17));
-//            else
-//                board[0][i] = new WallSquare(0, i);
-//        }
-//
-//        // Loop to assign right edge barrier squares
-//        for(i = 0; i < 25 ; i++){
-//            // board[23][6] and board[23][19] are both spawn points
-//            if(i == 6)
-//                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Peacock", 23, 6));
-//            else if(i == 19)
-//                board[23][i] = new FloorSquare(23, i, this.generatePlayer("Plum", 23, 19));
-//            else
-//                board[23][i] = new WallSquare(23, i);
-//        }
-//
-//        // Loop to assign bottom edge barrier squares
-//        for(i = 0; i < 24; i++){
-//            // board[7][24] is a spawn point
-//            if(i == 7)
-//                board[i][24] = new FloorSquare(i, 24, this.generatePlayer("Scarlet", 7, 24));
-//            else
-//                board[i][24] = new WallSquare(i, 24);
-//        }
-//
-//        // Two impassable squares at the top - see Documentation
-//        board[6][1] = new WallSquare(6, 1);
-//        board[17][1] = new WallSquare(17, 1);
-//
-//    }
+    public void addBarriersAndSpawnPoints(){
+        int i;  // Indexing loops
+        // Loop to assign top edge barrier squares
+        for(i = 0; i < 24; i++){
+            // board[9][0] and board[14][0] are both spawn points
+            if(i == 9)
+                board[0][i] = new FloorSquare(i, 0, this.generatePlayer(9, 0, "White"));
+            else if(i == 14)
+                board[0][i] = new FloorSquare(i, 0, this.generatePlayer(14, 0, "Green"));
+            else
+                board[0][i] = new WallSquare(i, 0);
+        }
+
+        // Loop to assign left edge barrier squares
+        for(i = 0; i < 24 ; i++){
+            // board[0][17] is a spawn point
+            if(i == 17)
+                board[i][0] = new FloorSquare(0, i, this.generatePlayer(0, 17, "Mustard"));
+            else
+                board[i][0] = new WallSquare(0, i);
+        }
+
+        // Loop to assign right edge barrier squares
+        for(i = 0; i < 24 ; i++){
+            // board[23][6] and board[23][19] are both spawn points
+            if(i == 6)
+                board[i][23] = new FloorSquare(23, i, this.generatePlayer(23, 6, "Peacock"));
+            else if(i == 19)
+                board[i][23] = new FloorSquare(23, i, this.generatePlayer(23, 19, "Plum"));
+            else
+                board[i][23] = new WallSquare(23, i);
+        }
+
+        // Loop to assign bottom edge barrier squares
+        for(i = 0; i < 24; i++){
+            // board[7][24] is a spawn point
+            if(i == 7)
+                board[24][i] = new FloorSquare(i, 24, this.generatePlayer(7, 24, "Scarlet"));
+            else
+                board[24][i] = new WallSquare(i, 24);
+        }
+
+        // Two impassable squares at the top - see Documentation
+        board[1][6] = new WallSquare(6, 1);
+        board[1][17] = new WallSquare(17, 1);
+
+    }
 
     /**
      * addWalls
@@ -163,7 +169,7 @@ public class BoardBuilder {
         for(i = 1; i < 7; i++) {
             for (j = 1; j < 6; j++) {
                 // Ensure this isn't an entry square
-                if(i != 6 && j != 4)
+                if(!(i == 6 && j == 4))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -180,8 +186,8 @@ public class BoardBuilder {
             board[1][j] = new WallSquare(1, j);
 
         // Conservatory
-        for(i = 1; i < 23; i++){
-            for(j = 18; j < 24 ; j++){
+        for(i = 1; i < 6; i++){
+            for(j = 18; j < 23 ; j++){
                 // Ensure this isn't an entry square
                 // This time we also account for Conservatory's weird shape
                 if(!(j == 18 && (i == 4 || i == 5)))
@@ -216,7 +222,7 @@ public class BoardBuilder {
         // Library
         for(i = 14; i < 19; i++){
             for(j = 17; j < 23; j++){
-                if(!((i == 14 && j == 17) || (i == 18 && j == 17)))
+                if(!(j == 17 && (i == 14 || i == 18)))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -244,7 +250,6 @@ public class BoardBuilder {
                     board[i][j] = new WallSquare(i, j);
             }
         }
-
     }
 
     /**

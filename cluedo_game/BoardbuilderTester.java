@@ -25,13 +25,13 @@ public class BoardbuilderTester {
         BoardSquare[][] BoardSquareTest = builderTest.returnBoard();
         
         /* Does the board correctly print? */
-        for (int rows = 0; rows < 24; rows++) {
-        	for (int cols = 0; cols < 25; cols++) {
-        		if (BoardSquareTest[rows][cols] instanceof FloorSquare) {
+        for (int rows = 0; rows < 25; rows++) {
+        	for (int cols = 0; cols < 24; cols++) {
+        		if (BoardSquareTest[rows][cols] instanceof FloorSquare && !BoardSquareTest[rows][cols].isPlayerOn()) {
         			System.out.print(" | *Floor* | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof WallSquare) {
-        			System.out.print(" | Wall  | ");
+        			System.out.print(" | *Wall*  | ");
         		}
         		else if (BoardSquareTest[rows][cols] instanceof EntrySquare) {
         			System.out.print(" | *Entry* | ");
@@ -39,8 +39,10 @@ public class BoardbuilderTester {
         		else if (BoardSquareTest[rows][cols] instanceof Room) {
         			System.out.print(" | *Room*  | ");
         		}
+        		else if (BoardSquareTest[rows][cols] instanceof FloorSquare && BoardSquareTest[rows][cols].isPlayerOn())
+					System.out.println(" | *Spawn* | ");
         		else {
-        			System.out.print(" | ??    |");
+        			System.out.print(" |   ??    | ");
         		}
         	}
         	System.out.print("\n");
