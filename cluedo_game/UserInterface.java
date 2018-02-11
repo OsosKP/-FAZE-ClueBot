@@ -33,6 +33,8 @@ public class UserInterface extends JPanel {
 
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
+    private Token[] playerList;
+    private int playerListIndex;
 
 
     /**
@@ -41,7 +43,10 @@ public class UserInterface extends JPanel {
      */
     public UserInterface(){
         // Placeholder player for testing
-        this.currentPlayer = new Token(5, 5, "TestPlayer", 1);
+        playerListIndex = 0;
+        BoardBuilder.setPlayerList();
+        this.playerList = BoardBuilder.getPlayerList();
+        this.currentPlayer = playerList[0];
         this.buildGUI();
     }
 
@@ -102,7 +107,10 @@ public class UserInterface extends JPanel {
                     out.update(output, inputField.getText());
                     System.out.println("You have performed the action: " + inputField.getText());
                     inputField.setText("");
-                    // Updating with a placeholder token for now
+                    // Increment index for player list based on number of players (in boardbuilder)
+                    playerListIndex++;
+                    currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
+                    // Update input display with that player
                     updateInputDisplayPanel(currentPlayer);
                 }
                 inputField.requestFocus();

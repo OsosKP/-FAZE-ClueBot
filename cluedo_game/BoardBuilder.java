@@ -8,10 +8,11 @@ public class BoardBuilder {
     of BoardSquare 'objects' and then turn them into our square types as needed.
      */
     private BoardSquare[][] board = new BoardSquare[25][24];
+
     /* Will store all the players in the game */
 //    playerList players = new playerList();
-    private int numPlayers = 0;
-    private Token[] players = new Token[6];
+    private static int numPlayers = 0;
+    private static Token[] players = new Token[6];
     private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
@@ -33,19 +34,21 @@ public class BoardBuilder {
 
     /*
     Temporary methods to create and access all 6 characters to test spawn points and printouts
+    Some form of these methods will eventually move to the GameEngine class
+    The UI class will be accessing these methods, so update that when we make the switch
      */
-    public void setPlayerList() {
-        players[0] = this.generatePlayer(9, 0, "White");
-        players[1] = this.generatePlayer(14, 0, "Green");
-        players[2] = this.generatePlayer(0, 17, "Mustard");
-        players[3] = this.generatePlayer(23, 6, "Peacock");
-        players[4] = this.generatePlayer(23, 19, "Plum");
-        players[5] =this.generatePlayer(7, 24, "Scarlet");
+    public static void setPlayerList() {
+        players[0] = generatePlayer(9, 0, "White");
+        players[1] = generatePlayer(14, 0, "Green");
+        players[2] = generatePlayer(0, 17, "Mustard");
+        players[3] = generatePlayer(23, 6, "Peacock");
+        players[4] = generatePlayer(23, 19, "Plum");
+        players[5] = generatePlayer(7, 24, "Scarlet");
     }
-    public Token[] getPlayersList() {
+    public static Token[] getPlayerList() {
         return players;
     }
-    public Token getPlayerByIndex(int index) {
+    public static Token getPlayerByIndex(int index) {
         return players[index];
     }
 
@@ -53,7 +56,7 @@ public class BoardBuilder {
 
     public BoardBuilder() {
         /* Calling classes to create board */
-        this.setPlayerList();   // This method is temporary
+        setPlayerList();   // This method is temporary
         this.createRooms();
         this.addBarriersAndSpawnPoints();
         this.addWalls();
@@ -64,6 +67,9 @@ public class BoardBuilder {
     //
     // Accessors
     //
+    public static int getNumPlayers() {
+        return numPlayers;
+    }
     public Room getBallroom() { return Ballroom;} //Returns Ballroom
     public Room getConservatory() {return Conservatory;}//Returns conservatory
     public Room getDiningRoom() {return DiningRoom;}//Returns Dining room
@@ -78,7 +84,7 @@ public class BoardBuilder {
         return board[xLoc][yLoc];
     }
 
-    public Token generatePlayer(int yPos, int xPos, String name){
+    public static Token generatePlayer(int yPos, int xPos, String name){
         Token player = new Token(xPos, yPos, name, ++numPlayers);
         return player;
     }

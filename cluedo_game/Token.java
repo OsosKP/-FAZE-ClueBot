@@ -50,8 +50,6 @@ public class Token {
 	public BoardSquare getSquareOn() { return squareOn; }
 	public Room getInRoom() { return inRoom; }
 
-
-
   	//
 	//Mutators
 	//
