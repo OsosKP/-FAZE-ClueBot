@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
@@ -13,29 +15,69 @@ public class BoardImage {
 	private int height = 0;
 	private int step = 0;
 	BufferedImage bi;
-	
+	/**
+	 * default constructor
+	 */
 	public BoardImage() {
 		//nothing
 	}
-	
+	/**
+	 * returns a panel that can be added to a JFrame
+	 * @param bi bufferedImage that will be loaded into the JPanel
+	 * @return
+	 */
 	public JPanel returnPanel(BufferedImage bi) {
 		this.bi = bi;
 		
-		JPanel p = this.returnEmptyGridLayout(bi);
+		JPanel p = this.returnEmptyGridLayou(bi);
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		return holder;
 	}
-	
+	/**
+	 * returns a panel that can be added to a JFrame 
+	 * @return
+	 */
+	public JPanel returnPanel() {
+        BufferedImage test = null;
+        
+        try {
+            test = ImageIO.read(new File("board.jpg"));
+        } 
+        catch (IOException e) {
+        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
+        	try {
+            	URL url = new URL("https://i.imgur.com/A01Gmjw.jpg");//http://i.stack.imgur.com/SNN04.png
+            	bi = ImageIO.read(url);
+        	}
+        	catch (Exception q) {
+        		System.err.println("Unable to find image file in local system AND has no conenction to imgur");
+        	}
+
+        }
+     
+		this.bi = test;
+		
+		JPanel p = this.returnEmptyGridLayou(bi);
+		p = this.populateGrid(p);
+		
+		JPanel holder = this.returnFinalJPanel();
+		holder.add(p);
+		return holder;
+	}
+	/**
+	 * test method that tests with the default map 
+	 * @param bi
+	 */
 	public void testMe(BufferedImage bi) {
         JFrame frame = new JFrame("Test Bufferedimage");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 		this.bi = bi;	
 		
-		JPanel p = this.returnEmptyGridLayout(bi);
+		JPanel p = this.returnEmptyGridLayou();
 		p = this.populateGrid(p);
 		
         /* Setting frame size -- Will be removed */
@@ -47,8 +89,11 @@ public class BoardImage {
 		frame.add(holder);
 		
 	}
-	
-	private JPanel returnEmptyGridLayout(BufferedImage bi) {
+	/**
+	 * returns a JPanel with an empty grid layout -- will be filled with JButtons later
+	 * @return
+	 */
+	private JPanel returnEmptyGridLayou() {
         /* Getting the width and height of the given image */ 
         width = bi.getWidth();
         height = bi.getHeight();
@@ -61,7 +106,11 @@ public class BoardImage {
         p.setOpaque(false);
         return p;
 	}
-	
+	/**
+	 * method that populates a JPanel with an array of buttons, which are colored with the image of the BufferedImage defined earlier
+	 * @param p
+	 * @return
+	 */
 	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
         int count = 0;
@@ -108,7 +157,10 @@ public class BoardImage {
         }
         return p;
 	}
-	
+	/**
+	 * returns JPanel that will be used to hold the JPanel of buttons 
+	 * @return
+	 */
 	private JPanel returnFinalJPanel() {
         /* Put the first JPanel in this one -- GridBagLaout messes with the spacing to make it look nicer */
         JPanel center = new JPanel(new GridBagLayout());
@@ -118,10 +170,15 @@ public class BoardImage {
 
     public static void main(String[] args) throws IOException {
 
-    	URL url = new URL("https://i.imgur.com/A01Gmjw.jpg");//http://i.stack.imgur.com/SNN04.png
-        final BufferedImage bi = ImageIO.read(url);
+        BufferedImage test = null;
         BoardImage testMe = new BoardImage();
         
-        testMe.testMe(bi);
+        try {
+            test = ImageIO.read(new File("board.jpg"));
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        testMe.testMe(test);
     }
 }
