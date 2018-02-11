@@ -170,12 +170,13 @@ public class BoardImage {
                 count++;
                 yIndex++;
                 /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
-                p.add(button);
+                //p.add(button);
              }
             /* Incrementing array counters */
             xIndex++;
         }
-        return p;
+		drawForTheFistTime(p);
+		return p;
 	}
 	/**
 	 * "moves" the players on the screen by swapping the JButtons on the screen
@@ -204,9 +205,47 @@ public class BoardImage {
 		}
 		return newPanel;
 	}
-	
+
 	public void initPlayers() {
-		
+		//WHITE
+		JButton white = new JButton();
+		white.setBorder(null);
+		white.setBackground(Color.WHITE);
+		editedBoard[0][9]=white;
+		//Green
+		JButton green = new JButton();
+		green.setBorder(null);
+		green.setBackground(Color.GREEN);
+		editedBoard[0][14]=green;
+		//Peacock
+		JButton peacock = new JButton();
+		peacock.setBorder(null);
+		peacock.setBackground(Color.BLUE);
+		editedBoard[6][23]=peacock;
+		//Mustard
+		JButton mustard = new JButton();
+		mustard.setBorder(null);
+		mustard.setBackground(Color.YELLOW);
+		editedBoard[17][0]=mustard;
+		//Plum
+		JButton plum = new JButton();
+		plum.setBorder(null);
+		plum.setBackground(Color.PINK);
+		editedBoard[19][23]=plum;
+		//Scarlet
+		JButton scarlet = new JButton();
+		scarlet.setBorder(null);
+		scarlet.setBackground(Color.RED);
+		editedBoard[24][7]=scarlet;
+	}
+
+	public void drawForTheFistTime(JPanel p){
+		initPlayers();
+		for (int i=0;i<25;i++){
+			for (int j=0;j<24;j++){
+				p.add(editedBoard[i][j]);
+			}
+		}
 	}
 
 	/**
