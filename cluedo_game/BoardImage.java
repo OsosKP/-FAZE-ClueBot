@@ -181,7 +181,8 @@ public class BoardImage {
 	}
 
 	public JPanel move(int initX, int initY, int finX, int finY) {
-		JPanel newPanel = null;
+		/* Creating new JPanel -- set = to an empty layout */
+		JPanel newPanel = this.returnEmptyGridLayout();
 
 		/* Assigning the colour of the new JButton */
 		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of
@@ -189,7 +190,13 @@ public class BoardImage {
 		/* Returning the old JButton to its original colour */
 		this.editedBoard[initX][initY] = this.defaultBoard[initX][initY];
 
-		/**/
+		/* Need to recreate the JPanel based on the new */
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				newPanel.add(this.editedBoard[rows][cols]);
+			}
+		}
 		return newPanel;
 	}
 	
