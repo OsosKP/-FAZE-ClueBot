@@ -177,7 +177,14 @@ public class BoardImage {
         }
         return p;
 	}
-
+	/**
+	 * "moves" the players on the screen by swapping the JButtons on the screen
+	 * @param initX = the initial X starting position
+	 * @param initY = the initial Y starting position
+	 * @param finX = the final X starting position
+	 * @param finY = the final Y starting position
+	 * @return the JPanel that will represent the new bord
+	 */
 	public JPanel move(int initX, int initY, int finX, int finY) {
 		/* Creating new JPanel -- set = to an empty layout */
 		JPanel newPanel = this.returnEmptyGridLayout();
