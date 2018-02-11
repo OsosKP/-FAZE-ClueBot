@@ -43,9 +43,7 @@ public class Token {
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
 	public boolean isMurderer() {return isMurderer;}
-
 	public int[] getLocation() { return position;}
-
 	public BoardSquare getSquareOn() { return squareOn; }
 	public Room getInRoom() { return inRoom; }
 

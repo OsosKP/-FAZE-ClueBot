@@ -82,8 +82,7 @@ public class BoardBuilder {
     }
 
     public static Token generatePlayer(int yPos, int xPos, String name){
-        Token player = new Token(xPos, yPos, name, ++numPlayers);
-        return player;
+        return new Token(xPos, yPos, name, ++numPlayers);
     }
 
     /**

@@ -8,12 +8,12 @@ public class PlayerList {
 	private int rear = 0;
 
 	public void addPlayer(Token player){
-        if (size()==7){//If it makes the array full by adding another elemnt (breaking the circle)
+        if (size()==7){//If it makes the array full by adding another element (breaking the circle)
             System.out.println("Something's wrong, array's full");
         }
         else{
             players[rear]=player;//Adds object
-            rear++;//Move rear index foward
+            rear++;//Move rear index forward
         }
     }
 
