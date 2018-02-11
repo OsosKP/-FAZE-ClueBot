@@ -60,7 +60,7 @@ public class BoardImage {
      
 		this.bi = test;
 		
-		JPanel p = this.returnEmptyGridLayou();
+		JPanel p = this.returnEmptyGridLayou(bi);
 		p = this.populateGrid(p);
 		
 		JPanel holder = this.returnFinalJPanel();

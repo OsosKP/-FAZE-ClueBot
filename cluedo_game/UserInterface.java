@@ -22,12 +22,13 @@ public class UserInterface extends JPanel {
     // First it is built into 'in', then it is loaded into the 'input' JPanel
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
+    private JButton startGameButton;
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
     // The graphical component of the display
-//    private BoardPanel image = new BoardPanel();
-//    private JPanel imagePanel = image.getBoardImagePanel();
+    private BoardPanel image = new BoardPanel();
+    private JPanel imagePanel = image.getBoardImagePanel();
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
@@ -68,7 +69,7 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        userDisplay.add(placeHolder());
+        userDisplay.add(imagePanel);
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -106,44 +107,17 @@ public class UserInterface extends JPanel {
             inputPanel = createInputPanel();
         }
 
-        /**
-         * This ActionListener reads when somebody pressed the "Perform Action" button
-         */
-        class UserInputListener implements ActionListener {
-            public void actionPerformed(ActionEvent event){
-                // Only do this if the input field had something in it
-                if(!(inputField.getText().equals(""))) {
-                    out.update(output, inputField.getText());
-                    System.out.println("You have performed the action: " + inputField.getText());
-                    inputField.setText("");
-                    // Increment index for player list based on number of players (in boardbuilder)
-                    playerListIndex++;
-                    currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
-                    // Update input display with that player
-                    refreshDisplay(currentPlayer);
-                }
-                inputField.requestFocus();
-            }
-        }
-
-        private JButton createPerformActionButton(){
-            JButton performAction = new JButton("Perform Action");
-            ActionListener listener = new UserInputListener();
-            performAction.addActionListener(listener);
-
-            return performAction;
-        }
-
         public JPanel createInputPanel(){
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
+            JButton startGameButton = createStartGameButton();
 
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
             input.add(inputField, BorderLayout.SOUTH);
-            input.add(createPerformActionButton(), BorderLayout.EAST);
+            input.add(startGameButton, BorderLayout.EAST);
 
             inputField.requestFocus();
 
@@ -153,6 +127,59 @@ public class UserInterface extends JPanel {
 
         public void updateInputDisplayPanel(Token p){
             whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
+        }
+
+        /**
+         * A button that must be pressed to start the game
+         * @return the button, to place into a JPanel
+         */
+        private JButton createStartGameButton(){
+            startGameButton = new JButton("Start Game");
+            ActionListener listener = new StartGameListener();
+            startGameButton.addActionListener(listener);
+
+            return startGameButton;
+        }
+        class StartGameListener implements ActionListener {
+            public void actionPerformed (ActionEvent event){
+                input.remove(startGameButton);
+                input.add(createPerformActionButton(), BorderLayout.EAST);
+                updateInputDisplayPanel(currentPlayer);
+                out.updateAllowedCommandsBasedOnSquare(currentPlayer);
+                input.revalidate();
+                output.revalidate();
+            }
+        }
+        /**
+         * Button for the user to press when they enter a command
+         * @return the button, to place into a JPanel
+         */
+        private JButton createPerformActionButton(){
+            JButton performAction = new JButton("Perform Action");
+            ActionListener listener = new UserInputListener();
+            performAction.addActionListener(listener);
+
+            return performAction;
+        }
+        /**
+         * This ActionListener reads when somebody pressed the "Perform Action" button
+         */
+        class UserInputListener implements ActionListener {
+            public void actionPerformed(ActionEvent event){
+                // Only do this if the input field had something in it
+                if(INPUTS_LIST.checkForValidUserInputNavigation(currentPlayer, inputField.getText())) {
+                    // Check that the player has entered a correct navigational command
+                    out.update(output, inputField.getText());
+                    System.out.println("You have performed the action: " + inputField.getText());
+                    // Increment index for player list based on number of players (in boardbuilder)
+                    playerListIndex++;
+                    currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
+                    // Update input display with that player
+                    refreshDisplay(currentPlayer);
+                }
+                inputField.setText("");
+                inputField.requestFocus();
+            }
         }
     }
 
@@ -209,9 +236,15 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.setForeground(Color.white);
         }
 
+        /**
+         * updateAllowedCommandsBasedOnSquare
+         * When a new player's turn starts, this method ensures the output text display updates correctly
+         * according to what type of square they are on.
+         * @param p the player whose turn it is
+         */
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
-            // p == null is for testing, won't be in the game
+            // p == null is for testing (hopefully), won't be in the game
             if(p == null)
                 locationReadout.setText("Not on the board. Testing?");
             else if(p.getSquareOn() instanceof FloorSquare)
@@ -273,11 +306,40 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.revalidate();
         }
 
+        /**
+         * IMPORTANT
+         * update method is called BEFORE THE GAME LOGIC HAPPENS
+         * So when we call the room, or the player's square, or anything else,
+         * WE CALL APPROPRIATE VARIABLES BASED ON WHERE THE PLAYER WAS AT THE START OF THEIR TURN
+         * @param panel output panel that is being updated
+         * @param in command inputted by user
+         */
         public void update(JPanel panel, String in){
-
-            textOutput.append(in);
+            textOutput.append(currentPlayer.getName());
+            switch(in.toLowerCase()){
+                case "up":
+                case "down":
+                case "left":
+                case "right":
+                    textOutput.append(" has moved ");
+                    textOutput.append(in);
+                    break;
+                case "enter":
+                    // This update will display once the player enters the room - it is the only one like this
+                    break;
+                case "exit":
+                    textOutput.append(" has exited the ");
+                    textOutput.append(currentPlayer.getInRoom().getName());
+                    break;
+                case "passage":
+                    textOutput.append(" is taking a secret passage to the ");
+                    textOutput.append(currentPlayer.getInRoom().getsecretPassage().getName());
+                case "guess":
+                    textOutput.append(" is making a guess...");
+            }
             textOutput.append("\n\n");
 
+            // Refresh the panel after updating
             panel.revalidate();
         }
 
@@ -294,21 +356,20 @@ public class UserInterface extends JPanel {
     /**
      * The graphical portion of the GUI
      */
-//    private class BoardPanel{
-//        private BoardImage boardImage;
-//        private JPanel boardImagePanel;
-//
-//        public BoardPanel(){
-//            boardImage = new BoardImage();
-//            this.boardImagePanel = this.boardImage.returnBoardPanel();
+    private class BoardPanel{
+        private BoardImage boardImage;
+        private JPanel boardImagePanel;
+
+        public BoardPanel(){
+            boardImage = new BoardImage();
+            boardImagePanel = boardImage.getImagePanel();
 //            boardImagePanel.setBackground(Color.BLACK);
-//
-//        }
-//
-//        public JPanel getBoardImagePanel() {
-//            return boardImagePanel;
-//        }
-//    }
+        }
+
+        public JPanel getBoardImagePanel() {
+            return boardImagePanel;
+        }
+    }
 
     /*
     A placeholder JPanel while the image is being worked on
