@@ -186,8 +186,15 @@ public class BoardImage {
 		/* Assigning the colour of the new JButton */
 		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of
 
+		/* Returning the old JButton to its original colour */
+		this.editedBoard[initX][initY] = this.defaultBoard[initX][initY];
 
+		/**/
 		return newPanel;
+	}
+	
+	public void initPlayers() {
+		
 	}
 
 	/**
