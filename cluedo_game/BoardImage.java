@@ -9,35 +9,67 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class BoardImage {
-
-    public BoardImage(BufferedImage bi) {
-    	/* Creating the JFrame -- Will be removed */
+	private int width  = 0;
+	private int height = 0;
+	private int step = 0;
+	BufferedImage bi;
+	
+	public BoardImage() {
+		//nothing
+	}
+	
+	public JPanel returnPanel(BufferedImage bi) {
+		this.bi = bi;
+		
+		JPanel p = this.returnEmptyGridLayout(bi);
+		p = this.populateGrid(p);
+		
+		JPanel holder = this.returnFinalJPanel();
+		holder.add(p);
+		return holder;
+	}
+	
+	public void testMe(BufferedImage bi) {
         JFrame frame = new JFrame("Test Bufferedimage");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
-        /* Getting the width and height of the given image */ 
-        int w = bi.getWidth();
-        int h = bi.getHeight();
         
+		this.bi = bi;	
+		
+		JPanel p = this.returnEmptyGridLayout(bi);
+		p = this.populateGrid(p);
+		
         /* Setting frame size -- Will be removed */
-        frame.setSize(w,h);
-        frame.setVisible(true);
-        
+        frame.setSize(this.width,this.width);
+        frame.setVisible(true);	
+		
+		JPanel holder = this.returnFinalJPanel();
+		holder.add(p);
+		frame.add(holder);
+		
+	}
+	
+	private JPanel returnEmptyGridLayout(BufferedImage bi) {
+        /* Getting the width and height of the given image */ 
+        width = bi.getWidth();
+        height = bi.getHeight();
         
         /* ?? */
-        int step = h/23;
+        step = height/23;
         
         /* Creating JPanel -- will represent the grid that will overly the image */
         JPanel p = new JPanel(new GridLayout(23,23));
         p.setOpaque(false);
-
+        return p;
+	}
+	
+	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
         int count = 0;
         
         /* Loop that goes through the given image, splitting it up, the  */
-        for (int ii=0; ii<w; ii+=step) {
+        for (int ii=0; ii<width; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
-            for (int jj=0; jj<h; jj+=step) {
+            for (int jj=0; jj<height; jj+=step) {
             	
             	/* Getting the sub-image of the given BufferedImage */
             	System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
@@ -51,7 +83,7 @@ public class BoardImage {
 
                 /* Making a pressed icon, otherwise the user would get no 'feedback' from the program */
                 BufferedImage iconPressed = new BufferedImage(step,step,BufferedImage.TYPE_INT_ARGB);
-                /* Making sure that the pressed button lookes the same as the old one -- besides the green outline  */
+                /* Making sure that the pressed button looks the same as the old one -- besides the green outline  */
                 Graphics g = iconPressed.getGraphics();
                 g.drawImage(icon, 0, 0, p);
                 g.setColor(Color.GREEN);
@@ -74,23 +106,22 @@ public class BoardImage {
              }
             count++;
         }
+        return p;
+	}
+	
+	private JPanel returnFinalJPanel() {
         /* Put the first JPanel in this one -- GridBagLaout messes with the spacing to make it look nicer */
         JPanel center = new JPanel(new GridBagLayout());
         center.setBackground(Color.BLACK);
-        center.add(p);
-        /* Will be removed */
-        frame.add(center);//FOR SOME REASON IT WORKS IN A JOPTIONPANE BUT NOT IN A JFRAME
-    }
+        return center;
+	}
 
     public static void main(String[] args) throws IOException {
-    	/* Curent test -- will be removed */
-        URL url = new URL("https://i.imgur.com/A01Gmjw.jpg");//http://i.stack.imgur.com/SNN04.png
+
+    	URL url = new URL("https://i.imgur.com/A01Gmjw.jpg");//http://i.stack.imgur.com/SNN04.png
         final BufferedImage bi = ImageIO.read(url);
-        SwingUtilities.invokeLater(new Runnable(){
-            @Override
-            public void run() {
-                new BoardImage (bi);
-            }
-        });
+        BoardImage testMe = new BoardImage();
+        
+        testMe.testMe(bi);
     }
 }
