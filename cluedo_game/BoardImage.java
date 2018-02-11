@@ -20,13 +20,11 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
-	/* 2 arrays, one is going to be the default board (final) -- one is going to be the actual board */
-
 	/**
 	 * default constructor
 	 */
 	public BoardImage() {
-		this.createPanel();
+		//this.createPanel();
 	}
 	/**
 	 * returns a panel that can be added to a JFrame
@@ -180,17 +178,31 @@ public class BoardImage {
 		drawForTheFistTime(p);
 		return p;
 	}
-
+	/**
+	 * "moves" the players on the screen by swapping the JButtons on the screen
+	 * @param initX = the initial X starting position
+	 * @param initY = the initial Y starting position
+	 * @param finX = the final X starting position
+	 * @param finY = the final Y starting position
+	 * @return the JPanel that will represent the new bord
+	 */
 	public JPanel move(int initX, int initY, int finX, int finY) {
-		JPanel newPanel = null;
+		/* Creating new JPanel -- set = to an empty layout */
+		JPanel newPanel = this.returnEmptyGridLayout();
 
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of
+		this.editedBoard[finX][finY] = this.editedBoard[initX][initY];
 
 		/* Returning the old JButton to its original colour */
 		this.editedBoard[initX][initY] = this.defaultBoard[initX][initY];
 
-		/**/
+		/* Need to recreate the JPanel based on the new */
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				newPanel.add(this.editedBoard[rows][cols]);
+			}
+		}
 		return newPanel;
 	}
 
