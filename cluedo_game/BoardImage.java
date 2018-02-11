@@ -15,11 +15,11 @@ public class BoardImage {
 	private int height = 0;
 	private int step = 0;
 	BufferedImage bi;
-	
+
 	private JPanel imagePanel;
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
-	
+
 	/* 2 arrays, one is going to be the default board (final) -- one is going to be the actual board */
 
 	/**
@@ -44,7 +44,7 @@ public class BoardImage {
 		return holder;
 	}
 
-	
+
 	/**
      * Sticks the image into a JPanel and makes that the instance variable for this class
 	 */
@@ -123,19 +123,20 @@ public class BoardImage {
 	private JPanel populateGrid(JPanel p) {
         /* Var to print the number of times we have created the grid */
         int count = 0;
-        
+
         /* vars that deal e */
         int xIndex = 0;
         int yIndex = 0;
-        
+
         /* Loop that goes through the given image, splitting it up, the  */
         for (int ii=0; ii<height; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
             yIndex = 0;
         	for (int jj=0; jj<width; jj+=step) {
+				System.out.println("JButton[" + xIndex + "]["+ yIndex + "]");
 
             	/* Getting the sub-image of the given BufferedImage */
-            	System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
+            	//System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
                 Image icon = bi.getSubimage(jj, ii, step, step);
 
                 /* Creating the button that will will have the image of this current section of the map*/
@@ -163,11 +164,11 @@ public class BoardImage {
                          System.out.println(ae.getActionCommand());
                   }
                 });
-                
+
                 /* Adding the button to the p JPanel */
                 this.defaultBoard[xIndex][yIndex] = button;
                 this.editedBoard[xIndex][yIndex] = button;
-                
+
                 count++;
                 yIndex++;
                 /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
@@ -178,14 +179,14 @@ public class BoardImage {
         }
         return p;
 	}
-	
+
 	public JPanel move(int initX, int initY, int finX, int finY) {
 		JPanel newPanel = null;
-		
+
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of 
-		
-		
+		this.editedBoard[finX][finY] = this.editedBoard[initX][initY]; //this should give us the colour of
+
+
 		return newPanel;
 	}
 
