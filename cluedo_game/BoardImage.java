@@ -188,8 +188,8 @@ public class BoardImage {
 	 */
 	public JPanel move(int initY, int initX, int finY, int finX) {
 		/* Creating new JPanel -- set = to an empty layout */
-		JPanel newPanel = this.returnEmptyGridLayout();
-		JPanel returnMe = null;
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
 		/* Assigning the colour of the new JButton */
 		this.editedBoard[finY][finX] = this.editedBoard[initY][initX];
 
@@ -205,9 +205,8 @@ public class BoardImage {
 				newPanel.add(temp);
 			}
 		}
-		returnMe = this.returnFinalJPanel();
 		returnMe.add(newPanel);
-		
+
 		return returnMe;
 	}
 
