@@ -82,8 +82,8 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        JPanel placeHolder = placeHolder();
-        userDisplay.add(placeHolder);
+        JPanel boardImagePanel = boardImagePanel();
+        userDisplay.add(boardImagePanel);
 
         JPanel movementPanel = movementUpdate();
 
@@ -95,7 +95,7 @@ public class UserInterface extends JPanel {
         for (int i=0;i<100000;i++) System.out.println("hello");
 
         display.setVisible(false);
-        userDisplay.remove(placeHolder);
+        userDisplay.remove(boardImagePanel);
         userDisplay.add(movementPanel);
         display.setVisible(true);
     }
@@ -372,25 +372,7 @@ public class UserInterface extends JPanel {
     /**
      * The graphical portion of the GUI
      */
-//    private class BoardPanel{
-//        private BoardImage boardImage;
-//        private JPanel boardImagePanel;
-//
-//        public BoardPanel(){
-//            boardImage = new BoardImage();
-//            boardImagePanel = boardImage.getImagePanel();
-//            boardImagePanel.setBackground(Color.BLACK);
-//        }
-//
-//        public JPanel getBoardImagePanel() {
-//            return boardImagePanel;
-//        }
-//    }
-
-    /*
-    A placeholder JPanel while the image is being worked on
-     */
-    public JPanel placeHolder(){
+    public JPanel boardImagePanel(){
 
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
