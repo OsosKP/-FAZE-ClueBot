@@ -31,7 +31,7 @@ public class BoardImage {
 	 * default constructor
 	 */
 	public BoardImage() {
-		//this.createPanel();
+//		this.createPanel();
 	}
 	/**
 	 * returns a panel that can be added to a JFrame
