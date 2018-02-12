@@ -48,6 +48,32 @@ public class BoardImage {
 		holder.add(p);
 		return holder;
 	}
+	
+	
+	public JPanel returnPanel() {
+        try {
+            bi = ImageIO.read(new File("board1.jpg"));
+        }
+        catch (IOException e) {
+        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
+        	try {
+            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
+            	bi = ImageIO.read(url);
+				System.out.println("Uh oh");
+        	}
+        	catch (Exception q) {
+        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
+        	}
+
+        }
+
+		JPanel p = this.returnEmptyGridLayout();
+		p = this.populateGrid(p);
+
+		JPanel holder = this.returnFinalJPanel();
+		holder.add(p);
+		return holder;
+	}
 
 	public JPanel getImagePanel() {
 		return imagePanel;
