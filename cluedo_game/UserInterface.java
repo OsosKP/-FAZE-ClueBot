@@ -89,6 +89,7 @@ public class UserInterface extends JPanel {
         // Make the UI visible
         display.setVisible(true);
         
+        /*  */
         JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
       
         display.setVisible(false);
