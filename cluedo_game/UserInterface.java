@@ -88,14 +88,9 @@ public class UserInterface extends JPanel {
         display.add(userDisplay);
         // Make the UI visible
         display.setVisible(true);
-
-        try {
-            Thread.sleep(4000);
-        }
-        catch (Exception e) {
-        	System.err.println("Stuff Broke");
-        }
         
+        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
+      
         display.setVisible(false);
         userDisplay.remove(boardImagePanel);
         userDisplay.add(movementPanel);
