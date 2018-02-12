@@ -1,21 +1,14 @@
 package cluedo_game;
 
-import clojure.lang.Obj;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 /**
  * UserInterface
@@ -78,17 +71,12 @@ public class UserInterface extends JPanel {
         // Add the input and output panels in the appropriate positions
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
-<<<<<<< HEAD
-        // Image panel
-        JPanel boardImagePanel = boardImagePanel();
-=======
         // Placeholder panel for image
         BoardImage myImg = new BoardImage();
         
         JPanel boardImagePanel = myImg.returnPanel(); 
         boardImagePanel = myImg.refreshMe();
 
->>>>>>> 8a7f733e805b46fe86536d6af17a7900e45c5231
         userDisplay.add(boardImagePanel);
 
         JPanel movementPanel = movementUpdate();
