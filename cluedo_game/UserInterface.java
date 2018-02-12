@@ -391,7 +391,7 @@ public class UserInterface extends JPanel {
     public JPanel movementUpdate(){
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
-
+        
         /*
         This version is a hopefully more mobile version of the image loading method
          */
