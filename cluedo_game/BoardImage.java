@@ -186,6 +186,8 @@ public class BoardImage {
                 /* Adding button to panel -- doesn't really matter that we add this now because this is an un-edited board */
                 //p.add(button);
              }
+        	
+        	
             /* Incrementing array counters */
             xIndex++;
         }
@@ -210,6 +212,24 @@ public class BoardImage {
 		/* Returning the old JButton to its original colour */
 		this.editedBoard[initY][initX] = this.defaultBoard[initY][initX];
 
+		/* Need to recreate the JPanel based on the new */
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				JButton temp = this.editedBoard[rows][cols];
+				temp.setBorder(null);
+				newPanel.add(temp);
+			}
+		}
+		returnMe.add(newPanel);
+
+		return returnMe;
+	}
+	
+	public JPanel refreshMe() {
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
+		
 		/* Need to recreate the JPanel based on the new */
 		for (int rows = 0; rows < 25; rows++) {
 			for (int cols = 0; cols < 24; cols++) {

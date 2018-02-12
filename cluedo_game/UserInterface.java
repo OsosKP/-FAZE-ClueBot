@@ -81,6 +81,7 @@ public class UserInterface extends JPanel {
         // Image panel
         BoardImage myImg = new BoardImage();
         JPanel boardImagePanel = myImg.returnPanel(); 
+        boardImagePanel = myImg.refreshMe();
 
         userDisplay.add(boardImagePanel);
 
