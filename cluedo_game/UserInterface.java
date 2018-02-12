@@ -363,18 +363,6 @@ public class UserInterface extends JPanel {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
-//        try {
-//            bi = ImageIO.read(new File("board1.jpg"));
-//        }
-//        catch (IOException e) {
-//            try {
-//                bi = attemptToLoadImageFromResourceFolder();
-//            } catch (Exception resourceLoadException){
-//                resourceLoadException.printStackTrace();
-//                e.printStackTrace();
-//            }
-//        }
-
         try {
             bi = attemptToLoadImageFromResourceFolder();
         } catch (Exception resourceLoadException){
@@ -398,16 +386,7 @@ public class UserInterface extends JPanel {
     public JPanel movementUpdate(){
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
-//        try {
-//            bi = ImageIO.read(new File("board1.jpg"));
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
-        /*
-        This version is a hopefully more mobile version of the image loading method
-         */
         try {
             bi = attemptToLoadImageFromResourceFolder();
         } catch (Exception resourceLoadException){
