@@ -15,6 +15,9 @@ public class BoardImage {
 	private int height = 0;
 	private int step = 0;
 	BufferedImage bi;
+	// Poor Professor Plum should get his own color, too
+	private final Color PURPLE = new Color(75, 0, 130);
+
 
 	private JPanel imagePanel;
 	private JButton[][] defaultBoard = new JButton[25][24];
@@ -42,6 +45,9 @@ public class BoardImage {
 		return holder;
 	}
 
+	public JPanel getImagePanel() {
+		return imagePanel;
+	}
 
 	/**
      * Sticks the image into a JPanel and makes that the instance variable for this class
@@ -74,28 +80,7 @@ public class BoardImage {
 		holder.add(p);
 		imagePanel = holder;
 	}
-	/**
-	 * test method that tests with the default map
-	 * @param bi a buffered image to load into the class variable
-	 */
-	public void testMe(BufferedImage bi) {
-        JFrame frame = new JFrame("Test Bufferedimage");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.bi = bi;
-
-		JPanel p = this.returnEmptyGridLayout();
-		p = this.populateGrid(p);
-
-        /* Setting frame size -- Will be removed */
-        frame.setSize(this.width,this.height);
-        frame.setVisible(true);
-
-		JPanel holder = this.returnFinalJPanel();
-		holder.add(p);
-		frame.add(holder);
-
-	}
 	/**
 	 * Constructs an empty grid, places it in a JPanel and returns it
 	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
@@ -169,7 +154,7 @@ public class BoardImage {
 
                 count++;
                 yIndex++;
-                /* Adding button to panel -- doesnt really matter that we add this now because this is an un-edited board */
+                /* Adding button to panel -- doesn't really matter that we add this now because this is an un-edited board */
                 //p.add(button);
              }
             /* Incrementing array counters */
@@ -211,35 +196,47 @@ public class BoardImage {
 	}
 
 	public void initPlayers() {
-		//WHITE
+		//White
 		JButton white = new JButton();
 		white.setBorder(null);
 		white.setBackground(Color.WHITE);
+		white.setOpaque(true);
+		white.setBorderPainted(false);
 		editedBoard[0][9]=white;
 		//Green
 		JButton green = new JButton();
 		green.setBorder(null);
 		green.setBackground(Color.GREEN);
+		green.setOpaque(true);
+		green.setBorderPainted(false);
 		editedBoard[0][14]=green;
 		//Peacock
 		JButton peacock = new JButton();
 		peacock.setBorder(null);
 		peacock.setBackground(Color.BLUE);
+		peacock.setOpaque(true);
+		peacock.setBorderPainted(false);
 		editedBoard[6][23]=peacock;
 		//Mustard
 		JButton mustard = new JButton();
 		mustard.setBorder(null);
 		mustard.setBackground(Color.YELLOW);
+		mustard.setOpaque(true);
+		mustard.setBorderPainted(false);
 		editedBoard[17][0]=mustard;
 		//Plum
 		JButton plum = new JButton();
 		plum.setBorder(null);
-		plum.setBackground(Color.PINK);
+		plum.setBackground(PURPLE);
+		plum.setOpaque(true);
+		plum.setBorderPainted(false);
 		editedBoard[19][23]=plum;
 		//Scarlet
 		JButton scarlet = new JButton();
 		scarlet.setBorder(null);
 		scarlet.setBackground(Color.RED);
+		scarlet.setOpaque(true);
+		scarlet.setBorderPainted(false);
 		editedBoard[24][7]=scarlet;
 	}
 
@@ -254,7 +251,7 @@ public class BoardImage {
 
 	/**
 	 * returns JPanel that will be used to hold the JPanel of buttons
-	 * @return
+	 * @return a formatted JPanel for the board image
 	 */
 	private JPanel returnFinalJPanel() {
         /* Put the first JPanel in this one -- GridBagLayout messes with the spacing to make it look nicer */
@@ -263,20 +260,47 @@ public class BoardImage {
         return center;
 	}
 	/**
-	 * returns the default array of JButtons
-	 * @return
+	 * returnDefaultBoard
+	 * @return the default array of JButtons
 	 */
 	public JButton[][] returnDefultBoard(){
 		return this.defaultBoard;
 	}
 	/**
-	 * returns the edited array of JButtons
-	 * @return
+	 * returnEditedBoard
+	 * @return the edited array of JButtons
 	 */
 	public JButton[][] returnEditedBoard(){
 		return this.editedBoard;
 	}
 
+	/**
+	 * test method that tests with the default map
+	 * @param bi a buffered image to load into the class variable
+	 */
+	public void testMe(BufferedImage bi) {
+		JFrame frame = new JFrame("Test BufferedImage");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		this.bi = bi;
+
+		JPanel p = this.returnEmptyGridLayout();
+		p = this.populateGrid(p);
+
+		/* Setting frame size -- Will be removed */
+		frame.setSize(this.width,this.height);
+		frame.setVisible(true);
+
+		JPanel holder = this.returnFinalJPanel();
+		holder.add(p);
+		frame.add(holder);
+
+	}
+	/**
+	 * Tester Class
+	 * @param args command-line arguments
+	 * @throws IOException Exception thrown if unable to load the image
+	 */
     public static void main(String[] args) throws IOException {
 
         BufferedImage test = null;
@@ -289,9 +313,5 @@ public class BoardImage {
             e.printStackTrace();
         }
         testMe.testMe(test);
-    }
-
-    public JPanel getImagePanel() {
-        return imagePanel;
     }
 }

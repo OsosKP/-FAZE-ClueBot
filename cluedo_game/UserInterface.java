@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 /**
  * UserInterface
@@ -32,14 +35,6 @@ public class UserInterface extends JPanel {
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
-
-
-
-    // The graphical component of the display
-//    private BoardPanel image = new BoardPanel();
-//    private JPanel imagePanel = image.getBoardImagePanel();
-
-
 
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
@@ -92,19 +87,10 @@ public class UserInterface extends JPanel {
         // Make the UI visible
         display.setVisible(true);
 
-        for (int i=0;i<100000;i++) System.out.println("hello");
-
         display.setVisible(false);
         userDisplay.remove(boardImagePanel);
         userDisplay.add(movementPanel);
         display.setVisible(true);
-    }
-
-    /**
-     * Update the currentPlayer variable within the UI class
-     */
-    public void setCurrentPlayer(Token player){
-        this.currentPlayer = player;
     }
 
     public void refreshDisplay(Token p){
@@ -376,28 +362,56 @@ public class UserInterface extends JPanel {
 
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
+
+//        try {
+//            bi = ImageIO.read(new File("board1.jpg"));
+//        }
+//        catch (IOException e) {
+//            try {
+//                bi = attemptToLoadImageFromResourceFolder();
+//            } catch (Exception resourceLoadException){
+//                resourceLoadException.printStackTrace();
+//                e.printStackTrace();
+//            }
+//        }
+
         try {
-            bi = ImageIO.read(new File("board1.jpg"));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            bi = attemptToLoadImageFromResourceFolder();
+        } catch (Exception resourceLoadException){
+            resourceLoadException.printStackTrace();
         }
 
-        JPanel tempPanel = boardimage.returnPanel(bi);
-        return tempPanel;
+        return boardimage.returnPanel(bi);
+    }
+
+    /**
+     * attemptToLoadImageFromResourceFolder
+     * This method pulls the URL/path from an image name and loads that into a buffered image
+     * @return a buffered image loaded from the hard-coded URL
+     * @throws Exception Prints a stack trace in boardImagePanel if the image is not found
+     */
+    public BufferedImage attemptToLoadImageFromResourceFolder() throws Exception {
+        URL imageUrl = this.getClass().getResource("board1.jpg");
+        return ImageIO.read(imageUrl);
     }
 
     public JPanel movementUpdate(){
-
-        //This is super shit code that needs to be rewritten
-
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
+//        try {
+//            bi = ImageIO.read(new File("board1.jpg"));
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        /*
+        This version is a hopefully more mobile version of the image loading method
+         */
         try {
-            bi = ImageIO.read(new File("board1.jpg"));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            bi = attemptToLoadImageFromResourceFolder();
+        } catch (Exception resourceLoadException){
+            resourceLoadException.printStackTrace();
         }
 
         JPanel tempPanel = boardimage.returnPanel(bi);
@@ -405,5 +419,12 @@ public class UserInterface extends JPanel {
         return tempPanel;
     }
 
+
+    /**
+     * Update the currentPlayer variable within the UI class
+     */
+    public void setCurrentPlayer(Token player){
+        this.currentPlayer = player;
+    }
 
 }
