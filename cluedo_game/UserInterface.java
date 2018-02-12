@@ -81,12 +81,16 @@ public class UserInterface extends JPanel {
         userDisplay.add(boardImagePanel);
 
         JPanel movementPanel = movementUpdate();
+        
+        
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
         // Make the UI visible
         display.setVisible(true);
-
+        
+        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
+      
         display.setVisible(false);
         userDisplay.remove(boardImagePanel);
         userDisplay.add(movementPanel);
@@ -387,6 +391,12 @@ public class UserInterface extends JPanel {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
+<<<<<<< HEAD
+=======
+        /*
+        This version is a hopefully more mobile version of the image loading method
+         */
+>>>>>>> facd6c583f24dbccdf15f16db97009ee924177fb
         try {
             bi = attemptToLoadImageFromResourceFolder();
         } catch (Exception resourceLoadException){
@@ -394,6 +404,7 @@ public class UserInterface extends JPanel {
         }
 
         JPanel tempPanel = boardimage.returnPanel(bi);
+
         tempPanel = boardimage.move(0,9,1,9);
         return tempPanel;
     }

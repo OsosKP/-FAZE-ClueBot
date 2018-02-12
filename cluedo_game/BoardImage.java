@@ -65,8 +65,8 @@ public class BoardImage {
         catch (IOException e) {
         	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
         	try {
-            	//URL url = new URL("https://i.imgur.com/DVoCYy1.png");
-            	//bi = ImageIO.read(url);
+            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
+            	bi = ImageIO.read(url);
 				System.out.println("Uh oh");
         	}
         	catch (Exception q) {
