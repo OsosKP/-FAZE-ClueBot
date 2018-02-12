@@ -71,9 +71,8 @@ public class UserInterface extends JPanel {
         // Add the input and output panels in the appropriate positions
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
-        // Placeholder panel for image
+        /* Setting the board */
         BoardImage myImg = new BoardImage();
-        
         JPanel boardImagePanel = myImg.returnPanel(); 
         boardImagePanel = myImg.refreshMe();
 

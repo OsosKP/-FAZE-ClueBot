@@ -51,21 +51,20 @@ public class BoardImage {
 	
 	
 	public JPanel returnPanel() {
-        try {
-            bi = ImageIO.read(new File("board1.jpg"));
-        }
-        catch (IOException e) {
-        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
-        	try {
-            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
-            	bi = ImageIO.read(url);
+		try {
+			URL imageUrl = this.getClass().getResource("board1.jpg");
+			bi = ImageIO.read(imageUrl);
+		} catch (Exception resourceLoadException){
+			System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
+			try {
+				URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
+				bi = ImageIO.read(url);
 				System.out.println("Uh oh");
-        	}
-        	catch (Exception q) {
-        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
-        	}
-
-        }
+			}
+			catch (Exception q) {
+				System.err.println("Unable to find image file in local system AND has no connection to imgur");
+			}
+		}
 
 		JPanel p = this.returnEmptyGridLayout();
 		p = this.populateGrid(p);
@@ -82,34 +81,34 @@ public class BoardImage {
 	/**
      * Sticks the image into a JPanel and makes that the instance variable for this class
 	 */
-	public void createPanel() {
-        BufferedImage test = null;
-
-        try {
-            test = ImageIO.read(new File("board1.jpg"));
-        }
-        catch (IOException e) {
-        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
-        	try {
-            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
-            	bi = ImageIO.read(url);
-				System.out.println("Uh oh");
-        	}
-        	catch (Exception q) {
-        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
-        	}
-
-        }
-
-		this.bi = test;
-
-		JPanel p = this.returnEmptyGridLayout();
-		p = this.populateGrid(p);
-
-		JPanel holder = this.returnFinalJPanel();
-		holder.add(p);
-		imagePanel = holder;
-	}
+//	public void createPanel() {
+//        BufferedImage test = null;
+//
+//        try {
+//            test = ImageIO.read(new File("board1.jpg"));
+//        }
+//        catch (IOException e) {
+//        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
+//        	try {
+//            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
+//            	bi = ImageIO.read(url);
+//				System.out.println("Uh oh");
+//        	}
+//        	catch (Exception q) {
+//        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
+//        	}
+//
+//        }
+//
+//		this.bi = test;
+//
+//		JPanel p = this.returnEmptyGridLayout();
+//		p = this.populateGrid(p);
+//
+//		JPanel holder = this.returnFinalJPanel();
+//		holder.add(p);
+//		imagePanel = holder;
+//	}
 
 	/**
 	 * Constructs an empty grid, places it in a JPanel and returns it
