@@ -77,7 +77,10 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         // Placeholder panel for image
-        JPanel boardImagePanel = boardImagePanel();
+        BoardImage myImg = new BoardImage();
+        
+        JPanel boardImagePanel = myImg.returnPanel(); 
+
         userDisplay.add(boardImagePanel);
 
         JPanel movementPanel = movementUpdate();
