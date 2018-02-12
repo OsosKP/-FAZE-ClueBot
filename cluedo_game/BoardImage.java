@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class BoardImage {
@@ -18,6 +20,8 @@ public class BoardImage {
 	// Poor Professor Plum should get his own color, too
 	private final Color PURPLE = new Color(75, 0, 130);
 
+	private JButton[] weaponArray;
+	private ArrayList<Integer[]> weaponRoomLocations;
 
 	private JPanel imagePanel;
 	private JButton[][] defaultBoard = new JButton[25][24];
@@ -240,8 +244,107 @@ public class BoardImage {
 		editedBoard[24][7]=scarlet;
 	}
 
+	/**
+	 * This is a very messy method that initializes board squares where the weapons are located for visual
+	 * representation. It puts those coordinates in an array, then builds an array of weapon JButtons and
+	 * puts those JButtons into random rooms.
+	 */
+	public void initWeapons() {
+		weaponArray = new JButton[6];
+		/*
+		Setting up the coordinates in this way will make it easier to randomize them
+		 */
+		int[] kitchenWeaponLocation = {4, 2};
+		int[] ballroomWeaponLocation = {5, 12};
+		int[] conservatoryWeaponLocation = {3, 21};
+		int[] diningRoomWeaponLocation = {12, 3};
+		int[] billiardRoomWeaponLocation = {10, 21};
+		int[] libraryWeaponLocation = {16, 20};
+		int[] loungeWeaponLocation = {21, 3};
+		int[] hallWeaponLocation = {21, 12};
+		int[] studyWeaponLocation = {22, 20};
+
+		int[][] weaponRoomLocations = new int[9][];
+			weaponRoomLocations[0] = kitchenWeaponLocation;
+			weaponRoomLocations[1] = ballroomWeaponLocation;
+			weaponRoomLocations[2] = conservatoryWeaponLocation;
+			weaponRoomLocations[3] = diningRoomWeaponLocation;
+			weaponRoomLocations[4] = billiardRoomWeaponLocation;
+			weaponRoomLocations[5] = libraryWeaponLocation;
+			weaponRoomLocations[6] = loungeWeaponLocation;
+			weaponRoomLocations[7] = hallWeaponLocation;
+			weaponRoomLocations[8] = studyWeaponLocation;
+
+		/*
+		Build array of weapon JButtons and place them onto the board (not randomly yet)
+		This is messy but gets the job done for now
+		TODO: Write a more elegant way to stick the weapons onto the board, and connect it with BoardBuilder
+		 */
+		//Wrench
+		JButton wrench = new JButton();
+		wrench.setBorder(null);
+		wrench.setBackground(Color.BLACK);
+		wrench.setText("W");
+		wrench.setForeground(Color.WHITE);
+		wrench.setOpaque(true);
+		wrench.setBorderPainted(false);
+		weaponArray[0] = wrench;
+		editedBoard[kitchenWeaponLocation[0]][kitchenWeaponLocation[1]] = weaponArray[0];
+		//Rope
+		JButton rope = new JButton();
+		rope.setBorder(null);
+		rope.setBackground(Color.BLACK);
+		rope.setText("R");
+		rope.setForeground(Color.WHITE);
+		rope.setOpaque(true);
+		rope.setBorderPainted(false);
+		weaponArray[1] = rope;
+		editedBoard[ballroomWeaponLocation[0]][ballroomWeaponLocation[1]] = weaponArray[1];
+		//Candlestick
+		JButton candlestick = new JButton();
+		candlestick.setBorder(null);
+		candlestick.setBackground(Color.BLACK);
+		candlestick.setText("C");
+		candlestick.setForeground(Color.WHITE);
+		candlestick.setOpaque(true);
+		candlestick.setBorderPainted(false);
+		weaponArray[2] = candlestick;
+		editedBoard[conservatoryWeaponLocation[0]][conservatoryWeaponLocation[1]] = weaponArray[2];
+		//Pipe
+		JButton pipe = new JButton();
+		pipe.setBorder(null);
+		pipe.setBackground(Color.BLACK);
+		pipe.setText("P");
+		pipe.setForeground(Color.WHITE);
+		pipe.setOpaque(true);
+		pipe.setBorderPainted(false);
+		weaponArray[3] = pipe;
+		editedBoard[diningRoomWeaponLocation[0]][diningRoomWeaponLocation[1]] = weaponArray[3];
+		//Gun - using this instead of revolver so I can represent it with 'G' since Rope is 'R'
+		JButton gun = new JButton();
+		gun.setBorder(null);
+		gun.setBackground(Color.BLACK);
+		gun.setText("G");
+		gun.setForeground(Color.WHITE);
+		gun.setOpaque(true);
+		gun.setBorderPainted(false);
+		weaponArray[4] = gun;
+		editedBoard[billiardRoomWeaponLocation[0]][billiardRoomWeaponLocation[1]] = weaponArray[4];
+		//Dagger
+		JButton dagger = new JButton();
+		dagger.setBorder(null);
+		dagger.setBackground(Color.BLACK);
+		dagger.setText("D");
+		dagger.setForeground(Color.WHITE);
+		dagger.setOpaque(true);
+		dagger.setBorderPainted(false);
+		weaponArray[5] = dagger;
+		editedBoard[libraryWeaponLocation[0]][libraryWeaponLocation[1]] = weaponArray[5];
+	}
+
 	public void drawForTheFistTime(JPanel p){
 		initPlayers();
+		initWeapons();
 		for (int i=0;i<25;i++){
 			for (int j=0;j<24;j++){
 				p.add(editedBoard[i][j]);
