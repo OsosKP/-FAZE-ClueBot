@@ -1,5 +1,7 @@
 package cluedo_game;
 
+import clojure.lang.Obj;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -76,23 +78,26 @@ public class UserInterface extends JPanel {
         // Add the input and output panels in the appropriate positions
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
+<<<<<<< HEAD
+        // Image panel
+        JPanel boardImagePanel = boardImagePanel();
+=======
         // Placeholder panel for image
         BoardImage myImg = new BoardImage();
         
         JPanel boardImagePanel = myImg.returnPanel(); 
         boardImagePanel = myImg.refreshMe();
 
+>>>>>>> 8a7f733e805b46fe86536d6af17a7900e45c5231
         userDisplay.add(boardImagePanel);
 
         JPanel movementPanel = movementUpdate();
-        
-        
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
         // Make the UI visible
         display.setVisible(true);
-        
+
         /*  */
         JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
       
@@ -381,21 +386,10 @@ public class UserInterface extends JPanel {
         return boardimage.returnPanel(bi);
     }
 
-    /**
-     * attemptToLoadImageFromResourceFolder
-     * This method pulls the URL/path from an image name and loads that into a buffered image
-     * @return a buffered image loaded from the hard-coded URL
-     * @throws Exception Prints a stack trace in boardImagePanel if the image is not found
-     */
-    public BufferedImage attemptToLoadImageFromResourceFolder() throws Exception {
-        URL imageUrl = this.getClass().getResource("board1.jpg");
-        return ImageIO.read(imageUrl);
-    }
-
     public JPanel movementUpdate(){
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
-        
+
         /*
         This version is a hopefully more mobile version of the image loading method
          */
@@ -409,6 +403,17 @@ public class UserInterface extends JPanel {
 
         tempPanel = boardimage.move(0,9,1,9);
         return tempPanel;
+    }
+
+    /**
+     * attemptToLoadImageFromResourceFolder
+     * This method pulls the URL/path from an image name and loads that into a buffered image
+     * @return a buffered image loaded from the hard-coded URL
+     * @throws Exception Prints a stack trace in boardImagePanel if the image is not found
+     */
+    public BufferedImage attemptToLoadImageFromResourceFolder() throws Exception {
+        URL imageUrl = this.getClass().getResource("board1.jpg");
+        return ImageIO.read(imageUrl);
     }
 
 
