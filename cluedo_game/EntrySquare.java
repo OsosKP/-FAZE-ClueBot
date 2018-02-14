@@ -4,6 +4,11 @@
 
 package cluedo_game;
 
+/**
+ * EntrySquare
+ * The BoardSquares that allow entry to a room (and serve to index the exit location)
+ * See BoardSquare for detailed information on the methods
+ */
 public class EntrySquare implements BoardSquare{
 	private final int[] position = new int[2];
 	private final Room roomAssigned;

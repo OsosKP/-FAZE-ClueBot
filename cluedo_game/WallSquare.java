@@ -4,6 +4,11 @@
 
 package cluedo_game;
 
+/**
+ * WallSquare
+ * The BoardSquares which cannot be traversed
+ * See BoardSquare for detailed information on the methods
+ */
 public class WallSquare implements BoardSquare {
     /*
         Instance variables

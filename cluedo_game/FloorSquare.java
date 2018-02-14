@@ -4,6 +4,11 @@
 
 package cluedo_game;
 
+/**
+ * FloorSquare
+ * The BoardSquares which are traversed normally
+ * See BoardSquare for detailed information on the methods
+ */
 public class FloorSquare implements BoardSquare {
     //Instance Variables
     private Token playerOn;         // The player token currently on the square
