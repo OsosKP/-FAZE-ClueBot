@@ -4,29 +4,43 @@
 
 package cluedo_game;
 
+/**
+ * This is the interface class for all kinds of square that will appear on the board
+ */
 public interface BoardSquare{
-	/* X and Y position of the Square */
-	int[] position = new int[2];
-
 	/**
      * Returns coordinates (indices) of this square on the board
      * @return An integer array of the x and y coordinates
      */
-    int[] getLocation();
-    String getSquareType();//We can change this later
-    boolean isPlayerOn();
-    void setPlayerOn(Token playerOn);
-    void removePlayerOn();
-    Token getPlayerOn();
+    int[] getPosition();
+    /*
+    Returns a string representation of the type of square
+     */
     String toString();
+    /*
+    Returns the square type for specifying from BoardSquare
+     */
+    BoardSquare getSquareType();
+    // Returns true if this square is occupied by a player
+    boolean isPlayerOn();
+    Token getPlayerOn();
+
+    BoardSquare getAbove();
+    BoardSquare getBelow();
+    BoardSquare getLeft();
+    BoardSquare getRight();
+
+    /**
+     * Puts given player on this square
+     * @param playerOn token that is moving here
+     */
+    void setPlayerOn(Token playerOn);
+    // Sets playerOn to null and returns that token so that it can be moved to another square more easily
+    Token removePlayerOn();
     /**
      * setGeography
      * Places pointers to the square above, below, to the left and to the right of this one
      * @param board the game board
      */
     void setGeography(BoardBuilder board);
-    BoardSquare getAbove();
-    BoardSquare getBelow();
-    BoardSquare getLeft();
-    BoardSquare getRight();
 }

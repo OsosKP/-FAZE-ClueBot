@@ -8,7 +8,7 @@ public class FloorSquare implements BoardSquare {
     //Instance Variables
     private Token playerOn;         // The player token currently on the square
     private final Token spawnPoint; // The player who spawns on this square
-    private int[] location = null;         // Coordinates of this square on the board
+    private int[] position;         // Coordinates of this square on the board
     // Navigational pointers
     private BoardSquare above;
     private BoardSquare below;
@@ -20,51 +20,37 @@ public class FloorSquare implements BoardSquare {
     //
     public FloorSquare(int x, int y, Token spawnPoint) {
 	    /* Initializing the array */
-    	this.location = new int[2];
-    	this.location[0] = x;
-	    this.location[1] = y;
+    	this.position = new int[2];
+    	this.position[0] = x;
+	    this.position[1] = y;
   		this.spawnPoint = spawnPoint;
   		this.playerOn = spawnPoint;
   	}
 
   	public FloorSquare(int x, int y) {
 	    /* Initializing the array */
-    	this.location = new int[2];
+    	this.position = new int[2];
     	
-  		this.location[0] = x;
-  		this.location[1] = y;
+  		this.position[0] = x;
+  		this.position[1] = y;
   		this.spawnPoint = null;
   		this.playerOn = null;
   	}
 
-  	public FloorSquare(){ // This is just a dummy square to check type
-        this.spawnPoint = null;
-    }
-
     //
     //Accessors
     //
-    public Token getPlayerOn() {return playerOn;}
-    public Token getSpawnPoint() {return spawnPoint;}
-    @Override
-    public int[] getLocation() {return location;}
-
-    /**
-     * getSquareType
-     * This method returns an object of type FloorSquare
-     * This is used to check that the object containing this method is a FloorSquare
-     * @return temporary object of type FloorSquare
-     */
-    @Override
-    public String getSquareType() {
-        return "Floor";
-    }
-
-    @Override
+    public String toString() { return "floor"; }
+    public FloorSquare getSquareType() { return this; }
     public boolean isPlayerOn() {
         return (this.playerOn != null);
     }
-
+    public Token getPlayerOn() {return playerOn;}
+    public Token getSpawnPoint() {return spawnPoint;}
+    public int[] getPosition() {return position;}
+    /*
+    Geographical Pointers
+     */
     public BoardSquare getAbove() { return this.above; }
     public BoardSquare getBelow() { return this.below; }
     public BoardSquare getLeft() { return this.toLeft; }
@@ -74,7 +60,11 @@ public class FloorSquare implements BoardSquare {
     //Mutators
     //
   	public void setPlayerOn(Token playerOn) {this.playerOn = playerOn;}
-    public void removePlayerOn() {this.playerOn = null;}
+    public Token removePlayerOn() {
+        Token removedPlayer = this.playerOn;
+        this.playerOn = null;
+        return removedPlayer;
+    }
 
     /**
      * setGeography
@@ -83,26 +73,24 @@ public class FloorSquare implements BoardSquare {
      */
     public void setGeography(BoardBuilder board){
         // Set a pointer to the square above this one
-        if(this.location[0] > 0)
-            this.above = board.getSquare(this.location[0]-1, this.location[1]);
+        if(this.position[0] > 0)
+            this.above = board.getSquare(this.position[0]-1, this.position[1]);
         else
             this.above = null;
         // Set a pointer to the square below this one
-        if(this.location[0] < 23)
-            this.below = board.getSquare(this.location[0]+1, this.location[1]);
+        if(this.position[0] < 23)
+            this.below = board.getSquare(this.position[0]+1, this.position[1]);
         else
             this.below = null;
         // Set a pointer to the square to the left of this one
-        if(this.location[1] > 0)
-            this.toLeft = board.getSquare(this.location[0], this.location[1]-1);
+        if(this.position[1] > 0)
+            this.toLeft = board.getSquare(this.position[0], this.position[1]-1);
         else
             this.toLeft = null;
         // Set a pointer to the square to the right of this one
-        if(this.location[1] < 24)
-            this.toRight = board.getSquare(this.location[0], this.location[1]+1);
+        if(this.position[1] < 24)
+            this.toRight = board.getSquare(this.position[0], this.position[1]+1);
         else
             this.toRight = null;
     }
-
-    public String toString() { return "floor"; }
 }

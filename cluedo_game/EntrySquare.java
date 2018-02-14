@@ -5,36 +5,32 @@
 package cluedo_game;
 
 public class EntrySquare implements BoardSquare{
-	private final int[] location = new int[2];
+	private final int[] position = new int[2];
 	private final Room roomAssigned;
 	private final int referenceNumber;
 	private boolean playerOnCheck;
 	private Token playerOn;
 	// Navigational pointers
 	private BoardSquare above;
-
-	public void removePlayerOn() {
-
-	}
-
 	private BoardSquare below;
 	private BoardSquare toLeft;
 	private BoardSquare toRight;
+
+	public Token removePlayerOn() {
+		Token removedPlayer = this.playerOn;
+		this.playerOn = null;
+		return removedPlayer;
+	}
 
 	//
 	//Constructors
 	//
 	public EntrySquare(int x, int y, Room roomAssigned, int refNum){
-		location[0] = x;
-		location[1] = y;
+		position[0] = x;
+		position[1] = y;
 		this.roomAssigned = roomAssigned;
 		this.referenceNumber = refNum;
 		this.playerOnCheck = false;
-	}
-	public EntrySquare(){
-		// This is a dummy EntrySquare for type check
-		this.roomAssigned = null;
-		this.referenceNumber = -1;
 	}
 
 	//
@@ -44,37 +40,10 @@ public class EntrySquare implements BoardSquare{
 	public int getRefNum() {return this.referenceNumber;}
 	public boolean isPlayerOn() {return playerOnCheck;}
 	public Token getPlayerOn(){ return this.playerOn; }
-	@Override
-	public int[] getLocation() {return location;}
-
-	/**
-	 * setGeography
-	 * Places pointers to the square above, below, to the left and to the right of this one
-	 * @param board the game board
-	 */
-	public void setGeography(BoardBuilder board){
-		// Set a pointer to the square above this one
-		if(this.location[0] > 0)
-			this.above = board.getSquare(this.location[0]-1, this.location[1]);
-		else
-			this.above = null;
-		// Set a pointer to the square below this one
-		if(this.location[0] < 23)
-			this.below = board.getSquare(this.location[0]+1, this.location[1]);
-		else
-			this.below = null;
-		// Set a pointer to the square to the left of this one
-		if(this.location[1] > 0)
-			this.toLeft = board.getSquare(this.location[0], this.location[1]-1);
-		else
-			this.toLeft = null;
-		// Set a pointer to the square to the right of this one
-		if(this.location[1] < 24)
-			this.toRight = board.getSquare(this.location[0], this.location[1]+1);
-		else
-			this.toRight = null;
-	}
-
+	public int[] getPosition() {return position;}
+	/*
+	Geographical Pointers
+    */
 	public BoardSquare getAbove() { return this.above; }
 	public BoardSquare getBelow() { return this.below; }
 	public BoardSquare getLeft() { return this.toLeft; }
@@ -92,10 +61,37 @@ public class EntrySquare implements BoardSquare{
 	 * @return temporary object of type EntrySquare
 	 */
 	@Override
-	public String getSquareType() {
-		return "Entry";
+	public EntrySquare getSquareType() {
+		return this;
 	}
+	@Override
 	public String toString(){ return "entry"; }
 
-
+	/**
+	 * setGeography
+	 * Places pointers to the square above, below, to the left and to the right of this one
+	 * @param board the game board
+	 */
+	public void setGeography(BoardBuilder board){
+		// Set a pointer to the square above this one
+		if(this.position[0] > 0)
+			this.above = board.getSquare(this.position[0]-1, this.position[1]);
+		else
+			this.above = null;
+		// Set a pointer to the square below this one
+		if(this.position[0] < 23)
+			this.below = board.getSquare(this.position[0]+1, this.position[1]);
+		else
+			this.below = null;
+		// Set a pointer to the square to the left of this one
+		if(this.position[1] > 0)
+			this.toLeft = board.getSquare(this.position[0], this.position[1]-1);
+		else
+			this.toLeft = null;
+		// Set a pointer to the square to the right of this one
+		if(this.position[1] < 24)
+			this.toRight = board.getSquare(this.position[0], this.position[1]+1);
+		else
+			this.toRight = null;
+	}
 }

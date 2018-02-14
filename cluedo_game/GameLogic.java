@@ -10,14 +10,15 @@ package cluedo_game;
  */
 public class GameLogic {
 	/* This is going to handle the boahttps://boards.4chan.org/g/4rd */
-	BoardBuilder curentBoard = null;
-	PlayerList currentPlayers = null;	
+	BoardBuilder currentBoard;
+	Tokens playerList;
 	
 	public GameLogic(BoardBuilder currentBoard) {
-		this.curentBoard = currentBoard;
+
+		this.currentBoard = currentBoard;
 	}
 	
-	/* this is where we have to initalize our boardBuilde */
+	/* this is where we have to initialize our boardBuilder */
 	public void startGame(int numPlayers) {
 		
 	}
