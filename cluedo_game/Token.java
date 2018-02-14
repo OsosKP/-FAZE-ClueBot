@@ -8,10 +8,12 @@ public class Token {
 	private String name;
 	private int playerNumber;
 	private int[] position = new int[2]; //holding the position of the player
-	private boolean isMurderer = false;
+	private String locationAsString;
 	private BoardSquare squareOn;
 	private Room inRoom;
-	private String locationAsString;
+
+	// Variable to help with circularly linked list traversal
+	private Token next;
 
 	//Constructor
 	public Token(int x, int y, String name, int playerNumber) {
@@ -24,8 +26,9 @@ public class Token {
 		// This is set to the spawn point when the board is created
 	}
 
-	// When entering a room, player disappears from the board
-	// This might be updated to the location where we want their token to appear
+	/*
+	These need to be moved to a GameEngine class
+	 */
 	public void enterRoom(Room room){
 		this.position[0] = -1;
 		this.position[1] = -1;
@@ -46,10 +49,12 @@ public class Token {
 	public String getName() { return name;}
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
-	public boolean isMurderer() {return isMurderer;}
-	public int[] getLocation() { return position;}
+	public String getLocationAsString() { return locationAsString;}
 	public BoardSquare getSquareOn() { return squareOn; }
 	public Room getInRoom() { return inRoom; }
+	public Token next() {
+		return next;
+	}
 
   	//
 	//Mutators
@@ -57,7 +62,10 @@ public class Token {
 	public void setName(String name) {this.name = name;}
 	public void setPlayerNumber(int playerNumber) {this.playerNumber = playerNumber;}
 	public void setPosition(int[] position) {this.position = position;}
-	public void setMurderer(boolean isMurderer) {this.isMurderer = isMurderer;}
+	public void setLocationAsString(String location) {this.locationAsString = location; }
 	public void setSquareOn(BoardSquare squareOn) { this.squareOn = squareOn; }
 	public void setInRoom(Room room) { this.inRoom = room; }
+	public void setNext(Token next) {
+		this.next = next;
+	}
 }
