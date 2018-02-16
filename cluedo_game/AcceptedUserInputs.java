@@ -1,5 +1,10 @@
+// Josh King - 16200099
+// George Ridgway - 16200132
+// Kelsey Osos - 16201972
+
 package cluedo_game;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class AcceptedUserInputs {
@@ -32,6 +37,13 @@ public class AcceptedUserInputs {
         entryChoices.add("enter");
         entryChoices.add("move");
         /*
+        When having just entered a room, the user may leave, take the secret passage or exit.
+        If guessing, that's a different list of commands and is handled differently.
+         */
+        roomNavigation.add("passage");
+        roomNavigation.add("exit");
+        roomNavigation.add("guess");
+        /*
         If in a room, the player is allowed to make a guess - but the room guess has to be the one they're in
          */
         weaponChoices.add("pistol");
@@ -49,7 +61,7 @@ public class AcceptedUserInputs {
         characterChoices.add("green");
 
         /*
-        Rooms are inputted when the player is attempting to solve
+        Rooms are inputted when the player is attempting to solve, NOT guess
          */
         roomChoices.add("kitchen");
         roomChoices.add("ballroom");
@@ -60,10 +72,6 @@ public class AcceptedUserInputs {
         roomChoices.add("billiard room");
         roomChoices.add("dining room");
         roomChoices.add("lounge");
-
-        roomNavigation.add("passage");
-        roomNavigation.add("exit");
-        roomNavigation.add("guess");
     }
 
     public ArrayList<String> getFloorNavigation() {
@@ -85,32 +93,37 @@ public class AcceptedUserInputs {
         return roomNavigation;
     }
 
-    public boolean checkForValidUserInputNavigation(Token p, String in){
+    /**
+     * This method handles user input checking for FloorSquares, EntrySquares and in Rooms -
+     *  It does NOT handle cases where user is guessing or solving. That will be a different panel and logic.
+     * @param p Player who entered command
+     * @param in Command entered by player
+     * @return Boolean designating whether the command was found in the associated list of valid commands
+     */
+    public boolean checkForValidEntry(Token p, String in){
         boolean matchFound = false;
-        // Perform these checks if the player is not in a room
-        if(p.getInRoom() == null) {
-            switch (p.getSquareOn().toString()) {
-                case "floor":
-                    for (String s : floorNavigation) {
-                        if (s.equals(in))
-                            matchFound = true;
-                    }
-                    break;
-                case "entry":
-                    for (String s : entryChoices) {
-                        if (s.equals(in))
-                            matchFound = true;
-                    }
-                default:
-                    System.out.println("ERROR in player location");
-            }
-        }
-        // If the player is in a room and NOT guessing, we come here
-        else{
-            for(String s : roomNavigation){
-                if(s.equals(in))
-                    matchFound = true;
-            }
+        switch(p.getLocationAsString()){
+            case "floor":
+                for (String s : floorNavigation) {
+                    if (s.equals(in))
+                        matchFound = true;
+                }
+                break;
+            case "entry":
+                for (String s : entryChoices){
+                    if (s.equals(in))
+                        matchFound = true;
+                }
+                break;
+            case "room":
+                for (String s : roomNavigation){
+                    if (s.equals(in))
+                        matchFound = true;
+                }
+            default:
+                JOptionPane.showConfirmDialog(null, "Something Went Wrong...");
+                break;
+
         }
         return matchFound;
     }

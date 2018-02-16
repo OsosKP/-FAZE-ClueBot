@@ -12,3 +12,4 @@
 *.gsheet
 *.class
 *.xfc
+.atomignore
