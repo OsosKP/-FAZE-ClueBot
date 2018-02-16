@@ -52,8 +52,9 @@ public class UserInterface extends JPanel {
         // Placeholder board and players for testing
         playerListIndex = 0;
         gameBoard = new BoardBuilder();
-        this.playerList = BoardBuilder.getPlayerList();
 
+
+        this.playerList = BoardBuilder.getPlayerList();
         this.currentPlayer = playerList[0];
         this.buildGUI();
     }
@@ -107,6 +108,9 @@ public class UserInterface extends JPanel {
      */
     private class UserInputBox {
         final int FIELD_WIDTH = 10;
+        /*
+        TODO: Once we have player entry, this message should change - maybe left blank and have entry in JOptionPane?
+         */
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
         private JLabel promptLabel = new JLabel("     What would you like to do?");
@@ -170,16 +174,23 @@ public class UserInterface extends JPanel {
          */
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event){
-                // Only do this if the input field had something in it
-                if(INPUTS_LIST.checkForValidUserInputNavigation(currentPlayer, inputField.getText())) {
-                    // Check that the player has entered a correct navigational command
-                    out.update(output, inputField.getText());
-                    System.out.println("You have performed the action: " + inputField.getText());
-                    // Increment index for player list based on number of players (in boardbuilder)
-                    playerListIndex++;
-                    currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
-                    // Update input display with that player
-                    refreshDisplay(currentPlayer);
+                // Check for valid user input based on room (blank entries are never valid)
+                if (INPUTS_LIST.checkForValidEntry(currentPlayer, inputField.getText())) {
+                    switch (currentPlayer.getSquareOn().toString()) {
+                        case ("floor"):
+                            // Check that the player has entered a correct navigational command
+                            out.update(output, inputField.getText());
+                            System.out.println("You have performed the action: " + inputField.getText());
+                            // Increment index for player list based on number of players (in boardbuilder)
+                            playerListIndex++;
+                            currentPlayer = playerList[playerListIndex % (BoardBuilder.getNumPlayers())];
+                            // Update input display with that player
+                            refreshDisplay(currentPlayer);
+                            break;
+                    }
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Please Enter a Valid Command!");
                 }
                 inputField.setText("");
                 inputField.requestFocus();
