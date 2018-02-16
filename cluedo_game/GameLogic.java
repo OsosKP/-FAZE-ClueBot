@@ -62,6 +62,14 @@ public class GameLogic {
 						return true;
 					}
 					break;
+				case "right":
+					if ((square.getRight() instanceof FloorSquare || square.getRight() instanceof EntrySquare)
+							&& !(square.getRight().isPlayerOn())) {
+						square.getRight().setPlayerOn(player);
+						square.removePlayerOn();
+						return true;
+					}
+					break;
 				default:
 					System.out.println("Error");
 			}

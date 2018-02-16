@@ -5,8 +5,8 @@
 package cluedo_game;
 
 public class Token {
-	private String name;
-	private int playerNumber;
+	private final String name;
+	private final int playerNumber;
 	private int[] position = new int[2]; //holding the position of the player
 	private String locationAsString;
 	private BoardSquare squareOn;
@@ -66,12 +66,11 @@ public class Token {
   	//
 	//Mutators
 	//
-	public void setName(String name) {this.name = name;}
-	public void setPlayerNumber(int playerNumber) {this.playerNumber = playerNumber;}
 	public void setPosition(int[] position) {this.position = position;}
 	public void setLocationAsString(String location) {this.locationAsString = location; }
 	public void setSquareOn(BoardSquare squareOn) {
 		this.squareOn = squareOn;
+		this.setPosition(squareOn.getPosition());
 		this.setLocationAsString(squareOn.toString());
 	}
 	public void setInRoom(Room room) { this.inRoom = room; }
