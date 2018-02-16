@@ -283,11 +283,11 @@ public class UserInterface extends JPanel {
 
                 try {
                     if (p == null)
-                        throw new Exception("Player found error");
+                        throw new Exception("Player not found error");
                     if (p.getInRoom() == null) {
                         // If player is on a square, get the type of square and show their available
                         // commands based on what is available from that square.
-                        switch (p.getSquareOn().toString()) {
+                        switch (p.getLocationAsString()) {
                             case "floor":
                                 possibleCommandsList.removeAll();
                                 for (String s : INPUTS_LIST.getFloorNavigation()) {

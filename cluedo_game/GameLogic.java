@@ -96,6 +96,8 @@ public class GameLogic {
 					PlayerEntry.moveSuccessful = true;
 					return player.getName() + " has taken a secret passage to the "
 							+ player.getInRoom().getName();
+				case "exit":
+
 				default:
 					System.out.println("Error");
 			}

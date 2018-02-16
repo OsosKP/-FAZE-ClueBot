@@ -41,7 +41,7 @@ public class Token {
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){
-		this.inRoom = inRoom.getsecretPassage();
+		this.inRoom = inRoom.getSecretPassage();
 	}
 
 	//
