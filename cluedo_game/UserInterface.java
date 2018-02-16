@@ -1,7 +1,3 @@
-// Josh King - 16200099
-// George Ridgway - 16200132
-// Kelsey Osos - 16201972
-
 package cluedo_game;
 
 import javax.swing.*;
@@ -55,10 +51,18 @@ public class UserInterface extends JPanel {
         // Placeholder board and players for testing
         playerListIndex = 0;
         gameBoard = new BoardBuilder();
+        
+        
+        
+        /* This is going to happen AFTER the start game button is being pressed */
         this.playerList = BoardBuilder.getPlayerList();
-
         this.currentPlayer = playerList[0];
-        this.buildGUI();
+        //this.buildGUI();
+        this.createPlayersGUI();
+    }
+    
+    public void createPlayersGUI() {
+    	showCharacterInput testMe = new showCharacterInput();
     }
 
     /**
@@ -139,6 +143,7 @@ public class UserInterface extends JPanel {
          * A button that must be pressed to start the game
          * @return the button, to place into a JPanel
          */
+
         private JButton createStartGameButton(){
             startGameButton = new JButton("Start Game");
             ActionListener listener = new StartGameListener();
@@ -148,7 +153,7 @@ public class UserInterface extends JPanel {
         }
         class StartGameListener implements ActionListener {
             public void actionPerformed (ActionEvent event){
-                input.remove(startGameButton);
+		input.remove(startGameButton);
                 input.add(createPerformActionButton(), BorderLayout.EAST);
                 updateInputDisplayPanel(currentPlayer);
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
@@ -416,5 +421,62 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player){
         this.currentPlayer = player;
     }
+    
+ 	/* Inner classes that will be usful later */
+	class CharacterList extends JPanel {
+
+	    private JTextField value;
+	    String willThisWork;
+
+	    CharacterList(String[] items) {
+	        super( new BorderLayout(5,5) );
+
+	        JList list = new JList( items );
+	        list.addListSelectionListener( new ListSelectionListener(){
+	                public void valueChanged(ListSelectionEvent lse) {
+	                    willThisWork = ( (String)list.getSelectedValue() );
+	                }
+	            } );
+	        add( list, BorderLayout.CENTER );
+
+	        value = new JTextField("", 20);
+	        add( value, BorderLayout.NORTH );
+	    }
+
+	    public String[] getValue() {
+	        String[] valueArray = new String[2];
+	        valueArray[0] = this.value.getText();
+	        valueArray[1] = this.willThisWork;
+	        return valueArray;
+	    }	
+	}
+	
+	class showCharacterInput {
+
+		public showCharacterInput(){
+	        Runnable r = new Runnable() {
+
+	            public void run() {
+	                String[] items = {
+	                    "Miss Scarlett",
+	                    "Colonel Mustard",
+	                    "Mrs White",
+	                    "Mr Green",
+	                    "Mrs Peacock",
+	                    "Professor Plum",
+	                };
+
+	                // what was requested
+	                CharacterList elp = new CharacterList(items);
+	                JOptionPane.showMessageDialog(null, elp);
+	                String[] valueArray = elp.getValue();
+	                
+	                System.out.println( "EditableListPanel value: " + valueArray[0] );
+	                System.out.println(" Value: " + valueArray[1]);
+	            }
+	        };
+	        SwingUtilities.invokeLater(r);
+	    }
+	}
 
 }
