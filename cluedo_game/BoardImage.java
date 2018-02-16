@@ -26,6 +26,9 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
+	int myVar = 24;	
+
+
 	/**
 	 * default constructor
 	 */
