@@ -100,13 +100,14 @@ public class AcceptedUserInputs {
      * @param in Command entered by player
      * @return Boolean designating whether the command was found in the associated list of valid commands
      */
-    public boolean checkForValidEntry(Token p, String in){
+    public String checkForValidEntry(Token p, String in){
         boolean matchFound = false;
         switch(p.getLocationAsString()){
             case "floor":
                 for (String s : floorNavigation) {
                     if (s.equals(in))
-                        matchFound = true;
+                        // If command was valid, move the player
+                        return GameLogic.PlayerEntry.PlayerMovementHandler(p, in);
                 }
                 break;
             case "entry":
@@ -125,7 +126,7 @@ public class AcceptedUserInputs {
                 break;
 
         }
-        return matchFound;
+        return "Please Enter a Valid Command!";
     }
 
 }

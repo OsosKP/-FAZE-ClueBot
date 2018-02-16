@@ -26,9 +26,6 @@ public class Token {
 		// This is set to the spawn point when the board is created
 	}
 
-	/*
-	These need to be moved to a GameEngine class
-	 */
 	public void enterRoom(Room room){
 		this.position[0] = -1;
 		this.position[1] = -1;
@@ -42,6 +39,9 @@ public class Token {
 		this.position[1] = pos[1];
 		this.squareOn = exitToSquare;
 		this.inRoom = null;
+	}
+	public void exitRoomThroughPassage(){
+		this.inRoom = inRoom.getsecretPassage();
 	}
 
 	//
@@ -73,7 +73,6 @@ public class Token {
 		this.setPosition(squareOn.getPosition());
 		this.setLocationAsString(squareOn.toString());
 	}
-	public void setInRoom(Room room) { this.inRoom = room; }
 	public void setNext(Token next) {
 		this.next = next;
 	}

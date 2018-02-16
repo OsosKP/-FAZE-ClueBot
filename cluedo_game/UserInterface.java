@@ -174,11 +174,11 @@ public class UserInterface extends JPanel {
          */
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event){
-                // Check for valid user input based on room (blank entries are never valid)
-                if (INPUTS_LIST.checkForValidEntry(currentPlayer, inputField.getText())) {
+                String result = INPUTS_LIST.checkForValidEntry(currentPlayer, inputField.getText());
+                // Setting value to result will switch the moveSuccessful boolean to true if it is valid
+                if (GameLogic.PlayerEntry.getMoveSuccessful()) {
                     switch (currentPlayer.getSquareOn().toString()) {
                         case ("floor"):
-                            // Check that the player has entered a correct navigational command
                             out.update(output, inputField.getText());
                             System.out.println("You have performed the action: " + inputField.getText());
                             // Increment index for player list based on number of players (in boardbuilder)
@@ -190,8 +190,10 @@ public class UserInterface extends JPanel {
                     }
                 }
                 else{
-                    JOptionPane.showConfirmDialog(null, "Please Enter a Valid Command!");
+                    // This will be an error message if move was unsuccessful
+                    JOptionPane.showConfirmDialog(null, result);
                 }
+                GameLogic.PlayerEntry.resetMoveSuccessfulSwitchToFalse();
                 inputField.setText("");
                 inputField.requestFocus();
             }

@@ -30,10 +30,18 @@ public class GameLogic {
 	 */
 
 	public static class PlayerEntry {
-		public static boolean PlayerMovementHandler(Token player, String move) {
+		private static boolean moveSuccessful = false;
+		public static boolean getMoveSuccessful(){
+			return moveSuccessful;
+		}
+		public static void resetMoveSuccessfulSwitchToFalse(){
+			moveSuccessful = false;
+		}
+		public static String PlayerMovementHandler(Token player, String move) {
 			BoardSquare square = player.getSquareOn();
 			switch (move) {
 				/*
+				Player Movement from Floor Square
                 Checks:
                 Player isn't at the top/bottom/far left/far right of the board
                 The square above the player is traversable (a FloorSquare or EntrySquare)
@@ -43,37 +51,60 @@ public class GameLogic {
 					if ((square.getAbove() instanceof FloorSquare || square.getAbove() instanceof EntrySquare)
 							&& !(square.getAbove().isPlayerOn())) {
 						square.getAbove().setPlayerOn(player);
+						player.setSquareOn(square.getAbove());
 						square.removePlayerOn();
-						return true;
+						PlayerEntry.moveSuccessful = true;
+						return player.getName() + " has moved up.";
 					}
+					return player.getName() + " is unable to move up";
+
 				case "down":
 					if ((square.getBelow() instanceof FloorSquare || square.getBelow() instanceof EntrySquare)
 							&& !(square.getBelow().isPlayerOn())) {
 						square.getBelow().setPlayerOn(player);
+						player.setSquareOn(square.getBelow());
 						square.removePlayerOn();
-						return true;
+						PlayerEntry.moveSuccessful = true;
+						return player.getName() + " has moved down.";
 					}
 					break;
 				case "left":
 					if ((square.getLeft() instanceof FloorSquare || square.getLeft() instanceof EntrySquare)
 							&& !(square.getLeft().isPlayerOn())) {
 						square.getLeft().setPlayerOn(player);
+						player.setSquareOn(square.getLeft());
 						square.removePlayerOn();
-						return true;
+						PlayerEntry.moveSuccessful = true;
+						return player.getName() + " has moved left.";
 					}
 					break;
 				case "right":
 					if ((square.getRight() instanceof FloorSquare || square.getRight() instanceof EntrySquare)
 							&& !(square.getRight().isPlayerOn())) {
 						square.getRight().setPlayerOn(player);
+						player.setSquareOn(square.getRight());
 						square.removePlayerOn();
-						return true;
+						PlayerEntry.moveSuccessful = true;
+						return player.getName() + " has moved right.";
 					}
 					break;
+				/*
+				Player Movement from Entry Square
+                 */
+				case "enter":
+					player.enterRoom(((EntrySquare)square).getRoomAssigned());
+					PlayerEntry.moveSuccessful = true;
+					return player.getName() + " has entered the " + player.getInRoom().getName();
+
+				case "passage":
+					player.exitRoomThroughPassage();
+					PlayerEntry.moveSuccessful = true;
+					return player.getName() + " has taken a secret passage to the "
+							+ player.getInRoom().getName();
 				default:
 					System.out.println("Error");
 			}
-			return false;
+			return "Unable to Complete Move";
 		}
 	}
 	

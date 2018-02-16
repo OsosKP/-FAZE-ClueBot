@@ -46,19 +46,17 @@ public class EntrySquare implements BoardSquare{
 	public boolean isPlayerOn() {return playerOnCheck;}
 	public Token getPlayerOn(){ return this.playerOn; }
 	public int[] getPosition() {return position;}
+	public Room getRoomAssigned() {
+		return roomAssigned;
+	}
+
 	/*
-	Geographical Pointers
-    */
+        Geographical Pointers
+        */
 	public BoardSquare getAbove() { return this.above; }
 	public BoardSquare getBelow() { return this.below; }
 	public BoardSquare getLeft() { return this.toLeft; }
 	public BoardSquare getRight() { return this.toRight; }
-
-	//
-	//Mutators
-	//
-	public void changePlayerOnStatus(boolean x) {playerOnCheck = x;}
-	public void setPlayerOn(Token player) { this.playerOn = player; }
 	/**
 	 * getSquareType
 	 * This method returns an object of type EntrySquare
@@ -72,6 +70,11 @@ public class EntrySquare implements BoardSquare{
 	@Override
 	public String toString(){ return "entry"; }
 
+	//
+	//Mutators
+	//
+	public void changePlayerOnStatus(boolean x) {playerOnCheck = x;}
+	public void setPlayerOn(Token player) { this.playerOn = player; }
 	/**
 	 * setGeography
 	 * Places pointers to the square above, below, to the left and to the right of this one
