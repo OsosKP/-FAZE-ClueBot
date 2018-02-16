@@ -29,6 +29,9 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
+	int myVar = 24;	
+
+
 	/**
 	 * returns a panel that can be added to a JFrame
 	 * @param bi bufferedImage that will be loaded into the JPanel
