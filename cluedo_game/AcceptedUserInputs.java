@@ -13,14 +13,12 @@ public class AcceptedUserInputs {
      */
     // The player is moving on a general floorNavigation square
     private final ArrayList<String> floorNavigation = new ArrayList<>();
-    // The player is in the entryChoices to a room and may enter
-    private final ArrayList<String> entryChoices = new ArrayList<>();
     // Making a guess or exiting
     private final ArrayList<String> weaponChoices = new ArrayList<>();
     private final ArrayList<String> characterChoices = new ArrayList<>();
     // Room guesses are only allowed if they player is solving
     private final ArrayList<String> roomChoices = new ArrayList<>();
-    // For 'exit', 'guess', etc.
+    // For 'exit', 'guess', 'passage'
     private final ArrayList<String> roomNavigation = new ArrayList<>();
 
     public AcceptedUserInputs(){
@@ -28,14 +26,6 @@ public class AcceptedUserInputs {
         floorNavigation.add("down");
         floorNavigation.add("left");
         floorNavigation.add("right");
-        /*
-        When at an EntrySquare, user may enter the room
-        They can say 'enter' or 'move' only
-        If 'move', or if user came to that square from a room (i.e. just exited), they will be able to enter movement
-        If 'enter', user is taken to the room
-         */
-        entryChoices.add("enter");
-        entryChoices.add("move");
         /*
         When having just entered a room, the user may leave, take the secret passage or exit.
         If guessing, that's a different list of commands and is handled differently.
@@ -59,7 +49,6 @@ public class AcceptedUserInputs {
         characterChoices.add("plum");
         characterChoices.add("white");
         characterChoices.add("green");
-
         /*
         Rooms are inputted when the player is attempting to solve, NOT guess
          */
@@ -77,9 +66,6 @@ public class AcceptedUserInputs {
     public ArrayList<String> getFloorNavigation() {
         return floorNavigation;
     }
-    public ArrayList<String> getEntryChoices() {
-        return entryChoices;
-    }
     public ArrayList<String> getWeaponChoices() {
         return weaponChoices;
     }
@@ -94,14 +80,13 @@ public class AcceptedUserInputs {
     }
 
     /**
-     * This method handles user input checking for FloorSquares, EntrySquares and in Rooms -
+     * This method handles user input checking for FloorSquares and in Rooms -
      *  It does NOT handle cases where user is guessing or solving. That will be a different panel and logic.
      * @param p Player who entered command
      * @param in Command entered by player
      * @return Boolean designating whether the command was found in the associated list of valid commands
      */
     public String checkForValidEntry(Token p, String in){
-        boolean matchFound = false;
         switch(p.getLocationAsString()){
             case "floor":
                 for (String s : floorNavigation) {
@@ -110,16 +95,10 @@ public class AcceptedUserInputs {
                         return GameLogic.PlayerEntry.PlayerMovementHandler(p, in);
                 }
                 break;
-            case "entry":
-                for (String s : entryChoices){
-                    if (s.equals(in))
-                        matchFound = true;
-                }
-                break;
             case "room":
                 for (String s : roomNavigation){
                     if (s.equals(in))
-                        matchFound = true;
+                        return GameLogic.PlayerEntry.PlayerMovementHandler(p, in);
                 }
             default:
                 JOptionPane.showConfirmDialog(null, "Something Went Wrong...");

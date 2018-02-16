@@ -188,7 +188,7 @@ public class UserInterface extends JPanel {
                 if (GameLogic.PlayerEntry.getMoveSuccessful()) {
                     switch (currentPlayer.getSquareOn().toString()) {
                         case ("floor"):
-                            out.update(output, inputField.getText());
+                            out.update(output, result);
                             System.out.println("You have performed the action: " + inputField.getText());
                             // Increment index for player list based on number of players (in boardbuilder)
                             playerListIndex++;
@@ -197,7 +197,8 @@ public class UserInterface extends JPanel {
                             refreshDisplay(currentPlayer);
                             break;
                     }
-                } else {
+                }
+                else {
                     // This will be an error message if move was unsuccessful
                     JOptionPane.showConfirmDialog(null, result);
                     GameLogic.PlayerEntry.resetMoveSuccessfulSwitchToFalse();
@@ -275,10 +276,6 @@ public class UserInterface extends JPanel {
                 else if (p.getSquareOn() instanceof FloorSquare)
                     locationReadout.setText("<html>You are on a Floor square.<br/>Possible Commands:</html>");
                     // This will only be accessed after a player exits the room
-                    // Because when a player enters this square from a floor square, they are immediately taken to the room
-                else if (p.getSquareOn() instanceof EntrySquare)
-                    locationReadout.setText("<html>You are on an Entry square to: </br></html>"
-                            + ((EntrySquare) p.getSquareOn()).getRoomName() + "<html><br/>Possible Commands:</html>");
                 else if (p.getSquareOn() instanceof WallSquare)
                     locationReadout.setText("Wall Square? Something went wrong...");
                 else
@@ -294,15 +291,6 @@ public class UserInterface extends JPanel {
                             case "floor":
                                 possibleCommandsList.removeAll();
                                 for (String s : INPUTS_LIST.getFloorNavigation()) {
-                                    JLabel d = new JLabel(s);
-                                    d.setForeground(Color.yellow);
-                                    d.setHorizontalAlignment(JLabel.CENTER);
-                                    possibleCommandsList.add(d);
-                                }
-                                break;
-                            case "entry":
-                                possibleCommandsList.removeAll();
-                                for (String s : INPUTS_LIST.getEntryChoices()) {
                                     JLabel d = new JLabel(s);
                                     d.setForeground(Color.yellow);
                                     d.setHorizontalAlignment(JLabel.CENTER);
@@ -339,31 +327,10 @@ public class UserInterface extends JPanel {
              * WE CALL APPROPRIATE VARIABLES BASED ON WHERE THE PLAYER WAS AT THE START OF THEIR TURN
              *
              * @param panel output panel that is being updated
-             * @param in    command inputted by user
+             * @param in String created by PlayerMovementHandler (in GameLogic.PlayerEntry)
              */
             public void update(JPanel panel, String in) {
-                textOutput.append(currentPlayer.getName());
-                switch (in.toLowerCase()) {
-                    case "up":
-                    case "down":
-                    case "left":
-                    case "right":
-                        textOutput.append(" has moved ");
-                        textOutput.append(in);
-                        break;
-                    case "enter":
-                        // This update will display once the player enters the room - it is the only one like this
-                        break;
-                    case "exit":
-                        textOutput.append(" has exited the ");
-                        textOutput.append(currentPlayer.getInRoom().getName());
-                        break;
-                    case "passage":
-                        textOutput.append(" is taking a secret passage to the ");
-                        textOutput.append(currentPlayer.getInRoom().getsecretPassage().getName());
-                    case "guess":
-                        textOutput.append(" is making a guess...");
-                }
+                textOutput.append(in);
                 textOutput.append("\n\n");
 
                 // Refresh the panel after updating

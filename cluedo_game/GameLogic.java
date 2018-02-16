@@ -89,13 +89,8 @@ public class GameLogic {
 					}
 					break;
 				/*
-				Player Movement from Entry Square
-                 */
-				case "enter":
-					player.enterRoom(((EntrySquare)square).getRoomAssigned());
-					PlayerEntry.moveSuccessful = true;
-					return player.getName() + " has entered the " + player.getInRoom().getName();
-
+				Player Movement from Room
+				 */
 				case "passage":
 					player.exitRoomThroughPassage();
 					PlayerEntry.moveSuccessful = true;
@@ -107,5 +102,4 @@ public class GameLogic {
 			return "Unable to Complete Move";
 		}
 	}
-	
 }
