@@ -33,11 +33,8 @@ public class Token {
 		this.inRoom = room;
 		this.setLocationAsString("room");
 	}
-	public void exitRoom(BoardSquare exitToSquare){
-		int pos[] = exitToSquare.getPosition();
-		this.position[0] = pos[0];
-		this.position[1] = pos[1];
-		this.squareOn = exitToSquare;
+	public void exitRoom(int exitIndex){
+		this.setSquareOn(this.inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){

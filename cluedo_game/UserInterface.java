@@ -104,9 +104,24 @@ public class UserInterface extends JPanel {
         display.setVisible(true);
     }
 
-    public void refreshDisplay(Token p) {
-        in.updateInputDisplayPanel(p);
+    public void refreshDisplayForNextTurn(Token p) {
+        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn.");
         out.updateAllowedCommandsBasedOnSquare(p);
+    }
+    /*
+    TODO: It would be cool to show the user which square they could exit to on the board image
+     */
+    public void refreshDisplayForRoomExitChoice(Token p) {
+        in.promptLabel.setText("     Which exit would you like to take?");
+
+        out.possibleCommandsList.removeAll();
+        for (int i=0; p.getInRoom().getExits().get(i)!=null; i++) {
+            JLabel d = new JLabel(String.valueOf(i+1));
+            d.setForeground(Color.yellow);
+            d.setHorizontalAlignment(JLabel.CENTER);
+            out.possibleCommandsList.add(d);
+        }
+        out.allowedCommandsDisplay.revalidate();
     }
 
     /**
@@ -135,10 +150,6 @@ public class UserInterface extends JPanel {
             return input;
         }
 
-        public void updateInputDisplayPanel(Token p) {
-            whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
-        }
-
         /**
          * A button that must be pressed to start the game
          *
@@ -157,7 +168,7 @@ public class UserInterface extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 input.remove(startGameButton);
                 input.add(createPerformActionButton(), BorderLayout.EAST);
-                updateInputDisplayPanel(currentPlayer);
+                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
                 input.revalidate();
@@ -178,33 +189,40 @@ public class UserInterface extends JPanel {
             return performAction;
         }
 
-        /**
-         * This ActionListener reads when somebody pressed the "Perform Action" button
+        /*
+         * This ActionListener reads when somebody presses the "Perform Action" button
          */
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
+                // Send player entry to INPUTS_LIST and check it - return result to String
                 String result = INPUTS_LIST.checkForValidEntry(currentPlayer, inputField.getText());
                 // Setting value to result will switch the moveSuccessful boolean to true if it is valid
                 if (GameLogic.PlayerEntry.getMoveSuccessful()) {
-                    switch (currentPlayer.getSquareOn().toString()) {
-                        case ("floor"):
-                            out.update(output, result);
-                            System.out.println("You have performed the action: " + inputField.getText());
-                            // Increment index for player list based on number of players (in boardbuilder)
-                            playerListIndex++;
-                            currentPlayer = playerList[playerListIndex % (BoardBuilder.getNumPlayers())];
-                            // Update input display with that player
-                            refreshDisplay(currentPlayer);
-                            break;
+                    // If player has chosen to exit a room, bring up the appropriate prompt if necessary
+                    if (result.equals("exitChoice")){
+                        refreshDisplayForRoomExitChoice(currentPlayer);
+                    }
+                    else if (result.equals("exit"))
+                        out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
+                    // If player is making a guess, enter the appropriate menu
+
+                    else {
+                        out.updateMoveHistory(result);
+                        System.out.println("Action: " + inputField.getText());
+                        // Increment index for player list based on number of players (in BoardBuilder)
+                        playerListIndex++;
+                        currentPlayer = playerList[playerListIndex % (BoardBuilder.getNumPlayers())];
+                        // Update input display with that player
+                        refreshDisplayForNextTurn(currentPlayer);
                     }
                 }
                 else {
                     // This will be an error message if move was unsuccessful
                     JOptionPane.showConfirmDialog(null, result);
                     GameLogic.PlayerEntry.resetMoveSuccessfulSwitchToFalse();
-                    inputField.setText("");
-                    inputField.requestFocus();
                 }
+                inputField.setText("");
+                inputField.requestFocus();
             }
         }
     }
@@ -279,7 +297,8 @@ public class UserInterface extends JPanel {
                 else if (p.getSquareOn() instanceof WallSquare)
                     locationReadout.setText("Wall Square? Something went wrong...");
                 else
-                    locationReadout.setText("You are in the " + p.getInRoom().getName() + "<html><br/>Possible Commands:</html>");
+                    locationReadout.setText("You are in the " + p.getInRoom().getName()
+                            + "<html><br/>Possible Commands:</html>");
 
                 try {
                     if (p == null)
@@ -305,8 +324,9 @@ public class UserInterface extends JPanel {
                                 throw new Exception("Error Finding Square Type");
 
                         }
-                    } else {
-                        ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
+                    }
+                    else {
+                        ArrayList<String> options = INPUTS_LIST.getRoomNavigation();
                         for (String s : options) {
                             JLabel d = new JLabel(s);
                             d.setForeground(Color.yellow);
@@ -326,15 +346,14 @@ public class UserInterface extends JPanel {
              * So when we call the room, or the player's square, or anything else,
              * WE CALL APPROPRIATE VARIABLES BASED ON WHERE THE PLAYER WAS AT THE START OF THEIR TURN
              *
-             * @param panel output panel that is being updated
              * @param in String created by PlayerMovementHandler (in GameLogic.PlayerEntry)
              */
-            public void update(JPanel panel, String in) {
+            public void updateMoveHistory( String in) {
                 textOutput.append(in);
                 textOutput.append("\n\n");
 
                 // Refresh the panel after updating
-                panel.revalidate();
+                output.revalidate();
             }
 
             public JPanel createOutputPanel() {

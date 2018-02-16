@@ -372,7 +372,6 @@ public class BoardBuilder {
             Study = new Room("Study", Kitchen, (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
             Conservatory = new Room("Conservatory", Lounge, (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
             Lounge = new Room("Lounge", Conservatory, (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
-
     	}
     	else { //if we haven't created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();

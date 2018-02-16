@@ -97,11 +97,24 @@ public class GameLogic {
 					return player.getName() + " has taken a secret passage to the "
 							+ player.getInRoom().getName();
 				case "exit":
+					// If room has multiple exits, call the dialog to see which one the user wants
+					if (player.getInRoom().getExits().size() > 1)
+						return "exitChoice";
+					else{
+						player.exitRoom(0);
+						return "exit";
+					}
+				case "guess":
+					return guessPrompt();
 
 				default:
 					System.out.println("Error");
 			}
 			return "Unable to Complete Move";
+		}
+		public static String guessPrompt(){
+			// This is just a placeholder for a later sprint
+			return "Guess Prompt";
 		}
 	}
 }
