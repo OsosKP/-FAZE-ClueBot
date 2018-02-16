@@ -16,12 +16,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class BoardImage {
-	private int width  = 0;
-	private int height = 0;
-	private int step = 0;
-	BufferedImage bi;
-	// Poor Professor Plum should get his own color, too
-	private final Color PURPLE = new Color(75, 0, 130);
+	private final int WIDTH  = 552; //Width of the board, should be 552 pixels
+	private final int HEIGHT = 575; //Height of the board, should be 575 pixels
+	private final int step = 23;//Incrementer for for loop to correctly move to next square,size of each square
+	BufferedImage bi;//Object for the board itself
+	private final Color PURPLE = new Color(75, 0, 130); // Poor Professor Plum should get his own color, too
 
 	private JButton[] weaponArray;
 	private ArrayList<Integer[]> weaponRoomLocations;
@@ -30,12 +29,6 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
-	/**
-	 * default constructor
-	 */
-	public BoardImage() {
-//		this.createPanel();
-	}
 	/**
 	 * returns a panel that can be added to a JFrame
 	 * @param bi bufferedImage that will be loaded into the JPanel
@@ -51,8 +44,8 @@ public class BoardImage {
 		holder.add(p);
 		return holder;
 	}
-	
-	
+
+
 	public JPanel returnPanel() {
 		try {
 			URL imageUrl = this.getClass().getResource("board1.jpg");
@@ -118,13 +111,6 @@ public class BoardImage {
 	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
 	 */
 	private JPanel returnEmptyGridLayout() {
-        /* Getting the width and height of the given image */
-        width = bi.getWidth();
-        height = bi.getHeight();
-
-        /* ?? */
-        step = 23;
-
         /* Creating JPanel -- will represent the grid that will overly the image */
         JPanel p = new JPanel(new GridLayout(25,24));
         p.setOpaque(false);
@@ -144,12 +130,10 @@ public class BoardImage {
         int yIndex = 0;
 
         /* Loop that goes through the given image, splitting it up, the  */
-        for (int ii=0; ii<height; ii+=step) {
+        for (int ii=0; ii<HEIGHT; ii+=step) {
         	/* Need to lay it out like this, otherwise we set some spaces between the JButtons */
             yIndex = 0;
-        	for (int jj=0; jj<width; jj+=step) {
-				System.out.println("JButton[" + xIndex + "]["+ yIndex + "]");
-
+        	for (int jj=0; jj<WIDTH; jj+=step) {
             	/* Getting the sub-image of the given BufferedImage */
             	//System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
                 Image icon = bi.getSubimage(jj, ii, step, step);
@@ -189,8 +173,7 @@ public class BoardImage {
                 /* Adding button to panel -- doesn't really matter that we add this now because this is an un-edited board */
                 //p.add(button);
              }
-        	
-        	
+
             /* Incrementing array counters */
             xIndex++;
         }
@@ -228,11 +211,11 @@ public class BoardImage {
 
 		return returnMe;
 	}
-	
+
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
-		
+
 		/* Need to recreate the JPanel based on the new */
 		for (int rows = 0; rows < 25; rows++) {
 			for (int cols = 0; cols < 24; cols++) {
@@ -439,7 +422,7 @@ public class BoardImage {
 		p = this.populateGrid(p);
 
 		/* Setting frame size -- Will be removed */
-		frame.setSize(this.width,this.height);
+		frame.setSize(WIDTH,HEIGHT);
 		frame.setVisible(true);
 
 		JPanel holder = this.returnFinalJPanel();
