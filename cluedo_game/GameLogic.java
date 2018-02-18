@@ -18,11 +18,6 @@ public class GameLogic {
 
 		this.currentBoard = currentBoard;
 	}
-	
-	/* this is where we have to initialize our boardBuilder */
-	public void startGame(int numPlayers) {
-		
-	}
 
 	/*	1. createRooms()
 	 * 	2. addEntrySquares

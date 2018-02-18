@@ -239,6 +239,31 @@ public class UserInterface extends JPanel {
                 inputField.requestFocus();
             }
         }
+
+        public void switchInputToExitPicker(Room room){
+            JPanel exits = new JPanel();
+            exits.setLayout(new GridLayout(3,1));
+
+        }
+
+        class ExitChoiceListener implements ActionListener {
+            private int choice;
+
+            public ExitChoiceListener(int choice) {
+                
+            }
+
+            public int getExitChoice(int choice){
+                return choice;
+            }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        }
+
+
+
     }
         /**
          * The user output portion of the GUI
