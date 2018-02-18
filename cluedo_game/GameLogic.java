@@ -12,18 +12,14 @@ public class GameLogic {
 	/* This is going to handle the board */
 	BoardBuilder currentBoard;
 	Tokens playerList;
-	UserInterface ui = new UserInterface();
+	UserInterface ui;
 	
-	public GameLogic(BoardBuilder currentBoard) {
-
-		this.currentBoard = currentBoard;
+	public GameLogic() {
+		this.playerList = new Tokens();
+		playerList.setPlayerList();
+		this.currentBoard = new BoardBuilder(playerList);
+		this.ui = new UserInterface(currentBoard);
 	}
-
-	/*	1. createRooms()
-	 * 	2. addEntrySquares
-	 * 	3. addWalls()
-	 * 	4. addFloorSquares
-	 */
 
 	public static class PlayerEntry {
 		// Designates that the given command was valid

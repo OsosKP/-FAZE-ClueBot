@@ -16,7 +16,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private static int numPlayers = 0;
-    private static Tokens players = new Tokens();
+    private Tokens players;
     private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
@@ -34,9 +34,9 @@ public class BoardBuilder {
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
 
-    public BoardBuilder() {
+    public BoardBuilder(Tokens players) {
         /* Calling classes to create board */
-        setPlayerList();   // This method is temporary
+        this.players = players;
         this.createRooms();
         this.addBarriersAndSpawnPoints();
         this.addWalls();
@@ -44,21 +44,7 @@ public class BoardBuilder {
         this.addFloorSquares();
     }
 
-
-    /*
-    Temporary methods to create and access all 6 characters to test spawn points and printouts
-    Some form of these methods will eventually move to the GameEngine class
-    The UI class will be accessing these methods, so update that when we make the switch
-     */
-    public static void setPlayerList() {
-        players.addPlayer(generatePlayer(9, 0, "White"));
-        players.addPlayer(generatePlayer(14, 0, "Green"));
-        players.addPlayer(generatePlayer(0, 17, "Mustard"));
-        players.addPlayer(generatePlayer(23, 6, "Peacock"));
-        players.addPlayer(generatePlayer(23, 19, "Plum"));
-        players.addPlayer(generatePlayer(7, 24, "Scarlet"));
-    }
-    public static Tokens getPlayerList() {
+    public Tokens getPlayerList() {
         return players;
     }
 

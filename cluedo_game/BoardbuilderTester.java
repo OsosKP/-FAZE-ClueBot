@@ -1,7 +1,7 @@
 // Josh King - 16200099
 // George Ridgway - 16200132
 // Kelsey Osos - 16201972
-
+/*
 package cluedo_game;
 
 public class BoardbuilderTester {
@@ -28,7 +28,7 @@ public class BoardbuilderTester {
         
         BoardSquare[][] BoardSquareTest = builderTest.returnBoard();
         
-        /* Does the board correctly print? */
+        // Does the board correctly print?
         for (int rows = 0; rows < 25; rows++) {
         	for (int cols = 0; cols < 24; cols++) {
         		if (BoardSquareTest[rows][cols] instanceof FloorSquare && !BoardSquareTest[rows][cols].isPlayerOn()) {
@@ -64,3 +64,4 @@ public class BoardbuilderTester {
     }
 
 }
+*/

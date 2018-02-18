@@ -18,6 +18,32 @@ public class Tokens {
         numberOfPlayers = 0;
     }
 
+    /*
+    Temporary methods to create and access all 6 characters to test spawn points and printouts
+    Some form of these methods will eventually move to the GameEngine class
+    The UI class will be accessing these methods, so update that when we make the switch
+     */
+    public void setPlayerList() {
+        Token white = new Token(9, 0, "White", 0);
+        Token green = new Token(14, 0, "Green", 1);
+        Token mustard = new Token(0, 17, "Mustard", 2);
+        Token peacock = new Token(23, 6, "Peacock", 3);
+        Token plum = new Token(23, 19, "Plum", 4);
+        Token scarlet = new Token(7, 24, "Scarlet", 5);
+
+        white.setNext(green);
+        green.setNext(mustard);
+        mustard.setNext(peacock);
+        peacock.setNext(plum);
+        plum.setNext(scarlet);
+        scarlet.setNext(white);
+
+        this.first = white;
+        this.last = scarlet;
+
+        numberOfPlayers = 6;
+    }
+
     // Accessors
     public Token getFirst() {
         return first;

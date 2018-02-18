@@ -5,11 +5,18 @@
 package cluedo_game;
 
 public class test {
-
 	public static void main(String[] args) {
 //		BoardBuilder bb = new BoardBuilder();
 //		BoardImageTest board = new BoardImageTest(bb);
 
-		UserInterface ui = new UserInterface();
+		GameLogic game = new GameLogic();
 	}
+
+	/**
+	 * Testing methods
+	 */
+	public void RoomExitAndMovementTester(UserInterface ui){
+		ui.buildGUI();
+	}
+
 }
