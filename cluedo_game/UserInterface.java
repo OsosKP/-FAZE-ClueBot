@@ -95,10 +95,11 @@ public class UserInterface extends JPanel {
         /*  */
         JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
 
-        display.setVisible(false);
         userDisplay.remove(boardImagePanel);
         userDisplay.add(movementPanel);
-        display.setVisible(true);
+        display.invalidate();
+        display.validate();
+        display.repaint();
     }
 
     public void refreshDisplayForNextTurn(Token p) {
