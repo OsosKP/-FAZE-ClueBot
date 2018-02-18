@@ -16,7 +16,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private static int numPlayers = 0;
-    private static Token[] players = new Token[6];
+    private static Tokens players = new Tokens();
     private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
@@ -51,18 +51,15 @@ public class BoardBuilder {
     The UI class will be accessing these methods, so update that when we make the switch
      */
     public static void setPlayerList() {
-        players[0] = generatePlayer(9, 0, "White");
-        players[1] = generatePlayer(14, 0, "Green");
-        players[2] = generatePlayer(0, 17, "Mustard");
-        players[3] = generatePlayer(23, 6, "Peacock");
-        players[4] = generatePlayer(23, 19, "Plum");
-        players[5] = generatePlayer(7, 24, "Scarlet");
+        players.addPlayer(generatePlayer(9, 0, "White"));
+        players.addPlayer(generatePlayer(14, 0, "Green"));
+        players.addPlayer(generatePlayer(0, 17, "Mustard"));
+        players.addPlayer(generatePlayer(23, 6, "Peacock"));
+        players.addPlayer(generatePlayer(23, 19, "Plum"));
+        players.addPlayer(generatePlayer(7, 24, "Scarlet"));
     }
-    public static Token[] getPlayerList() {
+    public static Tokens getPlayerList() {
         return players;
-    }
-    public static Token getPlayerByIndex(int index) {
-        return players[index];
     }
 
     //
@@ -143,12 +140,12 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
             if(i == 9) {
-                board[0][i] = new FloorSquare(i, 0, players[0]);
-                players[0].setSquareOn(board[0][9]);
+                board[0][i] = new FloorSquare(i, 0, players.getPlayerByIndex(0));
+                players.getPlayerByIndex(0).setSquareOn(board[0][9]);
             }
             else if(i == 14) {
-                board[0][i] = new FloorSquare(i, 0, players[1]);
-                players[1].setSquareOn(board[0][14]);
+                board[0][i] = new FloorSquare(i, 0, players.getPlayerByIndex(1));
+                players.getPlayerByIndex(1).setSquareOn(board[0][14]);
             }
             else
                 board[0][i] = new WallSquare(i, 0);
@@ -158,8 +155,8 @@ public class BoardBuilder {
         for(i = 0; i < 24 ; i++){
             // board[0][17] is a spawn point
             if(i == 17) {
-                board[i][0] = new FloorSquare(0, i, players[2]);
-                players[2].setSquareOn(board[17][0]);
+                board[i][0] = new FloorSquare(0, i, players.getPlayerByIndex(2));
+                players.getPlayerByIndex(2).setSquareOn(board[17][0]);
             }
             else
                 board[i][0] = new WallSquare(0, i);
@@ -169,12 +166,12 @@ public class BoardBuilder {
         for(i = 0; i < 24 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6) {
-                board[i][23] = new FloorSquare(23, i, players[3]);
-                players[3].setSquareOn(board[6][23]);
+                board[i][23] = new FloorSquare(23, i, players.getPlayerByIndex(3));
+                players.getPlayerByIndex(3).setSquareOn(board[6][23]);
             }
             else if(i == 19) {
-                board[i][23] = new FloorSquare(23, i, players[4]);
-                players[4].setSquareOn(board[19][23]);
+                board[i][23] = new FloorSquare(23, i, players.getPlayerByIndex(4));
+                players.getPlayerByIndex(4).setSquareOn(board[19][23]);
             }
             else
                 board[i][23] = new WallSquare(23, i);
@@ -184,8 +181,8 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7) {
-                board[24][i] = new FloorSquare(i, 24, players[5]);
-                players[5].setSquareOn(board[24][7]);
+                board[24][i] = new FloorSquare(i, 24, players.getPlayerByIndex(5));
+                players.getPlayerByIndex(5).setSquareOn(board[24][7]);
             }
             else
                 board[24][i] = new WallSquare(i, 24);

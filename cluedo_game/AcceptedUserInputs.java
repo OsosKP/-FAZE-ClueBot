@@ -12,16 +12,16 @@ public class AcceptedUserInputs {
      * These input lists are checked depending on what kind of square the user is on
      */
     // The player is moving on a general floorNavigation square
-    private final ArrayList<String> floorNavigation = new ArrayList<>();
+    private static final ArrayList<String> floorNavigation = new ArrayList<>();
     // Making a guess or exiting
-    private final ArrayList<String> weaponChoices = new ArrayList<>();
-    private final ArrayList<String> characterChoices = new ArrayList<>();
+    private static final ArrayList<String> weaponChoices = new ArrayList<>();
+    private static final ArrayList<String> characterChoices = new ArrayList<>();
     // Room guesses are only allowed if they player is solving
-    private final ArrayList<String> roomChoices = new ArrayList<>();
+    private static final ArrayList<String> roomChoices = new ArrayList<>();
     // For 'exit', 'guess', 'passage'
-    private final ArrayList<String> roomNavigation = new ArrayList<>();
+    private static final ArrayList<String> roomNavigation = new ArrayList<>();
 
-    public AcceptedUserInputs(){
+    public static void setAcceptedUserInputs(){
         floorNavigation.add("up");
         floorNavigation.add("down");
         floorNavigation.add("left");
@@ -63,19 +63,19 @@ public class AcceptedUserInputs {
         roomChoices.add("lounge");
     }
 
-    public ArrayList<String> getFloorNavigation() {
+    public static ArrayList<String> getFloorNavigation() {
         return floorNavigation;
     }
-    public ArrayList<String> getWeaponChoices() {
+    public static ArrayList<String> getWeaponChoices() {
         return weaponChoices;
     }
-    public ArrayList<String> getCharacterChoices() {
+    public static ArrayList<String> getCharacterChoices() {
         return characterChoices;
     }
-    public ArrayList<String> getRoomChoices() {
+    public static ArrayList<String> getRoomChoices() {
         return roomChoices;
     }
-    public ArrayList<String> getRoomNavigation() {
+    public static ArrayList<String> getRoomNavigation() {
         return roomNavigation;
     }
 
@@ -86,26 +86,27 @@ public class AcceptedUserInputs {
      * @param in Command entered by player
      * @return Boolean designating whether the command was found in the associated list of valid commands
      */
-    public String checkForValidEntry(Token p, String in){
+    public static boolean checkForValidEntry(Token p, String in){
+        boolean result = false;
         switch(p.getLocationAsString()){
             case "floor":
                 for (String s : floorNavigation) {
                     if (s.equals(in))
                         // If command was valid, move the player
-                        return GameLogic.PlayerEntry.PlayerMovementHandler(p, in);
+                        result = true;
                 }
                 break;
             case "room":
                 for (String s : roomNavigation){
                     if (s.equals(in))
-                        return GameLogic.PlayerEntry.PlayerMovementHandler(p, in);
+                        result = true;
                 }
             default:
                 JOptionPane.showConfirmDialog(null, "Something Went Wrong...");
                 break;
 
         }
-        return "Please Enter a Valid Command!";
+        return result;
     }
 
 }

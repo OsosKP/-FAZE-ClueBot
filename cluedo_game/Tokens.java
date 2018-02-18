@@ -25,6 +25,18 @@ public class Tokens {
     public Token getLast() {
         return last;
     }
+    public Token getPlayerByIndex(int index) {
+        if (first.getPlayerNumber() == index)
+            return first;
+
+        Token curr = first.next();
+        while(curr.getPlayerNumber() != index) {
+            curr = curr.next();
+            if (curr == first)
+                throw new PlayerNotFoundException();
+        }
+        return curr;
+    }
     public int getNumberOfPlayers() {return numberOfPlayers; }
     public boolean isEmpty(){ return numberOfPlayers == 0; }
 

@@ -12,6 +12,7 @@ public class GameLogic {
 	/* This is going to handle the board */
 	BoardBuilder currentBoard;
 	Tokens playerList;
+	UserInterface ui = new UserInterface();
 	
 	public GameLogic(BoardBuilder currentBoard) {
 
@@ -30,15 +31,67 @@ public class GameLogic {
 	 */
 
 	public static class PlayerEntry {
-		private static boolean moveSuccessful = false;
-		public static boolean getMoveSuccessful(){
-			return moveSuccessful;
+		// Designates that the given command was valid
+		private static boolean commandSuccessful = false;
+		public static boolean getCommandSuccessful(){
+			return commandSuccessful;
 		}
-		public static void resetMoveSuccessfulSwitchToFalse(){
-			moveSuccessful = false;
+		public static void resetCommandSuccessfulSwitchToFalse(){
+			commandSuccessful = false;
 		}
-		public static String PlayerMovementHandler(Token player, String move) {
+
+		// Designates that the player's move was successful
+		private static boolean movementSuccessful = false;
+		public static boolean isMovementSuccessful() {
+			return movementSuccessful;
+		}
+		public static void resetMovementSuccessfulSwitchToFalse() {
+			movementSuccessful = false;
+		}
+
+		public static boolean wasTurnSuccessful(){
+			return (commandSuccessful && movementSuccessful);
+		}
+		public static void resetSwitches(){
+			commandSuccessful = false;
+			movementSuccessful = false;
+		}
+
+		public static String ActionPerformer(Token player, String entry) {
+
+			// Check that user input was a valid command (no game logic check yet, just that the command was allowed)
+			boolean validEntryCheck = AcceptedUserInputs.checkForValidEntry(player, entry);
+			// Setting value to result will switch the commandSuccessful boolean to true if it is valid
+			if (!validEntryCheck)
+				return "Please Enter a Valid Command!";
+
+			// If we pass the above check, call the appropriate game logic handler
+			String result = "";
+			switch (player.getLocationAsString()){
+				case "floor":
+					result = FloorMovementHandler(player, entry);
+					break;
+				case "room":
+					result = RoomActionHandler(player, entry);
+					break;
+				// This is a placeholder for when the player is solving
+				case "cellar":
+					result = "Solving";
+					break;
+			}
+			return result;
+		}
+
+		/**
+		 * If player is moving along the floor, this method checks geography and ensures
+		 * that their movement is valid.
+		 * @param player token who is moving
+		 * @param move entered command
+		 * @return result of movement or an error if invalid
+		 */
+		public static String FloorMovementHandler(Token player, String move) {
 			BoardSquare square = player.getSquareOn();
+			String moveResult = "That move is not allowed.";
 			switch (move) {
 				/*
 				Player Movement from Floor Square
@@ -53,19 +106,20 @@ public class GameLogic {
 						square.getAbove().setPlayerOn(player);
 						player.setSquareOn(square.getAbove());
 						square.removePlayerOn();
-						PlayerEntry.moveSuccessful = true;
-						return player.getName() + " has moved up.";
+						PlayerEntry.commandSuccessful = true;
+						moveResult =  player.getName() + " has moved up.";
+						movementSuccessful = true;
 					}
-					return player.getName() + " is unable to move up";
-
+					break;
 				case "down":
 					if ((square.getBelow() instanceof FloorSquare || square.getBelow() instanceof EntrySquare)
 							&& !(square.getBelow().isPlayerOn())) {
 						square.getBelow().setPlayerOn(player);
 						player.setSquareOn(square.getBelow());
 						square.removePlayerOn();
-						PlayerEntry.moveSuccessful = true;
-						return player.getName() + " has moved down.";
+						PlayerEntry.commandSuccessful = true;
+						moveResult = player.getName() + " has moved down.";
+						movementSuccessful = true;
 					}
 					break;
 				case "left":
@@ -74,8 +128,9 @@ public class GameLogic {
 						square.getLeft().setPlayerOn(player);
 						player.setSquareOn(square.getLeft());
 						square.removePlayerOn();
-						PlayerEntry.moveSuccessful = true;
-						return player.getName() + " has moved left.";
+						PlayerEntry.commandSuccessful = true;
+						moveResult = player.getName() + " has moved left.";
+						movementSuccessful = true;
 					}
 					break;
 				case "right":
@@ -84,34 +139,45 @@ public class GameLogic {
 						square.getRight().setPlayerOn(player);
 						player.setSquareOn(square.getRight());
 						square.removePlayerOn();
-						PlayerEntry.moveSuccessful = true;
-						return player.getName() + " has moved right.";
+						PlayerEntry.commandSuccessful = true;
+						moveResult = player.getName() + " has moved right.";
+						movementSuccessful = true;
 					}
 					break;
+			}
+			return moveResult;
+		}
+		public static String RoomActionHandler(Token player, String command){
+			String result = "";
+			// Any move is possible from a room
+			movementSuccessful = true;
+			switch (command) {
 				/*
 				Player Movement from Room
 				 */
 				case "passage":
 					player.exitRoomThroughPassage();
-					PlayerEntry.moveSuccessful = true;
-					return player.getName() + " has taken a secret passage to the "
+					result = player.getName() + " has taken a secret passage to the "
 							+ player.getInRoom().getName();
+					break;
 				case "exit":
 					// If room has multiple exits, call the dialog to see which one the user wants
 					if (player.getInRoom().getExits().size() > 1)
-						return "exitChoice";
-					else{
+						result = "exitChoice";
+					else {
 						player.exitRoom(0);
-						return "exit";
+						result = "exit";
 					}
+					break;
+				/*
+				Player is in the room and wants to make a guess
+				 */
 				case "guess":
-					return guessPrompt();
-
-				default:
-					System.out.println("Error");
+					result = guessPrompt();
 			}
-			return "Unable to Complete Move";
+			return result;
 		}
+
 		public static String guessPrompt(){
 			// This is just a placeholder for a later sprint
 			return "Guess Prompt";

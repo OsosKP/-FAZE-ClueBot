@@ -20,8 +20,6 @@ import javax.imageio.ImageIO;
  *  Text Display Box
  */
 public class UserInterface extends JPanel {
-    // Acceptable user inputs
-    AcceptedUserInputs INPUTS_LIST;
     // Frame which will contain the GUI
     private JFrame display = new JFrame();
     // The user input portion of the display
@@ -38,8 +36,7 @@ public class UserInterface extends JPanel {
 
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
-    private Token[] playerList;
-    private int playerListIndex;
+    private Tokens playerList;
 
     BoardBuilder gameBoard;
 
@@ -49,14 +46,13 @@ public class UserInterface extends JPanel {
      */
     public UserInterface() {
         // Placeholder board and players for testing
-        playerListIndex = 0;
         gameBoard = new BoardBuilder();
 
 
 
-        /* This is going to happen AFTER the start game button is being pressed */
+        /* This is going to happen AFTER the start game button is pressed */
         this.playerList = BoardBuilder.getPlayerList();
-        this.currentPlayer = playerList[0];
+        this.currentPlayer = playerList.getFirst();
         //this.buildGUI();
         this.createPlayersGUI();
     }
@@ -69,8 +65,9 @@ public class UserInterface extends JPanel {
      * buildGui creates the graphical aspect of the UI
      */
     public void buildGUI() {
-        // Load list of acceptable commands
-        INPUTS_LIST = new AcceptedUserInputs();
+        // Set list of user input possibilities
+        // TODO: This might be moved to game logic?
+        AcceptedUserInputs.setAcceptedUserInputs();
         // Set frame size to house JPanels
         display.setSize(800, 700);
         display.setTitle("Cluedo");
@@ -155,7 +152,6 @@ public class UserInterface extends JPanel {
          *
          * @return the button, to place into a JPanel
          */
-
         private JButton createStartGameButton() {
             startGameButton = new JButton("Start Game");
             ActionListener listener = new StartGameListener();
@@ -194,33 +190,50 @@ public class UserInterface extends JPanel {
          */
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
-                // Send player entry to INPUTS_LIST and check it - return result to String
-                String result = INPUTS_LIST.checkForValidEntry(currentPlayer, inputField.getText());
-                // Setting value to result will switch the moveSuccessful boolean to true if it is valid
-                if (GameLogic.PlayerEntry.getMoveSuccessful()) {
-                    // If player has chosen to exit a room, bring up the appropriate prompt if necessary
-                    if (result.equals("exitChoice")){
-                        refreshDisplayForRoomExitChoice(currentPlayer);
-                    }
-                    else if (result.equals("exit"))
-                        out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
-                    // If player is making a guess, enter the appropriate menu
+                String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
 
-                    else {
-                        out.updateMoveHistory(result);
-                        System.out.println("Action: " + inputField.getText());
-                        // Increment index for player list based on number of players (in BoardBuilder)
-                        playerListIndex++;
-                        currentPlayer = playerList[playerListIndex % (BoardBuilder.getNumPlayers())];
-                        // Update input display with that player
-                        refreshDisplayForNextTurn(currentPlayer);
+                // If user did not enter an appropriate command, show a JOptionPane telling
+                // them to reenter the command then clear the input box.
+                if (!GameLogic.PlayerEntry.getCommandSuccessful()){
+                    JOptionPane.showConfirmDialog(null, result);
+                }
+
+                if (currentPlayer.getLocationAsString().equals("room")) {
+                    switch (result) {
+                        // If player has chosen to exit a room, bring up the appropriate prompt if necessary
+                        case "exitChoice":
+                            refreshDisplayForRoomExitChoice(currentPlayer);
+                            // TODO: Call a method in GameLogic for user to choose an exit
+                            
+                            result = (currentPlayer.getName() + " has exited the room.");
+
+                            break;
+                        case "exit":
+                            result = (currentPlayer.getName() + " has exited the room.");
+                            break;
+                        // If player is making a guess, enter the appropriate menu
+                        case "guess":
+                            JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
+                            result = currentPlayer.getName() + " is making a guess.";
+                            break;
                     }
                 }
+
+                // If the turn was successful, cycle to next turn
+                // TODO: Move this to a GameLogic method so all this work isn't done here
+                if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
+                    out.updateMoveHistory(result);
+                    System.out.println("Action: " + inputField.getText());
+                    currentPlayer = currentPlayer.next();
+                    // Update input display with that player
+                    refreshDisplayForNextTurn(currentPlayer);
+                }
+                // If not, show error and do not cycle to next turn
                 else {
                     // This will be an error message if move was unsuccessful
                     JOptionPane.showConfirmDialog(null, result);
-                    GameLogic.PlayerEntry.resetMoveSuccessfulSwitchToFalse();
                 }
+                GameLogic.PlayerEntry.resetSwitches();
                 inputField.setText("");
                 inputField.requestFocus();
             }
@@ -309,7 +322,7 @@ public class UserInterface extends JPanel {
                         switch (p.getLocationAsString()) {
                             case "floor":
                                 possibleCommandsList.removeAll();
-                                for (String s : INPUTS_LIST.getFloorNavigation()) {
+                                for (String s : AcceptedUserInputs.getFloorNavigation()) {
                                     JLabel d = new JLabel(s);
                                     d.setForeground(Color.yellow);
                                     d.setHorizontalAlignment(JLabel.CENTER);
@@ -326,7 +339,7 @@ public class UserInterface extends JPanel {
                         }
                     }
                     else {
-                        ArrayList<String> options = INPUTS_LIST.getRoomNavigation();
+                        ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                         for (String s : options) {
                             JLabel d = new JLabel(s);
                             d.setForeground(Color.yellow);
