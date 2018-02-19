@@ -13,7 +13,7 @@ public class GameLogic {
 	BoardBuilder currentBoard;
 	Tokens playerList;
 	UserInterface ui;
-	
+
 	public GameLogic() {
 		this.playerList = new Tokens();
 		playerList.setPlayerList();
@@ -73,6 +73,15 @@ public class GameLogic {
 			return result;
 		}
 
+		public static String movePlayerToSquare(Token player, String move, BoardSquare to, BoardSquare from){
+			to.setPlayerOn(player);
+			player.setSquareOn(to);
+			from.removePlayerOn();
+			PlayerEntry.movementSuccessful = true;
+
+			return player.getName() + " has moved " + move;
+		}
+
 		/**
 		 * If player is moving along the floor, this method checks geography and ensures
 		 * that their movement is valid.
@@ -94,46 +103,30 @@ public class GameLogic {
 				case "up":
 					if ((square.getAbove() instanceof FloorSquare || square.getAbove() instanceof EntrySquare)
 							&& !(square.getAbove().isPlayerOn())) {
-						square.getAbove().setPlayerOn(player);
-						player.setSquareOn(square.getAbove());
-						square.removePlayerOn();
-						PlayerEntry.commandSuccessful = true;
-						moveResult =  player.getName() + " has moved up.";
+						moveResult =  movePlayerToSquare(player, move, square.getAbove(), square);
 						movementSuccessful = true;
 					}
 					break;
 				case "down":
 					if ((square.getBelow() instanceof FloorSquare || square.getBelow() instanceof EntrySquare)
 							&& !(square.getBelow().isPlayerOn())) {
-						square.getBelow().setPlayerOn(player);
-						player.setSquareOn(square.getBelow());
-						square.removePlayerOn();
-						PlayerEntry.commandSuccessful = true;
-						moveResult = player.getName() + " has moved down.";
-						movementSuccessful = true;
+						moveResult =  movePlayerToSquare(player, move, square.getBelow(), square);
 					}
 					break;
 				case "left":
 					if ((square.getLeft() instanceof FloorSquare || square.getLeft() instanceof EntrySquare)
 							&& !(square.getLeft().isPlayerOn())) {
-						square.getLeft().setPlayerOn(player);
-						player.setSquareOn(square.getLeft());
-						square.removePlayerOn();
-						PlayerEntry.commandSuccessful = true;
-						moveResult = player.getName() + " has moved left.";
-						movementSuccessful = true;
+						moveResult =  movePlayerToSquare(player, move, square.getLeft(), square);
 					}
 					break;
 				case "right":
 					if ((square.getRight() instanceof FloorSquare || square.getRight() instanceof EntrySquare)
 							&& !(square.getRight().isPlayerOn())) {
-						square.getRight().setPlayerOn(player);
-						player.setSquareOn(square.getRight());
-						square.removePlayerOn();
-						PlayerEntry.commandSuccessful = true;
-						moveResult = player.getName() + " has moved right.";
-						movementSuccessful = true;
+						moveResult =  movePlayerToSquare(player, move, square.getRight(), square);
 					}
+					break;
+				default:
+					moveResult = "Default Switch";
 					break;
 			}
 			return moveResult;

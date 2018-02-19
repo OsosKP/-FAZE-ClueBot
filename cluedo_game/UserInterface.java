@@ -34,6 +34,9 @@ public class UserInterface extends JPanel {
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
 
+    // The board image portion of the UI
+    JPanel boardImagePanel;
+
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
@@ -79,26 +82,15 @@ public class UserInterface extends JPanel {
         userDisplay.add(output, BorderLayout.EAST);
         /* Setting the board */
         BoardImage myImg = new BoardImage();
-        JPanel boardImagePanel = myImg.returnPanel();
+        boardImagePanel = myImg.returnPanel();
         boardImagePanel = myImg.refreshMe();
 
         userDisplay.add(boardImagePanel);
-
-        JPanel movementPanel = movementUpdate();
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
         // Make the UI visible
         display.setVisible(true);
-
-        /*  */
-        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
-
-        userDisplay.remove(boardImagePanel);
-        userDisplay.add(movementPanel);
-        display.invalidate();
-        display.validate();
-        display.repaint();
     }
 
     public void refreshDisplayForNextTurn(Token p) {
@@ -182,42 +174,43 @@ public class UserInterface extends JPanel {
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
                 }
-
-                if (currentPlayer.getLocationAsString().equals("room")) {
-                    switch (result) {
-                        // If player has chosen to exit a room, bring up the appropriate prompt if necessary
-                        case "exitChoice":
-                            switchInputToExitPicker(currentPlayer.getInRoom());
-                            result = (currentPlayer.getName() + " has exited the room.");
-                            // Switch panel back to input
-                            userDisplay.remove(exits);
-                            userDisplay.add(input);
-                            userDisplay.updateUI();
-                            break;
-                        case "exit":
-                            result = (currentPlayer.getName() + " has exited the room.");
-                            break;
-                        // If player is making a guess, enter the appropriate menu
-                        case "guess":
-                            JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
-                            result = currentPlayer.getName() + " is making a guess.";
-                            break;
-                    }
-                }
-
-                // If the turn was successful, cycle to next turn
-                // TODO: Move this to a GameLogic method so all this work isn't done here
-                if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
-                    out.updateMoveHistory(result);
-                    System.out.println("Action: " + inputField.getText());
-                    currentPlayer = currentPlayer.next();
-                    // Update input display with that player
-                    refreshDisplayForNextTurn(currentPlayer);
-                }
-                // If not, show error and do not cycle to next turn
                 else {
-                    // This will be an error message if move was unsuccessful
-                    JOptionPane.showMessageDialog(null, result);
+                    if (currentPlayer.getLocationAsString().equals("room")) {
+                        switch (result) {
+                            // If player has chosen to exit a room, bring up the appropriate prompt if necessary
+                            case "exitChoice":
+                                switchInputToExitPicker(currentPlayer.getInRoom());
+                                result = (currentPlayer.getName() + " has exited the room.");
+                                // Switch panel back to input
+                                userDisplay.remove(exits);
+                                userDisplay.add(input);
+                                userDisplay.updateUI();
+                                break;
+                            case "exit":
+                                result = (currentPlayer.getName() + " has exited the room.");
+                                break;
+                            // If player is making a guess, enter the appropriate menu
+                            case "guess":
+                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
+                                result = currentPlayer.getName() + " is making a guess.";
+                                break;
+                        }
+                    }
+
+                    // If the turn was successful, cycle to next turn
+                    // TODO: Move this to a GameLogic method so all this work isn't done here
+                    if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
+                        out.updateMoveHistory(result);
+                        System.out.println("Action: " + inputField.getText());
+                        currentPlayer = currentPlayer.next();
+                        // Update input display with that player
+                        refreshDisplayForNextTurn(currentPlayer);
+                    }
+                    // If not, show error and do not cycle to next turn
+                    else {
+                        // This will be an error message if move was unsuccessful
+                        JOptionPane.showMessageDialog(null, result);
+                    }
                 }
                 GameLogic.PlayerEntry.resetSwitches();
                 inputField.setText("");
