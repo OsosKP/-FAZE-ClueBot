@@ -48,6 +48,14 @@ public class GameLogic {
 			movementSuccessful = false;
 		}
 
+		/**
+		 * This method handles the logical aspect of a player's move once they press the 'perform action' button.
+		 * Pressing that button calls this method, which checks that the entered command was valid.
+		 * If so, it calls a "handler" to check whether the command can be carried out.
+		 * @param player player
+		 * @param entry entered command
+		 * @return string with result of command or error message
+		 */
 		public static String ActionPerformer(Token player, String entry) {
 
 			// Check that user input was a valid command (no game logic check yet, just that the command was allowed)
@@ -75,6 +83,14 @@ public class GameLogic {
 			return result;
 		}
 
+		/**
+		 * This method handles the logic necessary to move a player from one square to another.
+		 * @param player player
+		 * @param move command
+		 * @param to ending square
+		 * @param from starting square
+		 * @return String with result or error
+		 */
 		public static String movePlayerToSquare(Token player, String move, BoardSquare to, BoardSquare from){
 			to.setPlayerOn(player);
 			player.setSquareOn(to);
@@ -132,6 +148,18 @@ public class GameLogic {
 			}
 			return moveResult;
 		}
+
+		/**
+		 * If a player is in a room and entering a command, this method carries out that command.
+		 * No command can be logically impossible from a room unless a player tries to take a nonexistent passage
+		 * @param player player
+		 * @param command command
+		 * @return Can be:
+		 * 					... passage... : 	player is taking the passage to another room
+		 * 					exit:				player is exiting from a room with only one exit
+		 * 					exitChoice: 		player is exiting and must choose one of multiple exits
+		 * 					guess:				this will be the result of what happens from guessPrompt
+		 */
 		public static String RoomActionHandler(Token player, String command){
 			String result = "";
 			// Any move is possible from a room

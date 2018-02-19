@@ -36,6 +36,7 @@ public class UserInterface extends JPanel {
 
     // The board image portion of the UI
     JPanel boardImagePanel;
+    BoardImage myImg;
 
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
@@ -81,7 +82,7 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         /* Setting the board */
-        BoardImage myImg = new BoardImage();
+        myImg = new BoardImage();
         boardImagePanel = myImg.returnPanel();
         boardImagePanel = myImg.refreshMe();
 
@@ -203,6 +204,32 @@ public class UserInterface extends JPanel {
                         out.updateMoveHistory(result);
                         System.out.println("Action: " + inputField.getText());
                         currentPlayer = currentPlayer.next();
+
+                        int[] destinationCoordinates;
+                        switch(inputField.getText()){
+                            case "up":
+                                destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+                                break;
+                            case "down":
+                                destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                break;
+                            case "left":
+                                destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                break;
+                            case "right":
+                                destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                break;
+                            default:
+                                destinationCoordinates = new int[2];
+                                System.out.println("ERROR");
+                                break;
+                        }
+                        // TODO: Josh plz fix
+                        boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+                        boardImagePanel.revalidate();
+
+
+
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
                     }
@@ -414,6 +441,13 @@ public class UserInterface extends JPanel {
         return boardimage.returnPanel(bi);
     }
 
+    public void setBoardImagePanel(JPanel panel){
+        this.boardImagePanel = panel;
+    }
+
+    /*
+    This is a tester class for movement
+     */
     public JPanel movementUpdate() {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
@@ -430,6 +464,25 @@ public class UserInterface extends JPanel {
         JPanel tempPanel = boardimage.returnPanel(bi);
 
         tempPanel = boardimage.move(0, 9, 1, 9);
+        return tempPanel;
+    }
+
+    public JPanel movePlayerAndUpdate(int[] from, int[] to){
+        BufferedImage bi = null;
+        BoardImage boardimage = new BoardImage();
+
+        /*
+        This version is a hopefully more mobile version of the image loading method
+         */
+        try {
+            bi = attemptToLoadImageFromResourceFolder();
+        } catch (Exception resourceLoadException) {
+            resourceLoadException.printStackTrace();
+        }
+
+        JPanel tempPanel = boardimage.returnPanel(bi);
+
+        tempPanel = boardimage.move(from, to);
         return tempPanel;
     }
 

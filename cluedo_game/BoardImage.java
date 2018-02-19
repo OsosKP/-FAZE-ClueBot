@@ -215,6 +215,30 @@ public class BoardImage {
 		return returnMe;
 	}
 
+	public JPanel move(int init[], int fin[]) {
+		/* Creating new JPanel -- set = to an empty layout */
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
+		/* Assigning the colour of the new JButton */
+		this.editedBoard[fin[0]][fin[1]] = this.editedBoard[init[0]][init[1]];
+
+		/* Returning the old JButton to its original colour */
+		this.editedBoard[init[0]][init[1]] = this.defaultBoard[init[0]][init[1]];
+
+		/* Need to recreate the JPanel based on the new */
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				JButton temp = this.editedBoard[rows][cols];
+				temp.setBorder(null);
+				newPanel.add(temp);
+			}
+		}
+		returnMe.add(newPanel);
+
+		return returnMe;
+	}
+
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
