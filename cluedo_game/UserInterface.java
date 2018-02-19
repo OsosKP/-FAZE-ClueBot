@@ -90,6 +90,18 @@ public class UserInterface extends JPanel {
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
+
+        /*
+        TODO: Not going to use this, but I'm saving it in case we need to reference it for movement
+        */
+//        JPanel movementPanel = movementUpdate();
+//        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
+//        userDisplay.remove(boardImagePanel);
+//        userDisplay.add(movementPanel);
+//        display.invalidate();
+//        display.validate();
+//        display.repaint();
+
         // Make the UI visible
         display.setVisible(true);
     }
@@ -224,11 +236,9 @@ public class UserInterface extends JPanel {
                                 System.out.println("ERROR");
                                 break;
                         }
-                        // TODO: Josh plz fix
+                        // TODO: Josh plz fix below
                         boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
                         boardImagePanel.revalidate();
-
-
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
