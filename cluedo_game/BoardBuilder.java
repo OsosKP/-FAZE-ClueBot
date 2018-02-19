@@ -42,6 +42,11 @@ public class BoardBuilder {
         this.addWalls();
         this.addEntrySquares();
         this.addFloorSquares();
+
+        for(int i=0; i<25; i++){
+            for(int j=0; j<24; j++)
+                board[i][j].setGeography(this);
+        }
     }
 
     public Tokens getPlayerList() {
@@ -64,8 +69,9 @@ public class BoardBuilder {
     public Room getKitchen() {return Kitchen;}//Return kitchen
     public Room getStudy() {return Study;}//Return study
     public Room getCellar() {return Cellar;}//Return Cellar
-    public BoardSquare getSquare(int xLoc, int yLoc) {
-        return board[xLoc][yLoc];
+
+    public BoardSquare getSquare(int yLoc, int xLoc) {
+        return board[yLoc][xLoc];
     }
 
     public static Token generatePlayer(int yPos, int xPos, String name){
@@ -126,57 +132,57 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
             if(i == 9) {
-                board[0][i] = new FloorSquare(i, 0, players.getPlayerByIndex(0));
+                board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(0));
                 players.getPlayerByIndex(0).setSquareOn(board[0][9]);
             }
             else if(i == 14) {
-                board[0][i] = new FloorSquare(i, 0, players.getPlayerByIndex(1));
+                board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(1));
                 players.getPlayerByIndex(1).setSquareOn(board[0][14]);
             }
             else
-                board[0][i] = new WallSquare(i, 0);
+                board[0][i] = new WallSquare(0, i);
         }
 
         // Loop to assign left edge barrier squares
-        for(i = 0; i < 24 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[0][17] is a spawn point
             if(i == 17) {
-                board[i][0] = new FloorSquare(0, i, players.getPlayerByIndex(2));
+                board[i][0] = new FloorSquare(i, 0, players.getPlayerByIndex(2));
                 players.getPlayerByIndex(2).setSquareOn(board[17][0]);
             }
             else
-                board[i][0] = new WallSquare(0, i);
+                board[i][0] = new WallSquare(i, 0);
         }
 
         // Loop to assign right edge barrier squares
-        for(i = 0; i < 24 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6) {
-                board[i][23] = new FloorSquare(23, i, players.getPlayerByIndex(3));
-                players.getPlayerByIndex(3).setSquareOn(board[6][23]);
+                board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(3));
+                players.getPlayerByIndex(3).setSquareOn(board[i][23]);
             }
             else if(i == 19) {
-                board[i][23] = new FloorSquare(23, i, players.getPlayerByIndex(4));
-                players.getPlayerByIndex(4).setSquareOn(board[19][23]);
+                board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(4));
+                players.getPlayerByIndex(4).setSquareOn(board[i][23]);
             }
             else
-                board[i][23] = new WallSquare(23, i);
+                board[i][23] = new WallSquare(i, 23);
         }
 
         // Loop to assign bottom edge barrier squares
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7) {
-                board[24][i] = new FloorSquare(i, 24, players.getPlayerByIndex(5));
-                players.getPlayerByIndex(5).setSquareOn(board[24][7]);
+                board[24][i] = new FloorSquare(24, i, players.getPlayerByIndex(5));
+                players.getPlayerByIndex(5).setSquareOn(board[24][i]);
             }
             else
-                board[24][i] = new WallSquare(i, 24);
+                board[24][i] = new WallSquare(24, i);
         }
 
         // Two impassable squares at the top - see Documentation
         board[1][6] = new WallSquare(6, 1);
-        board[1][17] = new WallSquare(17, 1);
+        board[1][17] = new WallSquare(1, 17);
     }
 
     /**
@@ -281,8 +287,8 @@ public class BoardBuilder {
      * or an EntrySquare is made into a passable FloorSquare.
      */
     public void addFloorSquares(){
-        for(int i = 1; i < 24; i++){
-            for(int j = 1; j < 23; j++){
+        for(int i = 1; i < 25; i++){
+            for(int j = 1; j < 24; j++){
                 if(!(board[i][j] instanceof WallSquare
                     || board[i][j] instanceof EntrySquare))
                         board[i][j] = new FloorSquare(i, j);

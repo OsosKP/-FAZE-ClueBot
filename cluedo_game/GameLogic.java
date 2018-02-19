@@ -56,6 +56,8 @@ public class GameLogic {
 			if (!validEntryCheck)
 				return "Please Enter a Valid Command!";
 
+			commandSuccessful = true;
+
 			// If we pass the above check, call the appropriate game logic handler
 			String result = "";
 			switch (player.getLocationAsString()){
@@ -104,7 +106,6 @@ public class GameLogic {
 					if ((square.getAbove() instanceof FloorSquare || square.getAbove() instanceof EntrySquare)
 							&& !(square.getAbove().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getAbove(), square);
-						movementSuccessful = true;
 					}
 					break;
 				case "down":
