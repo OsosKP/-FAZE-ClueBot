@@ -13,19 +13,11 @@ public class EntrySquare implements BoardSquare{
 	private final int[] position = new int[2];
 	private final Room roomAssigned;
 	private final int referenceNumber;
-	private boolean playerOnCheck;
-	private Token playerOn;
 	// Navigational pointers
 	private BoardSquare above;
 	private BoardSquare below;
 	private BoardSquare toLeft;
 	private BoardSquare toRight;
-
-	public Token removePlayerOn() {
-		Token removedPlayer = this.playerOn;
-		this.playerOn = null;
-		return removedPlayer;
-	}
 
 	//
 	//Constructors
@@ -35,7 +27,6 @@ public class EntrySquare implements BoardSquare{
 		position[1] = y;
 		this.roomAssigned = roomAssigned;
 		this.referenceNumber = refNum;
-		this.playerOnCheck = false;
 	}
 
 	//
@@ -43,22 +34,24 @@ public class EntrySquare implements BoardSquare{
 	//
 	public Room getRoomName() {return roomAssigned;}
 	public int getRefNum() {return this.referenceNumber;}
-	public boolean isPlayerOn() {return playerOnCheck;}
-	public Token getPlayerOn(){ return this.playerOn; }
 	public int[] getPosition() {return position;}
+	public Room getRoomAssigned() {
+		return roomAssigned;
+	}
+	// This will always return null since there is never a player on an EntrySquare
+	@Override
+	public Token getPlayerOn() {
+		return null;
+	}
+
+
 	/*
 	Geographical Pointers
-    */
+	*/
 	public BoardSquare getAbove() { return this.above; }
 	public BoardSquare getBelow() { return this.below; }
 	public BoardSquare getLeft() { return this.toLeft; }
 	public BoardSquare getRight() { return this.toRight; }
-
-	//
-	//Mutators
-	//
-	public void changePlayerOnStatus(boolean x) {playerOnCheck = x;}
-	public void setPlayerOn(Token player) { this.playerOn = player; }
 	/**
 	 * getSquareType
 	 * This method returns an object of type EntrySquare
@@ -69,8 +62,25 @@ public class EntrySquare implements BoardSquare{
 	public EntrySquare getSquareType() {
 		return this;
 	}
+	// Players will never be on this square because it takes them directly to the room
+	@Override
+	public boolean isPlayerOn() {
+		return false;
+	}
+
 	@Override
 	public String toString(){ return "entry"; }
+
+	//
+	//Mutators
+	//
+	// This method will now transport the player directly to the room
+	public void setPlayerOn(Token player) { player.enterRoom(this.getRoomAssigned()); }
+	// This method will not be invoked by EntrySquare
+	@Override
+	public Token removePlayerOn() {
+		return null;
+	}
 
 	/**
 	 * setGeography
@@ -84,7 +94,7 @@ public class EntrySquare implements BoardSquare{
 		else
 			this.above = null;
 		// Set a pointer to the square below this one
-		if(this.position[0] < 23)
+		if(this.position[0] < 24)
 			this.below = board.getSquare(this.position[0]+1, this.position[1]);
 		else
 			this.below = null;
@@ -94,7 +104,7 @@ public class EntrySquare implements BoardSquare{
 		else
 			this.toLeft = null;
 		// Set a pointer to the square to the right of this one
-		if(this.position[1] < 24)
+		if(this.position[1] < 23)
 			this.toRight = board.getSquare(this.position[0], this.position[1]+1);
 		else
 			this.toRight = null;

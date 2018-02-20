@@ -29,9 +29,16 @@ public class UserInterface extends JPanel {
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
     private JButton startGameButton;
+    // This will replace inputs panel when user has to choose an exit
+    private JPanel exits;
+
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
+
+    // The board image portion of the UI
+    JPanel boardImagePanel;
+    BoardImage myImg;
 
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
@@ -47,29 +54,26 @@ public class UserInterface extends JPanel {
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
      */
-    public UserInterface(){
-        // Placeholder board and players for testing
-        playerListIndex = 0;
-        gameBoard = new BoardBuilder();
-        
-        
-        /* This is going to happen AFTER the start game button is being pressed */
-        this.playerList = BoardBuilder.getPlayerList();
-        this.currentPlayer = playerList[0];
-        this.createPlayersGUI();
+    public UserInterface(BoardBuilder board) {
+        /* This is going to happen AFTER the start game button is pressed */
+        // TODO: BoardBuilder.getPlayerList() is redundant now that we're using a LL
+        this.playerList = board.getPlayerList();
+        this.currentPlayer = playerList.getFirst();
         this.buildGUI();
+//        this.createPlayersGUI();
     }
-    
+
     public void createPlayersGUI() {
-    	ShowCharacterInput testMe = new ShowCharacterInput();
+        showCharacterInput testMe = new showCharacterInput();
     }
 
     /**
      * buildGui creates the graphical aspect of the UI
      */
-    public void buildGUI(){
-        // Load list of acceptable commands
-        INPUTS_LIST = new AcceptedUserInputs();
+    public void buildGUI() {
+        // Set list of user input possibilities
+        // TODO: This might be moved to game logic?
+        AcceptedUserInputs.setAcceptedUserInputs();
         // Set frame size to house JPanels
         display.setSize(800, 700);
         display.setTitle("Cluedo");
@@ -81,8 +85,8 @@ public class UserInterface extends JPanel {
         userDisplay.add(input, BorderLayout.SOUTH);
         userDisplay.add(output, BorderLayout.EAST);
         /* Setting the board */
-        BoardImage myImg = new BoardImage();
-        JPanel boardImagePanel = myImg.returnPanel(); 
+        myImg = new BoardImage();
+        boardImagePanel = myImg.returnPanel();
         boardImagePanel = myImg.refreshMe();
 
         userDisplay.add(boardImagePanel);
@@ -91,6 +95,18 @@ public class UserInterface extends JPanel {
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
+
+        /*
+        TODO: Not going to use this, but I'm saving it in case we need to reference it for movement
+        */
+//        JPanel movementPanel = movementUpdate();
+//        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
+//        userDisplay.remove(boardImagePanel);
+//        userDisplay.add(movementPanel);
+//        display.invalidate();
+//        display.validate();
+//        display.repaint();
+
         // Make the UI visible
         display.setVisible(true);
 
@@ -103,8 +119,8 @@ public class UserInterface extends JPanel {
         display.setVisible(true);
     }
 
-    public void refreshDisplay(Token p){
-        in.updateInputDisplayPanel(p);
+    public void refreshDisplayForNextTurn(Token p) {
+        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn.");
         out.updateAllowedCommandsBasedOnSquare(p);
     }
 
@@ -117,7 +133,7 @@ public class UserInterface extends JPanel {
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
         private JLabel promptLabel = new JLabel("     What would you like to do?");
 
-        public JPanel createInputPanel(){
+        public JPanel createInputPanel() {
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
             JButton startGameButton = createStartGameButton();
@@ -140,71 +156,173 @@ public class UserInterface extends JPanel {
 
         /**
          * A button that must be pressed to start the game
+         *
          * @return the button, to place into a JPanel
          */
-
-        private JButton createStartGameButton(){
+        private JButton createStartGameButton() {
             startGameButton = new JButton("Start Game");
             ActionListener listener = new StartGameListener();
             startGameButton.addActionListener(listener);
 
             return startGameButton;
         }
+
         class StartGameListener implements ActionListener {
-            public void actionPerformed (ActionEvent event){
-		input.remove(startGameButton);
+            public void actionPerformed(ActionEvent event) {
+                input.remove(startGameButton);
                 input.add(createPerformActionButton(), BorderLayout.EAST);
-                updateInputDisplayPanel(currentPlayer);
+                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
                 input.revalidate();
                 output.revalidate();
             }
         }
+
         /**
          * Button for the user to press when they enter a command
+         *
          * @return the button, to place into a JPanel
          */
-        private JButton createPerformActionButton(){
+        private JButton createPerformActionButton() {
             JButton performAction = new JButton("Perform Action");
             ActionListener listener = new UserInputListener();
             performAction.addActionListener(listener);
 
             return performAction;
         }
-        /**
-         * This ActionListener reads when somebody pressed the "Perform Action" button
+
+        /*
+         * This ActionListener reads when somebody presses the "Perform Action" button
          */
         class UserInputListener implements ActionListener {
-            public void actionPerformed(ActionEvent event){
-                // Only do this if the input field had something in it
-                if(INPUTS_LIST.checkForValidUserInputNavigation(currentPlayer, inputField.getText())) {
-                    // Check that the player has entered a correct navigational command
-                    out.update(output, inputField.getText());
-                    System.out.println("You have performed the action: " + inputField.getText());
-                    // Increment index for player list based on number of players (in boardbuilder)
-                    playerListIndex++;
-                    currentPlayer = playerList[playerListIndex%(BoardBuilder.getNumPlayers())];
-                    // Update input display with that player
-                    refreshDisplay(currentPlayer);
+            public void actionPerformed(ActionEvent event) {
+                String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
+
+                // If user did not enter an appropriate command, show a JOptionPane telling
+                // them to reenter the command then clear the input box.
+                if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
+                    JOptionPane.showMessageDialog(null, result);
                 }
+                else {
+                    if (currentPlayer.getLocationAsString().equals("room")) {
+                        switch (result) {
+                            // If player has chosen to exit a room, bring up the appropriate prompt if necessary
+                            case "exitChoice":
+                                switchInputToExitPicker(currentPlayer.getInRoom());
+                                result = (currentPlayer.getName() + " has exited the room.");
+                                // Switch panel back to input
+                                userDisplay.remove(exits);
+                                userDisplay.add(input);
+                                userDisplay.updateUI();
+                                break;
+                            case "exit":
+                                result = (currentPlayer.getName() + " has exited the room.");
+                                break;
+                            // If player is making a guess, enter the appropriate menu
+                            case "guess":
+                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
+                                result = currentPlayer.getName() + " is making a guess.";
+                                break;
+                        }
+                    }
+
+                    // If the turn was successful, cycle to next turn
+                    // TODO: Move this to a GameLogic method so all this work isn't done here
+                    if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
+                        out.updateMoveHistory(result);
+                        System.out.println("Action: " + inputField.getText());
+                        currentPlayer = currentPlayer.next();
+
+                        int[] destinationCoordinates;
+                        switch(inputField.getText()){
+                            case "up":
+                                destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+                                break;
+                            case "down":
+                                destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                break;
+                            case "left":
+                                destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                break;
+                            case "right":
+                                destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                break;
+                            default:
+                                destinationCoordinates = new int[2];
+                                System.out.println("ERROR");
+                                break;
+                        }
+                        // TODO: Josh plz fix below
+                        boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+                        boardImagePanel.revalidate();
+
+                        // Update input display with that player
+                        refreshDisplayForNextTurn(currentPlayer);
+                    }
+                    // If not, show error and do not cycle to next turn
+                    else {
+                        // This will be an error message if move was unsuccessful
+                        JOptionPane.showMessageDialog(null, result);
+                    }
+                }
+                GameLogic.PlayerEntry.resetSwitches();
                 inputField.setText("");
                 inputField.requestFocus();
             }
         }
+
+        public void switchInputToExitPicker(Room room) {
+            exits = new JPanel();
+            exits.setLayout(new GridLayout(3, 1));
+            int i = 1;
+
+            for (FloorSquare square : room.getExits()) {
+                JButton exitChoice = new JButton("Exit " + i);
+                ExitChoiceListener listener = new ExitChoiceListener(i);
+                exitChoice.addActionListener(listener);
+                exits.add(exitChoice);
+            }
+            out.allowedCommandsDisplay.removeAll();
+            out.allowedCommandsDisplay.revalidate();
+            userDisplay.remove(input);
+            userDisplay.add(exits, BorderLayout.SOUTH);
+            userDisplay.updateUI();
+        }
+
+        public void switchExitPickerToInput() {
+            userDisplay.remove(exits);
+            userDisplay.add(input);
+            userDisplay.updateUI();
+        }
+
+        class ExitChoiceListener implements ActionListener {
+            private int choice;
+
+            public ExitChoiceListener(int choice) {
+                this.choice = choice;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentPlayer.exitRoom(choice);
+            }
+        }
+
+
     }
 
     /**
      * The user output portion of the GUI
      */
-    private class OutputTextDisplay{
+    public class OutputTextDisplay {
         JTextArea textOutput;
         JScrollPane scroller;
         JPanel allowedCommandsDisplay;
         JLabel locationReadout;
         JPanel possibleCommandsList;
 
-        public OutputTextDisplay(){
+        public OutputTextDisplay() {
             textOutput = new JTextArea("", 10, 15);
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
@@ -238,7 +356,7 @@ public class UserInterface extends JPanel {
             scroller = new JScrollPane(textOutput);
         }
 
-        public void createAllowedCommandsDisplay(){
+        public void createAllowedCommandsDisplay() {
             allowedCommandsDisplay = new JPanel();
             allowedCommandsDisplay.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.BLACK));
             allowedCommandsDisplay.setLayout(new BorderLayout());
@@ -251,44 +369,33 @@ public class UserInterface extends JPanel {
          * updateAllowedCommandsBasedOnSquare
          * When a new player's turn starts, this method ensures the output text display updates correctly
          * according to what type of square they are on.
+         *
          * @param p the player whose turn it is
          */
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
-            if(p == null)
+            if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
-            else if(p.getSquareOn() instanceof FloorSquare)
+            else if (p.getSquareOn() instanceof FloorSquare)
                 locationReadout.setText("<html>You are on a Floor square.<br/>Possible Commands:</html>");
-            // This will only be accessed after a player exits the room
-            // Because when a player enters this square from a floor square, they are immediately taken to the room
-            else if(p.getSquareOn() instanceof EntrySquare)
-                locationReadout.setText("<html>You are on an Entry square to: </br></html>"
-                        + ((EntrySquare) p.getSquareOn()).getRoomName() + "<html><br/>Possible Commands:</html>");
-            else if(p.getSquareOn() instanceof WallSquare)
+                // This will only be accessed after a player exits the room
+            else if (p.getSquareOn() instanceof WallSquare)
                 locationReadout.setText("Wall Square? Something went wrong...");
             else
-                locationReadout.setText("You are in the " + p.getInRoom().getName() + "<html><br/>Possible Commands:</html>");
+                locationReadout.setText("You are in the " + p.getInRoom().getName()
+                        + "<html><br/>Possible Commands:</html>");
 
             try {
-                if(p == null)
-                    throw new Exception("Player found error");
+                if (p == null)
+                    throw new Exception("Player not found error");
                 if (p.getInRoom() == null) {
                     // If player is on a square, get the type of square and show their available
                     // commands based on what is available from that square.
-                    switch (p.getSquareOn().toString()) {
+                    switch (p.getLocationAsString()) {
                         case "floor":
                             possibleCommandsList.removeAll();
-                            for (String s : INPUTS_LIST.getFloorNavigation()) {
-                                JLabel d = new JLabel(s);
-                                d.setForeground(Color.yellow);
-                                d.setHorizontalAlignment(JLabel.CENTER);
-                                possibleCommandsList.add(d);
-                            }
-                            break;
-                        case "entry":
-                            possibleCommandsList.removeAll();
-                            for (String s : INPUTS_LIST.getEntryChoices()) {
+                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.yellow);
                                 d.setHorizontalAlignment(JLabel.CENTER);
@@ -303,9 +410,8 @@ public class UserInterface extends JPanel {
                             throw new Exception("Error Finding Square Type");
 
                     }
-                }
-                else {
-                    ArrayList<String> options = INPUTS_LIST.getFloorNavigation();
+                } else {
+                    ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.yellow);
@@ -324,39 +430,18 @@ public class UserInterface extends JPanel {
          * update method is called BEFORE THE GAME LOGIC HAPPENS
          * So when we call the room, or the player's square, or anything else,
          * WE CALL APPROPRIATE VARIABLES BASED ON WHERE THE PLAYER WAS AT THE START OF THEIR TURN
-         * @param panel output panel that is being updated
-         * @param in command inputted by user
+         *
+         * @param in String created by PlayerMovementHandler (in GameLogic.PlayerEntry)
          */
-        public void update(JPanel panel, String in){
-            textOutput.append(currentPlayer.getName());
-            switch(in.toLowerCase()){
-                case "up":
-                case "down":
-                case "left":
-                case "right":
-                    textOutput.append(" has moved ");
-                    textOutput.append(in);
-                    break;
-                case "enter":
-                    // This update will display once the player enters the room - it is the only one like this
-                    break;
-                case "exit":
-                    textOutput.append(" has exited the ");
-                    textOutput.append(currentPlayer.getInRoom().getName());
-                    break;
-                case "passage":
-                    textOutput.append(" is taking a secret passage to the ");
-                    textOutput.append(currentPlayer.getInRoom().getsecretPassage().getName());
-                case "guess":
-                    textOutput.append(" is making a guess...");
-            }
+        public void updateMoveHistory(String in) {
+            textOutput.append(in);
             textOutput.append("\n\n");
 
             // Refresh the panel after updating
-            panel.revalidate();
+            output.revalidate();
         }
 
-        public JPanel createOutputPanel(){
+        public JPanel createOutputPanel() {
             JPanel output = new JPanel();
             output.setLayout(new GridLayout(2, 1));
             output.add(scroller);
@@ -369,21 +454,28 @@ public class UserInterface extends JPanel {
     /**
      * The graphical portion of the GUI
      */
-    public JPanel boardImagePanel(){
+    public JPanel boardImagePanel() {
 
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
         try {
             bi = attemptToLoadImageFromResourceFolder();
-        } catch (Exception resourceLoadException){
+        } catch (Exception resourceLoadException) {
             resourceLoadException.printStackTrace();
         }
 
         return boardimage.returnPanel(bi);
     }
 
-    public JPanel movementUpdate(){
+    public void setBoardImagePanel(JPanel panel){
+        this.boardImagePanel = panel;
+    }
+
+    /*
+    This is a tester class for movement
+     */
+    public JPanel movementUpdate() {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
@@ -392,19 +484,39 @@ public class UserInterface extends JPanel {
          */
         try {
             bi = attemptToLoadImageFromResourceFolder();
-        } catch (Exception resourceLoadException){
+        } catch (Exception resourceLoadException) {
             resourceLoadException.printStackTrace();
         }
 
         JPanel tempPanel = boardimage.returnPanel(bi);
 
-        tempPanel = boardimage.move(0,9,1,9);
+        tempPanel = boardimage.move(0, 9, 1, 9);
+        return tempPanel;
+    }
+
+    public JPanel movePlayerAndUpdate(int[] from, int[] to){
+        BufferedImage bi = null;
+        BoardImage boardimage = new BoardImage();
+
+        /*
+        This version is a hopefully more mobile version of the image loading method
+         */
+        try {
+            bi = attemptToLoadImageFromResourceFolder();
+        } catch (Exception resourceLoadException) {
+            resourceLoadException.printStackTrace();
+        }
+
+        JPanel tempPanel = boardimage.returnPanel(bi);
+
+        tempPanel = boardimage.move(from, to);
         return tempPanel;
     }
 
     /**
      * attemptToLoadImageFromResourceFolder
      * This method pulls the URL/path from an image name and loads that into a buffered image
+     *
      * @return a buffered image loaded from the hard-coded URL
      * @throws Exception Prints a stack trace in boardImagePanel if the image is not found
      */
@@ -417,58 +529,69 @@ public class UserInterface extends JPanel {
     /**
      * Update the currentPlayer variable within the UI class
      */
-    public void setCurrentPlayer(Token player){
+    public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
     
- 	/* Inner class  */ //TODO figure out how the hell this works because it looks like black magic
+ 	/* Inner classes that will be usful later */
 	class CharacterList extends JPanel {
 
-	    private JTextField value;
-	    String willThisWork;
+    /* Inner classes that will be useful later */
+    class CharacterList extends JPanel {
 
-	    CharacterList(String[] items) {
-	        super( new BorderLayout(5,5) );
+        private JTextField value;
+        String willThisWork;
 
-	        JList list = new JList( items );
-	        list.addListSelectionListener( new ListSelectionListener(){
-	                public void valueChanged(ListSelectionEvent lse) {
-	                    willThisWork = ( (String)list.getSelectedValue() );
-	                }
-	            } );
-	        add( list, BorderLayout.CENTER );
+        CharacterList(String[] items) {
+            super(new BorderLayout(5, 5));
 
-	        value = new JTextField(" ", 20);
-	        add( value, BorderLayout.NORTH );
-	    }
+            JList list = new JList(items);
+            list.addListSelectionListener(new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent lse) {
+                    willThisWork = ((String) list.getSelectedValue());
+                }
+            });
+            add(list, BorderLayout.CENTER);
 
-	    public String[] getValue() {
-	        String[] valueArray = new String[2];
-	        valueArray[0] = this.value.getText();
-	        valueArray[1] = this.willThisWork;
-	        return valueArray;
-	    }	
-	}
-	
-	class ShowCharacterInput {
-		public ShowCharacterInput(){
-	                String[] items = {
-	                    "Miss Scarlett",
-	                    "Colonel Mustard",
-	                    "Mrs White",
-	                    "Mr Green",
-	                    "Mrs Peacock",
-	                    "Professor Plum",
-	                };
-	                // what was requested
-	                CharacterList elp = new CharacterList(items);
-	                //change null for a JFrame
-	                JOptionPane.showMessageDialog(null, elp);
-	                String[] valueArray = elp.getValue();
-	                
-	                System.out.println("Username: " + valueArray[0]);
-	                System.out.println("Value: " + valueArray[1]);
-	            }
-	}
+            value = new JTextField("", 20);
+            add(value, BorderLayout.NORTH);
+        }
+
+        public String[] getValue() {
+            String[] valueArray = new String[2];
+            valueArray[0] = this.value.getText();
+            valueArray[1] = this.willThisWork;
+            return valueArray;
+        }
+    }
+
+    class showCharacterInput {
+
+        public showCharacterInput() {
+            Runnable r = new Runnable() {
+
+                public void run() {
+                    String[] items = {
+                            "Miss Scarlett",
+                            "Colonel Mustard",
+                            "Mrs White",
+                            "Mr Green",
+                            "Mrs Peacock",
+                            "Professor Plum",
+                    };
+
+                    // what was requested
+                    CharacterList elp = new CharacterList(items);
+                    JOptionPane.showMessageDialog(null, elp);
+                    String[] valueArray = elp.getValue();
+
+                    System.out.println("EditableListPanel value: " + valueArray[0]);
+                    System.out.println(" Value: " + valueArray[1]);
+                }
+            };
+            SwingUtilities.invokeLater(r);
+        }
+    }
+
 
 }

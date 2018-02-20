@@ -83,7 +83,7 @@ public class FloorSquare implements BoardSquare {
         else
             this.above = null;
         // Set a pointer to the square below this one
-        if(this.position[0] < 23)
+        if(this.position[0] < 24)
             this.below = board.getSquare(this.position[0]+1, this.position[1]);
         else
             this.below = null;
@@ -93,7 +93,7 @@ public class FloorSquare implements BoardSquare {
         else
             this.toLeft = null;
         // Set a pointer to the square to the right of this one
-        if(this.position[1] < 24)
+        if(this.position[1] < 23)
             this.toRight = board.getSquare(this.position[0], this.position[1]+1);
         else
             this.toRight = null;

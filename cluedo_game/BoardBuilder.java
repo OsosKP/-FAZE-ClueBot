@@ -16,7 +16,7 @@ public class BoardBuilder {
     /* Will store all the players in the game */
 //    playerList players = new playerList();
     private static int numPlayers = 0;
-    private static Token[] players = new Token[6];
+    private Tokens players;
     private boolean boardCreated = false;
 
     /* This will allow is to access the rooms on the fly */
@@ -34,35 +34,23 @@ public class BoardBuilder {
     /* Will prevent us from breaking everything */
     private boolean entrySquaresCreated = false;
 
-    public BoardBuilder() {
+    public BoardBuilder(Tokens players) {
         /* Calling classes to create board */
-        setPlayerList();   // This method is temporary
+        this.players = players;
         this.createRooms();
         this.addBarriersAndSpawnPoints();
         this.addWalls();
         this.addEntrySquares();
         this.addFloorSquares();
+
+        for(int i=0; i<25; i++){
+            for(int j=0; j<24; j++)
+                board[i][j].setGeography(this);
+        }
     }
 
-
-    /*
-    Temporary methods to create and access all 6 characters to test spawn points and printouts
-    Some form of these methods will eventually move to the GameEngine class
-    The UI class will be accessing these methods, so update that when we make the switch
-     */
-    public static void setPlayerList() {
-        players[0] = generatePlayer(9, 0, "White");
-        players[1] = generatePlayer(14, 0, "Green");
-        players[2] = generatePlayer(0, 17, "Mustard");
-        players[3] = generatePlayer(23, 6, "Peacock");
-        players[4] = generatePlayer(23, 19, "Plum");
-        players[5] = generatePlayer(7, 24, "Scarlet");
-    }
-    public static Token[] getPlayerList() {
+    public Tokens getPlayerList() {
         return players;
-    }
-    public static Token getPlayerByIndex(int index) {
-        return players[index];
     }
 
     //
@@ -81,8 +69,9 @@ public class BoardBuilder {
     public Room getKitchen() {return Kitchen;}//Return kitchen
     public Room getStudy() {return Study;}//Return study
     public Room getCellar() {return Cellar;}//Return Cellar
-    public BoardSquare getSquare(int xLoc, int yLoc) {
-        return board[xLoc][yLoc];
+
+    public BoardSquare getSquare(int yLoc, int xLoc) {
+        return board[yLoc][xLoc];
     }
 
     public static Token generatePlayer(int yPos, int xPos, String name){
@@ -143,57 +132,57 @@ public class BoardBuilder {
         for(i = 0; i < 24; i++){
             // board[9][0] and board[14][0] are both spawn points
             if(i == 9) {
-                board[0][i] = new FloorSquare(i, 0, players[0]);
-                players[0].setSquareOn(board[0][9]);
+                board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(0));
+                players.getPlayerByIndex(0).setSquareOn(board[0][9]);
             }
             else if(i == 14) {
-                board[0][i] = new FloorSquare(i, 0, players[1]);
-                players[1].setSquareOn(board[0][14]);
+                board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(1));
+                players.getPlayerByIndex(1).setSquareOn(board[0][14]);
             }
             else
-                board[0][i] = new WallSquare(i, 0);
+                board[0][i] = new WallSquare(0, i);
         }
 
         // Loop to assign left edge barrier squares
-        for(i = 0; i < 24 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[0][17] is a spawn point
             if(i == 17) {
-                board[i][0] = new FloorSquare(0, i, players[2]);
-                players[2].setSquareOn(board[17][0]);
+                board[i][0] = new FloorSquare(i, 0, players.getPlayerByIndex(2));
+                players.getPlayerByIndex(2).setSquareOn(board[17][0]);
             }
             else
-                board[i][0] = new WallSquare(0, i);
+                board[i][0] = new WallSquare(i, 0);
         }
 
         // Loop to assign right edge barrier squares
-        for(i = 0; i < 24 ; i++){
+        for(i = 0; i < 25 ; i++){
             // board[23][6] and board[23][19] are both spawn points
             if(i == 6) {
-                board[i][23] = new FloorSquare(23, i, players[3]);
-                players[3].setSquareOn(board[6][23]);
+                board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(3));
+                players.getPlayerByIndex(3).setSquareOn(board[i][23]);
             }
             else if(i == 19) {
-                board[i][23] = new FloorSquare(23, i, players[4]);
-                players[4].setSquareOn(board[19][23]);
+                board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(4));
+                players.getPlayerByIndex(4).setSquareOn(board[i][23]);
             }
             else
-                board[i][23] = new WallSquare(23, i);
+                board[i][23] = new WallSquare(i, 23);
         }
 
         // Loop to assign bottom edge barrier squares
         for(i = 0; i < 24; i++){
             // board[7][24] is a spawn point
             if(i == 7) {
-                board[24][i] = new FloorSquare(i, 24, players[5]);
-                players[5].setSquareOn(board[24][7]);
+                board[24][i] = new FloorSquare(24, i, players.getPlayerByIndex(5));
+                players.getPlayerByIndex(5).setSquareOn(board[24][i]);
             }
             else
-                board[24][i] = new WallSquare(i, 24);
+                board[24][i] = new WallSquare(24, i);
         }
 
         // Two impassable squares at the top - see Documentation
         board[1][6] = new WallSquare(6, 1);
-        board[1][17] = new WallSquare(17, 1);
+        board[1][17] = new WallSquare(1, 17);
     }
 
     /**
@@ -298,8 +287,8 @@ public class BoardBuilder {
      * or an EntrySquare is made into a passable FloorSquare.
      */
     public void addFloorSquares(){
-        for(int i = 1; i < 24; i++){
-            for(int j = 1; j < 23; j++){
+        for(int i = 1; i < 25; i++){
+            for(int j = 1; j < 24; j++){
                 if(!(board[i][j] instanceof WallSquare
                     || board[i][j] instanceof EntrySquare))
                         board[i][j] = new FloorSquare(i, j);
@@ -311,48 +300,67 @@ public class BoardBuilder {
     	if (this.entrySquaresCreated) { //this is where we actually create the rooms
     		
     		/* Creating the Rooms with Multiple Entrances*/
-    		
     		/* Will be used to store the entrances for the individual rooms */
     		ArrayList<EntrySquare> entrances = new ArrayList<>();
+    		/* Will be used to store the FloorSquares to which the rooms exit*/
+    		ArrayList<FloorSquare> exits = new ArrayList<>();
     		
     		/* Creating Ballroom Object*/
     		entrances.add((EntrySquare)board[5][8]);
     		entrances.add((EntrySquare)board[7][9]);
     		entrances.add((EntrySquare)board[7][14]);
-    		Ballroom = new Room("Ballroom",entrances);
+    		exits.add((FloorSquare)board[5][7]);
+            exits.add((FloorSquare)board[8][9]);
+            exits.add((FloorSquare)board[8][14]);
+            Ballroom = new Room("Ballroom",entrances, exits);
     		
-    		entrances.clear(); //clearing the arrayList, since we need it to hold the entranceSquares for the next object
-    		
+    		entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
+    		exits.clear();
+
     		/* Creating Dining Room Object */
-    		entrances.add((EntrySquare)board[12][7]);
     		entrances.add((EntrySquare)board[15][6]);
-    		DiningRoom = new Room("DiningRoom", entrances);
+            entrances.add((EntrySquare)board[12][7]);
+            exits.add((FloorSquare)board[16][6]);
+            exits.add((FloorSquare)board[12][8]);
+            DiningRoom = new Room("DiningRoom", entrances, exits);
     		
     		entrances.clear();
+    		exits.clear();
     		
     		/* Creating BilliardRoom Object */
     		entrances.add((EntrySquare)board[9][18]);
     		entrances.add((EntrySquare)board[12][22]);
-    		BilliardRoom = new Room("BilliardRoom", entrances);
+            exits.add((FloorSquare)board[9][17]);
+            exits.add((FloorSquare)board[13][22]);
+            BilliardRoom = new Room("BilliardRoom", entrances, exits);
     		
     		entrances.clear();
+    		exits.clear();
     		
     		/* Creating Library Object */
     		entrances.add((EntrySquare)board[16][17]);
     		entrances.add((EntrySquare)board[14][20]);
-    		Library = new Room("Library", entrances);
+            exits.add((FloorSquare)board[16][16]);
+            exits.add((FloorSquare)board[13][20]);
+            Library = new Room("Library", entrances, exits);
     		
     		entrances.clear();
+    		exits.clear();
     		
     		/* Creating Hall Object */
     		entrances.add((EntrySquare)board[18][11]);
     		entrances.add((EntrySquare)board[18][12]);
     		entrances.add((EntrySquare)board[20][14]);
-    		Hall = new Room("Hall", entrances);
-    		
-    		entrances.clear();
-    		
-    		
+            exits.add((FloorSquare)board[17][11]);
+            exits.add((FloorSquare)board[17][12]);
+            exits.add((FloorSquare)board[20][15]);
+            Hall = new Room("Hall", entrances, exits);
+
+            /* Create rooms with one entrance and a secret passage */
+            Kitchen = new Room("Kitchen", Study, (EntrySquare)board[6][4], (FloorSquare)board[7][4]);
+            Study = new Room("Study", Kitchen, (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
+            Conservatory = new Room("Conservatory", Lounge, (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
+            Lounge = new Room("Lounge", Conservatory, (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
     	}
     	else { //if we haven't created the entry squares for some reason, this will prevent it from breaking everything
     		this.addEntrySquares();
