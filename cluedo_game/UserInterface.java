@@ -1,9 +1,6 @@
 package cluedo_game;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +17,6 @@ import javax.imageio.ImageIO;
  *  Text Display Box
  */
 public class UserInterface extends JPanel {
-    // Acceptable user inputs
-    AcceptedUserInputs INPUTS_LIST;
     // Frame which will contain the GUI
     private JFrame display = new JFrame();
     // The user input portion of the display
@@ -45,10 +40,7 @@ public class UserInterface extends JPanel {
 
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
-    private Token[] playerList;
-    private int playerListIndex;
-
-    BoardBuilder gameBoard;
+    private Tokens playerList;
 
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
@@ -63,9 +55,9 @@ public class UserInterface extends JPanel {
 //        this.createPlayersGUI();
     }
 
-    public void createPlayersGUI() {
-        showCharacterInput testMe = new showCharacterInput();
-    }
+//    public void createPlayersGUI() {
+//        showCharacterInput testMe = new showCharacterInput();
+//    }
 
     /**
      * buildGui creates the graphical aspect of the UI
@@ -91,8 +83,6 @@ public class UserInterface extends JPanel {
 
         userDisplay.add(boardImagePanel);
 
-        JPanel movementPanel = movementUpdate();
-
         // Add formatted JPanel to the frame
         display.add(userDisplay);
 
@@ -108,14 +98,6 @@ public class UserInterface extends JPanel {
 //        display.repaint();
 
         // Make the UI visible
-        display.setVisible(true);
-
-        /*  */
-        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
-      
-        display.setVisible(false);
-        userDisplay.remove(boardImagePanel);
-        userDisplay.add(movementPanel);
         display.setVisible(true);
     }
 
@@ -150,7 +132,7 @@ public class UserInterface extends JPanel {
             return input;
         }
 
-        public void updateInputDisplayPanel(Token p){
+        public void updateInputDisplayPanel(Token p) {
             whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
         }
 
@@ -203,8 +185,7 @@ public class UserInterface extends JPanel {
                 // them to reenter the command then clear the input box.
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
-                }
-                else {
+                } else {
                     if (currentPlayer.getLocationAsString().equals("room")) {
                         switch (result) {
                             // If player has chosen to exit a room, bring up the appropriate prompt if necessary
@@ -234,8 +215,11 @@ public class UserInterface extends JPanel {
                         System.out.println("Action: " + inputField.getText());
                         currentPlayer = currentPlayer.next();
 
+                        /*
+                        TODO: This was my idea for movement on the board image, and it doesn't work
+                         */
                         int[] destinationCoordinates;
-                        switch(inputField.getText()){
+                        switch (inputField.getText()) {
                             case "up":
                                 destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
                                 break;
@@ -468,7 +452,7 @@ public class UserInterface extends JPanel {
         return boardimage.returnPanel(bi);
     }
 
-    public void setBoardImagePanel(JPanel panel){
+    public void setBoardImagePanel(JPanel panel) {
         this.boardImagePanel = panel;
     }
 
@@ -494,7 +478,7 @@ public class UserInterface extends JPanel {
         return tempPanel;
     }
 
-    public JPanel movePlayerAndUpdate(int[] from, int[] to){
+    public JPanel movePlayerAndUpdate(int[] from, int[] to) {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
@@ -532,66 +516,67 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
-    
- 	/* Inner classes that will be usful later */
-	class CharacterList extends JPanel {
 
-    /* Inner classes that will be useful later */
+    /* Inner classes that will be usful later */
     class CharacterList extends JPanel {
 
-        private JTextField value;
-        String willThisWork;
+        /* Inner classes that will be useful later */
+//    class CharacterList extends JPanel {
+//
+//        private JTextField value;
+//        String willThisWork;
+//
+//        CharacterList(String[] items) {
+//            super(new BorderLayout(5, 5));
+//
+//            JList list = new JList(items);
+//            list.addListSelectionListener(new ListSelectionListener() {
+//                public void valueChanged(ListSelectionEvent lse) {
+//                    willThisWork = ((String) list.getSelectedValue());
+//                }
+//            });
+//            add(list, BorderLayout.CENTER);
+//
+//            value = new JTextField("", 20);
+//            add(value, BorderLayout.NORTH);
+//        }
+//
+//        public String[] getValue() {
+//            String[] valueArray = new String[2];
+//            valueArray[0] = this.value.getText();
+//            valueArray[1] = this.willThisWork;
+//            return valueArray;
+//        }
+//    }
 
-        CharacterList(String[] items) {
-            super(new BorderLayout(5, 5));
+//        class showCharacterInput {
+//
+//            public showCharacterInput() {
+//                Runnable r = new Runnable() {
+//
+//                    public void run() {
+//                        String[] items = {
+//                                "Miss Scarlett",
+//                                "Colonel Mustard",
+//                                "Mrs White",
+//                                "Mr Green",
+//                                "Mrs Peacock",
+//                                "Professor Plum",
+//                        };
+//
+//                        // what was requested
+//                        CharacterList elp = new CharacterList(items);
+//                        JOptionPane.showMessageDialog(null, elp);
+//                        String[] valueArray = elp.getValue();
+//
+//                        System.out.println("EditableListPanel value: " + valueArray[0]);
+//                        System.out.println(" Value: " + valueArray[1]);
+//                    }
+//                };
+//                SwingUtilities.invokeLater(r);
+//            }
+//        }
 
-            JList list = new JList(items);
-            list.addListSelectionListener(new ListSelectionListener() {
-                public void valueChanged(ListSelectionEvent lse) {
-                    willThisWork = ((String) list.getSelectedValue());
-                }
-            });
-            add(list, BorderLayout.CENTER);
 
-            value = new JTextField("", 20);
-            add(value, BorderLayout.NORTH);
-        }
-
-        public String[] getValue() {
-            String[] valueArray = new String[2];
-            valueArray[0] = this.value.getText();
-            valueArray[1] = this.willThisWork;
-            return valueArray;
-        }
     }
-
-    class showCharacterInput {
-
-        public showCharacterInput() {
-            Runnable r = new Runnable() {
-
-                public void run() {
-                    String[] items = {
-                            "Miss Scarlett",
-                            "Colonel Mustard",
-                            "Mrs White",
-                            "Mr Green",
-                            "Mrs Peacock",
-                            "Professor Plum",
-                    };
-
-                    // what was requested
-                    CharacterList elp = new CharacterList(items);
-                    JOptionPane.showMessageDialog(null, elp);
-                    String[] valueArray = elp.getValue();
-
-                    System.out.println("EditableListPanel value: " + valueArray[0]);
-                    System.out.println(" Value: " + valueArray[1]);
-                }
-            };
-            SwingUtilities.invokeLater(r);
-        }
-    }
-
-
 }
