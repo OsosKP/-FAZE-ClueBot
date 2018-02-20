@@ -1,6 +1,9 @@
 package cluedo_game;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +44,9 @@ public class UserInterface extends JPanel {
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
     private Tokens playerList;
+    private int playerListIndex;
 
+    BoardBuilder gameBoard;
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -51,13 +56,40 @@ public class UserInterface extends JPanel {
         // TODO: BoardBuilder.getPlayerList() is redundant now that we're using a LL
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
-        this.buildGUI();
-//        this.createPlayersGUI();
+       
+        this.createPlayersGUI();
+       // this.buildGUI();
     }
 
-//    public void createPlayersGUI() {
-//        showCharacterInput testMe = new showCharacterInput();
-//    }
+    public void createPlayersGUI() {
+    	 
+            String[] items = {
+             "Miss Scarlett",
+                    "Colonel Mustard",
+                    "Mrs White",
+                    "Mr Green",
+                    "Mrs Peacock",
+                    "Professor Plum",
+                    "Not Playing"
+                    };
+                     
+            /* We can have a max of 6 characters */
+            CharacterList[] GUIPlayerList = new CharacterList[6];
+            
+            display.setSize(400, 900);
+            display.setTitle("Cluedo");
+            display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+            this.display.setLayout(new GridLayout(6,2));
+
+            
+            for (int i = 0; i < 6; i++) { //looping 
+            	GUIPlayerList[i] = new CharacterList (items);
+            	display.add(GUIPlayerList[i]);
+            }
+            
+            display.setVisible(true);
+    }
 
     /**
      * buildGui creates the graphical aspect of the UI
@@ -212,8 +244,7 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                        + "\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                        System.out.println("Action: " + inputField.getText());
                         currentPlayer = currentPlayer.next();
 
                         /*
@@ -231,9 +262,6 @@ public class UserInterface extends JPanel {
                                 destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                 break;
                             case "right":
-                                /*
-                                TODO: This causes an error with Mustard
-                                 */
                                 destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
                                 break;
                             default:
@@ -520,67 +548,72 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
+}
 
-    /* Inner classes that will be usful later */
+
+   /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
 
-        /* Inner classes that will be useful later */
-//    class CharacterList extends JPanel {
-//
-//        private JTextField value;
-//        String willThisWork;
-//
-//        CharacterList(String[] items) {
-//            super(new BorderLayout(5, 5));
-//
-//            JList list = new JList(items);
-//            list.addListSelectionListener(new ListSelectionListener() {
-//                public void valueChanged(ListSelectionEvent lse) {
-//                    willThisWork = ((String) list.getSelectedValue());
-//                }
-//            });
-//            add(list, BorderLayout.CENTER);
-//
-//            value = new JTextField("", 20);
-//            add(value, BorderLayout.NORTH);
-//        }
-//
-//        public String[] getValue() {
-//            String[] valueArray = new String[2];
-//            valueArray[0] = this.value.getText();
-//            valueArray[1] = this.willThisWork;
-//            return valueArray;
-//        }
-//    }
+        private JTextField value;
+        String willThisWork;
+        
+        public CharacterList() {
+			// TODO Auto-generated constructor stub
+		}
 
-//        class showCharacterInput {
-//
-//            public showCharacterInput() {
-//                Runnable r = new Runnable() {
-//
-//                    public void run() {
-//                        String[] items = {
-//                                "Miss Scarlett",
-//                                "Colonel Mustard",
-//                                "Mrs White",
-//                                "Mr Green",
-//                                "Mrs Peacock",
-//                                "Professor Plum",
-//                        };
-//
-//                        // what was requested
-//                        CharacterList elp = new CharacterList(items);
-//                        JOptionPane.showMessageDialog(null, elp);
-//                        String[] valueArray = elp.getValue();
-//
-//                        System.out.println("EditableListPanel value: " + valueArray[0]);
-//                        System.out.println(" Value: " + valueArray[1]);
-//                    }
-//                };
-//                SwingUtilities.invokeLater(r);
-//            }
-//        }
+        CharacterList(String[] items) {
+            super(new BorderLayout(5, 5));
 
+            JList list = new JList(items);
+            list.addListSelectionListener(new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent lse) {
+                    willThisWork = ((String) list.getSelectedValue());
+                }
+            });
+            add(list, BorderLayout.CENTER);
 
+            value = new JTextField("", 20);
+            add(value, BorderLayout.EAST);
+        }
+
+        public String[] getValue() {
+            String[] valueArray = new String[2];
+            valueArray[0] = this.value.getText();
+            valueArray[1] = this.willThisWork;
+            return valueArray;
+        }
     }
-}
+    
+    class UiTitle extends JPanel{
+        protected void paintComponent(Graphics gr){
+            super.paintComponent(gr); 
+            gr.drawString("Select Character", 600,200);
+        } 
+    		
+    }
+    
+    class UiTitle2 extends JPanel{
+    	protected void paintComponent(Graphics gr) {
+    		super.printComponents(gr);
+    		gr.drawString("does this work", 600, 200);
+    	}
+    }
+    
+    class UiTitleFinal extends JPanel{
+    	public UiTitleFinal() {
+			// TODO Auto-generated constructor stub
+    		this.setLayout(new GridLayout(1,1));
+    		
+    		UiTitle title = new UiTitle();
+            UiTitle2 title2 = new UiTitle2();
+	
+            this.add(title, BorderLayout.EAST);
+            this.add(title2, BorderLayout.WEST);
+	
+    	
+    	}    
+    
+    }
+
+    
+
