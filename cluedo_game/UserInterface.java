@@ -53,16 +53,15 @@ public class UserInterface extends JPanel {
         gameBoard = new BoardBuilder();
         
         
-        
         /* This is going to happen AFTER the start game button is being pressed */
         this.playerList = BoardBuilder.getPlayerList();
         this.currentPlayer = playerList[0];
-        //this.buildGUI();
         this.createPlayersGUI();
+        this.buildGUI();
     }
     
     public void createPlayersGUI() {
-    	showCharacterInput testMe = new showCharacterInput();
+    	ShowCharacterInput testMe = new ShowCharacterInput();
     }
 
     /**
@@ -422,7 +421,7 @@ public class UserInterface extends JPanel {
         this.currentPlayer = player;
     }
     
- 	/* Inner classes that will be usful later */
+ 	/* Inner class  */ //TODO figure out how the hell this works because it looks like black magic
 	class CharacterList extends JPanel {
 
 	    private JTextField value;
@@ -439,7 +438,7 @@ public class UserInterface extends JPanel {
 	            } );
 	        add( list, BorderLayout.CENTER );
 
-	        value = new JTextField("", 20);
+	        value = new JTextField(" ", 20);
 	        add( value, BorderLayout.NORTH );
 	    }
 
@@ -451,12 +450,8 @@ public class UserInterface extends JPanel {
 	    }	
 	}
 	
-	class showCharacterInput {
-
-		public showCharacterInput(){
-	        Runnable r = new Runnable() {
-
-	            public void run() {
+	class ShowCharacterInput {
+		public ShowCharacterInput(){
 	                String[] items = {
 	                    "Miss Scarlett",
 	                    "Colonel Mustard",
@@ -465,18 +460,15 @@ public class UserInterface extends JPanel {
 	                    "Mrs Peacock",
 	                    "Professor Plum",
 	                };
-
 	                // what was requested
 	                CharacterList elp = new CharacterList(items);
+	                //change null for a JFrame
 	                JOptionPane.showMessageDialog(null, elp);
 	                String[] valueArray = elp.getValue();
 	                
-	                System.out.println( "EditableListPanel value: " + valueArray[0] );
-	                System.out.println(" Value: " + valueArray[1]);
+	                System.out.println("Username: " + valueArray[0]);
+	                System.out.println("Value: " + valueArray[1]);
 	            }
-	        };
-	        SwingUtilities.invokeLater(r);
-	    }
 	}
 
 }
