@@ -37,6 +37,9 @@ public class WallSquare implements BoardSquare {
     public int[] getPosition() {
         return position;
     }
+    public String getPositionAsString(){
+        return "( " + this.position[0] + " , " + this.position[1] + " )";
+    }
     @Override
     public String toString() { return "wall"; }
     /**

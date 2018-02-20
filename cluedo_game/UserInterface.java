@@ -212,7 +212,8 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Action: " + inputField.getText());
+                        System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                        + "\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                         currentPlayer = currentPlayer.next();
 
                         /*
@@ -230,6 +231,9 @@ public class UserInterface extends JPanel {
                                 destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                 break;
                             case "right":
+                                /*
+                                TODO: This causes an error with Mustard
+                                 */
                                 destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
                                 break;
                             default:

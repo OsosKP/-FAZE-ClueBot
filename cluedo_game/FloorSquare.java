@@ -53,6 +53,9 @@ public class FloorSquare implements BoardSquare {
     public Token getPlayerOn() {return playerOn;}
     public Token getSpawnPoint() {return spawnPoint;}
     public int[] getPosition() {return position;}
+    public String getPositionAsString(){
+        return "( " + this.position[0] + " , " + this.position[1] + " )";
+    }
     /*
     Geographical Pointers
      */

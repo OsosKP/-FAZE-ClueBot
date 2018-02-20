@@ -13,6 +13,7 @@ public interface BoardSquare{
      * @return An integer array of the x and y coordinates
      */
     int[] getPosition();
+    String getPositionAsString();
     /*
     Returns a string representation of the type of square
      */

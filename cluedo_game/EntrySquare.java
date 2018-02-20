@@ -35,6 +35,9 @@ public class EntrySquare implements BoardSquare{
 	public Room getRoomName() {return roomAssigned;}
 	public int getRefNum() {return this.referenceNumber;}
 	public int[] getPosition() {return position;}
+	public String getPositionAsString(){
+		return "( " + this.position[0] + " , " + this.position[1] + " )";
+	}
 	public Room getRoomAssigned() {
 		return roomAssigned;
 	}

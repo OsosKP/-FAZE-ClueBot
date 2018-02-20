@@ -24,7 +24,11 @@ public class Tokens {
     The UI class will be accessing these methods, so update that when we make the switch
      */
     public void setPlayerList() {
-        Token white = new Token(9, 0, "White", 0);
+//        Token white = new Token(9, 0, "White", 0);
+        /*
+        Testing entering a room
+         */
+        Token white = new Token(7, 4, "White", 0);
         Token green = new Token(14, 0, "Green", 1);
         Token mustard = new Token(0, 17, "Mustard", 2);
         Token peacock = new Token(23, 6, "Peacock", 3);
