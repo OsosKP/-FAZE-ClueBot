@@ -44,9 +44,6 @@ public class UserInterface extends JPanel {
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
     private Tokens playerList;
-    private int playerListIndex;
-
-    BoardBuilder gameBoard;
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -57,8 +54,8 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
        
-        this.createPlayersGUI();
-       // this.buildGUI();
+//        this.createPlayersGUI();
+        this.buildGUI();
     }
 
     public void createPlayersGUI() {
@@ -244,9 +241,8 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Action: " + inputField.getText());
-                        currentPlayer = currentPlayer.next();
-
+                        System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                            + "\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                         /*
                         TODO: This was my idea for movement on the board image, and it doesn't work
                          */
@@ -272,6 +268,9 @@ public class UserInterface extends JPanel {
                         // TODO: Josh plz fix below
                         boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
                         boardImagePanel.revalidate();
+
+                        currentPlayer = currentPlayer.next();
+
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -399,8 +398,8 @@ public class UserInterface extends JPanel {
             else if (p.getSquareOn() instanceof WallSquare)
                 locationReadout.setText("Wall Square? Something went wrong...");
             else
-                locationReadout.setText("You are in the " + p.getInRoom().getName()
-                        + "<html><br/>Possible Commands:</html>");
+                locationReadout.setText("<html>You are in the " + p.getInRoom().getName()
+                        + "<br/>Possible Commands:</html>");
 
             try {
                 if (p == null)

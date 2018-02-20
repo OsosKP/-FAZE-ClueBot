@@ -82,22 +82,22 @@ public class FloorSquare implements BoardSquare {
     public void setGeography(BoardBuilder board){
         // Set a pointer to the square above this one
         if(this.position[0] > 0)
-            this.above = board.getSquare(this.position[0]-1, this.position[1]);
+            this.above = board.getSquare(this.position[0] - 1, this.position[1]);
         else
             this.above = null;
         // Set a pointer to the square below this one
         if(this.position[0] < 24)
-            this.below = board.getSquare(this.position[0]+1, this.position[1]);
+            this.below = board.getSquare(this.position[0] + 1, this.position[1]);
         else
             this.below = null;
         // Set a pointer to the square to the left of this one
         if(this.position[1] > 0)
-            this.toLeft = board.getSquare(this.position[0], this.position[1]-1);
+            this.toLeft = board.getSquare(this.position[0], this.position[1] - 1);
         else
             this.toLeft = null;
         // Set a pointer to the square to the right of this one
         if(this.position[1] < 23)
-            this.toRight = board.getSquare(this.position[0], this.position[1]+1);
+            this.toRight = board.getSquare(this.position[0], this.position[1] + 1);
         else
             this.toRight = null;
     }

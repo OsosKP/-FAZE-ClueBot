@@ -10,15 +10,25 @@ package cluedo_game;
  */
 public class GameLogic {
 	/* This is going to handle the board */
-	BoardBuilder currentBoard;
-	Tokens playerList;
-	UserInterface ui;
+	static BoardBuilder currentBoard;
+	static Tokens playerList;
+	static UserInterface ui;
 
 	public GameLogic() {
-		this.playerList = new Tokens();
+		playerList = new Tokens();
 		playerList.setPlayerList();
-		this.currentBoard = new BoardBuilder(playerList);
-		this.ui = new UserInterface(currentBoard);
+		currentBoard = new BoardBuilder(playerList);
+		ui = new UserInterface(currentBoard);
+	}
+
+	public static BoardBuilder getCurrentBoard() {
+		return currentBoard;
+	}
+	public static Tokens getPlayerList() {
+		return playerList;
+	}
+	public static UserInterface getUi() {
+		return ui;
 	}
 
 	public static class PlayerEntry {
@@ -134,6 +144,27 @@ public class GameLogic {
 					if ((square.getLeft() instanceof FloorSquare || square.getLeft() instanceof EntrySquare)
 							&& !(square.getLeft().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getLeft(), square);
+					}
+					else{
+						/*
+						TODO: Peacock can't move left, this is for debugging
+						 */
+//						System.out.println(player.getLocationAsString());
+//						System.out.println(square.getPositionAsString());
+//						if (square.getRight() == null)
+//							System.out.println("RIGHT NULL");
+//						if(square.getAbove() == null)
+//							System.out.println("UP NULL");
+//						if (square.getBelow() == null)
+//							System.out.println("DOWN NULL");
+//						if(square.getLeft() == null)
+//							System.out.println("LEFT NULL");
+//						if(square.getLeft() instanceof FloorSquare)
+//							System.out.println("FLOOR");
+//						if(square.getLeft() instanceof EntrySquare)
+//							System.out.println("ENTRY");
+//						if(square.getLeft().isPlayerOn())
+//							System.out.println("PLAYER");
 					}
 					break;
 				case "right":
