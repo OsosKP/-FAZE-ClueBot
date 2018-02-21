@@ -36,17 +36,15 @@ public class Room {
 	 * just construct an ArrayList for doorway within the constructor then add the single
 	 * EntrySquare argument for the doorway.
 	 * @param name String representation of the name of the room
-	 * @param secretPassage A pointer to the room to which this room's passage leads
 	 * @param entrance The EntrySquare that leads to this room
 	 * @param exit The FloorSquare to which this room exits
 	 */
-	public Room(String name, Room secretPassage, EntrySquare entrance, FloorSquare exit) {
+	public Room(String name, EntrySquare entrance, FloorSquare exit) {
 		this.name = name;
 		this.entrances = new ArrayList<>();
 		this.entrances.add(entrance);
 		this.exits = new ArrayList<>();
 		this.exits.add(exit);
-		this.secretPassage = secretPassage;
 	}
 
 	//
