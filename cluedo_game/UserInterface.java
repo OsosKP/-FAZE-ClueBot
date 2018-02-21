@@ -61,8 +61,8 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
        
-//        this.createPlayersGUI();
-        this.buildGUI();
+       this.createPlayersGUI();
+    //    this.buildGUI();
     }
 
     public void createPlayersGUI() {
@@ -574,9 +574,8 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
-}
 
-
+    
    /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
 
@@ -611,6 +610,11 @@ public class UserInterface extends JPanel {
             return valueArray;
         }
     }
+ 
+    
+    
+    
+    
     
     class CharacterListUITitle extends JPanel { //going to hold the UI 
     	JLabel myLabel = new JLabel("[Left] Select Character and Type Username [Right]");
@@ -639,6 +643,7 @@ public class UserInterface extends JPanel {
     		this.add(testButton);
     	}
     }
+    
     /**
      * Action Listener class for the createUsersButton
      * @author george
@@ -646,11 +651,38 @@ public class UserInterface extends JPanel {
      */
     class CreateUsersListener implements ActionListener {
     	@Override
-    	/* Where the magic happens  */
+    	/* Now that this button has been pressed, we need to loop through the GUIPlayers list */
     	public void actionPerformed(ActionEvent arg0) {
-    		System.out.println("Stuff didnt break!");
+    		//1. Loop though the GUI players list
+    		//2. We create some array of playerNames, and an array of booleans (they will reference one another as validation that all players have been 
+  
+    		/* Looping through the GUIPlayers list, if we get the player names to !=  */
+    		int numPlayers = 0;
+    		Tokens tokenList = new Tokens();
+    	
+            Token white = null;
+            Token green = null;
+            Token mustard = null;
+            Token peacock = null;
+            Token plum = null;
+            Token scarlet = null;	
+    			
+    		for (int i = 0; i < 6; i++) {
+    			String[] returnArray = GUIPlayerList[i].getValue();
+    			
+    			if (!(returnArray[1] != ("Not Playing"))){ //if the user does actually want to play
+        			System.out.println("V1: " + returnArray[0] + " V2 " + returnArray[1]);    				
+        			
+    			}
+    			
+    		}
     	}
     }
+}
+
+
+   
+
 
 
     
