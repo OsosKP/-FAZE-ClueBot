@@ -79,15 +79,21 @@ public class UserInterface extends JPanel {
             display.setSize(400, 900);
             display.setTitle("Cluedo");
             display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-            this.display.setLayout(new GridLayout(6,2));
-
+                        
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(6,2));
+            
+            JButton finishedWithEntry = new JButton("Sumbit");
+            display.add(finishedWithEntry);
             
             for (int i = 0; i < 6; i++) { //looping 
             	GUIPlayerList[i] = new CharacterList (items);
-            	display.add(GUIPlayerList[i]);
+            	panel.add(GUIPlayerList[i]);
             }
             
+            
+            
+            display.add(panel, BorderLayout.CENTER);
             display.setVisible(true);
     }
 
@@ -584,36 +590,13 @@ public class UserInterface extends JPanel {
         }
     }
     
-    class UiTitle extends JPanel{
-        protected void paintComponent(Graphics gr){
-            super.paintComponent(gr); 
-            gr.drawString("Select Character", 600,200);
-        } 
-    		
-    }
-    
-    class UiTitle2 extends JPanel{
-    	protected void paintComponent(Graphics gr) {
-    		super.printComponents(gr);
-    		gr.drawString("does this work", 600, 200);
-    	}
-    }
-    
-    class UiTitleFinal extends JPanel{
-    	public UiTitleFinal() {
-			// TODO Auto-generated constructor stub
-    		this.setLayout(new GridLayout(1,1));
-    		
-    		UiTitle title = new UiTitle();
-            UiTitle2 title2 = new UiTitle2();
-	
-            this.add(title, BorderLayout.EAST);
-            this.add(title2, BorderLayout.WEST);
-	
+    class CharacterListUI extends JPanel { //going to hold the UI 
     	
-    	}    
-    
     }
+    
+  
+    
+ 
 
     
 
