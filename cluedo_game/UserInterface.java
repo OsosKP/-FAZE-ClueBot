@@ -271,7 +271,6 @@ public class UserInterface extends JPanel {
 
                         currentPlayer = currentPlayer.next();
 
-
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
                     }
@@ -390,6 +389,8 @@ public class UserInterface extends JPanel {
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
+            // TODO: Is this necessary? Check with output when entering a room
+            locationReadout.setText("");
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
             else if (p.getSquareOn() instanceof FloorSquare)
@@ -425,7 +426,8 @@ public class UserInterface extends JPanel {
                             throw new Exception("Error Finding Square Type");
 
                     }
-                } else {
+                }
+                else {
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);

@@ -25,10 +25,6 @@ public class Tokens {
      */
     public void setPlayerList() {
         Token white = new Token(0, 9, "White", 0);
-//        /*
-//        Testing entering a room
-//         */
-//        Token white = new Token(7, 4, "White", 0);
         Token green = new Token(0, 14, "Green", 1);
         Token mustard = new Token(17, 0, "Mustard", 2);
         Token peacock = new Token(6, 23, "Peacock", 3);
