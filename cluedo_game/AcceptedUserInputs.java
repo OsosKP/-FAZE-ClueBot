@@ -101,6 +101,7 @@ public class AcceptedUserInputs {
                     if (s.equals(in))
                         result = true;
                 }
+                break;
             default:
                 JOptionPane.showConfirmDialog(null, "Something Went Wrong...");
                 break;

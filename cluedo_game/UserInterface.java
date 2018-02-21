@@ -238,7 +238,8 @@ public class UserInterface extends JPanel {
                 // them to reenter the command then clear the input box.
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
-                } else {
+                }
+                else {
                     if (currentPlayer.getLocationAsString().equals("room")) {
                         switch (result) {
                             // If player has chosen to exit a room, bring up the appropriate prompt if necessary

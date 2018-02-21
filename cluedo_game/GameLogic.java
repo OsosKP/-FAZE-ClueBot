@@ -104,8 +104,10 @@ public class GameLogic {
 		 */
 		public static String movePlayerToSquare(Token player, String move, BoardSquare to, BoardSquare from){
 			to.setPlayerOn(player);
-			player.setSquareOn(to);
+			if (to instanceof FloorSquare)
+				player.setSquareOn(to);
 			from.removePlayerOn();
+
 			PlayerEntry.movementSuccessful = true;
 
 			return player.getName() + " has moved " + move;
