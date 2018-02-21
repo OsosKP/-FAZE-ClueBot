@@ -46,7 +46,11 @@ public class UserInterface extends JPanel {
     private Tokens playerList;
     private int playerListIndex;
 
+    private  CharacterList[] GUIPlayerList = null;
+    
     BoardBuilder gameBoard;
+    
+    
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -71,10 +75,10 @@ public class UserInterface extends JPanel {
                     "Mrs Peacock",
                     "Professor Plum",
                     "Not Playing"
-                    };
+            };
                      
             /* We can have a max of 6 characters */
-            CharacterList[] GUIPlayerList = new CharacterList[6];
+            GUIPlayerList = new CharacterList[6];
             
             display.setSize(400, 900);
             display.setTitle("Cluedo");
@@ -92,12 +96,18 @@ public class UserInterface extends JPanel {
             }
             
             CharacterListUITitle titleBar = new CharacterListUITitle();
+            //TODO --Priority-- need to generate the players when we hit the submit button
+            
+            //TODO need to elim the choice from the other arrays if it has already been selected
+            
             CharacterListUIButton sumbitButton = new CharacterListUIButton();
             
             display.add(panel, BorderLayout.CENTER);
             display.add(titleBar, BorderLayout.NORTH);
             display.add(sumbitButton, BorderLayout.SOUTH);
             display.setVisible(true);
+   
+    
     }
 
     /**
@@ -201,6 +211,7 @@ public class UserInterface extends JPanel {
                 output.revalidate();
             }
         }
+        
 
         /**
          * Button for the user to press when they enter a command
@@ -614,12 +625,28 @@ public class UserInterface extends JPanel {
     
     class CharacterListUIButton extends JPanel{
     	JButton testButton = new JButton("Submit");
+    	CreateUsersListener listen = new CreateUsersListener();
     	
     	public CharacterListUIButton() {
+    		testButton.addActionListener(listen);
     		testButton.setHorizontalAlignment(JButton.CENTER);
     		this.add(testButton);
     	}
     }
+    /**
+     * Action Listener class for the createUsersButton
+     * @author george
+     *
+     */
+    class CreateUsersListener implements ActionListener {
+    	@Override
+    	/* Where the magic happens  */
+    	public void actionPerformed(ActionEvent arg0) {
+    		System.out.println("Stuff didnt break!");
+    	}
+    }
+
+
     
     
     
