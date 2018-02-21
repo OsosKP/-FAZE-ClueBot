@@ -64,7 +64,7 @@ public class UserInterface extends JPanel {
     public void createPlayersGUI() {
     	 
             String[] items = {
-             "Miss Scarlett",
+            		"Miss Scarlett",
                     "Colonel Mustard",
                     "Mrs White",
                     "Mr Green",
@@ -91,10 +91,12 @@ public class UserInterface extends JPanel {
             	panel.add(GUIPlayerList[i]);
             }
             
-            CharacterListUI titleBar = new CharacterListUI();
+            CharacterListUITitle titleBar = new CharacterListUITitle();
+            CharacterListUIButton sumbitButton = new CharacterListUIButton();
             
             display.add(panel, BorderLayout.CENTER);
             display.add(titleBar, BorderLayout.NORTH);
+            display.add(sumbitButton, BorderLayout.SOUTH);
             display.setVisible(true);
     }
 
@@ -572,11 +574,13 @@ public class UserInterface extends JPanel {
             super(new BorderLayout(5, 5));
 
             JList list = new JList(items);
+            /* TODO need to figure out how to remove the other values in the list  */
             list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
                 }
             });
+
             add(list, BorderLayout.CENTER);
 
             value = new JTextField("", 20);
@@ -591,9 +595,8 @@ public class UserInterface extends JPanel {
         }
     }
     
-    class CharacterListUI extends JPanel { //going to hold the UI 
-    	JLabel myLabel = new JLabel("hello");
-    	JLabel myLabel3 = new JLabel("bye");
+    class CharacterListUITitle extends JPanel { //going to hold the UI 
+    	JLabel myLabel = new JLabel("[Left] Select Character and Type Username [Right]");
     	
     	@Override
     		public void setLayout(LayoutManager mgr) {
@@ -601,12 +604,24 @@ public class UserInterface extends JPanel {
     			super.setLayout(mgr);
     		}
     	
-    	public CharacterListUI() {
-    		this.setLayout(new GridLayout(1,1));
-    		this.add(myLabel);
-    		this.add(myLabel3);
+    	public CharacterListUITitle() {
+    		this.setLayout(new BorderLayout());
+    		myLabel.setHorizontalAlignment(JLabel.CENTER);
+    	
+    		this.add(myLabel);    		
     	}
     }
+    
+    class CharacterListUIButton extends JPanel{
+    	JButton testButton = new JButton("Submit");
+    	
+    	public CharacterListUIButton() {
+    		testButton.setHorizontalAlignment(JButton.CENTER);
+    		this.add(testButton);
+    	}
+    }
+    
+    
     
   
     
