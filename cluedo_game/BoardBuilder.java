@@ -36,17 +36,21 @@ public class BoardBuilder {
     public BoardBuilder(Tokens players) {
         /* Calling classes to create board */
         this.players = players;
-        this.createRooms();
         this.addBarriersAndSpawnPoints();
         this.addWalls();
         this.addEntrySquares();
         this.addFloorSquares();
+        this.createRooms();
+        // Split this up and took the assignments out of the EntrySquare constructor
+        this.connectEntrySquaresToRooms();
 
         for(int i=0; i<25; i++){
             for(int j=0; j<24; j++) {
                 board[i][j].setGeography(this);
             }
         }
+
+        System.out.println(getKitchen().getName() + " - " + getKitchen().getExits().get(0).getPositionAsString());
     }
 
     public Tokens getPlayerList() {
@@ -87,34 +91,32 @@ public class BoardBuilder {
      */
     public void addEntrySquares(){
         // Add Kitchen Entry
-        board[6][4] = new EntrySquare(6, 4, Kitchen, 1);
+        board[6][4] = new EntrySquare(6, 4, 1);
         // Add 3 Ballroom Entries
-        board[5][8] = new EntrySquare(5, 8, Ballroom, 1);
-        board[7][9] = new EntrySquare(7, 9, Ballroom, 2);
-        board[7][14] = new EntrySquare(7, 14, Ballroom, 3);
+        board[5][8] = new EntrySquare(5, 8, 1);
+        board[7][9] = new EntrySquare(7, 9, 2);
+        board[7][14] = new EntrySquare(7, 14, 3);
         // Add Conservatory Entry
-        board[4][18] = new EntrySquare(4, 18, Conservatory, 1);
+        board[4][18] = new EntrySquare(4, 18, 1);
         // Add Dining Room Entries
-        board[12][7] = new EntrySquare(12, 7, DiningRoom, 1);
-        board[15][6] = new EntrySquare(15, 6, DiningRoom, 2);
+        board[12][7] = new EntrySquare(12, 7, 1);
+        board[15][6] = new EntrySquare(15, 6, 2);
         // Add Billiard Room Entries
-        board[9][18] = new EntrySquare(9, 18, BilliardRoom, 1);
-        board[12][22] = new EntrySquare(12, 22, BilliardRoom, 2);
+        board[9][18] = new EntrySquare(9, 18, 1);
+        board[12][22] = new EntrySquare(12, 22, 2);
         // Add Library Entries
-        board[16][17] = new EntrySquare(16, 17, Library, 1);
-        board[14][20] = new EntrySquare(14, 20, Library, 2);
+        board[16][17] = new EntrySquare(16, 17, 1);
+        board[14][20] = new EntrySquare(14, 20, 2);
         // Add Lounge Entry
-        board[19][6] = new EntrySquare(19, 6, Lounge, 1);
+        board[19][6] = new EntrySquare(19, 6, 1);
         // Add Hall Entries
-        board[18][11] = new EntrySquare(18, 11, Hall, 1);
-        board[18][12] = new EntrySquare(18, 12, Hall, 2);
-        board[20][14] = new EntrySquare(20, 14, Hall, 3);
+        board[18][11] = new EntrySquare(18, 11, 1);
+        board[18][12] = new EntrySquare(18, 12, 2);
+        board[20][14] = new EntrySquare(20, 14, 3);
         // Add Study Entry
-        board[21][17] = new EntrySquare(17, 21, Study, 1);
+        board[21][17] = new EntrySquare(17, 21, 1);
         // Add Cellar Entry. The Token enters the Cellar to attempt a guess
-        board[16][12] = new EntrySquare(16, 12, Cellar, 1);
-        //useful so we don't screw up later
-        entrySquaresCreated = true;
+        board[16][12] = new EntrySquare(16, 12, 1);
     }
 
     /**
@@ -239,9 +241,12 @@ public class BoardBuilder {
         }
 
         // Dining Room
-        for(i = 9; i < 16; i++){
+        for(j = 1; j<5; j++){
+            board[9][j] = new WallSquare(9, j);
+        }
+        for(i = 10; i < 16; i++){
             for(j = 1; j < 8; j++){
-                if(!(i == 9 && (j == 5 || j == 6 || j == 7)))
+                if(!((i == 15 && j == 6) || (i == 12 && j == 7)))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -263,9 +268,12 @@ public class BoardBuilder {
         }
 
         // Library
+        for(i = 15; i < 19; i++){
+            board[i][17] = new WallSquare(i, 17);
+        }
         for(i = 14; i < 19; i++){
-            for(j = 17; j < 23; j++){
-                if(!(j == 17 && (i == 14 || i == 18)))
+            for(j = 18; j < 23; j++){
+                if(!((i == 16 && j == 17) || (i == 14 && j == 20)))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -281,7 +289,7 @@ public class BoardBuilder {
         // Hall
         for(i = 18; i < 24; i++){
             for(j = 9; j < 15; j++){
-                if(!((i == 8 && (j == 11 || j == 12)) || (i == 20 && j == 14)))
+                if(!((i == 18 && (j == 11 || j == 12)) || (i == 20 && j == 14)))
                     board[i][j] = new WallSquare(i, j);
             }
         }
@@ -303,8 +311,8 @@ public class BoardBuilder {
     public void addFloorSquares(){
         for(int i = 1; i < 25; i++){
             for(int j = 1; j < 24; j++){
-                if(!(board[i][j] instanceof WallSquare
-                    || board[i][j] instanceof EntrySquare || board[i][j] instanceof FloorSquare)) {
+                if(!(board[i][j] instanceof WallSquare || board[i][j] instanceof EntrySquare
+                        || board[i][j] instanceof FloorSquare)) {
                     board[i][j] = new FloorSquare(i, j);
                 }
             }
@@ -312,8 +320,6 @@ public class BoardBuilder {
     }
     
     public void createRooms() {
-    	if (this.entrySquaresCreated) { //this is where we actually create the rooms
-    		
     		/* Creating the Rooms with Multiple Entrances*/
     		/* Will be used to store the entrances for the individual rooms */
     		ArrayList<EntrySquare> entrances = new ArrayList<>();
@@ -327,7 +333,7 @@ public class BoardBuilder {
     		exits.add((FloorSquare)board[5][7]);
             exits.add((FloorSquare)board[8][9]);
             exits.add((FloorSquare)board[8][14]);
-            Ballroom = new Room("Ballroom",entrances, exits);
+            Ballroom = new Room("Ballroom", entrances, exits);
     		
     		entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
     		exits.clear();
@@ -376,12 +382,41 @@ public class BoardBuilder {
             Study = new Room("Study", Kitchen, (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
             Conservatory = new Room("Conservatory", Lounge, (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
             Lounge = new Room("Lounge", Conservatory, (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
-    	}
-    	else { //if we haven't created the entry squares for some reason, this will prevent it from breaking everything
-    		this.addEntrySquares();
-    		this.createRooms();
-    	}
+
+            // Create Cellar
+            Cellar = new Room("Cellar", null, (EntrySquare)board[16][12], (FloorSquare)board[17][12]);
     }
+
+    public void connectEntrySquaresToRooms(){
+        // Add Kitchen Entry
+        ((EntrySquare)board[6][4]).addRoomConnection(Kitchen);
+        // Add 3 Ballroom Entries
+        ((EntrySquare)board[5][8]).addRoomConnection(Ballroom);
+        ((EntrySquare)board[7][9]).addRoomConnection(Ballroom);
+        ((EntrySquare)board[7][14]).addRoomConnection(Ballroom);
+        // Add Conservatory Entry
+        ((EntrySquare)board[4][18]).addRoomConnection(Conservatory);
+        // Add Dining Room Entries
+        ((EntrySquare)board[12][7]).addRoomConnection(DiningRoom);
+        ((EntrySquare)board[15][6]).addRoomConnection(DiningRoom);
+        // Add Billiard Room Entries
+        ((EntrySquare)board[9][18]).addRoomConnection(BilliardRoom);
+        ((EntrySquare)board[12][22]).addRoomConnection(BilliardRoom);
+        // Add Library Entries
+        ((EntrySquare)board[16][17]).addRoomConnection(Library);
+        ((EntrySquare)board[14][20]).addRoomConnection(Library);
+        // Add Lounge Entry
+        ((EntrySquare)board[19][6]).addRoomConnection(Lounge);
+        // Add Hall Entries
+        ((EntrySquare)board[18][11]).addRoomConnection(Hall);
+        ((EntrySquare)board[18][12]).addRoomConnection(Hall);
+        ((EntrySquare)board[20][14]).addRoomConnection(Hall);
+        // Add Study Entry
+        ((EntrySquare)board[21][17]).addRoomConnection(Study);
+        // Add Cellar Entry. The Token enters the Cellar to attempt a guess
+        ((EntrySquare)board[16][12]).addRoomConnection(Cellar);
+    }
+
     public BoardSquare[][] returnBoard(){
     	return this.board;
     }

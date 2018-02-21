@@ -11,7 +11,7 @@ package cluedo_game;
  */
 public class EntrySquare implements BoardSquare{
 	private final int[] position = new int[2];
-	private final Room roomAssigned;
+	private Room roomAssigned;
 	private final int referenceNumber;
 	// Navigational pointers
 	private BoardSquare above;
@@ -22,17 +22,16 @@ public class EntrySquare implements BoardSquare{
 	//
 	//Constructors
 	//
-	public EntrySquare(int x, int y, Room roomAssigned, int refNum){
+	public EntrySquare(int x, int y, int refNum){
 		position[0] = x;
 		position[1] = y;
-		this.roomAssigned = roomAssigned;
 		this.referenceNumber = refNum;
 	}
 
 	//
 	//Accessors
 	//
-	public Room getRoomName() {return roomAssigned;}
+	public String getRoomName() {return roomAssigned.getName();}
 	public int getRefNum() {return this.referenceNumber;}
 	public int[] getPosition() {return position;}
 	public String getPositionAsString(){
@@ -83,6 +82,9 @@ public class EntrySquare implements BoardSquare{
 	@Override
 	public Token removePlayerOn() {
 		return null;
+	}
+	public void addRoomConnection(Room room){
+		this.roomAssigned = room;
 	}
 
 	/**
