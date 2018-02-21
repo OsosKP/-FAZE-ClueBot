@@ -254,37 +254,43 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                        if(currentPlayer.getInRoom() == null) {
+                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                    + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-                        /*
-                        TODO: This was my idea for movement on the board image, and it doesn't work
-                         */
-                        int[] destinationCoordinates;
-                        switch (inputField.getText()) {
-                            case "up":
-                                destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                break;
-                            case "down":
-                                destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                break;
-                            case "left":
-                                destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                break;
-                            case "right":
-                                destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                break;
-                            default:
-                                destinationCoordinates = new int[2];
-                                System.out.println("ERROR");
-                                break;
+//                            /*
+//                        TODO: This was my idea for movement on the board image, and it doesn't work
+//                         */
+//                            int[] destinationCoordinates;
+//                            switch (inputField.getText()) {
+//                                case "up":
+//                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+//                                    break;
+//                                case "down":
+//                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+//                                    break;
+//                                case "left":
+//                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+//                                    break;
+//                                case "right":
+//                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+//                                    break;
+//                                default:
+//                                    destinationCoordinates = new int[2];
+//                                    System.out.println("ERROR");
+//                                    break;
+//                            }
+//                            // TODO: Josh plz fix below
+//                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+//                            boardImagePanel.revalidate();
+
                         }
-                        // TODO: Josh plz fix below
-                        boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
-                        boardImagePanel.revalidate();
+                        else
+                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                    + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
 
                         // Switch player
-                        currentPlayer = currentPlayer.next();
+//                        currentPlayer = currentPlayer.next();
 
 
                         // Update input display with that player
@@ -406,6 +412,10 @@ public class UserInterface extends JPanel {
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
+
+            allowedCommandsDisplay.remove(possibleCommandsList);
+            possibleCommandsList.removeAll();
+
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
             else if (p.getSquareOn() instanceof FloorSquare)
@@ -414,8 +424,8 @@ public class UserInterface extends JPanel {
             else if (p.getSquareOn() instanceof WallSquare)
                 locationReadout.setText("Wall Square? Something went wrong...");
             else
-                locationReadout.setText("You are in the " + p.getInRoom().getName()
-                        + "<html><br/>Possible Commands:</html>");
+                locationReadout.setText("<html>You are in the " + p.getInRoom().getName()
+                        + "<br/>Possible Commands:</html>");
 
             try {
                 if (p == null)
@@ -425,7 +435,6 @@ public class UserInterface extends JPanel {
                     // commands based on what is available from that square.
                     switch (p.getLocationAsString()) {
                         case "floor":
-                            possibleCommandsList.removeAll();
                             for (String s : AcceptedUserInputs.getFloorNavigation()) {
                                 JLabel d = new JLabel(s);
                                 d.setForeground(Color.yellow);
@@ -437,11 +446,11 @@ public class UserInterface extends JPanel {
                             throw new Exception("Player is on a wall square.");
                         default:
                             // This case should never happen
-                            possibleCommandsList.removeAll();
                             throw new Exception("Error Finding Square Type");
 
                     }
-                } else {
+                }
+                else {
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);
@@ -453,6 +462,7 @@ public class UserInterface extends JPanel {
             } catch (Exception e) {
                 e.getMessage();
             }
+            allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
         }
 
