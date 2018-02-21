@@ -34,6 +34,9 @@ public class Token {
 		this.setLocationAsString("room");
 	}
 	public void exitRoom(int exitIndex){
+		/*
+		TODO: This isn't working when exiting a room with one exit
+		 */
 		this.setSquareOn(this.inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}

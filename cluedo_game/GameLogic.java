@@ -145,50 +145,6 @@ public class GameLogic {
 							&& !(square.getLeft().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getLeft(), square);
 					}
-					else{
-						/*
-						TODO: Peacock can't move left, this is for debugging
-						 */
-						System.out.println("FROM PLAYER");
-						System.out.println(player.getLocationAsString());
-						System.out.println(square.getPositionAsString());
-						if (square.getRight() == null)
-							System.out.println("RIGHT NULL");
-						if(square.getAbove() == null)
-							System.out.println("UP NULL");
-						if (square.getBelow() == null)
-							System.out.println("DOWN NULL");
-						if(square.getLeft() == null)
-							System.out.println("LEFT NULL");
-						if(square.getLeft() instanceof FloorSquare)
-							System.out.println("FLOOR");
-						if(square.getLeft() instanceof EntrySquare)
-							System.out.println("ENTRY");
-						if(square.isPlayerOn())
-							System.out.println("PLAYER");
-
-						System.out.println("CHECK 1");
-						square = currentBoard.getSquare(6, 23);
-						System.out.println("CHECK 2");
-
-						System.out.println("FROM SQUARE");
-						System.out.println(player.getLocationAsString());
-						System.out.println(square.getPositionAsString());
-						if (square.getRight() == null)
-							System.out.println("RIGHT NULL");
-						if(square.getAbove() == null)
-							System.out.println("UP NULL");
-						if (square.getBelow() == null)
-							System.out.println("DOWN NULL");
-						if(square.getLeft() == null)
-							System.out.println("LEFT NULL");
-						if(square.getLeft() instanceof FloorSquare)
-							System.out.println("FLOOR");
-						if(square.getLeft() instanceof EntrySquare)
-							System.out.println("ENTRY");
-						if(square.getLeft().isPlayerOn())
-							System.out.println("PLAYER");
-					}
 					break;
 				case "right":
 					if ((square.getRight() instanceof FloorSquare || square.getRight() instanceof EntrySquare)
@@ -232,6 +188,9 @@ public class GameLogic {
 					if (player.getInRoom().getExits().size() > 1)
 						result = "exitChoice";
 					else {
+						/*
+						Not working - see Token class
+						 */
 						player.exitRoom(0);
 						result = "exit";
 					}

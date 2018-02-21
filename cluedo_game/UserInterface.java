@@ -182,6 +182,11 @@ public class UserInterface extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 input.remove(startGameButton);
                 input.add(createPerformActionButton(), BorderLayout.EAST);
+                /*
+                Add an ActionListener so pressing 'return' will be the same as pressing 'Perform Action'
+                 */
+                UserInputListener pressReturnListener = new UserInputListener();
+                inputField.addActionListener(pressReturnListener);
                 whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
@@ -241,35 +246,20 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                            + "\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
-                        /*
-                        TODO: This was my idea for movement on the board image, and it doesn't work
-                         */
-                        int[] destinationCoordinates;
-                        switch (inputField.getText()) {
-                            case "up":
-                                destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                break;
-                            case "down":
-                                destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                break;
-                            case "left":
-                                destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                break;
-                            case "right":
-                                destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                break;
-                            default:
-                                destinationCoordinates = new int[2];
-                                System.out.println("ERROR");
-                                break;
-                        }
-                        // TODO: Josh plz fix below
-                        boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
-                        boardImagePanel.revalidate();
 
-                        currentPlayer = currentPlayer.next();
+                        // Print this if player is on a square
+                        if(currentPlayer.getInRoom() == null)
+                            System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                + "\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                        // Take this is player is in a room
+                        else
+                            System.out.println("Player: " + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                    + "\tNew Location: " + currentPlayer.getInRoom().getName());
+
+                        /*
+                        TODO: This is commented out for testing White's movement into a room
+                         */
+//                        currentPlayer = currentPlayer.next();
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -402,6 +392,9 @@ public class UserInterface extends JPanel {
                 locationReadout.setText("<html>You are in the " + p.getInRoom().getName()
                         + "<br/>Possible Commands:</html>");
 
+            // Clears display so that if we have less commands than before, the old ones won't show up
+            allowedCommandsDisplay.remove(possibleCommandsList);
+
             try {
                 if (p == null)
                     throw new Exception("Player not found error");
@@ -427,7 +420,11 @@ public class UserInterface extends JPanel {
 
                     }
                 }
+                /*
+                TODO: 'right' still shows up at the bottom of commands list when player is in a room?
+                 */
                 else {
+                    possibleCommandsList.removeAll();
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);
@@ -439,6 +436,7 @@ public class UserInterface extends JPanel {
             } catch (Exception e) {
                 e.getMessage();
             }
+            allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
         }
 
