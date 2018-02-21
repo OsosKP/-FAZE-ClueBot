@@ -10,15 +10,25 @@ package cluedo_game;
  */
 public class GameLogic {
 	/* This is going to handle the board */
-	BoardBuilder currentBoard;
-	Tokens playerList;
-	UserInterface ui;
+	static BoardBuilder currentBoard;
+	static Tokens playerList;
+	static UserInterface ui;
 
 	public GameLogic() {
-		this.playerList = new Tokens();
+		playerList = new Tokens();
 		playerList.setPlayerList();
-		this.currentBoard = new BoardBuilder(playerList);
-		this.ui = new UserInterface(currentBoard);
+		currentBoard = new BoardBuilder(playerList);
+		ui = new UserInterface(currentBoard);
+	}
+
+	public static BoardBuilder getCurrentBoard() {
+		return currentBoard;
+	}
+	public static Tokens getPlayerList() {
+		return playerList;
+	}
+	public static UserInterface getUi() {
+		return ui;
 	}
 
 	public static class PlayerEntry {
@@ -178,6 +188,9 @@ public class GameLogic {
 					if (player.getInRoom().getExits().size() > 1)
 						result = "exitChoice";
 					else {
+						/*
+						Not working - see Token class
+						 */
 						player.exitRoom(0);
 						result = "exit";
 					}
