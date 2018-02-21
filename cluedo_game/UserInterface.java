@@ -61,8 +61,8 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
        
-        this.createPlayersGUI();
-       // this.buildGUI();
+//        this.createPlayersGUI();
+        this.buildGUI();
     }
 
     public void createPlayersGUI() {
@@ -114,9 +114,6 @@ public class UserInterface extends JPanel {
      * buildGui creates the graphical aspect of the UI
      */
     public void buildGUI() {
-        // Set list of user input possibilities
-        // TODO: This might be moved to game logic?
-        AcceptedUserInputs.setAcceptedUserInputs();
         // Set frame size to house JPanels
         display.setSize(800, 700);
         display.setTitle("Cluedo");
@@ -172,6 +169,10 @@ public class UserInterface extends JPanel {
             JButton startGameButton = createStartGameButton();
 
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
+
+            // Making it so user can press 'return' to 'Perform Action'
+            UserInputListener returnPressListener = new UserInputListener();
+            inputField.addActionListener(returnPressListener);
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
@@ -264,8 +265,8 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Action: " + inputField.getText());
-                        currentPlayer = currentPlayer.next();
+                        System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
                         /*
                         TODO: This was my idea for movement on the board image, and it doesn't work
@@ -292,6 +293,10 @@ public class UserInterface extends JPanel {
                         // TODO: Josh plz fix below
                         boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
                         boardImagePanel.revalidate();
+
+                        // Switch player
+                        currentPlayer = currentPlayer.next();
+
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -362,6 +367,7 @@ public class UserInterface extends JPanel {
             textOutput = new JTextArea("", 10, 15);
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
+            textOutput.setForeground(Color.BLACK);
 
             createAllowedCommandsDisplay();
 
