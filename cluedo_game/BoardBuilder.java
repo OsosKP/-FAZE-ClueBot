@@ -49,8 +49,6 @@ public class BoardBuilder {
                 board[i][j].setGeography(this);
             }
         }
-
-        System.out.println(getKitchen().getName() + " - " + getKitchen().getExits().get(0).getPositionAsString());
     }
 
     public Tokens getPlayerList() {

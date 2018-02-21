@@ -160,6 +160,10 @@ public class UserInterface extends JPanel {
 
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
+            // Making it so user can press 'return' to 'Perform Action'
+            UserInputListener returnPressListener = new UserInputListener();
+            inputField.addActionListener(returnPressListener);
+
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
             input.add(inputField, BorderLayout.SOUTH);
@@ -250,8 +254,8 @@ public class UserInterface extends JPanel {
                     // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
-                        System.out.println("Action: " + inputField.getText());
-                        currentPlayer = currentPlayer.next();
+                        System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
                         /*
                         TODO: This was my idea for movement on the board image, and it doesn't work
@@ -278,6 +282,10 @@ public class UserInterface extends JPanel {
                         // TODO: Josh plz fix below
                         boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
                         boardImagePanel.revalidate();
+
+                        // Switch player
+                        currentPlayer = currentPlayer.next();
+
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
