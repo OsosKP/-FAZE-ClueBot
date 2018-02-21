@@ -57,8 +57,8 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
        
-        this.createPlayersGUI();
-       // this.buildGUI();
+//        this.createPlayersGUI();
+        this.buildGUI();
     }
 
     public void createPlayersGUI() {
@@ -104,9 +104,6 @@ public class UserInterface extends JPanel {
      * buildGui creates the graphical aspect of the UI
      */
     public void buildGUI() {
-        // Set list of user input possibilities
-        // TODO: This might be moved to game logic?
-        AcceptedUserInputs.setAcceptedUserInputs();
         // Set frame size to house JPanels
         display.setSize(800, 700);
         display.setTitle("Cluedo");
@@ -351,6 +348,7 @@ public class UserInterface extends JPanel {
             textOutput = new JTextArea("", 10, 15);
             textOutput.setEnabled(false);
             textOutput.setLineWrap(true);
+            textOutput.setForeground(Color.BLACK);
 
             createAllowedCommandsDisplay();
 

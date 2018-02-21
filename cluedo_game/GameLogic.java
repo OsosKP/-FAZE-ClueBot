@@ -15,6 +15,7 @@ public class GameLogic {
 	static UserInterface ui;
 
 	public GameLogic() {
+		AcceptedUserInputs.setAcceptedUserInputs();
 		playerList = new Tokens();
 		playerList.setPlayerList();
 		currentBoard = new BoardBuilder(playerList);
