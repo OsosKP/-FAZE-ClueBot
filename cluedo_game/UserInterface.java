@@ -50,7 +50,8 @@ public class UserInterface extends JPanel {
     private String[] deletedPlayers = new String[6];
     
     BoardBuilder gameBoard;
-
+    
+    JPanel panel;
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -61,9 +62,9 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
 
-        this.buildGUI();
+//        this.buildGUI();
        
-//        this.createPlayersGUI();
+        this.createPlayersGUI();
     }
 
     public boolean createPlayersGUI() {
@@ -77,7 +78,7 @@ public class UserInterface extends JPanel {
             display.setTitle("Cluedo");
             display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         
-            JPanel panel = new JPanel();
+            panel = new JPanel();
             panel.setLayout(new GridLayout(6,2));
             
             JButton finishedWithEntry = new JButton("Sumbit");
@@ -662,63 +663,69 @@ public class UserInterface extends JPanel {
     	private JTextField value;
         String willThisWork;
         public int objNum;
+        JList list;
 
-        JList list = new JList(items);
-        
+         
         public CharacterList(int i) {            	
         	super(new BorderLayout(5, 5));
             this.objNum = i;
-            JList list = new JList(items);
-        	
-            /* TODO need to figure out how to remove the other values in the list  */
-            list.addListSelectionListener(new ListSelectionListener() {
+            this.setListener();
+        }
+        public void setListener() {
+        	list = new JList(items);
+        	list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
                     
                     /* If the player actually selected a character, we need to remove it from the other lists */
                     // if we select a player, it needs to be removed. BUT if we change our mind, the player needs to come back to the menu
                     if (!(willThisWork.equals("Not Playing"))) {
+                    	
                     	for (int i = 0; i < 6; i++) {
                     		/* If the obj in playerList is  not the current one */
                     		if (GUIPlayerList[i].objNum != objNum) {
+                    			
                     			/* Grabbing the current chracterList */
                     			String[] tempItems = GUIPlayerList[i].items;
+                    			
                     			int numMatches = 0;
-                    			
-                    			System.out.println("\n\n");
-                    			for (int g = 0; g < tempItems.length; g++) {
-                    				System.out.println(tempItems[g]);
-                    			}
-                    			System.out.println("\n\n");
-                    			
+
                     			/* Counting the number of elements in the  */
-                    			String[] newList = new String[6];
+                    			ArrayList<String> tempArray = new ArrayList<String>();
                     			
-                    			for (int fuckYou  = 0; fuckYou < 6; fuckYou++) {
-                    				System.out.println(fuckYou);
+                    			for (int fuckYou  = 0; fuckYou < tempItems.length; fuckYou++) {
                     				if (willThisWork.equals(tempItems[fuckYou]) == false) {
-                    					newList[numMatches] = tempItems[fuckYou];
+                    					tempArray.add(tempItems[fuckYou]);
                     					numMatches++;
                     				}
                     			}
+                    			String[] newList = new String[tempArray.size()];
                     			
-                    			System.out.println("dpes this work/");
+                    			for (int gc = 0; gc < newList.length; gc++) {
+                    				newList[gc] = tempArray.get(gc);
+                    			}
+                    				
                     			/* Updating the lists of the obj */
-                    			
-                    			/* Adding the element to the removedList */
-                    			
-                    			/* Checking to see if any of the nanes need to be re-added (if so we re-add them) */
+                    			GUIPlayerList[i].items = newList;
+
+                    			System.out.println("\n\n");
+                    			for (int index = 0; index < newList.length; index++) {
+                    				System.out.println(index);	
+                    				System.out.println(GUIPlayerList[i].items[index]);
+                    			}
+
                     		}
                     	}
-                    }
+                    }                    
                 }
             });
-
+        	System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
 
             value = new JTextField("", 20);
             add(value, BorderLayout.EAST);
         }
+        
         //TODO: remove one of the objects in the list, then update it
 
         public String[] getValue() {
@@ -728,12 +735,7 @@ public class UserInterface extends JPanel {
             return valueArray;
         }
     }
- 
-    
-    
-    
-    
-    
+        
     class CharacterListUITitle extends JPanel { //going to hold the UI 
     	JLabel myLabel = new JLabel("[Left] Select Character and Type Username [Right]");
     	
