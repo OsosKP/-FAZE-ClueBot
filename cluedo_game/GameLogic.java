@@ -224,7 +224,7 @@ public class GameLogic {
 			/*
 			If the choice was valid, the player exits the room
 			 */
-			if(AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection)) {
+			if(AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection-1)) {
 				// selection-1 because indices of exits start at 0
 				p.exitRoom(selection-1);
 				roomExitCheck = true;

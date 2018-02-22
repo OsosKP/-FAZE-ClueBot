@@ -78,7 +78,7 @@ public class UserInterface extends JPanel {
             display.setTitle("Cluedo");
             display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         
-            panel = new JPanel();
+            JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(6,2));
             
             JButton finishedWithEntry = new JButton("Sumbit");
