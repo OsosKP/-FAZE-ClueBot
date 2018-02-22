@@ -660,6 +660,8 @@ public class UserInterface extends JPanel {
         String willThisWork;
         public int objNum;
 
+        JList list = new JList(items);
+        
         public CharacterList(int i) {            	
         	super(new BorderLayout(5, 5));
             this.objNum = i;
@@ -678,9 +680,26 @@ public class UserInterface extends JPanel {
                     		if (GUIPlayerList[i].objNum != objNum) {
                     			/* Grabbing the current chracterList */
                     			String[] tempItems = GUIPlayerList[i].items;
+                    			int numMatches = 0;
                     			
-                    			/* Now we remove our desired element from the list */
+                    			System.out.println("\n\n");
+                    			for (int g = 0; g < tempItems.length; g++) {
+                    				System.out.println(tempItems[g]);
+                    			}
+                    			System.out.println("\n\n");
                     			
+                    			/* Counting the number of elements in the  */
+                    			String[] newList = new String[6];
+                    			
+                    			for (int fuckYou  = 0; fuckYou < 6; fuckYou++) {
+                    				System.out.println(fuckYou);
+                    				if (willThisWork.equals(tempItems[fuckYou]) == false) {
+                    					newList[numMatches] = tempItems[fuckYou];
+                    					numMatches++;
+                    				}
+                    			}
+                    			
+                    			System.out.println("dpes this work/");
                     			/* Updating the lists of the obj */
                     			
                     			/* Adding the element to the removedList */
