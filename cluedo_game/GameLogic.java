@@ -3,6 +3,9 @@
 // Kelsey Osos - 16201972
 
 package cluedo_game;
+
+import java.util.Random;
+
 /**
  * class that is going to handle all of the game logic
  * @author george
@@ -210,6 +213,29 @@ public class GameLogic {
 		public static String guessPrompt(){
 			// This is just a placeholder for a later sprint
 			return "Guess Prompt";
+		}
+		
+		class Dice{
+			/* We need to roll two dice to determines the movement */
+			int dice1 = 0, dice2 = 0;
+			
+			/* Going to represent the rolling of the dice*/
+			Random rand = new Random();
+			
+			int[] rollDice() {
+				int[] myDice = new int[2];
+
+				/* Rolling the dice [max 6 --  min 1] */
+				dice1 = rand.nextInt(6) + 1;
+				dice2 = rand.nextInt(6) + 1;
+				
+				
+				myDice[0] = dice1;
+				myDice[1] = dice2;
+				
+				return myDice;
+			}
+			
 		}
 	}
 }
