@@ -47,11 +47,14 @@ public class UserInterface extends JPanel {
     private int playerListIndex;
 
     private  CharacterList[] GUIPlayerList = null;
-    private String[] deletedPlayers = new String[6];
+    private  ArrayList<String> deletedPlayers = new ArrayList<String>();
+    private  ArrayList<String> selectedPlayers = new ArrayList<String>();
     
     BoardBuilder gameBoard;
     
+    
     JPanel panel;
+    private String currentSelection = null;
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -673,12 +676,21 @@ public class UserInterface extends JPanel {
         }
         public void setListener() {
         	list = new JList(items);
+        	
+        	//TODO: need to make the jFrame show up
+        	//TODO: need to do the backend for checking 
+        	
         	list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
+                    selectedPlayers.add(willThisWork);
                     
                     /* If the player actually selected a character, we need to remove it from the other lists */
                     // if we select a player, it needs to be removed. BUT if we change our mind, the player needs to come back to the menu
+                    System.out.println("this is what we got: " + willThisWork);
+                    System.out.println("this is the number before crashing: " + objNum);
+                    
+                    //getting numm pointer because we are changing the list -- need to store what we get in this 
                     if (!(willThisWork.equals("Not Playing"))) {
                     	
                     	for (int i = 0; i < 6; i++) {
@@ -698,26 +710,40 @@ public class UserInterface extends JPanel {
                     					tempArray.add(tempItems[fuckYou]);
                     					numMatches++;
                     				}
+                    				else {
+                    					deletedPlayers.add(tempItems[fuckYou]);
+                    				}
                     			}
-                    			String[] newList = new String[tempArray.size()];
                     			
+                    			String[] newList = new String[tempArray.size()];
+                    				
                     			for (int gc = 0; gc < newList.length; gc++) {
                     				newList[gc] = tempArray.get(gc);
                     			}
                     				
-                    			/* Updating the lists of the obj */
+                    			/* Updating the items String list */
                     			GUIPlayerList[i].items = newList;
-
+                    			
+                    			currentSelection = willThisWork;
+                    			
+			
                     			System.out.println("\n\n");
                     			for (int index = 0; index < newList.length; index++) {
                     				System.out.println(index);	
                     				System.out.println(GUIPlayerList[i].items[index]);
                     			}
-
+                    			//TODO: somehow update the .items
+                    			
                     		}
+                			                   
                     	}
-                    }                    
-                }
+                    }          
+                
+                                    	for (int i = 0; i < GUIPlayerList.length; i++) {
+                    			GUIPlayerList[i].list = new JList(GUIPlayerList[i].items);
+                    			GUIPlayerList[i].list.addListSelectionListener(this); 
+                    	}
+                }     		 
             });
         	System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
