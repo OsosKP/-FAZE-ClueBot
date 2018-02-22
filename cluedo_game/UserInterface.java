@@ -585,6 +585,10 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
+    
+    public Tokens returnPlayerArray() {
+    	return this.playerList;
+    }
 
     
    /* Inner classes that will be useful later */
@@ -721,12 +725,7 @@ public class UserInterface extends JPanel {
         				}
         			}
         			
-    			}
-    		
-//    			else if (returnArray[0].equals("")) {
-//    				System.out.println("dslkjflkdsfds");
-//    			}
-    			
+    			}    			
     		}
     		/* Removing all the JPanels and closing the JFrame */
     		display.setVisible(false);
