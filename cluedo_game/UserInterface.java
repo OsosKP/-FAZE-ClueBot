@@ -671,19 +671,54 @@ public class UserInterface extends JPanel {
     		int numPlayers = 0;
     		Tokens tokenList = new Tokens();
     	
-            Token white = null;
-            Token green = null;
-            Token mustard = null;
-            Token peacock = null;
-            Token plum = null;
-            Token scarlet = null;	
-    			
+    		/* Token Objs that will make sure we only create ONE of each character */
+    		Token white = null;
+           	Token green = null;
+           	Token mustard = null;
+           	Token peacock = null;
+           	Token plum = null;
+           	Token scarlet = null;	    
+           	
     		for (int i = 0; i < 6; i++) {
     			String[] returnArray = GUIPlayerList[i].getValue();
     			
-    			if (!(returnArray[1] != ("Not Playing"))){ //if the user does actually want to play
-        			System.out.println("V1: " + returnArray[0] + " V2 " + returnArray[1]);    				
+    			/* If the user wants to actually play, the above token objects get populated */
+    			if (!(returnArray[1].equals("Not Playing"))){ 
         			
+        			if (returnArray[1].equals("Colonel Mustard")) {
+        				if (mustard == null) { 
+        					mustard = new Token(17, 0, "Mustard", numPlayers++);
+        				}
+        			}
+        			else if (returnArray[1].equals("Miss Scarlett")) {
+        				if (scarlet == null) {
+        					scarlet = new Token(24, 7, "Scarlet", numPlayers++);	
+        				}
+        			}
+        			else if (returnArray[1].equals("Mrs White")) {
+        				if (white == null) {
+        					white = new Token(0, 9, "White", numPlayers++);	
+        				}
+        			}
+        			else if (returnArray[1].equals("Mr Green")) {
+        				if (green == null) {
+        					green = new Token(0, 14, "Green", numPlayers++);				
+        				}
+        			}
+        			else if (returnArray[1].equals("Mrs Peacock")) {
+        				if (peacock == null) {
+        					peacock = new Token(6, 23, "Peacock", numPlayers++);	
+        				}
+        			}
+        			else if (returnArray[1].equals("Professor Plum")) {
+        				if (plum == null) {
+        					plum = new Token(19, 23, "Plum", numPlayers++);	
+        				}
+        			}
+        			
+    			}
+    			else if (returnArray[0].equals("")) {
+    				System.out.println("dslkjflkdsfds");
     			}
     			
     		}
