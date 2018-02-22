@@ -330,6 +330,10 @@ public class BoardBuilder {
         exits.add((FloorSquare)board[8][14]);
         Ballroom = new Room("Ballroom", entrances, exits);
 
+        for (FloorSquare square : Ballroom.getExits())
+            System.out.println(square.getPositionAsString());
+
+
         entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
         exits.clear();
 
@@ -342,6 +346,10 @@ public class BoardBuilder {
 
         entrances.clear();
         exits.clear();
+
+
+        for (FloorSquare square : Ballroom.getExits())
+            System.out.println(square.getPositionAsString());
 
         /* Creating BilliardRoom Object */
         entrances.add((EntrySquare)board[9][18]);

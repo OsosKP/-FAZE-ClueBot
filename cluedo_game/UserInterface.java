@@ -44,7 +44,6 @@ public class UserInterface extends JPanel {
     // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
     private Token currentPlayer;
     private Tokens playerList;
-    private int playerListIndex;
 
     private  CharacterList[] GUIPlayerList = null;
     private String[] deletedPlayers = new String[6];
@@ -260,8 +259,6 @@ public class UserInterface extends JPanel {
                         }
                     }
 
-                    // If the turn was successful, cycle to next turn
-                    // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
                         if(currentPlayer.getInRoom() == null) {

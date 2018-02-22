@@ -26,8 +26,9 @@ public class Room {
 	 */
 	public Room(String name, ArrayList<EntrySquare> entrances, ArrayList<FloorSquare> exits) {
 		this.name = name;
-		this.entrances = entrances;
-		this.exits = exits;
+//		ArrayList<EntrySquare> in = new ArrayList<>(entrances);
+		this.entrances = new ArrayList<>(entrances);
+		this.exits = new ArrayList<>(exits);
 		this.secretPassage = null;
 	}
 
