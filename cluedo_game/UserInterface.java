@@ -47,6 +47,7 @@ public class UserInterface extends JPanel {
     private int playerListIndex;
 
     private  CharacterList[] GUIPlayerList = null;
+    private String[] deletedPlayers = new String[6];
     
     BoardBuilder gameBoard;
 
@@ -67,15 +68,7 @@ public class UserInterface extends JPanel {
 
     public boolean createPlayersGUI() {
     	 
-            String[] items = {
-            		"Miss Scarlett",
-                    "Colonel Mustard",
-                    "Mrs White",
-                    "Mr Green",
-                    "Mrs Peacock",
-                    "Professor Plum",
-                    "Not Playing"
-            };
+
                      
             /* We can have a max of 6 characters */
             GUIPlayerList = new CharacterList[6];
@@ -91,12 +84,11 @@ public class UserInterface extends JPanel {
             display.add(finishedWithEntry);
             
             for (int i = 0; i < 6; i++) { //looping 
-            	GUIPlayerList[i] = new CharacterList (items);
+            	GUIPlayerList[i] = new CharacterList(i);
             	panel.add(GUIPlayerList[i]);
             }
             
             CharacterListUITitle titleBar = new CharacterListUITitle();
-            //TODO --Priority-- need to generate the players when we hit the submit button
             
             //TODO need to elim the choice from the other arrays if it has already been selected
             
@@ -647,26 +639,59 @@ public class UserInterface extends JPanel {
     public void setCurrentPlayer(Token player) {
         this.currentPlayer = player;
     }
+    
+    public Tokens returnPlayerArray() {
+    	return this.playerList;
+    }
 
     
    /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
-
-        private JTextField value;
-        String willThisWork;
         
-        public CharacterList() {
-			// TODO Auto-generated constructor stub
-		}
+        public String[] items = {
+        		"Miss Scarlett",
+                "Colonel Mustard",
+                "Mrs White",
+                "Mr Green",
+                "Mrs Peacock",
+                "Professor Plum",
+                "Not Playing"
+        };
+     
+    		
+    	private JTextField value;
+        String willThisWork;
+        public int objNum;
 
-        CharacterList(String[] items) {
-            super(new BorderLayout(5, 5));
-
+        public CharacterList(int i) {            	
+        	super(new BorderLayout(5, 5));
+            this.objNum = i;
             JList list = new JList(items);
+        	
             /* TODO need to figure out how to remove the other values in the list  */
             list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
+                    
+                    /* If the player actually selected a character, we need to remove it from the other lists */
+                    // if we select a player, it needs to be removed. BUT if we change our mind, the player needs to come back to the menu
+                    if (!(willThisWork.equals("Not Playing"))) {
+                    	for (int i = 0; i < 6; i++) {
+                    		/* If the obj in playerList is  not the current one */
+                    		if (GUIPlayerList[i].objNum != objNum) {
+                    			/* Grabbing the current chracterList */
+                    			String[] tempItems = GUIPlayerList[i].items;
+                    			
+                    			/* Now we remove our desired element from the list */
+                    			
+                    			/* Updating the lists of the obj */
+                    			
+                    			/* Adding the element to the removedList */
+                    			
+                    			/* Checking to see if any of the nanes need to be re-added (if so we re-add them) */
+                    		}
+                    	}
+                    }
                 }
             });
 
@@ -675,6 +700,7 @@ public class UserInterface extends JPanel {
             value = new JTextField("", 20);
             add(value, BorderLayout.EAST);
         }
+        //TODO: remove one of the objects in the list, then update it
 
         public String[] getValue() {
             String[] valueArray = new String[2];
@@ -783,12 +809,7 @@ public class UserInterface extends JPanel {
         				}
         			}
         			
-    			}
-    		
-//    			else if (returnArray[0].equals("")) {
-//    				System.out.println("dslkjflkdsfds");
-//    			}
-    			
+    			}    			
     		}
     		/* Removing all the JPanels and closing the JFrame */
     		display.setVisible(false);
