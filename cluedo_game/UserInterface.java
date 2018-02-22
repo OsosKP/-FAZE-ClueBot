@@ -292,9 +292,12 @@ public class UserInterface extends JPanel {
 //                            boardImagePanel.revalidate();
 
                         }
-                        else
-                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                    + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
+                        else {
+                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " +
+                                    inputField.getText() + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
+                            out.updateMoveHistory(currentPlayer.getName() +
+                                    " has entered the " + currentPlayer.getInRoom().getName());
+                        }
 
                         // Switch player
 //                        currentPlayer = currentPlayer.next();
@@ -315,6 +318,9 @@ public class UserInterface extends JPanel {
             }
         }
 
+        /**
+         * This method switches user input and output to reflect that the player is going to choose an exit
+         */
         public void switchToExitChoiceButton(){
             switchInputToExitPicker();
             out.roomExitChoicesUpdater();
@@ -678,7 +684,7 @@ public class UserInterface extends JPanel {
                     	for (int i = 0; i < 6; i++) {
                     		/* If the obj in playerList is  not the current one */
                     		if (GUIPlayerList[i].objNum != objNum) {
-                    			/* Grabbing the current chracterList */
+                    			/* Grabbing the current characterList */
                     			String[] tempItems = GUIPlayerList[i].items;
                     			int numMatches = 0;
                     			
@@ -691,20 +697,20 @@ public class UserInterface extends JPanel {
                     			/* Counting the number of elements in the  */
                     			String[] newList = new String[6];
                     			
-                    			for (int fuckYou  = 0; fuckYou < 6; fuckYou++) {
-                    				System.out.println(fuckYou);
-                    				if (willThisWork.equals(tempItems[fuckYou]) == false) {
-                    					newList[numMatches] = tempItems[fuckYou];
+                    			for (int h  = 0; h < 6; h++) {
+                    				System.out.println(h);
+                    				if (!willThisWork.equals(tempItems[h])) {
+                    					newList[numMatches] = tempItems[h];
                     					numMatches++;
                     				}
                     			}
                     			
-                    			System.out.println("dpes this work/");
+                    			System.out.println("does this work/");
                     			/* Updating the lists of the obj */
                     			
                     			/* Adding the element to the removedList */
                     			
-                    			/* Checking to see if any of the nanes need to be re-added (if so we re-add them) */
+                    			/* Checking to see if any of the names need to be re-added (if so we re-add them) */
                     		}
                     	}
                     }
