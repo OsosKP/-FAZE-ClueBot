@@ -46,7 +46,6 @@ public class EntrySquare implements BoardSquare{
 		return null;
 	}
 
-
 	/*
 	Geographical Pointers
 	*/
@@ -77,7 +76,9 @@ public class EntrySquare implements BoardSquare{
 	//Mutators
 	//
 	// This method will now transport the player directly to the room
-	public void setPlayerOn(Token player) { player.enterRoom(this.getRoomAssigned()); }
+	public void setPlayerOn(Token player) {
+		player.enterRoom(this.getRoomAssigned());
+	}
 	// This method will not be invoked by EntrySquare
 	@Override
 	public Token removePlayerOn() {

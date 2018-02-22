@@ -29,9 +29,6 @@ public class BoardBuilder {
     private Room Kitchen;
     private Room Study;
     private Room Cellar;
-    
-    /* Will prevent us from breaking everything */
-    private boolean entrySquaresCreated = false;
 
     public BoardBuilder(Tokens players) {
         /* Calling classes to create board */
@@ -49,6 +46,8 @@ public class BoardBuilder {
                 board[i][j].setGeography(this);
             }
         }
+
+        System.out.println("BB Constructor -\t" + Kitchen.getSecretPassage().getName());
     }
 
     public Tokens getPlayerList() {
@@ -318,71 +317,76 @@ public class BoardBuilder {
     }
     
     public void createRooms() {
-    		/* Creating the Rooms with Multiple Entrances*/
-    		/* Will be used to store the entrances for the individual rooms */
-    		ArrayList<EntrySquare> entrances = new ArrayList<>();
-    		/* Will be used to store the FloorSquares to which the rooms exit*/
-    		ArrayList<FloorSquare> exits = new ArrayList<>();
-    		
-    		/* Creating Ballroom Object*/
-    		entrances.add((EntrySquare)board[5][8]);
-    		entrances.add((EntrySquare)board[7][9]);
-    		entrances.add((EntrySquare)board[7][14]);
-    		exits.add((FloorSquare)board[5][7]);
-            exits.add((FloorSquare)board[8][9]);
-            exits.add((FloorSquare)board[8][14]);
-            Ballroom = new Room("Ballroom", entrances, exits);
-    		
-    		entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
-    		exits.clear();
+        /* Creating the Rooms with Multiple Entrances*/
+        /* Will be used to store the entrances for the individual rooms */
+        ArrayList<EntrySquare> entrances = new ArrayList<>();
+        /* Will be used to store the FloorSquares to which the rooms exit*/
+        ArrayList<FloorSquare> exits = new ArrayList<>();
 
-    		/* Creating Dining Room Object */
-    		entrances.add((EntrySquare)board[15][6]);
-            entrances.add((EntrySquare)board[12][7]);
-            exits.add((FloorSquare)board[16][6]);
-            exits.add((FloorSquare)board[12][8]);
-            DiningRoom = new Room("DiningRoom", entrances, exits);
-    		
-    		entrances.clear();
-    		exits.clear();
-    		
-    		/* Creating BilliardRoom Object */
-    		entrances.add((EntrySquare)board[9][18]);
-    		entrances.add((EntrySquare)board[12][22]);
-            exits.add((FloorSquare)board[9][17]);
-            exits.add((FloorSquare)board[13][22]);
-            BilliardRoom = new Room("BilliardRoom", entrances, exits);
-    		
-    		entrances.clear();
-    		exits.clear();
-    		
-    		/* Creating Library Object */
-    		entrances.add((EntrySquare)board[16][17]);
-    		entrances.add((EntrySquare)board[14][20]);
-            exits.add((FloorSquare)board[16][16]);
-            exits.add((FloorSquare)board[13][20]);
-            Library = new Room("Library", entrances, exits);
-    		
-    		entrances.clear();
-    		exits.clear();
-    		
-    		/* Creating Hall Object */
-    		entrances.add((EntrySquare)board[18][11]);
-    		entrances.add((EntrySquare)board[18][12]);
-    		entrances.add((EntrySquare)board[20][14]);
-            exits.add((FloorSquare)board[17][11]);
-            exits.add((FloorSquare)board[17][12]);
-            exits.add((FloorSquare)board[20][15]);
-            Hall = new Room("Hall", entrances, exits);
+        /* Creating Ballroom Object*/
+        entrances.add((EntrySquare)board[5][8]);
+        entrances.add((EntrySquare)board[7][9]);
+        entrances.add((EntrySquare)board[7][14]);
+        exits.add((FloorSquare)board[5][7]);
+        exits.add((FloorSquare)board[8][9]);
+        exits.add((FloorSquare)board[8][14]);
+        Ballroom = new Room("Ballroom", entrances, exits);
 
-            /* Create rooms with one entrance and a secret passage */
-            Kitchen = new Room("Kitchen", Study, (EntrySquare)board[6][4], (FloorSquare)board[7][4]);
-            Study = new Room("Study", Kitchen, (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
-            Conservatory = new Room("Conservatory", Lounge, (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
-            Lounge = new Room("Lounge", Conservatory, (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
+        entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
+        exits.clear();
 
-            // Create Cellar
-            Cellar = new Room("Cellar", null, (EntrySquare)board[16][12], (FloorSquare)board[17][12]);
+        /* Creating Dining Room Object */
+        entrances.add((EntrySquare)board[15][6]);
+        entrances.add((EntrySquare)board[12][7]);
+        exits.add((FloorSquare)board[16][6]);
+        exits.add((FloorSquare)board[12][8]);
+        DiningRoom = new Room("DiningRoom", entrances, exits);
+
+        entrances.clear();
+        exits.clear();
+
+        /* Creating BilliardRoom Object */
+        entrances.add((EntrySquare)board[9][18]);
+        entrances.add((EntrySquare)board[12][22]);
+        exits.add((FloorSquare)board[9][17]);
+        exits.add((FloorSquare)board[13][22]);
+        BilliardRoom = new Room("BilliardRoom", entrances, exits);
+
+        entrances.clear();
+        exits.clear();
+
+        /* Creating Library Object */
+        entrances.add((EntrySquare)board[16][17]);
+        entrances.add((EntrySquare)board[14][20]);
+        exits.add((FloorSquare)board[16][16]);
+        exits.add((FloorSquare)board[13][20]);
+        Library = new Room("Library", entrances, exits);
+
+        entrances.clear();
+        exits.clear();
+
+        /* Creating Hall Object */
+        entrances.add((EntrySquare)board[18][11]);
+        entrances.add((EntrySquare)board[18][12]);
+        entrances.add((EntrySquare)board[20][14]);
+        exits.add((FloorSquare)board[17][11]);
+        exits.add((FloorSquare)board[17][12]);
+        exits.add((FloorSquare)board[20][15]);
+        Hall = new Room("Hall", entrances, exits);
+
+        /* Create rooms with one entrance and a secret passage */
+        Kitchen = new Room("Kitchen", (EntrySquare)board[6][4], (FloorSquare)board[7][4]);
+        Study = new Room("Study", (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
+        Conservatory = new Room("Conservatory", (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
+        Lounge = new Room("Lounge", (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
+
+    // Create Cellar
+        Cellar = new Room("Cellar", (EntrySquare)board[16][12], (FloorSquare)board[17][12]);
+
+        Kitchen.setsecretPassage(Study);
+        Study.setsecretPassage(Kitchen);
+        Conservatory.setsecretPassage(Lounge);
+        Lounge.setsecretPassage(Conservatory);
     }
 
     public void connectEntrySquaresToRooms(){
@@ -437,10 +441,7 @@ public class BoardBuilder {
         Kitchen = null;
         Study = null;
         Cellar = null;
-        
-        /* Will prevent us from breaking everything */
-       entrySquaresCreated = false;
-    	
+
        	/* Calling classes to create board */
        	this.createRooms();
        	this.addEntrySquares();

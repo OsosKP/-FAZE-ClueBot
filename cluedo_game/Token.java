@@ -28,35 +28,24 @@ public class Token {
 
 	public void enterRoom(Room room){
 		this.squareOn = null;
-		this.position[0] = -1;
-		this.position[1] = -1;
-		this.inRoom = room;
 
 		/*
-		TODO: At this point, the exit square from Kitchen is ( -1, -1 )
+		TODO: WHY does this set the room's exit square's position to ( -1, -1 )!?!???!?!?!?!
 		 */
-		System.out.println("CHECK FROM enterRoom in Token\t" + inRoom.getExits().get(0).getPositionAsString());
-		System.out.println("CHECK FROM enterRoom in Token\t" + room.getExits().get(0).getPositionAsString());
+//		this.position[0] = -1;
+//		this.position[1] = -1;
+
+		this.inRoom = room;
 
 		this.setLocationAsString("room");
 	}
 	public void exitRoom(int exitIndex){
-		/*
-		Player's position isn't setting to square when he exits
-		 */
-		System.out.println("CHECK FROM exitRoom in Token\t" + this.inRoom.getName());
-		System.out.println("CHECK FROM exitRoom in Token\t" + inRoom.getExits().get(exitIndex).getPositionAsString());
-		/*
-		TODO: THIS IS BROKEN!?
-		 */
+		// TODO: THIS IS BROKEN!? Okay up to here - player can't exit
 		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){
 		this.inRoom = inRoom.getSecretPassage();
-
-		// Tester
-
 	}
 
 	//
