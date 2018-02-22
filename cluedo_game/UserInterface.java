@@ -61,11 +61,11 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
        
-       this.createPlayersGUI();
-    //    this.buildGUI();
+       
+        this.createPlayersGUI(); 
     }
 
-    public void createPlayersGUI() {
+    public boolean createPlayersGUI() {
     	 
             String[] items = {
             		"Miss Scarlett",
@@ -107,7 +107,7 @@ public class UserInterface extends JPanel {
             display.add(sumbitButton, BorderLayout.SOUTH);
             display.setVisible(true);
    
-    
+            return true;
     }
 
     /**
@@ -669,7 +669,6 @@ public class UserInterface extends JPanel {
   
     		/* Looping through the GUIPlayers list, if we get the player names to !=  */
     		int numPlayers = 0;
-    		Tokens tokenList = new Tokens();
     	
     		/* Token Objs that will make sure we only create ONE of each character */
     		Token white = null;
@@ -688,40 +687,52 @@ public class UserInterface extends JPanel {
         			if (returnArray[1].equals("Colonel Mustard")) {
         				if (mustard == null) { 
         					mustard = new Token(17, 0, "Mustard", numPlayers++);
+        					playerList.addPlayer(mustard);
         				}
         			}
         			else if (returnArray[1].equals("Miss Scarlett")) {
         				if (scarlet == null) {
         					scarlet = new Token(24, 7, "Scarlet", numPlayers++);	
+        					playerList.addPlayer(scarlet);
         				}
         			}
         			else if (returnArray[1].equals("Mrs White")) {
         				if (white == null) {
         					white = new Token(0, 9, "White", numPlayers++);	
+        					playerList.addPlayer(white);
         				}
         			}
         			else if (returnArray[1].equals("Mr Green")) {
         				if (green == null) {
         					green = new Token(0, 14, "Green", numPlayers++);				
+        					playerList.addPlayer(green);
         				}
         			}
         			else if (returnArray[1].equals("Mrs Peacock")) {
         				if (peacock == null) {
         					peacock = new Token(6, 23, "Peacock", numPlayers++);	
+        					playerList.addPlayer(peacock);
         				}
         			}
         			else if (returnArray[1].equals("Professor Plum")) {
         				if (plum == null) {
         					plum = new Token(19, 23, "Plum", numPlayers++);	
+        					playerList.addPlayer(plum);
         				}
         			}
         			
     			}
-    			else if (returnArray[0].equals("")) {
-    				System.out.println("dslkjflkdsfds");
-    			}
+    		
+//    			else if (returnArray[0].equals("")) {
+//    				System.out.println("dslkjflkdsfds");
+//    			}
     			
     		}
+    		/* Removing all the JPanels and closing the JFrame */
+    		display.setVisible(false);
+    		display.getContentPane().removeAll();
+    		
+    		buildGUI(); 
     	}
     }
 }
