@@ -4,6 +4,7 @@
 
 package cluedo_game;
 
+import javax.swing.*;
 import java.util.Random;
 
 /**
@@ -52,6 +53,15 @@ public class GameLogic {
 		}
 		public static void resetMovementSuccessfulSwitchToFalse() {
 			movementSuccessful = false;
+		}
+
+		// Designates whether player's choice in exiting a room was valid
+		private static boolean roomExitCheck;
+		public static boolean getRoomExitCheck() {
+			return roomExitCheck;
+		}
+		public static void setRoomExitCheck(boolean roomExitCheck) {
+			roomExitCheck = roomExitCheck;
 		}
 
 		public static boolean wasTurnSuccessful(){
@@ -208,6 +218,24 @@ public class GameLogic {
 					result = guessPrompt();
 			}
 			return result;
+		}
+
+		public static void checkRoomExit(Token p, int selection) {
+			/*
+			If the choice was valid, the player exits the room
+			 */
+			if(AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection)) {
+				// selection-1 because indices of exits start at 0
+				p.exitRoom(selection-1);
+				roomExitCheck = true;
+			}
+			/*
+			Otherwise, clear input field and keep asking
+			 */
+			else {
+				ui.clearInputField();
+				roomExitCheck = false;
+			}
 		}
 
 		public static String guessPrompt(){

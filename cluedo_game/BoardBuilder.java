@@ -46,8 +46,6 @@ public class BoardBuilder {
                 board[i][j].setGeography(this);
             }
         }
-
-        System.out.println("BB Constructor -\t" + Kitchen.getSecretPassage().getName());
     }
 
     public Tokens getPlayerList() {
