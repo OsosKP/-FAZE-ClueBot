@@ -40,7 +40,6 @@ public class Token {
 		this.setLocationAsString("room");
 	}
 	public void exitRoom(int exitIndex){
-		// TODO: THIS IS BROKEN!? Okay up to here - player can't exit
 		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}

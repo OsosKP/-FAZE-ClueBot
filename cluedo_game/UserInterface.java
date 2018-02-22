@@ -91,11 +91,11 @@ public class UserInterface extends JPanel {
             
             //TODO need to elim the choice from the other arrays if it has already been selected
             
-            CharacterListUIButton sumbitButton = new CharacterListUIButton();
+            CharacterListUIButton submitButton = new CharacterListUIButton();
             
             display.add(panel, BorderLayout.CENTER);
             display.add(titleBar, BorderLayout.NORTH);
-            display.add(sumbitButton, BorderLayout.SOUTH);
+            display.add(submitButton, BorderLayout.SOUTH);
             display.setVisible(true);
    
             return true;
@@ -361,6 +361,7 @@ public class UserInterface extends JPanel {
                         System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: Exit " + choice
                                 + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                     }
+                    out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 }
             }
         }
@@ -518,6 +519,10 @@ public class UserInterface extends JPanel {
             allowedCommandsDisplay.revalidate();
         }
 
+        /**
+         * This method changes the allowed commands display to show which exits the user can use
+         *  if exiting from a room with multiple ways out
+         */
         public void roomExitChoicesUpdater(){
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
@@ -526,7 +531,7 @@ public class UserInterface extends JPanel {
 
             for (Integer i : choices) {
                 JLabel d = new JLabel("Exit " + i);
-                possibleCommandsList.add(new JLabel());
+                possibleCommandsList.add(d);
                 d.setForeground(Color.green);
                 d.setHorizontalAlignment(JLabel.CENTER);
             }

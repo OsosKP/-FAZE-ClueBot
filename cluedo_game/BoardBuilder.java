@@ -15,7 +15,6 @@ public class BoardBuilder {
 
     /* Will store all the players in the game */
 //    playerList players = new playerList();
-    private static int numPlayers = 0;
     private Tokens players;
 
     /* This will allow is to access the rooms on the fly */
@@ -55,9 +54,6 @@ public class BoardBuilder {
     //
     // Accessors
     //
-    public static int getNumPlayers() {
-        return numPlayers;
-    }
     public Room getBallroom() { return Ballroom;} //Returns Ballroom
     public Room getConservatory() {return Conservatory;}//Returns conservatory
     public Room getDiningRoom() {return DiningRoom;}//Returns Dining room
@@ -87,10 +83,11 @@ public class BoardBuilder {
     public void addEntrySquares(){
         // Add Kitchen Entry
         board[6][4] = new EntrySquare(6, 4, 1);
-        // Add 3 Ballroom Entries
+        // Add 4 Ballroom Entries
         board[5][8] = new EntrySquare(5, 8, 1);
         board[7][9] = new EntrySquare(7, 9, 2);
         board[7][14] = new EntrySquare(7, 14, 3);
+        board[5][15] = new EntrySquare(5, 15, 4);
         // Add Conservatory Entry
         board[4][18] = new EntrySquare(4, 18, 1);
         // Add Dining Room Entries
@@ -116,7 +113,7 @@ public class BoardBuilder {
 
     /**
      * addBarriers
-     * The board is a 24x24 matrix, but there are extra squares at the top
+     * The board is a 25x24 matrix, but there are extra squares at the top
      * to spawn White and Green. To resolve this I made the board 24x25 and
      * I'm making everything WallSquares except those spawn points.
      *
@@ -218,7 +215,8 @@ public class BoardBuilder {
         for(i = 2; i < 8; i++){
             for(j = 8; j < 16 ; j++) {
                 // Ensure this isn't an entry square
-                if(!(i == 5 && j == 8) && !(i == 7 && (j == 9 || j == 14)))
+                if (!((i == 5 && (j == 8 || j == 15)) ||
+                        (i == 7 && (j == 9 || j == 14))))
                 board[i][j] = new WallSquare(i, j);
             }
         }
@@ -325,14 +323,12 @@ public class BoardBuilder {
         entrances.add((EntrySquare)board[5][8]);
         entrances.add((EntrySquare)board[7][9]);
         entrances.add((EntrySquare)board[7][14]);
+        entrances.add((EntrySquare)board[5][15]);
         exits.add((FloorSquare)board[5][7]);
         exits.add((FloorSquare)board[8][9]);
         exits.add((FloorSquare)board[8][14]);
+        exits.add((FloorSquare)board[5][16]);
         Ballroom = new Room("Ballroom", entrances, exits);
-
-        for (FloorSquare square : Ballroom.getExits())
-            System.out.println(square.getPositionAsString());
-
 
         entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
         exits.clear();
@@ -346,10 +342,6 @@ public class BoardBuilder {
 
         entrances.clear();
         exits.clear();
-
-
-        for (FloorSquare square : Ballroom.getExits())
-            System.out.println(square.getPositionAsString());
 
         /* Creating BilliardRoom Object */
         entrances.add((EntrySquare)board[9][18]);
@@ -402,6 +394,7 @@ public class BoardBuilder {
         ((EntrySquare)board[5][8]).addRoomConnection(Ballroom);
         ((EntrySquare)board[7][9]).addRoomConnection(Ballroom);
         ((EntrySquare)board[7][14]).addRoomConnection(Ballroom);
+        ((EntrySquare)board[5][15]).addRoomConnection(Ballroom);
         // Add Conservatory Entry
         ((EntrySquare)board[4][18]).addRoomConnection(Conservatory);
         // Add Dining Room Entries
@@ -435,8 +428,7 @@ public class BoardBuilder {
     	System.err.println("BOARD GETTING ERASED");
     	
     	board = new BoardSquare[24][25];
-    	numPlayers = 0;
-    	
+
         Ballroom = null;
         Conservatory = null;
         DiningRoom = null;
