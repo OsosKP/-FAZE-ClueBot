@@ -110,4 +110,21 @@ public class AcceptedUserInputs {
         return result;
     }
 
+    public static ArrayList<Integer> getRoomExits(Room room){
+        ArrayList<Integer> exits = new ArrayList<>();
+        int i = 1;
+        for (FloorSquare square : room.getExits())
+            exits.add(i++);
+        return exits;
+    }
+
+    public static boolean roomExitCheck(Room room, int choice){
+        try{
+            room.getExits().get(choice).getPosition();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }

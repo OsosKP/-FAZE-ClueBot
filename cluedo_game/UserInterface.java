@@ -49,8 +49,7 @@ public class UserInterface extends JPanel {
     private  CharacterList[] GUIPlayerList = null;
     
     BoardBuilder gameBoard;
-    
-    
+
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
      * Everything so far is done in buildGUI, but when we add game logic it will also(?) be contained here
@@ -60,9 +59,10 @@ public class UserInterface extends JPanel {
         // TODO: BoardBuilder.getPlayerList() is redundant now that we're using a LL
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
+
+        this.buildGUI();
        
-       
-        this.createPlayersGUI(); 
+//        this.createPlayersGUI();
     }
 
     public boolean createPlayersGUI() {
@@ -162,6 +162,10 @@ public class UserInterface extends JPanel {
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
         private JLabel promptLabel = new JLabel("     What would you like to do?");
+        private JButton performActionButton;
+        private JButton exitChoiceButton;
+        private UserInputListener returnPressListener;
+        private ExitChoiceListener returnPressExitListener;
 
         public JPanel createInputPanel() {
             JPanel input = new JPanel();
@@ -171,8 +175,11 @@ public class UserInterface extends JPanel {
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
             // Making it so user can press 'return' to 'Perform Action'
-            UserInputListener returnPressListener = new UserInputListener();
+            returnPressListener = new UserInputListener();
             inputField.addActionListener(returnPressListener);
+
+            // Not using this listener yet, but will have the same functionality when user is exiting a room
+            returnPressExitListener = new ExitChoiceListener();
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
@@ -204,7 +211,8 @@ public class UserInterface extends JPanel {
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
                 input.remove(startGameButton);
-                input.add(createPerformActionButton(), BorderLayout.EAST);
+                performActionButton = createPerformActionButton();
+                input.add(performActionButton, BorderLayout.EAST);
                 whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
@@ -212,7 +220,6 @@ public class UserInterface extends JPanel {
                 output.revalidate();
             }
         }
-        
 
         /**
          * Button for the user to press when they enter a command
@@ -244,13 +251,12 @@ public class UserInterface extends JPanel {
                         switch (result) {
                             // If player has chosen to exit a room, bring up the appropriate prompt if necessary
                             case "exitChoice":
-                                switchInputToExitPicker(currentPlayer.getInRoom());
-                                result = (currentPlayer.getName() + " has exited the room.");
-                                // Switch panel back to input
-                                userDisplay.remove(exits);
-                                userDisplay.add(input);
-                                userDisplay.updateUI();
-                                break;
+                                /*
+                                Change input and output to handle user input of an exit choice
+                                 */
+                                switchToExitChoiceButton();
+                                return;
+//                                break;
                             case "exit":
                                 result = (currentPlayer.getName() + " has exited the room.");
                                 break;
@@ -270,8 +276,8 @@ public class UserInterface extends JPanel {
                             System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                     + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-//                            /*
-//                        TODO: This was my idea for movement on the board image, and it doesn't work
+//                          /*
+//                          TODO: This was my idea for movement on the board image, and it doesn't work
 //                         */
 //                            int[] destinationCoordinates;
 //                            switch (inputField.getText()) {
@@ -320,44 +326,83 @@ public class UserInterface extends JPanel {
             }
         }
 
-        public void switchInputToExitPicker(Room room) {
-            exits = new JPanel();
-            exits.setLayout(new GridLayout(3, 1));
-            int i = 1;
+        public void switchToExitChoiceButton(){
+            switchInputToExitPicker();
+            out.roomExitChoicesUpdater();
+            input.remove(performActionButton);
+            input.add(createExitPickerButton(), BorderLayout.EAST);
+            inputField.setText("");
 
-            for (FloorSquare square : room.getExits()) {
-                JButton exitChoice = new JButton("Exit " + i);
-                ExitChoiceListener listener = new ExitChoiceListener(i);
-                exitChoice.addActionListener(listener);
-                exits.add(exitChoice);
-            }
-            out.allowedCommandsDisplay.removeAll();
-            out.allowedCommandsDisplay.revalidate();
-            userDisplay.remove(input);
-            userDisplay.add(exits, BorderLayout.SOUTH);
-            userDisplay.updateUI();
+            input.revalidate();
+            output.revalidate();
         }
 
-        public void switchExitPickerToInput() {
-            userDisplay.remove(exits);
-            userDisplay.add(input);
-            userDisplay.updateUI();
+        private JButton createExitPickerButton(){
+            exitChoiceButton = new JButton("Choose Exit");
+            ActionListener listener = new ExitChoiceListener();
+            exitChoiceButton.addActionListener(listener);
+
+            return exitChoiceButton;
         }
 
         class ExitChoiceListener implements ActionListener {
-            private int choice;
-
-            public ExitChoiceListener(int choice) {
-                this.choice = choice;
-            }
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentPlayer.exitRoom(choice);
+                int choice = -1;
+                // Check to ensure the entry was an integer
+                try {
+                    choice = Integer.valueOf(inputField.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer value!");
+                }
+                // Call method in GameLogic to see if entry was valid for the number of exits
+                GameLogic.PlayerEntry.checkRoomExit(currentPlayer, choice);
+
+                // The checkRoomExit method switches 'roomExitCheck' to true if successful
+                if (GameLogic.PlayerEntry.getRoomExitCheck()) {
+                    out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
+                    switchExitPickerToInput();
+                    if(currentPlayer.getInRoom() == null) {
+                        System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: Exit " + choice
+                                + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                    }
+                }
             }
         }
 
+        /**
+         * This method changes the user input panel to reflect choice for exiting a room
+         */
+        public void switchInputToExitPicker() {
+            input.remove(promptLabel);
+            inputField.removeActionListener(returnPressListener);
+            inputField.addActionListener(returnPressExitListener);
+            promptLabel.setText("     Which exit would you like to take?");
+            input.add(promptLabel, BorderLayout.CENTER);
+        }
 
+        /**
+         * This method switches back to general user input
+         */
+        public void switchExitPickerToInput() {
+            inputField.removeActionListener(returnPressExitListener);
+            inputField.addActionListener(returnPressListener);
+            in.inputField.setText("");
+            in.inputField.requestFocus();
+            input.remove(promptLabel);
+            promptLabel.setText("     What would you like to do?");
+            input.add(promptLabel, BorderLayout.CENTER);
+            input.remove(exitChoiceButton);
+            input.revalidate();
+            input.add(performActionButton, BorderLayout.EAST);
+            input.revalidate();
+        }
+    }
+
+    // So GameLogic can clear this field for guessing and room exit
+    public void clearInputField() {
+        in.inputField.setText("");
+        in.inputField.requestFocus();
     }
 
     /**
@@ -476,6 +521,23 @@ public class UserInterface extends JPanel {
             }
             allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
+        }
+
+        public void roomExitChoicesUpdater(){
+            allowedCommandsDisplay.remove(possibleCommandsList);
+            possibleCommandsList.removeAll();
+
+            ArrayList<Integer> choices = AcceptedUserInputs.getRoomExits(currentPlayer.getInRoom());
+
+            for (Integer i : choices) {
+                JLabel d = new JLabel("Exit " + i);
+                possibleCommandsList.add(new JLabel());
+                d.setForeground(Color.green);
+                d.setHorizontalAlignment(JLabel.CENTER);
+            }
+
+            allowedCommandsDisplay.add(possibleCommandsList);
+            allowedCommandsDisplay.updateUI();
         }
 
         /**
