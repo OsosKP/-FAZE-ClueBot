@@ -121,7 +121,7 @@ public class PlayerListCreator {
                         value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
                         add(value, BorderLayout.EAST);
                     }
-                    else { // if we don't, we set the string = to what we selected earlier (in the selected plyers array)
+                    else { // if we don't, we set the string = to what we selected earlier (in the selected players array)
                         willThisWork = selectedPlayers.get(objNum);
                         value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
                         add(value, BorderLayout.EAST);

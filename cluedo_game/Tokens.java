@@ -1,10 +1,6 @@
 package cluedo_game;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * This is a modified circularly linked list.
@@ -142,11 +138,6 @@ public class Tokens implements Iterable<Token> {
         return t.next();
     }
 
-//    public class TokensIterator implements Iterator<Token> {
-
-
-
-
     public Iterator<Token> iterator() {
         return new Iterator<>() {
             private Token current;
@@ -158,7 +149,7 @@ public class Tokens implements Iterable<Token> {
                         || !(current == last);
             }
 
-            @Override @NotNull
+            @Override
             public Token next() {
                 if (current == null)
                     current = first;

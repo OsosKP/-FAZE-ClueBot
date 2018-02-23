@@ -92,6 +92,10 @@ public class AcceptedUserInputs {
         in = in.replaceAll("\\s+","").toLowerCase();
 
         boolean result = false;
+
+        if (in.equals("done"))
+            result = true;
+
         switch(p.getLocationAsString()){
             case "floor":
                 for (String s : floorNavigation) {

@@ -253,8 +253,10 @@ public class UserInterface extends JPanel {
                                     + " has entered the " + currentPlayer.getInRoom().getName());
                         }
 
-                        // Switch player
-                        currentPlayer = currentPlayer.next();
+
+                        // Switch player if the turn is over (or if they had entered 'done'
+                        if (GameLogic.getMovesLeft() == 0)
+                            currentPlayer = currentPlayer.next();
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
