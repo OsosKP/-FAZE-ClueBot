@@ -19,11 +19,18 @@ public class GameLogic {
 	static UserInterface ui;
 
 	public GameLogic() {
+		// Old way kept for future reference
+//		AcceptedUserInputs.setAcceptedUserInputs();
+//		playerList = new Tokens();
+//		playerList.setPlayerList();
+//		currentBoard = new BoardBuilder(playerList);
+//		ui = new UserInterface(currentBoard);
+
 		AcceptedUserInputs.setAcceptedUserInputs();
-		playerList = new Tokens();
-		playerList.setPlayerList();
-		currentBoard = new BoardBuilder(playerList);
-		ui = new UserInterface(currentBoard);
+		PlayerListCreator playersCreator = new PlayerListCreator();
+		playerList = playersCreator.getPlayerList();
+//		currentBoard = new BoardBuilder(playerList);
+//		ui = new UserInterface(playerList);
 	}
 
 	public static BoardBuilder getCurrentBoard() {
@@ -34,6 +41,14 @@ public class GameLogic {
 	}
 	public static UserInterface getUi() {
 		return ui;
+	}
+
+	/**
+	 * This method waits for PlayerListCreator to tell it to run
+	 */
+	public static void createBoardAndUI(){
+		currentBoard = new BoardBuilder(playerList);
+		ui = new UserInterface(playerList);
 	}
 
 	public static class PlayerEntry {

@@ -1,11 +1,17 @@
 package cluedo_game;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 /**
  * This is a modified circularly linked list.
  * We will need to add players to the end and pull from the front (as with a queue)
  * We don't need addFirst, insertAfter, insertBefore, or other things like that
  */
-public class Tokens {
+public class Tokens implements Iterable<Token> {
     private Token first;
     private Token last;
     private int numberOfPlayers;
@@ -23,7 +29,7 @@ public class Tokens {
     Some form of these methods will eventually move to the GameEngine class
     The UI class will be accessing these methods, so update that when we make the switch
      */
-    public void setPlayerList() {
+    public void setDefaultPlayerList() {
         Token white = new Token(0, 9, "White", 0);
         Token green = new Token(0, 14, "Green", 1);
         Token mustard = new Token(17, 0, "Mustard", 2);
@@ -57,7 +63,13 @@ public class Tokens {
         return false;
     }
 
-
+    public int getIndexOfPlayerByName(String name){
+        for (int i=0; i<numberOfPlayers; i++){
+            if (name.equals(this.getPlayerByIndex(i).getName().toLowerCase()))
+                return i;
+        }
+        return -1;
+    }
 
     // Accessors
     public Token getFirst() {
@@ -122,4 +134,46 @@ public class Tokens {
     public void advanceTurn(Token t){
         t = t.next();
     }
+
+    /*
+    Traversal method
+     */
+    public Token next(Token t) {
+        return t.next();
+    }
+
+//    public class TokensIterator implements Iterator<Token> {
+
+
+
+
+    public Iterator<Token> iterator() {
+        return new Iterator<>() {
+            private Token current;
+
+            @Override
+            public boolean hasNext() {
+                return !(isEmpty())
+                        || (current == null)
+                        || !(current == last);
+            }
+
+            @Override @NotNull
+            public Token next() {
+                if (current == null)
+                    current = first;
+                else
+                    current = Tokens.this.next(current);
+                return current;
+            }
+        };
+
+
+    }
+
+//    }
+
+//    public Iterator<Token> iterator() { return new TokensIterator(); }
+
+
 }
