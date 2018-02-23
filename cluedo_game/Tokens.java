@@ -44,6 +44,21 @@ public class Tokens {
         numberOfPlayers = 6;
     }
 
+    /**
+     * Checks if player is active
+     * @param name lower case name of requested player
+     * @return true or false
+     */
+    public boolean isPlayerInPlayerList(String name){
+        for (int i=0; i<numberOfPlayers; i++){
+            if (name.equals(this.getPlayerByIndex(i).getName().toLowerCase()))
+                return true;
+        }
+        return false;
+    }
+
+
+
     // Accessors
     public Token getFirst() {
         return first;

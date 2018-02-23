@@ -127,13 +127,13 @@ public class BoardBuilder {
         // Loop to assign top edge barrier squares
         for(i = 0; i < 24; i++){
             // board[0][9] and board[0][14] are both spawn points
-            if(i == 9) {
+            if(i == 9 && players.isPlayerInPlayerList("white")) {
                 board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(0));
                 players.getPlayerByIndex(0).setSquareOn(board[0][9]);
                 System.out.println("Player: " + players.getPlayerByIndex(0).getName() + "\tLocation: " +
                         players.getPlayerByIndex(0).getSquareOn().getPositionAsString());
             }
-            else if(i == 14) {
+            else if(i == 14 && players.isPlayerInPlayerList("green")) {
                 board[0][i] = new FloorSquare(0, i, players.getPlayerByIndex(1));
                 players.getPlayerByIndex(1).setSquareOn(board[0][14]);
                 System.out.println("Player: " + players.getPlayerByIndex(1).getName() + "\tLocation: " +
@@ -146,7 +146,7 @@ public class BoardBuilder {
         // Loop to assign left edge barrier squares
         for(i = 0; i < 25 ; i++){
             // board[17][0] is a spawn point
-            if(i == 17) {
+            if(i == 17 && players.isPlayerInPlayerList("mustard")) {
                 board[17][0] = new FloorSquare(i, 0, players.getPlayerByIndex(2));
                 players.getPlayerByIndex(2).setSquareOn(board[17][0]);
                 System.out.println("Player: " + players.getPlayerByIndex(2).getName() + "\tLocation: " +
@@ -159,13 +159,13 @@ public class BoardBuilder {
         // Loop to assign right edge barrier squares
         for(i = 0; i < 25 ; i++){
             // board[6][23] and board[19][23] are both spawn points
-            if(i == 6) {
+            if(i == 6 && players.isPlayerInPlayerList("peacock")) {
                 board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(3));
                 players.getPlayerByIndex(3).setSquareOn(board[i][23]);
                 System.out.println("Player: " + players.getPlayerByIndex(3).getName() + "\tLocation: " +
                         players.getPlayerByIndex(3).getSquareOn().getPositionAsString());
             }
-            else if(i == 19) {
+            else if(i == 19 && players.isPlayerInPlayerList("plum")) {
                 board[i][23] = new FloorSquare(i, 23, players.getPlayerByIndex(4));
                 players.getPlayerByIndex(4).setSquareOn(board[i][23]);
                 System.out.println("Player: " + players.getPlayerByIndex(4).getName() + "\tLocation: " +
@@ -178,7 +178,7 @@ public class BoardBuilder {
         // Loop to assign bottom edge barrier squares
         for(i = 0; i < 24; i++){
             // board[24][7] is a spawn point
-            if(i == 7) {
+            if(i == 7 && players.isPlayerInPlayerList("scarlet")) {
                 board[24][i] = new FloorSquare(24, i, players.getPlayerByIndex(5));
                 players.getPlayerByIndex(5).setSquareOn(board[24][i]);
                 System.out.println("Player: " + players.getPlayerByIndex(5).getName() + "\tLocation: " +
