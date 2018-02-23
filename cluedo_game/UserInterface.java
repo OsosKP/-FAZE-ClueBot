@@ -47,8 +47,8 @@ public class UserInterface extends JPanel {
     private int playerListIndex;
 
     private  CharacterList[] GUIPlayerList = null;
-    private  ArrayList<String> deletedPlayers = new ArrayList<String>();
-    private  ArrayList<String> selectedPlayers = new ArrayList<String>();
+    private  ArrayList<String> deletedPlayers = new ArrayList<>();
+    private  ArrayList<String> selectedPlayers = new ArrayList<>();
     
     BoardBuilder gameBoard;
     
@@ -65,9 +65,9 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
 
-//        this.buildGUI();
+        this.buildGUI();
        
-        this.createPlayersGUI();
+//        this.createPlayersGUI();
     }
 
     public boolean createPlayersGUI() {
@@ -297,15 +297,16 @@ public class UserInterface extends JPanel {
 //                            // TODO: Josh plz fix below
 //                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
 //                            boardImagePanel.revalidate();
-
                         }
-                        else
+                        else {
                             System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                     + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
+                            out.updateMoveHistory(currentPlayer.getName()
+                                    + " has entered the " + currentPlayer.getInRoom().getName());
+                        }
 
                         // Switch player
 //                        currentPlayer = currentPlayer.next();
-
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -363,6 +364,7 @@ public class UserInterface extends JPanel {
                                 + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                     }
                 }
+                out.updateAllowedCommandsBasedOnSquare(currentPlayer);
             }
         }
 
@@ -392,6 +394,8 @@ public class UserInterface extends JPanel {
             input.revalidate();
             input.add(performActionButton, BorderLayout.EAST);
             input.revalidate();
+
+            out.updateAllowedCommandsBasedOnSquare(currentPlayer);
         }
     }
 
@@ -465,9 +469,10 @@ public class UserInterface extends JPanel {
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
-
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
+            possibleCommandsList.invalidate();
+
 
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
@@ -515,6 +520,7 @@ public class UserInterface extends JPanel {
             } catch (Exception e) {
                 e.getMessage();
             }
+            possibleCommandsList.revalidate();
             allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
         }
@@ -527,10 +533,12 @@ public class UserInterface extends JPanel {
 
             for (Integer i : choices) {
                 JLabel d = new JLabel("Exit " + i);
-                possibleCommandsList.add(new JLabel());
+                possibleCommandsList.add(d);
                 d.setForeground(Color.green);
                 d.setHorizontalAlignment(JLabel.CENTER);
             }
+
+            possibleCommandsList.revalidate();
 
             allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.updateUI();

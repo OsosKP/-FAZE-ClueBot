@@ -46,6 +46,7 @@ public class Room {
 		this.entrances.add(entrance);
 		this.exits = new ArrayList<>();
 		this.exits.add(exit);
+		this.secretPassage = null;
 	}
 
 	//
@@ -65,6 +66,6 @@ public class Room {
 	//
 	public void setName(String name) {this.name = name;}
 	public void setWeaponInRoom(Weapon weaponInRoom) {this.weaponInRoom = weaponInRoom;}
-	public void setsecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
+	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
 	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
 }

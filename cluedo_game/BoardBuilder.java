@@ -381,10 +381,10 @@ public class BoardBuilder {
     // Create Cellar
         Cellar = new Room("Cellar", (EntrySquare)board[16][12], (FloorSquare)board[17][12]);
 
-        Kitchen.setsecretPassage(Study);
-        Study.setsecretPassage(Kitchen);
-        Conservatory.setsecretPassage(Lounge);
-        Lounge.setsecretPassage(Conservatory);
+        Kitchen.setSecretPassage(Study);
+        Study.setSecretPassage(Kitchen);
+        Conservatory.setSecretPassage(Lounge);
+        Lounge.setSecretPassage(Conservatory);
     }
 
     public void connectEntrySquaresToRooms(){
