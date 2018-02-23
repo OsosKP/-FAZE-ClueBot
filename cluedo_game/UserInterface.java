@@ -46,12 +46,11 @@ public class UserInterface extends JPanel {
     private Tokens playerList;
     private int playerListIndex;
 
-    private  CharacterList[] GUIPlayerList = null;
-    private  ArrayList<String> deletedPlayers = new ArrayList<>();
-    private  ArrayList<String> selectedPlayers = new ArrayList<>();
+    private CharacterList[] GUIPlayerList = null;
+    private ArrayList<String> deletedPlayers = new ArrayList<>();
+    private ArrayList<String> selectedPlayers = new ArrayList<>();
     
     BoardBuilder gameBoard;
-    
     
     JPanel panel;
     private String currentSelection = null;
@@ -93,9 +92,7 @@ public class UserInterface extends JPanel {
             }
             
             CharacterListUITitle titleBar = new CharacterListUITitle();
-            
-            //TODO need to elim the choice from the other arrays if it has already been selected
-            
+
             CharacterListUIButton sumbitButton = new CharacterListUIButton();
             
             display.add(panel, BorderLayout.CENTER);
@@ -265,7 +262,6 @@ public class UserInterface extends JPanel {
                     }
 
                     // If the turn was successful, cycle to next turn
-                    // TODO: Move this to a GameLogic method so all this work isn't done here
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
                         out.updateMoveHistory(result);
                         if(currentPlayer.getInRoom() == null) {
@@ -394,8 +390,6 @@ public class UserInterface extends JPanel {
             input.revalidate();
             input.add(performActionButton, BorderLayout.EAST);
             input.revalidate();
-
-            out.updateAllowedCommandsBasedOnSquare(currentPlayer);
         }
     }
 
@@ -473,7 +467,6 @@ public class UserInterface extends JPanel {
             possibleCommandsList.removeAll();
             possibleCommandsList.invalidate();
 
-
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
             else if (p.getSquareOn() instanceof FloorSquare)
@@ -511,6 +504,9 @@ public class UserInterface extends JPanel {
                 else {
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
+
+                        System.out.println("CHECK:\t" + s);
+
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.yellow);
                         d.setHorizontalAlignment(JLabel.CENTER);
@@ -520,7 +516,8 @@ public class UserInterface extends JPanel {
             } catch (Exception e) {
                 e.getMessage();
             }
-            possibleCommandsList.revalidate();
+
+            possibleCommandsList.repaint();
             allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
         }

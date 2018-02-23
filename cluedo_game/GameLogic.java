@@ -210,9 +210,6 @@ public class GameLogic {
 					if (player.getInRoom().getExits().size() > 1)
 						result = "exitChoice";
 					else {
-						/*
-						Not working - see Token class
-						 */
 						player.exitRoom(0);
 						result = "exit";
 					}
