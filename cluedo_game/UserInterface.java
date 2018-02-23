@@ -27,8 +27,6 @@ public class UserInterface extends JPanel {
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
     private JButton startGameButton;
-    // This will replace inputs panel when user has to choose an exit
-    private JPanel exits;
 
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
@@ -68,9 +66,9 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
 
-//        this.buildGUI();
+        this.buildGUI();
 
-        this.createPlayersGUI();
+//        this.createPlayersGUI();
     }
 
     public void createPlayersGUI() {
@@ -252,7 +250,6 @@ public class UserInterface extends JPanel {
                                  */
                                 switchToExitChoiceButton();
                                 return;
-//                                break;
                             case "exit":
                                 result = (currentPlayer.getName() + " has exited the room.");
                                 break;
@@ -363,7 +360,6 @@ public class UserInterface extends JPanel {
                                 + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                     }
                 }
-                out.updateAllowedCommandsBasedOnSquare(currentPlayer);
             }
         }
 
@@ -386,13 +382,11 @@ public class UserInterface extends JPanel {
             inputField.addActionListener(returnPressListener);
             in.inputField.setText("");
             in.inputField.requestFocus();
-            input.remove(promptLabel);
             promptLabel.setText("     What would you like to do?");
-            input.add(promptLabel, BorderLayout.CENTER);
             input.remove(exitChoiceButton);
-            input.revalidate();
             input.add(performActionButton, BorderLayout.EAST);
             input.revalidate();
+            refreshDisplayForNextTurn(currentPlayer);
         }
     }
 
@@ -468,7 +462,6 @@ public class UserInterface extends JPanel {
             // p == null is for testing (hopefully), won't be in the game
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
-            possibleCommandsList.invalidate();
 
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
@@ -485,6 +478,7 @@ public class UserInterface extends JPanel {
                 if (p == null)
                     throw new Exception("Player not found error");
                 if (p.getInRoom() == null) {
+                    possibleCommandsList.setLayout(new GridLayout(4, 1));
                     // If player is on a square, get the type of square and show their available
                     // commands based on what is available from that square.
                     switch (p.getLocationAsString()) {
@@ -505,11 +499,9 @@ public class UserInterface extends JPanel {
                     }
                 }
                 else {
+                    possibleCommandsList.setLayout(new GridLayout(3, 1));
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
-
-                        System.out.println("CHECK:\t" + s);
-
                         JLabel d = new JLabel(s);
                         d.setForeground(Color.yellow);
                         d.setHorizontalAlignment(JLabel.CENTER);
@@ -530,6 +522,8 @@ public class UserInterface extends JPanel {
             possibleCommandsList.removeAll();
 
             ArrayList<Integer> choices = AcceptedUserInputs.getRoomExits(currentPlayer.getInRoom());
+
+            possibleCommandsList.setLayout(new GridLayout(choices.size(), 1));
 
             for (Integer i : choices) {
                 JLabel d = new JLabel("Exit " + i);
@@ -683,6 +677,7 @@ public class UserInterface extends JPanel {
             this.objNum = i;
             this.setListener();
         }
+        @SuppressWarnings("unchecked")
         public void setListener() {
         	
         	/* Updating the list to be the model -- needs to be a DefaultList Model otherwise we cant update anything */
