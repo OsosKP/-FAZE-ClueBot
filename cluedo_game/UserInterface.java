@@ -469,9 +469,10 @@ public class UserInterface extends JPanel {
         public void updateAllowedCommandsBasedOnSquare(Token p) {
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
-
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
+            possibleCommandsList.invalidate();
+
 
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
@@ -508,7 +509,6 @@ public class UserInterface extends JPanel {
                     }
                 }
                 else {
-                    possibleCommandsList.invalidate();
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JLabel d = new JLabel(s);

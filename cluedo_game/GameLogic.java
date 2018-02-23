@@ -195,9 +195,15 @@ public class GameLogic {
 				Player Movement from Room
 				 */
 				case "passage":
-					player.exitRoomThroughPassage();
-					result = player.getName() + " has taken a secret passage to the "
-							+ player.getInRoom().getName();
+					if(player.getInRoom().getSecretPassage() == null){
+						result = "The " + player.getInRoom().getName() + " does not have a secret passage!";
+						movementSuccessful = false;
+					}
+					else {
+						player.exitRoomThroughPassage();
+						result = player.getName() + " has taken a secret passage to the "
+								+ player.getInRoom().getName();
+					}
 					break;
 				case "exit":
 					// If room has multiple exits, call the dialog to see which one the user wants
