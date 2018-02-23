@@ -283,6 +283,8 @@ public class GameLogic {
 				case "guess":
 				case "g":
 					result = guessPrompt();
+					Dice.setMovesLeft(1);
+					break;
 			}
 			return result;
 		}

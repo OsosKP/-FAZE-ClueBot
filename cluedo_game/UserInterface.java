@@ -91,7 +91,9 @@ public class UserInterface extends JPanel {
     }
 
     public void refreshDisplayForNextTurn(Token p) {
+        // Tell players whose turn it is
         in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn. Moves Left: " + GameLogic.getMovesLeft());
+        // Update what player is allowed to input
         out.updateAllowedCommandsBasedOnSquare(p);
     }
 
@@ -199,24 +201,21 @@ public class UserInterface extends JPanel {
                                 result = (currentPlayer.getName() + " has exited the room.");
                                 break;
                             // If player is making a guess, enter the appropriate menu
-                            case "guess":
-                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
+                            case "Guess Prompt":
+//                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
                                 result = currentPlayer.getName() + " is making a guess.";
                                 break;
                             case "passage":
-        System.out.println("CHECK 1");
                                 break;
                         }
                     }
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
-        System.out.println("CHECK 2");
                         if(result.equals("done")){
                             out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
                         }
                         else {
-        System.out.println("CHECK 3");
                             out.updateMoveHistory(result);
                             if (currentPlayer.getInRoom() == null) {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
@@ -249,10 +248,13 @@ public class UserInterface extends JPanel {
 //                            boardImagePanel.revalidate();
                             }
                             else {
-        System.out.println("CHECK 4");
+                                // Print action and location to system out
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
-                                out.updateMoveHistory(currentPlayer.getName()
+                                // Only update move history with player's room if they aren't making a guess
+                                    // Otherwise it'll say they're in the room multiple times.
+                                if (!result.equals(currentPlayer.getName() + " is making a guess."))
+                                    out.updateMoveHistory(currentPlayer.getName()
                                         + " has entered the " + currentPlayer.getInRoom().getName());
                             }
                         }
@@ -260,7 +262,10 @@ public class UserInterface extends JPanel {
                         // Switch player if the turn is over (or if they had entered 'done'
                         if (GameLogic.getMovesLeft() == 0) {
                             currentPlayer = currentPlayer.next();
-                            out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn.");
+                            // Update move history to show new turn and where the player is.
+                            //      This will be less useful when GUI works
+                            out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn. Location: "
+                                    + currentPlayer.safeGetLocation());
                             // Roll the dice for the next player
                             GameLogic.Dice.rollDice();
                         }

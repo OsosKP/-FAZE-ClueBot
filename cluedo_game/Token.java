@@ -66,6 +66,17 @@ public class Token {
 		return next;
 	}
 
+	/**
+	 * If player's location isn't known, this will either return the room name or the square coordinates.
+	 * @return either room name or square
+	 */
+	public String safeGetLocation(){
+		if (this.inRoom != null)
+			return this.inRoom.getName();
+		else
+			return this.getSquareOn().getPositionAsString();
+	}
+
   	//
 	//Mutators
 	//
