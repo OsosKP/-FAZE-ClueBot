@@ -251,7 +251,6 @@ public class UserInterface extends JPanel {
                         }
 
                         // Switch player if the turn is over (or if they had entered 'done'
-                        // TODO: JOSH uncomment this when dice are working
                         if (GameLogic.getMovesLeft() == 0) {
                             currentPlayer = currentPlayer.next();
                             out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn.");

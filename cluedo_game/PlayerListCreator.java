@@ -334,8 +334,8 @@ public class PlayerListCreator {
             	deletedPlayers.remove(i);
             }
             
-            if (numPlayers < 3) {
-            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 3 players");
+            if (numPlayers < 2) {
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
             	System.exit(0);
             }
             else {
