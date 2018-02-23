@@ -23,7 +23,9 @@ public class PlayerListCreator {
     private  ArrayList<String> selectedPlayers = new ArrayList<>();
     /* JPanel that will hold the createPlayersGUI */
     JPanel panel;
-
+    
+    boolean tooFew = false;
+    
     BoardBuilder gameBoard;
 
     public PlayerListCreator() {
@@ -58,9 +60,18 @@ public class PlayerListCreator {
         display.add(submitButton, BorderLayout.SOUTH);
         display.setVisible(true);
     }
+    
+    public void  forceReset() {
+    	PlayerListCreator temp = new PlayerListCreator();
+    }
 
-    public Tokens getPlayerList(){
-        return this.playerList;
+    public Tokens getPlayerList(){ 
+    	return this.playerList;
+    }
+    
+    public boolean runGame() {
+    	System.out.println("I am getting here?");
+    	return tooFew;
     }
 
     /* Inner classes that will be useful later */
@@ -247,13 +258,15 @@ public class PlayerListCreator {
             Token peacock = null;
             Token plum = null;
             Token scarlet = null;
-
+            
+            int numPlayersCreated = 0;
+            
             for (int i = 0; i < 6; i++) {
                 String[] returnArray = GUIPlayerList[i].getValue();
 
                 /* If the user wants to actually play, the above token objects get populated */
                 if (!(returnArray[1].equals("Not Playing"))){
-
+                	numPlayersCreated++;
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
                             mustard = new Token(17, 0, "Mustard", numPlayers++);
@@ -308,10 +321,19 @@ public class PlayerListCreator {
             for (i = 0; i < deletedPlayers.size(); i++) {
             	deletedPlayers.remove(i);
             }
-            /*
-            Once players have been entered, tell GameLogic to continue
-             */
-            GameLogic.createBoardAndUI();
+            
+            if (numPlayers < 3) {
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at LEAST 3 players");
+            	System.exit(0);
+            }
+            else {
+            	/*
+            	Once players have been entered, tell GameLogic to continue
+            	 */
+            	playerList.printList();
+            	GameLogic.createBoardAndUI();           	
+            }
+
         }
     }
 }

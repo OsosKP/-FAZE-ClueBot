@@ -130,6 +130,22 @@ public class Tokens implements Iterable<Token> {
     public void advanceTurn(Token t){
         t = t.next();
     }
+    /* prints only one iteration of the list -- used for testing  */
+    public void printList(){
+    	System.out.println("\n\n----Printing ONE iteration of the Linked List of Players----");
+    	Token printMe = this.first;
+    	boolean run = true;
+    	
+    	while (run) {
+    		System.out.print("| " + printMe.getName() + " |");
+    		printMe = printMe.next();
+    		if (printMe == last.next()) {
+    			run = false;
+    		}
+    	}
+    	System.out.print("\n\n");
+    }
+    
 
     /*
     Traversal method
@@ -138,29 +154,29 @@ public class Tokens implements Iterable<Token> {
         return t.next();
     }
 
-    public Iterator<Token> iterator() {
-        return new Iterator<>() {
-            private Token current;
-
-            @Override
-            public boolean hasNext() {
-                return !(isEmpty())
-                        || (current == null)
-                        || !(current == last);
-            }
-
-            @Override
-            public Token next() {
-                if (current == null)
-                    current = first;
-                else
-                    current = Tokens.this.next(current);
-                return current;
-            }
-        };
-
-
-    }
+//    public Iterator<Token> iterator() {
+//        return new Iterator<>() {
+//            private Token current;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return !(isEmpty())
+//                        || (current == null)
+//                        || !(current == last);
+//            }
+//
+//            @Override
+//            public Token next() {
+//                if (current == null)
+//                    current = first;
+//                else
+//                    current = Tokens.this.next(current);
+//                return current;
+//            }
+//        };
+//
+//
+//    }
 
 //    }
 

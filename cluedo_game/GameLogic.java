@@ -27,8 +27,12 @@ public class GameLogic {
 //		ui = new UserInterface(currentBoard);
 
 		AcceptedUserInputs.setAcceptedUserInputs();
+		System.out.println("am I getting here");
 		PlayerListCreator playersCreator = new PlayerListCreator();
-		playerList = playersCreator.getPlayerList();
+
+		playerList = playersCreator.getPlayerList();	
+		
+	
 //		currentBoard = new BoardBuilder(playerList);
 //		ui = new UserInterface(playerList);
 	}
@@ -48,7 +52,7 @@ public class GameLogic {
 	 */
 	public static void createBoardAndUI(){
 		currentBoard = new BoardBuilder(playerList);
-		ui = new UserInterface(playerList);
+		ui = new UserInterface(playerList);		
 	}
 
 	public static class PlayerEntry {
