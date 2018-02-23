@@ -68,4 +68,16 @@ public class Room {
 	public void setWeaponInRoom(Weapon weaponInRoom) {this.weaponInRoom = weaponInRoom;}
 	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
 	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
+
+	public void addPlayerToRoom(Token p){
+		this.playersInRoom.add(p);
+	}
+	public void removePlayerFromRoom(Token p){
+		if (playersInRoom.contains(p))
+			this.playersInRoom.remove(p);
+		else
+			System.err.println("Player was not located in this room. Error?");
+	}
+
+
 }
