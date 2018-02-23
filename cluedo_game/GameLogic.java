@@ -27,12 +27,16 @@ public class GameLogic {
 //		ui = new UserInterface(currentBoard);
 
 		AcceptedUserInputs.setAcceptedUserInputs();
-		System.out.println("am I getting here");
 		PlayerListCreator playersCreator = new PlayerListCreator();
 
-		playerList = playersCreator.getPlayerList();	
-		
-	
+		playerList = playersCreator.getPlayerList();
+
+		/*
+		Keeping this for future debugging if I want to skip player entry
+		 */
+//		AcceptedUserInputs.setAcceptedUserInputs();
+//		playerList = new Tokens();
+//		playerList.setDefaultPlayerList();
 //		currentBoard = new BoardBuilder(playerList);
 //		ui = new UserInterface(playerList);
 	}
@@ -123,7 +127,12 @@ public class GameLogic {
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("done")){
 				Dice.setMovesLeft(0);
 				result = "done";
+				movementSuccessful = true;
 				return result;
+			}
+
+			if (entry.replaceAll("\\s+","").toLowerCase().equals("quit")) {
+				return quitGameHandler();
 			}
 
 			switch (player.getLocationAsString()) {
@@ -138,6 +147,7 @@ public class GameLogic {
 					result = "Solving";
 					break;
 			}
+			// If move was successful, subtract one more from dice roll
 			if (PlayerEntry.wasTurnSuccessful())
 				Dice.decrementMovesLeft();
 			return result;
@@ -298,6 +308,19 @@ public class GameLogic {
 			// This is just a placeholder for a later sprint
 			return "Guess Prompt";
 		}
+
+		public static String quitGameHandler() {
+			int result = JOptionPane.showConfirmDialog(null, "Are you sure you would like to quit?", "Cluedo",
+					JOptionPane.YES_NO_OPTION);
+			if (result == 0)
+				System.exit(1);
+
+			return "Game Will Continue";
+		}
+
+
+
+
 	}
 
 	/**
@@ -308,11 +331,10 @@ public class GameLogic {
 		private static int movesLeft;
 		private static int initialNumberOfMoves;
 
-		public static int rollDice(){
+		public static void rollDice(){
 			movesLeft = rand.nextInt(6)+1 + rand.nextInt(6)+1;
 			// Use this to check if player has moved
 			initialNumberOfMoves = movesLeft;
-			return movesLeft;
 		}
 
 		public static void decrementMovesLeft(){

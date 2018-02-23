@@ -93,8 +93,9 @@ public class AcceptedUserInputs {
 
         boolean result = false;
 
-        if (in.equals("done"))
-            result = true;
+        // No shortcuts on these - you have to enter the full word
+        if (in.equals("done") || in.equals("quit"))
+            return true;
 
         switch(p.getLocationAsString()){
             case "floor":

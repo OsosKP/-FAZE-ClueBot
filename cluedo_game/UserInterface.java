@@ -46,13 +46,8 @@ public class UserInterface extends JPanel {
      */
     public UserInterface(Tokens playerList) {
         /* This is going to happen AFTER the start game button is pressed */
-        // TODO: BoardBuilder.getPlayerList() is redundant now that we're using a LL
         this.playerList = playerList;
         this.currentPlayer = playerList.getFirst();
-
-        for (int i=0; i<playerList.getNumberOfPlayers(); i++)
-            System.out.println(playerList.getPlayerByIndex(i).getName());
-
         this.buildGUI();
     }
 
@@ -96,7 +91,7 @@ public class UserInterface extends JPanel {
     }
 
     public void refreshDisplayForNextTurn(Token p) {
-        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn.");
+        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn. Moves Left: " + GameLogic.getMovesLeft());
         out.updateAllowedCommandsBasedOnSquare(p);
     }
 
@@ -137,10 +132,6 @@ public class UserInterface extends JPanel {
             return input;
         }
 
-        public void updateInputDisplayPanel(Token p) {
-            whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
-        }
-
         /**
          * A button that must be pressed to start the game
          *
@@ -156,10 +147,12 @@ public class UserInterface extends JPanel {
 
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
+                GameLogic.Dice.rollDice();
                 input.remove(startGameButton);
                 performActionButton = createPerformActionButton();
                 input.add(performActionButton, BorderLayout.EAST);
-                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
+                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn. Moves Left: "
+                        + GameLogic.getMovesLeft());
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
                 input.revalidate();
@@ -215,10 +208,14 @@ public class UserInterface extends JPanel {
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
-                        out.updateMoveHistory(result);
-                        if(currentPlayer.getInRoom() == null) {
-                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                    + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                        if(result.equals("done")){
+                            out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
+                        }
+                        else {
+                            out.updateMoveHistory(result);
+                            if (currentPlayer.getInRoom() == null) {
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                        + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
 //                          /*
 //                          TODO: This was my idea for movement on the board image, and it doesn't work
@@ -245,18 +242,22 @@ public class UserInterface extends JPanel {
 //                            // TODO: Josh plz fix below
 //                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
 //                            boardImagePanel.revalidate();
+                            } else {
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                        + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
+                                out.updateMoveHistory(currentPlayer.getName()
+                                        + " has entered the " + currentPlayer.getInRoom().getName());
+                            }
                         }
-                        else {
-                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                    + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
-                            out.updateMoveHistory(currentPlayer.getName()
-                                    + " has entered the " + currentPlayer.getInRoom().getName());
-                        }
-
 
                         // Switch player if the turn is over (or if they had entered 'done'
-                        if (GameLogic.getMovesLeft() == 0)
+                        // TODO: JOSH uncomment this when dice are working
+                        if (GameLogic.getMovesLeft() == 0) {
                             currentPlayer = currentPlayer.next();
+                            out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn.");
+                            // Roll the dice for the next player
+                            GameLogic.Dice.rollDice();
+                        }
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -592,18 +593,3 @@ public class UserInterface extends JPanel {
         return ImageIO.read(imageUrl);
     }
 }
-
-
-   
-
-
-
-    
-    
-    
-  
-    
- 
-
-    
-

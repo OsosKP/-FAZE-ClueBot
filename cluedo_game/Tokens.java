@@ -7,7 +7,7 @@ import java.util.Iterator;
  * We will need to add players to the end and pull from the front (as with a queue)
  * We don't need addFirst, insertAfter, insertBefore, or other things like that
  */
-public class Tokens implements Iterable<Token> {
+public class Tokens {
     private Token first;
     private Token last;
     private int numberOfPlayers;
@@ -130,6 +130,8 @@ public class Tokens implements Iterable<Token> {
     public void advanceTurn(Token t){
         t = t.next();
     }
+
+
     /* prints only one iteration of the list -- used for testing  */
     public void printList(){
     	System.out.println("\n\n----Printing ONE iteration of the Linked List of Players----");
