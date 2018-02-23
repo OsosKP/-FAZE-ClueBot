@@ -110,7 +110,7 @@ public class PlayerListCreator {
                     /* the ListSelectionListener calls itself multiple times for each list that was selected -- this is to make sure that we dont have duplicate values in the selectedPlayers */
                     for (int i = 0; i < selectedPlayers.size()-1; i++) {
                         /* Selected Players holds the value of the player that we selected -- ListSelectionListener has a nasty habit of re-setting it to NULL */
-                        if (selectedPlayers.get(i).equals(selectedPlayers.get(i+1))) {
+                        if ((selectedPlayers.get(i).equals(selectedPlayers.get(i+1)) && (!(selectedPlayers.get(i).equals("Not Playing"))))  ) {
                             selectedPlayers.remove(i+1);
                         }
                     }
@@ -128,64 +128,60 @@ public class PlayerListCreator {
                         return; //we don't want the rest of the method to run, because we have our value
                     }
 
-                    /* If the user actually wants to play */
-                    if (!(willThisWork.equals("Not Playing"))) {
+                    /* Looping through the GUIPlayer array -- need to do this so all the jLists get updated */
+                    for (int i = 0; i < 6; i++) {
+                        /* If the obj in playerList is  not the current one and is not one of the options that we can pick multiple of */
+                    	if (GUIPlayerList[i].objNum != objNum && (!(willThisWork.equals("Not Playing")))) {
 
-                        /* Looping through the GUIPlayer array -- need to do this so all the jLists get updated */
-                        for (int i = 0; i < 6; i++) {
-                            /* If the obj in playerList is  not the current one */
-                            if (GUIPlayerList[i].objNum != objNum) {
+                        /* Grabbing the current characterList */
+                    		String[] tempItems = GUIPlayerList[i].items;
 
-                                /* Grabbing the current characterList */
-                                String[] tempItems = GUIPlayerList[i].items;
+                            /* We are using this to create an array of the character that we want -- ie the character names EXCEPT the one currently selected  */
+                            ArrayList<String> tempArray = new ArrayList<String>();
 
-                                /* We are using this to create an array of the character that we want -- ie the character names EXCEPT the one currently selected  */
-                                ArrayList<String> tempArray = new ArrayList<String>();
-
-                                /* Looping though the tempItems and copying the values over */
-                                for (int tempIndex  = 0; tempIndex < tempItems.length; tempIndex++) {
-                                    if (!willThisWork.equals(tempItems[tempIndex])) {
-                                        tempArray.add(tempItems[tempIndex]);
-                                    }
-                                    else { //adding the deleted players to an arrayList deleted players -- will be useful in future versions
-                                        deletedPlayers.add(tempItems[tempIndex]);
-                                    }
+                            /* Looping though the tempItems and copying the values over */
+                            for (int tempIndex  = 0; tempIndex < tempItems.length; tempIndex++) {
+                            	if (!willThisWork.equals(tempItems[tempIndex])) {
+                            		tempArray.add(tempItems[tempIndex]);
                                 }
-
-                                /* This array will be composed of the elements we actually want form the ArrayList */
-                                String[] newList = new String[tempArray.size()];
-
-                                /* Moving the elements from the ArrayList to the array */
-                                for (int gc = 0; gc < newList.length; gc++) {
-                                    newList[gc] = tempArray.get(gc);
+                                else { //adding the deleted players to an arrayList deleted players -- will be useful in future versions
+                                	deletedPlayers.add(tempItems[tempIndex]);
                                 }
+                             }
 
-                                /* Updating the values in the obj's items array (the reason why we needed newList in the firstPlace) */
-                                GUIPlayerList[i].items = newList;
+                             /* This array will be composed of the elements we actually want form the ArrayList */
+                             String[] newList = new String[tempArray.size()];
 
-                                /* Removing all the elements form this obj's list -- will re-fill with updates values later */
-                                GUIPlayerList[i].model.removeAllElements();
+                             /* Moving the elements from the ArrayList to the array */
+                             for (int gc = 0; gc < newList.length; gc++) {
+                            	 newList[gc] = tempArray.get(gc);
+                             }
 
-                                /* Updating the obj's item values with the correct number of character names */
-                                for (int index = 0; index < newList.length; index++) {
-                                    GUIPlayerList[i].model.add(index, GUIPlayerList[i].items[index]);
-                                }
-                                //TODO: maybe in the future just remove these elements form the panel, instead
-                                /* Removing the elements form the prior JLists, otherwise they will re-apear */
-                                for (int GUILoop = 0; GUILoop < objNum; GUILoop++) {
-                                    GUIPlayerList[GUILoop].model.removeAllElements();
-                                }
+                             /* Updating the values in the obj's items array (the reason why we needed newList in the firstPlace) */
+                             GUIPlayerList[i].items = newList;
+
+                             /* Removing all the elements form this obj's list -- will re-fill with updates values later */
+                             GUIPlayerList[i].model.removeAllElements();
+
+                             /* Updating the obj's item values with the correct number of character names */
+                             for (int index = 0; index < newList.length; index++) {
+                            	 GUIPlayerList[i].model.add(index, GUIPlayerList[i].items[index]);
+                             }
+                             //TODO: maybe in the future just remove these elements form the panel, instead
+                             /* Removing the elements form the prior JLists, otherwise they will re-apear */
+                             for (int GUILoop = 0; GUILoop < objNum; GUILoop++) {
+                            	 GUIPlayerList[GUILoop].model.removeAllElements();
+                             }
 
                             }
-                            else { // if this is the current JList
-                                /* removing the JList elements from the current obj (since the user already chose that they wanted) */
-                                model.removeAllElements();
-                            }
+                         else { // if this is the current JList
+                        	 /* removing the JList elements from the current obj (since the user already chose that they wanted) */
+                             model.removeAllElements();
+                         }
+                      }
+                   }
 
-                        }
-                    }
-
-                }
+                
             });
             /* setting the JList and txt box to their initial values */
             System.out.println("\n\n");
