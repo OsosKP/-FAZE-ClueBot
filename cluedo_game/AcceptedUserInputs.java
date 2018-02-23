@@ -26,6 +26,7 @@ public class AcceptedUserInputs {
         floorNavigation.add("down");
         floorNavigation.add("left");
         floorNavigation.add("right");
+
         /*
         When having just entered a room, the user may leave, take the secret passage or exit.
         If guessing, that's a different list of commands and is handled differently.
