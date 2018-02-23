@@ -88,18 +88,21 @@ public class AcceptedUserInputs {
      * @return Boolean designating whether the command was found in the associated list of valid commands
      */
     public static boolean checkForValidEntry(Token p, String in){
+        // Change input to lower case and erase whitespaces to check against allowed entries
+        in = in.replaceAll("\\s+","").toLowerCase();
+
         boolean result = false;
         switch(p.getLocationAsString()){
             case "floor":
                 for (String s : floorNavigation) {
-                    if (s.equals(in))
+                    if (s.equals(in) || s.startsWith(in))
                         // If command was valid, move the player
                         result = true;
                 }
                 break;
             case "room":
                 for (String s : roomNavigation){
-                    if (s.equals(in))
+                    if (s.equals(in) || s.startsWith(in))
                         result = true;
                 }
                 break;

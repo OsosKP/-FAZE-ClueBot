@@ -136,7 +136,8 @@ public class GameLogic {
 		public static String FloorMovementHandler(Token player, String move) {
 			BoardSquare square = player.getSquareOn();
 			String moveResult = "That move is not allowed.";
-			switch (move) {
+			// Check user input in lower case and without whitespaces
+			switch (move.replaceAll("\\s+","").toLowerCase()) {
 				/*
 				Player Movement from Floor Square
                 Checks:
@@ -145,31 +146,35 @@ public class GameLogic {
                 There is no player on the above/below/left/right square
                  */
 				case "up":
+				case "u":
 					if ((square.getAbove() instanceof FloorSquare || square.getAbove() instanceof EntrySquare)
 							&& !(square.getAbove().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getAbove(), square);
 					}
 					break;
 				case "down":
+				case "d":
 					if ((square.getBelow() instanceof FloorSquare || square.getBelow() instanceof EntrySquare)
 							&& !(square.getBelow().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getBelow(), square);
 					}
 					break;
 				case "left":
+				case "l":
 					if ((square.getLeft() instanceof FloorSquare || square.getLeft() instanceof EntrySquare)
 							&& !(square.getLeft().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getLeft(), square);
 					}
 					break;
 				case "right":
+				case "r":
 					if ((square.getRight() instanceof FloorSquare || square.getRight() instanceof EntrySquare)
 							&& !(square.getRight().isPlayerOn())) {
 						moveResult =  movePlayerToSquare(player, move, square.getRight(), square);
 					}
 					break;
 				default:
-					moveResult = "Default Switch";
+					moveResult = "Default Switch in GameLogic";
 					break;
 			}
 			return moveResult;
@@ -190,11 +195,13 @@ public class GameLogic {
 			String result = "";
 			// Any move is possible from a room
 			movementSuccessful = true;
-			switch (command) {
+			// Check command without spaces and in lower case
+			switch (command.replaceAll("\\s+","").toLowerCase()) {
 				/*
 				Player Movement from Room
 				 */
 				case "passage":
+				case "p":
 					if(player.getInRoom().getSecretPassage() == null){
 						result = "The " + player.getInRoom().getName() + " does not have a secret passage!";
 						movementSuccessful = false;
@@ -206,6 +213,7 @@ public class GameLogic {
 					}
 					break;
 				case "exit":
+				case "e":
 					// If room has multiple exits, call the dialog to see which one the user wants
 					if (player.getInRoom().getExits().size() > 1)
 						result = "exitChoice";
@@ -218,6 +226,7 @@ public class GameLogic {
 				Player is in the room and wants to make a guess
 				 */
 				case "guess":
+				case "g":
 					result = guessPrompt();
 			}
 			return result;

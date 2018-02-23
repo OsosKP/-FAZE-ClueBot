@@ -346,7 +346,7 @@ public class UserInterface extends JPanel {
                 try {
                     choice = Integer.valueOf(inputField.getText());
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter an integer value!");
+                    JOptionPane.showMessageDialog(null, "Please enter only an integer value");
                 }
                 // Call method in GameLogic to see if entry was valid for the number of exits
                 GameLogic.PlayerEntry.checkRoomExit(currentPlayer, choice);
