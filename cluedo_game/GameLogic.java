@@ -258,12 +258,13 @@ public class GameLogic {
 					if (!isThisTheFirstMove()) {
 						result = "You have already moved this turn!";
 						movementSuccessful = false;
-					} else {
+					}
+					else {
 						player.exitRoomThroughPassage();
 						result = player.getName() + " has taken a secret passage to the "
 								+ player.getInRoom().getName();
 						// Player cannot move after taking a secret passage
-						Dice.setMovesLeft(0);
+						Dice.setMovesLeft(1);
 					}
 					break;
 				case "exit":

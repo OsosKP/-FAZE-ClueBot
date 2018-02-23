@@ -203,15 +203,20 @@ public class UserInterface extends JPanel {
                                 JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
                                 result = currentPlayer.getName() + " is making a guess.";
                                 break;
+                            case "passage":
+        System.out.println("CHECK 1");
+                                break;
                         }
                     }
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
+        System.out.println("CHECK 2");
                         if(result.equals("done")){
                             out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
                         }
                         else {
+        System.out.println("CHECK 3");
                             out.updateMoveHistory(result);
                             if (currentPlayer.getInRoom() == null) {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
@@ -242,7 +247,9 @@ public class UserInterface extends JPanel {
 //                            // TODO: Josh plz fix below
 //                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
 //                            boardImagePanel.revalidate();
-                            } else {
+                            }
+                            else {
+        System.out.println("CHECK 4");
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
                                 out.updateMoveHistory(currentPlayer.getName()
