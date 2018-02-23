@@ -88,7 +88,7 @@ public class UserInterface extends JPanel {
             display.add(finishedWithEntry);
             
             for (int i = 0; i < 6; i++) { //looping 
-            	GUIPlayerList[i] = new CharacterList(i);
+            	this.GUIPlayerList[i] = new CharacterList(i);
             	panel.add(GUIPlayerList[i]);
             }
             
@@ -667,6 +667,7 @@ public class UserInterface extends JPanel {
         String willThisWork;
         public int objNum;
         JList list;
+    	DefaultListModel model = new DefaultListModel();
 
          
         public CharacterList(int i) {            	
@@ -675,16 +676,42 @@ public class UserInterface extends JPanel {
             this.setListener();
         }
         public void setListener() {
-        	list = new JList(items);
         	
+        	/* Updating the list to be the model */
+        	list = new JList(model);
+
+        	for (int i = 0; i < items.length; i++) {
+        		model.add(i, items[i]);
+        	}
+        	        	
         	//TODO: need to make the jFrame show up
         	//TODO: need to do the backend for checking 
-        	
+        	//TODO: need to look into making this into a seperate listener?
         	list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
-                    selectedPlayers.add(willThisWork);
                     
+                    for (int i = 0; i < selectedPlayers.size()-1; i++) {
+                    		if (selectedPlayers.get(i).equals(selectedPlayers.get(i+1))) {
+                    			selectedPlayers.remove(i+1);
+                    		}
+                    	}
+                    
+                    
+                    if (willThisWork != null) {
+                    	selectedPlayers.add(willThisWork);
+                    	System.err.println("this WORKS for panel #: " + objNum);
+                    	value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
+                    	add(value, BorderLayout.EAST);
+                    }
+                    else {
+                    	willThisWork = selectedPlayers.get(objNum);
+                    	value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
+                    	add(value, BorderLayout.EAST);
+
+                    	return;
+                    }
+                     
                     /* If the player actually selected a character, we need to remove it from the other lists */
                     // if we select a player, it needs to be removed. BUT if we change our mind, the player needs to come back to the menu
                     System.out.println("this is what we got: " + willThisWork);
@@ -724,30 +751,28 @@ public class UserInterface extends JPanel {
                     			/* Updating the items String list */
                     			GUIPlayerList[i].items = newList;
                     			
-                    			currentSelection = willThisWork;
-                    			
-			
-                    			System.out.println("\n\n");
+                    			GUIPlayerList[i].model.removeAllElements();
+                    		
                     			for (int index = 0; index < newList.length; index++) {
-                    				System.out.println(index);	
-                    				System.out.println(GUIPlayerList[i].items[index]);
+                    				GUIPlayerList[i].model.add(index, GUIPlayerList[i].items[index]);
+                    			}                   				
+	
+                    			for (int GUILoop = 0; GUILoop < objNum; GUILoop++) {
+                    				GUIPlayerList[GUILoop].model.removeAllElements();
                     			}
-                    			//TODO: somehow update the .items
                     			
+                    		}
+                    		else {
+                    			model.removeAllElements();
                     		}
                 			                   
                     	}
                     }          
                 
-                                    	for (int i = 0; i < GUIPlayerList.length; i++) {
-                    			GUIPlayerList[i].list = new JList(GUIPlayerList[i].items);
-                    			GUIPlayerList[i].list.addListSelectionListener(this); 
-                    	}
-                }     		 
+                }
             });
         	System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
-
             value = new JTextField("", 20);
             add(value, BorderLayout.EAST);
         }
@@ -761,7 +786,7 @@ public class UserInterface extends JPanel {
             return valueArray;
         }
     }
-        
+         
     class CharacterListUITitle extends JPanel { //going to hold the UI 
     	JLabel myLabel = new JLabel("[Left] Select Character and Type Username [Right]");
     	
