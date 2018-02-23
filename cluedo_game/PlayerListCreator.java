@@ -300,6 +300,18 @@ public class PlayerListCreator {
             /* Removing all the JPanels and closing the JFrame */
             display.setVisible(false);
             display.getContentPane().removeAll();
+
+            /* To conserve on memory, we are going to reset all the items in the arrayLits/arrays (since we arnt going to need them anymore */
+            int i;
+            for (i = 0; i < GUIPlayerList.length; i++) {
+            	GUIPlayerList[i] = null;
+            }
+            for (i = 0; i < selectedPlayers.size(); i++) {
+            	selectedPlayers.remove(i);
+            }
+            for (i = 0; i < deletedPlayers.size(); i++) {
+            	deletedPlayers.remove(i);
+            }
             /*
             Once players have been entered, tell GameLogic to continue
              */
