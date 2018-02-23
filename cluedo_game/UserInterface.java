@@ -65,9 +65,9 @@ public class UserInterface extends JPanel {
         this.playerList = board.getPlayerList();
         this.currentPlayer = playerList.getFirst();
 
-        this.buildGUI();
+       // this.buildGUI();
        
-//        this.createPlayersGUI();
+        this.createPlayersGUI();
     }
 
     public boolean createPlayersGUI() {
@@ -685,16 +685,13 @@ public class UserInterface extends JPanel {
         }
         public void setListener() {
         	
-        	/* Updating the list to be the model */
+        	/* Updating the list to be the model -- needs to be a DefaultList Model otherwise we cant */
         	list = new JList(model);
 
         	for (int i = 0; i < items.length; i++) {
         		model.add(i, items[i]);
         	}
         	        	
-        	//TODO: need to make the jFrame show up
-        	//TODO: need to do the backend for checking 
-        	//TODO: need to look into making this into a seperate listener?
         	list.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent lse) {
                     willThisWork = ((String) list.getSelectedValue());
@@ -796,7 +793,7 @@ public class UserInterface extends JPanel {
     }
          
     class CharacterListUITitle extends JPanel { //going to hold the UI 
-    	JLabel myLabel = new JLabel("[Left] Select Character and Type Username [Right]");
+    	JLabel myLabel = new JLabel("[Left] Select Character");
     	
     	@Override
     		public void setLayout(LayoutManager mgr) {
