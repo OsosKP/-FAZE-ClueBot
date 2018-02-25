@@ -29,7 +29,16 @@ public class BoardImage {
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
-	int myVar = 24;	
+	//This is super janky and will fix later
+	private int[] whiteindex = {0,9};
+	private int[] greenindex = {0,14};
+	private int[] peacockindex = {6,23};
+	private int[] mustardindex = {17,0};
+	private int[] plumindex = {19,23};
+	private int[] scarletindex = {24,7};
+
+
+	int myVar = 24;
 
 
 	/**
@@ -157,7 +166,7 @@ public class BoardImage {
                 g.dispose();
                 button.setPressedIcon(new ImageIcon(iconPressed));
 
-                button.setActionCommand(""+count);
+                button.setActionCommand(""+xIndex+","+yIndex);
                 button.addActionListener(new ActionListener(){
 
                 /* What happens when we press the button? */
@@ -215,15 +224,124 @@ public class BoardImage {
 		return returnMe;
 	}
 
+	public JPanel move(String direction, String player){
+
+		System.out.println("Moving " + player + " " + direction);
+
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
+		int startx=0, starty=0, endx=0, endy=0;
+		int[] modifyer = {0,0};
+
+		switch (direction) {
+			case "up":
+				modifyer[0]=-1;
+				modifyer[1]=0;
+				break;
+			case "down":
+				modifyer[0]=1;
+				modifyer[1]=0;
+				break;
+			case "left":
+				modifyer[0]=0;
+				modifyer[1]=-1;
+				break;
+			case "right":
+				modifyer[0]=0;
+				modifyer[1]=-1;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
+
+
+		switch (player) {
+			case "White":
+				startx=whiteindex[0];
+				starty=whiteindex[1];
+				whiteindex[0]+=modifyer[0];
+				whiteindex[1]+=modifyer[1];
+				endx=whiteindex[0];
+				endy=whiteindex[1];
+				break;
+			case "Green":
+				startx=greenindex[0];
+				starty=greenindex[1];
+				greenindex[0]+=modifyer[0];
+				greenindex[1]+=modifyer[1];
+				endx=greenindex[0];
+				endy=greenindex[1];
+				break;
+			case "Peacock":
+				startx=peacockindex[0];
+				starty=peacockindex[1];
+				peacockindex[0]+=modifyer[0];
+				peacockindex[1]+=modifyer[1];
+				endx=peacockindex[0];
+				endy=peacockindex[1];
+				break;
+			case "Mustard":
+				startx=mustardindex[0];
+				starty=mustardindex[1];
+				mustardindex[0]+=modifyer[0];
+				mustardindex[1]+=modifyer[1];
+				endx=mustardindex[0];
+				endy=mustardindex[1];
+				break;
+			case "Plum":
+				startx=plumindex[0];
+				starty=plumindex[1];
+				plumindex[0]+=modifyer[0];
+				plumindex[1]+=modifyer[1];
+				endx=plumindex[0];
+				endy=plumindex[1];
+				break;
+			case "Scarlet":
+				startx=scarletindex[0];
+				starty=scarletindex[1];
+				scarletindex[0]+=modifyer[0];
+				scarletindex[1]+=modifyer[1];
+				endx=scarletindex[0];
+				endy=scarletindex[1];
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
+
+		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifyer[0] + "," + modifyer[1] + "] = [" + endx + "," + endy + "]");
+		
+		/* Assigning the colour of the new JButton */
+
+		this.editedBoard[endx][endy] = this.editedBoard[startx][starty];
+
+		/* Returning the old JButton to its original colour */
+		this.editedBoard[startx][starty] = this.defaultBoard[starty][startx];
+
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				JButton temp = this.editedBoard[rows][cols];
+				temp.setBorder(null);
+				newPanel.add(temp);
+			}
+		}
+		returnMe.add(newPanel);
+
+		return returnMe;
+
+	}
+
 	public JPanel move(int init[], int fin[]) {
 		/* Creating new JPanel -- set = to an empty layout */
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[fin[0]][fin[1]] = this.editedBoard[init[0]][init[1]];
+		this.editedBoard[fin[1]][fin[0]] = this.editedBoard[init[1]][init[0]];
 
 		/* Returning the old JButton to its original colour */
-		this.editedBoard[init[0]][init[1]] = this.defaultBoard[init[0]][init[1]];
+		this.editedBoard[init[1]][init[0]] = this.defaultBoard[init[1]][init[0]];
 
 		/* Need to recreate the JPanel based on the new */
 		for (int rows = 0; rows < 25; rows++) {

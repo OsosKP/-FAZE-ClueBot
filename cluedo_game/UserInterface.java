@@ -224,28 +224,41 @@ public class UserInterface extends JPanel {
 //                          /*
 //                          TODO: This was my idea for movement on the board image, and it doesn't work
 //                         */
-//                            int[] destinationCoordinates;
-//                            switch (inputField.getText()) {
-//                                case "up":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-//                                    break;
-//                                case "down":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-//                                    break;
-//                                case "left":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-//                                    break;
-//                                case "right":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-//                                    break;
-//                                default:
-//                                    destinationCoordinates = new int[2];
-//                                    System.out.println("ERROR");
-//                                    break;
-//                            }
-//                            // TODO: Josh plz fix below
-//                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
-//                            boardImagePanel.revalidate();
+                           int[] destinationCoordinates;
+                           JPanel panelAfterPlayerMove = null;
+                           switch (inputField.getText()) {
+                               case "up":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+                                   panelAfterPlayerMove = movePlayerAndUpdate("up", currentPlayer.getName());
+                                   break;
+                               case "down":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                   panelAfterPlayerMove = movePlayerAndUpdate("down", currentPlayer.getName());
+                                   break;
+                               case "left":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                   panelAfterPlayerMove = movePlayerAndUpdate("left", currentPlayer.getName());
+                                   break;
+                               case "right":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                   panelAfterPlayerMove = movePlayerAndUpdate("right", currentPlayer.getName());
+                                   break;
+                               default:
+                                   destinationCoordinates = new int[2];
+                                   System.out.println("ERROR");
+                                   break;
+                           }
+                           // TODO: Josh plz fix below
+
+                          // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
+                        //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
+                           //boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+                           userDisplay.add(panelAfterPlayerMove);
+                           userDisplay.remove(boardImagePanel);
+                           display.invalidate();
+                           display.validate();
+                           display.repaint();
+                        //    boardImagePanel.revalidate();
                             }
                             else {
                                 // Print action and location to system out
@@ -573,7 +586,7 @@ public class UserInterface extends JPanel {
         return tempPanel;
     }
 
-    public JPanel movePlayerAndUpdate(int[] from, int[] to) {
+    public JPanel movePlayerAndUpdate(String direction, String name) {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
@@ -588,7 +601,7 @@ public class UserInterface extends JPanel {
 
         JPanel tempPanel = boardimage.returnPanel(bi);
 
-        tempPanel = boardimage.move(from, to);
+        tempPanel = boardimage.move(direction, name);
         return tempPanel;
     }
 
