@@ -311,13 +311,13 @@ public class BoardImage {
 		}
 
 		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifyer[0] + "," + modifyer[1] + "] = [" + endx + "," + endy + "]");
-		
+
 		/* Assigning the colour of the new JButton */
 
 		this.editedBoard[endx][endy] = this.editedBoard[startx][starty];
 
 		/* Returning the old JButton to its original colour */
-		this.editedBoard[startx][starty] = this.defaultBoard[starty][startx];
+		this.editedBoard[startx][starty] = this.defaultBoard[startx][starty];
 
 		for (int rows = 0; rows < 25; rows++) {
 			for (int cols = 0; cols < 24; cols++) {
