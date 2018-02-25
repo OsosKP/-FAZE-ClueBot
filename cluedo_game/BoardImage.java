@@ -37,7 +37,6 @@ public class BoardImage {
 	static int[] plumindex = {19,23};
 	static int[] scarletindex = {24,7};
 
-
 	int myVar = 24;
 
 
@@ -250,6 +249,8 @@ public class BoardImage {
 				modifyer[0]=0;
 				modifyer[1]=1;
 				break;
+//			case "kitchen":
+
 			default:
 				System.out.println("ERROR");
 				break;
@@ -331,6 +332,12 @@ public class BoardImage {
 
 		return returnMe;
 
+	}
+
+	public int[] calculateModifier(int[] destinationSquare, int[] playerindex){
+		BoardBuilder roomsReference = new BoardBuilder(new Tokens());//I know this sucks but it works
+		int[] modifyer = {playerindex[0]-destinationSquare[0], playerindex[1]-playerindex[1]};
+		return modifyer;
 	}
 
 	public JPanel move(int init[], int fin[]) {

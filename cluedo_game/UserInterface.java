@@ -229,19 +229,23 @@ public class UserInterface extends JPanel {
                           userDisplay.remove(boardImagePanel);
                            switch (inputField.getText()) {
                                case "up":
+                               case "u":
                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
 
                                    boardImagePanel = myImg.move("up", currentPlayer.getName());
                                    break;
                                case "down":
+                               case "d":
                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
                                    boardImagePanel = myImg.move("down", currentPlayer.getName());
                                    break;
                                case "left":
+                               case "l":
                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                    boardImagePanel = myImg.move("left", currentPlayer.getName());
                                    break;
                                case "right":
+                               case "r":
                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
                                    boardImagePanel = myImg.move("right", currentPlayer.getName());
                                    break;
@@ -250,7 +254,7 @@ public class UserInterface extends JPanel {
                                    System.out.println("ERROR");
                                    break;
                            }
-                           // TODO: Josh plz fix below
+                           // TODO: Josh plz fix below is fixed
 
                           // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
                         //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);

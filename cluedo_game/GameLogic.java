@@ -56,7 +56,7 @@ public class GameLogic {
 	 */
 	public static void createBoardAndUI(){
 		currentBoard = new BoardBuilder(playerList);
-		ui = new UserInterface(playerList);		
+		ui = new UserInterface(playerList);
 	}
 
 	public static class PlayerEntry {
@@ -90,7 +90,7 @@ public class GameLogic {
 		}
 
 		public static void setRoomExitCheck(boolean roomExitCheck) {
-			roomExitCheck = roomExitCheck;
+			roomExitCheck = roomExitCheck; //wtf is this
 		}
 
 		public static boolean wasTurnSuccessful() {
