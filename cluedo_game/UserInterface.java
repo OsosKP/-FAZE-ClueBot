@@ -225,23 +225,25 @@ public class UserInterface extends JPanel {
 //                          TODO: This was my idea for movement on the board image, and it doesn't work
 //                         */
                            int[] destinationCoordinates;
-                           JPanel panelAfterPlayerMove = null;
+                          // JPanel panelAfterPlayerMove = null;
+                          userDisplay.remove(boardImagePanel);
                            switch (inputField.getText()) {
                                case "up":
                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                   panelAfterPlayerMove = movePlayerAndUpdate("up", currentPlayer.getName());
+
+                                   boardImagePanel = myImg.move("up", currentPlayer.getName());
                                    break;
                                case "down":
                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                   panelAfterPlayerMove = movePlayerAndUpdate("down", currentPlayer.getName());
+                                   boardImagePanel = myImg.move("down", currentPlayer.getName());
                                    break;
                                case "left":
                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                   panelAfterPlayerMove = movePlayerAndUpdate("left", currentPlayer.getName());
+                                   boardImagePanel = myImg.move("left", currentPlayer.getName());
                                    break;
                                case "right":
                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                   panelAfterPlayerMove = movePlayerAndUpdate("right", currentPlayer.getName());
+                                   boardImagePanel = myImg.move("right", currentPlayer.getName());
                                    break;
                                default:
                                    destinationCoordinates = new int[2];
@@ -253,8 +255,7 @@ public class UserInterface extends JPanel {
                           // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
                         //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
                            //boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
-                           userDisplay.add(panelAfterPlayerMove);
-                           userDisplay.remove(boardImagePanel);
+                           userDisplay.add(boardImagePanel);
                            display.invalidate();
                            display.validate();
                            display.repaint();

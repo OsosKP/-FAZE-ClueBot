@@ -30,12 +30,12 @@ public class BoardImage {
 	private JButton[][] editedBoard = new JButton[25][24];
 
 	//This is super janky and will fix later
-	private int[] whiteindex = {0,9};
-	private int[] greenindex = {0,14};
-	private int[] peacockindex = {6,23};
-	private int[] mustardindex = {17,0};
-	private int[] plumindex = {19,23};
-	private int[] scarletindex = {24,7};
+	static int[] whiteindex = {0,9};
+	static int[] greenindex = {0,14};
+	static int[] peacockindex = {6,23};
+	static int[] mustardindex = {17,0};
+	static int[] plumindex = {19,23};
+	static int[] scarletindex = {24,7};
 
 
 	int myVar = 24;
@@ -248,7 +248,7 @@ public class BoardImage {
 				break;
 			case "right":
 				modifyer[0]=0;
-				modifyer[1]=-1;
+				modifyer[1]=1;
 				break;
 			default:
 				System.out.println("ERROR");
