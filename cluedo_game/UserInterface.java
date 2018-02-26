@@ -251,7 +251,7 @@ public class UserInterface extends JPanel {
                                    break;
                                default:
                                    destinationCoordinates = new int[2];
-                                   System.out.println("ERROR");
+                                   System.out.println("No direction detected ERROR");
                                    break;
                            }
                            // TODO: Josh plz fix below is fixed
@@ -346,6 +346,15 @@ public class UserInterface extends JPanel {
 
                 // The checkRoomExit method switches 'roomExitCheck' to true if successful
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
+
+                    userDisplay.remove(boardImagePanel);
+                    System.out.println("Would exit here");
+                    //boardImagePanel = myImg.movetoExit(currentPlayer.getInRoom().getName(), choice, currentPlayer.getName());
+                    userDisplay.add(boardImagePanel);
+                    display.invalidate();
+                    display.validate();
+                    display.repaint();
+
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchExitPickerToInput();
                     if(currentPlayer.getInRoom() == null) {

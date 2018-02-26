@@ -223,6 +223,41 @@ public class BoardImage {
 		return returnMe;
 	}
 
+	public JPanel movetoExit(String room, int exitnumber, String player){
+		switch(room){
+			case "Kitchen":
+				move("kexit1", player);
+				break;
+			case "BallRoom":
+				if (exitnumber==1) this.move("br1", player);
+				if (exitnumber==2) this.move("br2", player);
+				break;
+			case "Conservatory":
+				move("cons1", player);
+				break;
+			case "DiningRoom":
+				move("dinexit1",player);
+				break;
+			case "BilliardRoom":
+				move("bilexit1", player);
+				break;
+			case "Library":
+				move("libexit1", player);
+				break;
+			case "Lounge":
+				move("louexit1", player);
+				break;
+			case "Hall":
+				move("hallexit1", player);
+				break;
+			case "Study":
+				move("study1", player);
+				break;
+		}
+
+		return null;
+	}
+
 	public JPanel move(String direction, String player){
 
 		System.out.println("Moving " + player + " " + direction);
@@ -251,7 +286,7 @@ public class BoardImage {
 				modifyer[1]=1;
 				break;
 			case "Kitchen":
-			case "BallRoom":
+			case "Ballroom":
 			case "Conservatory":
 			case "DiningRoom":
 			case "BilliardRoom":
@@ -264,6 +299,48 @@ public class BoardImage {
 				endy=endsquares[1];
 				simpledirection=false;
 				break;
+			//Exits
+			case "kexit1":
+				endx=7;
+				endy=4;
+				simpledirection=false;
+				break;
+			case "br1":
+				endx=5;
+				endy=7;
+				simpledirection=false;
+				break;
+			case "br2":
+				endx=8;
+				endy=9;
+				simpledirection=false;
+				break;
+			case "cons1":
+				endx=5;
+				endy=18;
+				simpledirection=false;
+				break;
+			case "dinexit1":
+				endx=12;
+				endy=8;
+				simpledirection=false;
+				break;
+			case "libexit1":
+				endx=16;
+				endy=16;
+				simpledirection=false;
+				break;
+			case "louexit1":
+				endx=18;
+				endy=6;
+				simpledirection=false;
+				break;
+			case "hallexit1":
+				endx=17;
+				endy=12;
+				simpledirection=false;
+				break;
+
 			default:
 				System.out.println("ERROR INPUT "+direction+"NOT FOUND");
 				break;
@@ -336,6 +413,8 @@ public class BoardImage {
 				break;
 		}
 
+
+
 		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifyer[0] + "," + modifyer[1] + "] = [" + endx + "," + endy + "]");
 
 		/* Assigning the colour of the new JButton */
@@ -359,11 +438,17 @@ public class BoardImage {
 
 	}
 
+	//Probably  will delete
 	public int[] calculateModifier(int[] destinationSquare, int[] playerindex){
 		BoardBuilder roomsReference = new BoardBuilder(new Tokens());//I know this sucks but it works
 		int[] modifyer = {playerindex[0]-destinationSquare[0], playerindex[1]-playerindex[1]};
 		return modifyer;
 	}
+
+	public int[] returnExitSquares(String exit){
+		return null;
+	}
+
 
 	//Represents the number of players per room, in order
 	//Kitchen, ballroom, conservator, diningroom, billiardroom, library, lounge, hall, and study
@@ -401,39 +486,39 @@ public class BoardImage {
 					break;
 			}
 			playersinRooms[0]++;
-		}
-		if (room=="Ballroom"){
-		   switch (playersinRooms[1]){
-			   case 0:
-				   destination[0] = 4;
-				   destination[1] = 10;
-				   break;
-			   case 1:
-				   destination[0] = 4;
-				   destination[1] = 11;
-				   break;
-			   case 2:
-				   destination[0] = 4;
-				   destination[1] = 12;
-				   break;
-			   case 3:
-				   destination[0] = 3;
-				   destination[1] = 10;
-				   break;
-			   case 4:
-				   destination[0] = 3;
-				   destination[1] = 11;
-				   break;
-			   case 5:
-				   destination[0] = 3;
-				   destination[1] = 12;
-				   break;
-			   default:
-				   System.out.println("ERROR");
-				   break;
+			}
+			if (room=="Ballroom"){
+			   switch (playersinRooms[1]){
+				   case 0:
+					   destination[0] = 4;
+					   destination[1] = 10;
+					   break;
+				   case 1:
+					   destination[0] = 4;
+					   destination[1] = 11;
+					   break;
+				   case 2:
+					   destination[0] = 4;
+					   destination[1] = 12;
+					   break;
+				   case 3:
+					   destination[0] = 3;
+					   destination[1] = 10;
+					   break;
+				   case 4:
+					   destination[0] = 3;
+					   destination[1] = 11;
+					   break;
+				   case 5:
+					   destination[0] = 3;
+					   destination[1] = 12;
+					   break;
+				   default:
+					   System.out.println("ERROR");
+					   break;
+			   }
+			   playersinRooms[1]++;
 		   }
-		   playersinRooms[1]++;
-	   }
 	   if (room=="Conservatory"){
 		  switch (playersinRooms[2]){
 			  case 0:
@@ -531,134 +616,134 @@ public class BoardImage {
 		}
 		playersinRooms[4]++;
 	}
-	if (room=="Library"){
-		switch (playersinRooms[5]){
-			case 0:
-				destination[0] = 15;
-				destination[1] = 20;
-				break;
-			case 1:
-				destination[0] = 15;
-				destination[1] = 19;
-				break;
-			case 2:
-				destination[0] = 15;
-				destination[1] = 21;
-				break;
-			case 3:
-				destination[0] = 16;
-				destination[1] = 19;
-				break;
-			case 4:
-				destination[0] = 16;
-				destination[1] = 21;
-				break;
-			case 5:
-				destination[0] = 17;
-				destination[1] = 20;
-				break;
-			default:
-				System.out.println("ERROR");
-				break;
-		}
-		playersinRooms[5]++;
-	}
-	if (room=="Lounge"){
-		switch (playersinRooms[6]){
-			case 0:
-				destination[0] = 21;
-				destination[1] = 3;
-				break;
-			case 1:
-				destination[0] = 21;
-				destination[1] = 2;
-				break;
-			case 2:
-				destination[0] = 21;
-				destination[1] = 4;
-				break;
-			case 3:
-				destination[0] = 22;
-				destination[1] = 3;
-				break;
-			case 4:
-				destination[0] = 22;
-				destination[1] = 2;
-				break;
-			case 5:
-				destination[0] = 22;
-				destination[1] = 4;
-				break;
-			default:
-				System.out.println("ERROR");
-				break;
-		}
-		playersinRooms[6]++;
-	}
-	if (room=="Hall"){
-		switch (playersinRooms[4]){
-			case 0:
-				destination[0] = 21;
-				destination[1] = 11;
-				break;
-			case 1:
-				destination[0] = 21;
-				destination[1] = 12;
-				break;
-			case 2:
-				destination[0] = 22;
-				destination[1] = 11;
-				break;
-			case 3:
-				destination[0] = 22;
-				destination[1] = 12;
-				break;
-			case 4:
-				destination[0] = 20;
-				destination[1] = 11;
-				break;
-			case 5:
-				destination[0] = 20;
-				destination[1] = 12;
-				break;
-			default:
-				System.out.println("ERROR");
-				break;
-		}
-		playersinRooms[7]++;
-	}
-	if (room=="Study"){
-		switch (playersinRooms[4]){
-			case 0:
-				destination[0] = 22;
-				destination[1] = 20;
-				break;
-			case 1:
-				destination[0] = 22;
-				destination[1] = 19;
-				break;
-			case 2:
-				destination[0] = 22;
-				destination[1] = 21;
-				break;
-			case 3:
-				destination[0] = 23;
-				destination[1] = 20;
-				break;
-			case 4:
-				destination[0] = 23;
-				destination[1] = 19;
-				break;
-			case 5:
-				destination[0] = 23;
-				destination[1] = 21;
-				break;
-			default:
-				System.out.println("ERROR");
-				break;
-		}
-		playersinRooms[8]++;
-	}
+			if (room=="Library"){
+				switch (playersinRooms[5]){
+					case 0:
+						destination[0] = 15;
+						destination[1] = 20;
+						break;
+					case 1:
+						destination[0] = 15;
+						destination[1] = 19;
+						break;
+					case 2:
+						destination[0] = 15;
+						destination[1] = 21;
+						break;
+					case 3:
+						destination[0] = 16;
+						destination[1] = 19;
+						break;
+					case 4:
+						destination[0] = 16;
+						destination[1] = 21;
+						break;
+					case 5:
+						destination[0] = 17;
+						destination[1] = 20;
+						break;
+					default:
+						System.out.println("ERROR");
+						break;
+				}
+				playersinRooms[5]++;
+			}
+			if (room=="Lounge"){
+				switch (playersinRooms[6]){
+					case 0:
+						destination[0] = 21;
+						destination[1] = 3;
+						break;
+					case 1:
+						destination[0] = 21;
+						destination[1] = 2;
+						break;
+					case 2:
+						destination[0] = 21;
+						destination[1] = 4;
+						break;
+					case 3:
+						destination[0] = 22;
+						destination[1] = 3;
+						break;
+					case 4:
+						destination[0] = 22;
+						destination[1] = 2;
+						break;
+					case 5:
+						destination[0] = 22;
+						destination[1] = 4;
+						break;
+					default:
+						System.out.println("ERROR");
+						break;
+				}
+				playersinRooms[6]++;
+			}
+			if (room=="Hall"){
+				switch (playersinRooms[4]){
+					case 0:
+						destination[0] = 21;
+						destination[1] = 11;
+						break;
+					case 1:
+						destination[0] = 21;
+						destination[1] = 12;
+						break;
+					case 2:
+						destination[0] = 22;
+						destination[1] = 11;
+						break;
+					case 3:
+						destination[0] = 22;
+						destination[1] = 12;
+						break;
+					case 4:
+						destination[0] = 20;
+						destination[1] = 11;
+						break;
+					case 5:
+						destination[0] = 20;
+						destination[1] = 12;
+						break;
+					default:
+						System.out.println("ERROR");
+						break;
+				}
+				playersinRooms[7]++;
+			}
+			if (room=="Study"){
+				switch (playersinRooms[4]){
+					case 0:
+						destination[0] = 22;
+						destination[1] = 20;
+						break;
+					case 1:
+						destination[0] = 22;
+						destination[1] = 19;
+						break;
+					case 2:
+						destination[0] = 22;
+						destination[1] = 21;
+						break;
+					case 3:
+						destination[0] = 23;
+						destination[1] = 20;
+						break;
+					case 4:
+						destination[0] = 23;
+						destination[1] = 19;
+						break;
+					case 5:
+						destination[0] = 23;
+						destination[1] = 21;
+						break;
+					default:
+						System.out.println("ERROR");
+						break;
+				}
+				playersinRooms[8]++;
+			}
 
 	 	return destination;
 	}
