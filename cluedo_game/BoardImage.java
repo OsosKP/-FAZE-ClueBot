@@ -532,23 +532,131 @@ public class BoardImage {
 		playersinRooms[4]++;
 	}
 	if (room=="Library"){
-		destination[0]=17;
-		destination[1]=20;
+		switch (playersinRooms[5]){
+			case 0:
+				destination[0] = 15;
+				destination[1] = 20;
+				break;
+			case 1:
+				destination[0] = 15;
+				destination[1] = 19;
+				break;
+			case 2:
+				destination[0] = 15;
+				destination[1] = 21;
+				break;
+			case 3:
+				destination[0] = 16;
+				destination[1] = 19;
+				break;
+			case 4:
+				destination[0] = 16;
+				destination[1] = 21;
+				break;
+			case 5:
+				destination[0] = 17;
+				destination[1] = 20;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
 		playersinRooms[5]++;
 	}
 	if (room=="Lounge"){
-		destination[0]=21;
-		destination[1]=3;
+		switch (playersinRooms[6]){
+			case 0:
+				destination[0] = 21;
+				destination[1] = 3;
+				break;
+			case 1:
+				destination[0] = 21;
+				destination[1] = 2;
+				break;
+			case 2:
+				destination[0] = 21;
+				destination[1] = 4;
+				break;
+			case 3:
+				destination[0] = 22;
+				destination[1] = 3;
+				break;
+			case 4:
+				destination[0] = 22;
+				destination[1] = 2;
+				break;
+			case 5:
+				destination[0] = 22;
+				destination[1] = 4;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
 		playersinRooms[6]++;
 	}
 	if (room=="Hall"){
-		destination[0]=20;
-		destination[1]=11;
+		switch (playersinRooms[4]){
+			case 0:
+				destination[0] = 21;
+				destination[1] = 11;
+				break;
+			case 1:
+				destination[0] = 21;
+				destination[1] = 12;
+				break;
+			case 2:
+				destination[0] = 22;
+				destination[1] = 11;
+				break;
+			case 3:
+				destination[0] = 22;
+				destination[1] = 12;
+				break;
+			case 4:
+				destination[0] = 20;
+				destination[1] = 11;
+				break;
+			case 5:
+				destination[0] = 20;
+				destination[1] = 12;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
 		playersinRooms[7]++;
 	}
 	if (room=="Study"){
-		destination[0]=22;
-		destination[1]=19;
+		switch (playersinRooms[4]){
+			case 0:
+				destination[0] = 22;
+				destination[1] = 20;
+				break;
+			case 1:
+				destination[0] = 22;
+				destination[1] = 19;
+				break;
+			case 2:
+				destination[0] = 22;
+				destination[1] = 21;
+				break;
+			case 3:
+				destination[0] = 23;
+				destination[1] = 20;
+				break;
+			case 4:
+				destination[0] = 23;
+				destination[1] = 19;
+				break;
+			case 5:
+				destination[0] = 23;
+				destination[1] = 21;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
 		playersinRooms[8]++;
 	}
 
