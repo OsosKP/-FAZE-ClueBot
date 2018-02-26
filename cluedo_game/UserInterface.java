@@ -266,6 +266,15 @@ public class UserInterface extends JPanel {
                         //    boardImagePanel.revalidate();
                             }
                             else {
+
+                                //I think this is the right place
+                                userDisplay.remove(boardImagePanel);
+                                boardImagePanel = myImg.move(currentPlayer.getInRoom().getName(), currentPlayer.getName());
+                                userDisplay.add(boardImagePanel);
+                                display.invalidate();
+                                display.validate();
+                                display.repaint();
+
                                 // Print action and location to system out
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getInRoom().getName());

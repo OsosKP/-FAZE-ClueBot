@@ -231,6 +231,7 @@ public class BoardImage {
 		JPanel returnMe = returnFinalJPanel();
 		int startx=0, starty=0, endx=0, endy=0;
 		int[] modifyer = {0,0};
+		Boolean simpledirection = true;//This tells the next switch to not overwrite the endx endy;
 
 		switch (direction) {
 			case "up":
@@ -249,10 +250,22 @@ public class BoardImage {
 				modifyer[0]=0;
 				modifyer[1]=1;
 				break;
-//			case "kitchen":
-
+			case "Kitchen":
+			case "BallRoom":
+			case "Conservatory":
+			case "DiningRoom":
+			case "BilliardRoom":
+			case "Library":
+			case "Lounge":
+			case "Hall":
+			case "Study":
+				int[] endsquares = calculateEndSquareRoom(direction);
+				endx=endsquares[0];
+				endy=endsquares[1];
+				simpledirection=false;
+				break;
 			default:
-				System.out.println("ERROR");
+				System.out.println("ERROR INPUT "+direction+"NOT FOUND");
 				break;
 		}
 
@@ -261,53 +274,65 @@ public class BoardImage {
 			case "White":
 				startx=whiteindex[0];
 				starty=whiteindex[1];
-				whiteindex[0]+=modifyer[0];
-				whiteindex[1]+=modifyer[1];
-				endx=whiteindex[0];
-				endy=whiteindex[1];
+				if (simpledirection){
+					endx=whiteindex[0]+modifyer[0];
+					endy=whiteindex[1]+modifyer[1];
+					whiteindex[0]+=modifyer[0];
+					whiteindex[1]+=modifyer[1];
+				}
 				break;
 			case "Green":
 				startx=greenindex[0];
 				starty=greenindex[1];
-				greenindex[0]+=modifyer[0];
-				greenindex[1]+=modifyer[1];
-				endx=greenindex[0];
-				endy=greenindex[1];
+				if (simpledirection){
+					endx=greenindex[0]+modifyer[0];
+					endy=greenindex[1]+modifyer[1];
+					greenindex[0]+=modifyer[0];
+					greenindex[1]+=modifyer[1];
+				}
 				break;
 			case "Peacock":
 				startx=peacockindex[0];
 				starty=peacockindex[1];
-				peacockindex[0]+=modifyer[0];
-				peacockindex[1]+=modifyer[1];
-				endx=peacockindex[0];
-				endy=peacockindex[1];
+				if (simpledirection){
+					endx=peacockindex[0]+modifyer[0];
+					endy=peacockindex[1]+modifyer[1];
+					peacockindex[0]+=modifyer[0];
+					peacockindex[1]+=modifyer[1];
+				}
 				break;
 			case "Mustard":
 				startx=mustardindex[0];
 				starty=mustardindex[1];
-				mustardindex[0]+=modifyer[0];
-				mustardindex[1]+=modifyer[1];
-				endx=mustardindex[0];
-				endy=mustardindex[1];
+				if (simpledirection){
+					endx=mustardindex[0]+modifyer[0];
+					endy=mustardindex[1]+modifyer[1];
+					mustardindex[0]+=modifyer[0];
+					mustardindex[1]+=modifyer[1];
+				}
 				break;
 			case "Plum":
 				startx=plumindex[0];
 				starty=plumindex[1];
-				plumindex[0]+=modifyer[0];
-				plumindex[1]+=modifyer[1];
-				endx=plumindex[0];
-				endy=plumindex[1];
+				if (simpledirection){
+					endx=plumindex[0]+modifyer[0];
+					endy=plumindex[1]+modifyer[1];
+					plumindex[0]+=modifyer[0];
+					plumindex[1]+=modifyer[1];
+				}
 				break;
 			case "Scarlet":
 				startx=scarletindex[0];
 				starty=scarletindex[1];
-				scarletindex[0]+=modifyer[0];
-				scarletindex[1]+=modifyer[1];
-				endx=scarletindex[0];
-				endy=scarletindex[1];
+				if (simpledirection){
+					endx=scarletindex[0]+modifyer[0];
+					endy=scarletindex[1]+modifyer[1];
+					scarletindex[0]+=modifyer[0];
+					scarletindex[1]+=modifyer[1];
+				}
 				break;
 			default:
-				System.out.println("ERROR");
+				System.out.println("ERROR CANNT FIND PLAYER");
 				break;
 		}
 
@@ -338,6 +363,196 @@ public class BoardImage {
 		BoardBuilder roomsReference = new BoardBuilder(new Tokens());//I know this sucks but it works
 		int[] modifyer = {playerindex[0]-destinationSquare[0], playerindex[1]-playerindex[1]};
 		return modifyer;
+	}
+
+	//Represents the number of players per room, in order
+	//Kitchen, ballroom, conservator, diningroom, billiardroom, library, lounge, hall, and study
+	static int[] playersinRooms = {0,0,0,0,0,0,0,0,0};
+	public int[] calculateEndSquareRoom(String room){
+		int[] destination = {0,0};
+		 if (room=="Kitchen"){
+			switch (playersinRooms[0]){
+				case 0:
+					destination[0] = 3;
+					destination[1] = 2;
+					break;
+				case 1:
+					destination[0] = 3;
+					destination[1] = 1;
+					break;
+				case 2:
+					destination[0] = 3;
+					destination[1] = 3;
+					break;
+				case 3:
+					destination[0] = 2;
+					destination[1] = 2;
+					break;
+				case 4:
+					destination[0] = 2;
+					destination[1] = 1;
+					break;
+				case 5:
+					destination[0] = 2;
+					destination[1] = 3;
+					break;
+				default:
+					System.out.println("ERROR");
+					break;
+			}
+			playersinRooms[0]++;
+		}
+		if (room=="Ballroom"){
+		   switch (playersinRooms[1]){
+			   case 0:
+				   destination[0] = 4;
+				   destination[1] = 10;
+				   break;
+			   case 1:
+				   destination[0] = 4;
+				   destination[1] = 11;
+				   break;
+			   case 2:
+				   destination[0] = 4;
+				   destination[1] = 12;
+				   break;
+			   case 3:
+				   destination[0] = 3;
+				   destination[1] = 10;
+				   break;
+			   case 4:
+				   destination[0] = 3;
+				   destination[1] = 11;
+				   break;
+			   case 5:
+				   destination[0] = 3;
+				   destination[1] = 12;
+				   break;
+			   default:
+				   System.out.println("ERROR");
+				   break;
+		   }
+		   playersinRooms[1]++;
+	   }
+	   if (room=="Conservatory"){
+		  switch (playersinRooms[2]){
+			  case 0:
+				  destination[0] = 2;
+				  destination[1] = 21;
+				  break;
+			  case 1:
+				  destination[0] = 2;
+				  destination[1] = 20;
+				  break;
+			  case 2:
+				  destination[0] = 2;
+				  destination[1] = 22;
+				  break;
+			  case 3:
+				  destination[0] = 1;
+				  destination[1] = 21;
+				  break;
+			  case 4:
+				  destination[0] = 1;
+				  destination[1] = 20;
+				  break;
+			  case 5:
+				  destination[0] = 1;
+				  destination[1] = 22;
+				  break;
+			  default:
+				  System.out.println("ERROR");
+				  break;
+		  }
+		  playersinRooms[2]++;
+	  }
+	  if (room=="DiningRoom"){
+		 switch (playersinRooms[3]){
+			 case 0:
+				 destination[0] = 11;
+				 destination[1] = 3;
+				 break;
+			 case 1:
+				 destination[0] = 11;
+				 destination[1] = 2;
+				 break;
+			 case 2:
+				 destination[0] = 11;
+				 destination[1] = 4;
+				 break;
+			 case 3:
+				 destination[0] = 11;
+				 destination[1] = 1;
+				 break;
+			 case 4:
+				 destination[0] = 11;
+				 destination[1] = 5;
+				 break;
+			 case 5:
+				 destination[0] = 11;
+				 destination[1] = 0;
+				 break;
+			 default:
+				 System.out.println("ERROR");
+				 break;
+		 }
+		 playersinRooms[3]++;
+	 }
+
+	 if (room=="BilliardRoom"){
+		switch (playersinRooms[4]){
+			case 0:
+				destination[0] = 4;
+				destination[1] = 10;
+				break;
+			case 1:
+				destination[0] = 4;
+				destination[1] = 11;
+				break;
+			case 2:
+				destination[0] = 4;
+				destination[1] = 12;
+				break;
+			case 3:
+				destination[0] = 3;
+				destination[1] = 10;
+				break;
+			case 4:
+				destination[0] = 3;
+				destination[1] = 11;
+				break;
+			case 5:
+				destination[0] = 3;
+				destination[1] = 12;
+				break;
+			default:
+				System.out.println("ERROR");
+				break;
+		}
+		playersinRooms[4]++;
+	}
+	if (room=="Library"){
+		destination[0]=17;
+		destination[1]=20;
+		playersinRooms[5]++;
+	}
+	if (room=="Lounge"){
+		destination[0]=21;
+		destination[1]=3;
+		playersinRooms[6]++;
+	}
+	if (room=="Hall"){
+		destination[0]=20;
+		destination[1]=11;
+		playersinRooms[7]++;
+	}
+	if (room=="Study"){
+		destination[0]=22;
+		destination[1]=19;
+		playersinRooms[8]++;
+	}
+
+	 	return destination;
 	}
 
 	public JPanel move(int init[], int fin[]) {
