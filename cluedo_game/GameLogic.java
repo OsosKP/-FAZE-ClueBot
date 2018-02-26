@@ -27,12 +27,16 @@ public class GameLogic {
 //		ui = new UserInterface(currentBoard);
 
 		AcceptedUserInputs.setAcceptedUserInputs();
-		System.out.println("am I getting here");
 		PlayerListCreator playersCreator = new PlayerListCreator();
 
-		playerList = playersCreator.getPlayerList();	
-		
-	
+		playerList = playersCreator.getPlayerList();
+
+		/*
+		Keeping this for future debugging if I want to skip player entry
+		 */
+//		AcceptedUserInputs.setAcceptedUserInputs();
+//		playerList = new Tokens();
+//		playerList.setDefaultPlayerList();
 //		currentBoard = new BoardBuilder(playerList);
 //		ui = new UserInterface(playerList);
 	}
@@ -52,7 +56,7 @@ public class GameLogic {
 	 */
 	public static void createBoardAndUI(){
 		currentBoard = new BoardBuilder(playerList);
-		ui = new UserInterface(playerList);		
+		ui = new UserInterface(playerList);
 	}
 
 	public static class PlayerEntry {
@@ -86,7 +90,7 @@ public class GameLogic {
 		}
 
 		public static void setRoomExitCheck(boolean roomExitCheck) {
-			roomExitCheck = roomExitCheck;
+			roomExitCheck = roomExitCheck; //wtf is this
 		}
 
 		public static boolean wasTurnSuccessful() {
@@ -123,7 +127,12 @@ public class GameLogic {
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("done")){
 				Dice.setMovesLeft(0);
 				result = "done";
+				movementSuccessful = true;
 				return result;
+			}
+
+			if (entry.replaceAll("\\s+","").toLowerCase().equals("quit")) {
+				return quitGameHandler();
 			}
 
 			switch (player.getLocationAsString()) {
@@ -138,6 +147,7 @@ public class GameLogic {
 					result = "Solving";
 					break;
 			}
+			// If move was successful, subtract one more from dice roll
 			if (PlayerEntry.wasTurnSuccessful())
 				Dice.decrementMovesLeft();
 			return result;
@@ -248,12 +258,13 @@ public class GameLogic {
 					if (!isThisTheFirstMove()) {
 						result = "You have already moved this turn!";
 						movementSuccessful = false;
-					} else {
+					}
+					else {
 						player.exitRoomThroughPassage();
 						result = player.getName() + " has taken a secret passage to the "
 								+ player.getInRoom().getName();
 						// Player cannot move after taking a secret passage
-						Dice.setMovesLeft(0);
+						Dice.setMovesLeft(1);
 					}
 					break;
 				case "exit":
@@ -272,6 +283,8 @@ public class GameLogic {
 				case "guess":
 				case "g":
 					result = guessPrompt();
+					Dice.setMovesLeft(1);
+					break;
 			}
 			return result;
 		}
@@ -298,6 +311,19 @@ public class GameLogic {
 			// This is just a placeholder for a later sprint
 			return "Guess Prompt";
 		}
+
+		public static String quitGameHandler() {
+			int result = JOptionPane.showConfirmDialog(null, "Are you sure you would like to quit?", "Cluedo",
+					JOptionPane.YES_NO_OPTION);
+			if (result == 0)
+				System.exit(1);
+
+			return "Game Will Continue";
+		}
+
+
+
+
 	}
 
 	/**
@@ -308,11 +334,10 @@ public class GameLogic {
 		private static int movesLeft;
 		private static int initialNumberOfMoves;
 
-		public static int rollDice(){
+		public static void rollDice(){
 			movesLeft = rand.nextInt(6)+1 + rand.nextInt(6)+1;
 			// Use this to check if player has moved
 			initialNumberOfMoves = movesLeft;
-			return movesLeft;
 		}
 
 		public static void decrementMovesLeft(){

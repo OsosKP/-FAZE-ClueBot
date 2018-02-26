@@ -7,7 +7,7 @@ import java.util.Iterator;
  * We will need to add players to the end and pull from the front (as with a queue)
  * We don't need addFirst, insertAfter, insertBefore, or other things like that
  */
-public class Tokens implements Iterable<Token> {
+public class Tokens {
     private Token first;
     private Token last;
     private int numberOfPlayers;
@@ -130,16 +130,15 @@ public class Tokens implements Iterable<Token> {
     public void advanceTurn(Token t){
         t = t.next();
     }
-    
+
+
     /* prints only one iteration of the list -- used for testing  */
     public void printList(){
     	System.out.println("\n\n----Printing ONE iteration of the Linked List of Players----");
     	Token printMe = this.first;
-    	/* will determine when we reach the end of the first iteration of the list */
     	boolean run = true;
     	
     	while (run) {
-    		/* Printing the contents of the linked list, stopping whenever we get to the end of the first iteration */
     		System.out.print("| " + printMe.getName() + " |");
     		printMe = printMe.next();
     		if (printMe == last.next()) {
@@ -156,30 +155,30 @@ public class Tokens implements Iterable<Token> {
     public Token next(Token t) {
         return t.next();
     }
- 
-   public Iterator<Token> iterator() {
-        return new Iterator<Token>() {
-            private Token current;
 
-            @Override
-            public boolean hasNext() {
-                return !(isEmpty())
-                        || (current == null)
-                        || !(current == last);
-            }
-
-            @Override
-            public Token next() {
-                if (current == null)
-                    current = first;
-                else
-                    current = Tokens.this.next(current);
-                return current;
-            }
-        };
-
-
-    }
+//    public Iterator<Token> iterator() {
+//        return new Iterator<>() {
+//            private Token current;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return !(isEmpty())
+//                        || (current == null)
+//                        || !(current == last);
+//            }
+//
+//            @Override
+//            public Token next() {
+//                if (current == null)
+//                    current = first;
+//                else
+//                    current = Tokens.this.next(current);
+//                return current;
+//            }
+//        };
+//
+//
+//    }
 
 //    }
 

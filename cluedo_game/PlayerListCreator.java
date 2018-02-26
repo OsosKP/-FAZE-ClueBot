@@ -7,15 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-/**
- * Creates a GUI that allows players to select their characters
- * @author george
- *
- */
+
 public class PlayerListCreator {
 
     private JFrame display = new JFrame();
     private Tokens playerList = new Tokens();
+
+    private String currentSelection = null;
 
     /* Holds the GUIPlayer choices */
     private  CharacterList[] GUIPlayerList = null;
@@ -25,6 +23,10 @@ public class PlayerListCreator {
     private  ArrayList<String> selectedPlayers = new ArrayList<>();
     /* JPanel that will hold the createPlayersGUI */
     JPanel panel;
+    
+    boolean tooFew = false;
+    
+    BoardBuilder gameBoard;
 
     public PlayerListCreator() {
         // ref line 661 for more info on subclass GUIPLayerList
@@ -67,6 +69,11 @@ public class PlayerListCreator {
     	return this.playerList;
     }
     
+    public boolean runGame() {
+    	System.out.println("I am getting here?");
+    	return tooFew;
+    }
+
     /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
 
@@ -122,13 +129,19 @@ public class PlayerListCreator {
                     /* If we have gotten a value from the list -- we add it to the selectedPlayers Array and inform the user */
                     if (willThisWork != null) {
                         selectedPlayers.add(willThisWork);
-                        value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
-                        add(value, BorderLayout.EAST);
+                        value.setText("You have selected: " + selectedPlayers.get(objNum));
+                        value.revalidate();
+
+                        // TODO: FIX
+//                       GUIPlayerList[objNum].add(value, BorderLayout.EAST);
                     }
                     else { // if we don't, we set the string = to what we selected earlier (in the selected players array)
                         willThisWork = selectedPlayers.get(objNum);
-                        value = new JTextField("You have selected: " + selectedPlayers.get(objNum), 20);
-                        add(value, BorderLayout.EAST);
+                        value.setText("You have selected: " + selectedPlayers.get(objNum));
+                        value.revalidate();
+
+//                        GUIPlayerList[objNum].add(value, BorderLayout.EAST);
+
                         return; //we don't want the rest of the method to run, because we have our value
                     }
 
@@ -140,7 +153,8 @@ public class PlayerListCreator {
                         /* Grabbing the current characterList */
                     		String[] tempItems = GUIPlayerList[i].items;
 
-                            /* We are using this to create an array of the character that we want -- ie the character names EXCEPT the one currently selected  */
+                            /* We are using this to create an array of the character that we want --
+                                ie the character names EXCEPT the one currently selected  */
                             ArrayList<String> tempArray = new ArrayList<String>();
 
                             /* Looping though the tempItems and copying the values over */
@@ -148,7 +162,8 @@ public class PlayerListCreator {
                             	if (!willThisWork.equals(tempItems[tempIndex])) {
                             		tempArray.add(tempItems[tempIndex]);
                                 }
-                                else { //adding the deleted players to an arrayList deleted players -- will be useful in future versions
+                                else { //adding the deleted players to an arrayList deleted players --
+                                            // will be useful in future versions
                                 	deletedPlayers.add(tempItems[tempIndex]);
                                 }
                              }
@@ -161,18 +176,20 @@ public class PlayerListCreator {
                             	 newList[gc] = tempArray.get(gc);
                              }
 
-                             /* Updating the values in the obj's items array (the reason why we needed newList in the firstPlace) */
+                             /* Updating the values in the obj's items array
+                                    (the reason why we needed newList in the firstPlace) */
                              GUIPlayerList[i].items = newList;
 
-                             /* Removing all the elements form this obj's list -- will re-fill with updates values later */
+                             /* Removing all the elements form this obj's list --
+                                    will re-fill with updates values later */
                              GUIPlayerList[i].model.removeAllElements();
 
                              /* Updating the obj's item values with the correct number of character names */
                              for (int index = 0; index < newList.length; index++) {
                             	 GUIPlayerList[i].model.add(index, GUIPlayerList[i].items[index]);
                              }
-                             //TODO: maybe in the future just remove these elements form the panel, instead
-                             /* Removing the elements form the prior JLists, otherwise they will re-apear */
+                             //TODO: maybe in the future just remove these elements from the panel, instead
+                             /* Removing the elements from the prior JLists, otherwise they will re-appear */
                              for (int GUILoop = 0; GUILoop < objNum; GUILoop++) {
                             	 GUIPlayerList[GUILoop].model.removeAllElements();
                              }
@@ -191,6 +208,10 @@ public class PlayerListCreator {
             System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
             value = new JTextField("", 20);
+
+            // TODO: Kelsey is trying to work here
+            value.setEnabled(false);
+
             add(value, BorderLayout.EAST);
         }
         /* Getting the value of items held in the obj */
@@ -204,7 +225,7 @@ public class PlayerListCreator {
 
     /* Simple class to hold the title to the createPlayersGUI */
     class CharacterListUITitle extends JPanel {
-        JLabel myLabel = new JLabel("[Left] Select Character");
+        JLabel myLabel = new JLabel("Please Select a Character");
 
         @Override
         public void setLayout(LayoutManager mgr) {
@@ -303,7 +324,8 @@ public class PlayerListCreator {
             display.setVisible(false);
             display.getContentPane().removeAll();
 
-            /* To conserve on memory, we are going to reset all the items in the arrayLits/arrays (since we arnt going to need them anymore */
+            /* To conserve on memory, we are going to reset all the items in the arrayLists/arrays
+                    (since we aren't going to need them anymore */
             int i;
             for (i = 0; i < GUIPlayerList.length; i++) {
             	GUIPlayerList[i] = null;
@@ -315,15 +337,17 @@ public class PlayerListCreator {
             	deletedPlayers.remove(i);
             }
             
-            /* If the user has entered too few players -- we cant let them continue */
-            if (numPlayers < 3) {
-            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at LEAST 3 players", "ERROR: Too Few Players", JOptionPane.ERROR_MESSAGE);
-       
-            	/* Creating a new test obj should start this whole process over again -- WARNING uses alot of mem || need to try to find another way to write this*/
-            	test resetGame = new test();
-            	resetGame.resetgame();
+            if (numPlayers < 2) {
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
+            	System.exit(0);
             }
-            else { //if the user(s) have entered the playerInfo correctly, we can tell GameLogic to continue
+            else {
+            	// This is a debugging call
+//            	playerList.printList();
+
+                /*
+            	Once players have been entered, tell GameLogic to continue
+            	 */
             	playerList.printList();
             	GameLogic.createBoardAndUI();           	
             }

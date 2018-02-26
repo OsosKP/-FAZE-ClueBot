@@ -46,13 +46,8 @@ public class UserInterface extends JPanel {
      */
     public UserInterface(Tokens playerList) {
         /* This is going to happen AFTER the start game button is pressed */
-        // TODO: BoardBuilder.getPlayerList() is redundant now that we're using a LL
         this.playerList = playerList;
         this.currentPlayer = playerList.getFirst();
-
-        for (int i=0; i<playerList.getNumberOfPlayers(); i++)
-            System.out.println(playerList.getPlayerByIndex(i).getName());
-
         this.buildGUI();
     }
 
@@ -96,7 +91,9 @@ public class UserInterface extends JPanel {
     }
 
     public void refreshDisplayForNextTurn(Token p) {
-        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn.");
+        // Tell players whose turn it is
+        in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn. Moves Left: " + GameLogic.getMovesLeft());
+        // Update what player is allowed to input
         out.updateAllowedCommandsBasedOnSquare(p);
     }
 
@@ -137,10 +134,6 @@ public class UserInterface extends JPanel {
             return input;
         }
 
-        public void updateInputDisplayPanel(Token p) {
-            whoseTurnLabel.setText("     It it now " + p.getName() + "'s turn.");
-        }
-
         /**
          * A button that must be pressed to start the game
          *
@@ -156,10 +149,12 @@ public class UserInterface extends JPanel {
 
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
+                GameLogic.Dice.rollDice();
                 input.remove(startGameButton);
                 performActionButton = createPerformActionButton();
                 input.add(performActionButton, BorderLayout.EAST);
-                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn.");
+                whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn. Moves Left: "
+                        + GameLogic.getMovesLeft());
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
                 input.revalidate();
@@ -206,57 +201,101 @@ public class UserInterface extends JPanel {
                                 result = (currentPlayer.getName() + " has exited the room.");
                                 break;
                             // If player is making a guess, enter the appropriate menu
-                            case "guess":
-                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
+                            case "Guess Prompt":
+//                                JOptionPane.showConfirmDialog(null, "This is a placeholder panel for guessing.");
                                 result = currentPlayer.getName() + " is making a guess.";
+                                break;
+                            case "passage":
                                 break;
                         }
                     }
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
-                        out.updateMoveHistory(result);
-                        if(currentPlayer.getInRoom() == null) {
-                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                    + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
+                        if(result.equals("done")){
+                            out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
+                        }
+                        else {
+                            out.updateMoveHistory(result);
+                            if (currentPlayer.getInRoom() == null) {
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                        + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
 //                          /*
 //                          TODO: This was my idea for movement on the board image, and it doesn't work
 //                         */
-//                            int[] destinationCoordinates;
-//                            switch (inputField.getText()) {
-//                                case "up":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-//                                    break;
-//                                case "down":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-//                                    break;
-//                                case "left":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-//                                    break;
-//                                case "right":
-//                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-//                                    break;
-//                                default:
-//                                    destinationCoordinates = new int[2];
-//                                    System.out.println("ERROR");
-//                                    break;
-//                            }
-//                            // TODO: Josh plz fix below
-//                            boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
-//                            boardImagePanel.revalidate();
-                        }
-                        else {
-                            System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
-                                    + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
-                            out.updateMoveHistory(currentPlayer.getName()
-                                    + " has entered the " + currentPlayer.getInRoom().getName());
-                        }
+                           int[] destinationCoordinates;
+                          // JPanel panelAfterPlayerMove = null;
+                          userDisplay.remove(boardImagePanel);
+                           switch (inputField.getText()) {
+                               case "up":
+                               case "u":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
 
+                                   boardImagePanel = myImg.move("up", currentPlayer.getName());
+                                   break;
+                               case "down":
+                               case "d":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                   boardImagePanel = myImg.move("down", currentPlayer.getName());
+                                   break;
+                               case "left":
+                               case "l":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                   boardImagePanel = myImg.move("left", currentPlayer.getName());
+                                   break;
+                               case "right":
+                               case "r":
+                                   destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                   boardImagePanel = myImg.move("right", currentPlayer.getName());
+                                   break;
+                               default:
+                                   destinationCoordinates = new int[2];
+                                   System.out.println("No direction detected ERROR");
+                                   break;
+                           }
+                           // TODO: Josh plz fix below is fixed
+
+                          // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
+                        //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
+                           //boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+                           userDisplay.add(boardImagePanel);
+                           display.invalidate();
+                           display.validate();
+                           display.repaint();
+                        //    boardImagePanel.revalidate();
+                            }
+                            else {
+
+                                //I think this is the right place
+                                userDisplay.remove(boardImagePanel);
+                                boardImagePanel = myImg.move(currentPlayer.getInRoom().getName(), currentPlayer.getName());
+                                userDisplay.add(boardImagePanel);
+                                display.invalidate();
+                                display.validate();
+                                display.repaint();
+
+                                // Print action and location to system out
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                        + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
+                                // Only update move history with player's room if they aren't making a guess
+                                    // Otherwise it'll say they're in the room multiple times.
+                                if (!result.equals(currentPlayer.getName() + " is making a guess."))
+                                    out.updateMoveHistory(currentPlayer.getName()
+                                        + " has entered the " + currentPlayer.getInRoom().getName());
+                            }
+                        }
 
                         // Switch player if the turn is over (or if they had entered 'done'
-                        if (GameLogic.getMovesLeft() == 0)
+                        if (GameLogic.getMovesLeft() == 0) {
                             currentPlayer = currentPlayer.next();
+                            // Update move history to show new turn and where the player is.
+                            //      This will be less useful when GUI works
+                            out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn. Location: "
+                                    + currentPlayer.safeGetLocation());
+                            // Roll the dice for the next player
+                            GameLogic.Dice.rollDice();
+                        }
 
                         // Update input display with that player
                         refreshDisplayForNextTurn(currentPlayer);
@@ -307,6 +346,15 @@ public class UserInterface extends JPanel {
 
                 // The checkRoomExit method switches 'roomExitCheck' to true if successful
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
+
+                    userDisplay.remove(boardImagePanel);
+                    System.out.println("Would exit here");
+                    //boardImagePanel = myImg.movetoExit(currentPlayer.getInRoom().getName(), choice, currentPlayer.getName());
+                    userDisplay.add(boardImagePanel);
+                    display.invalidate();
+                    display.validate();
+                    display.repaint();
+
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchExitPickerToInput();
                     if(currentPlayer.getInRoom() == null) {
@@ -561,7 +609,7 @@ public class UserInterface extends JPanel {
         return tempPanel;
     }
 
-    public JPanel movePlayerAndUpdate(int[] from, int[] to) {
+    public JPanel movePlayerAndUpdate(String direction, String name) {
         BufferedImage bi = null;
         BoardImage boardimage = new BoardImage();
 
@@ -576,7 +624,7 @@ public class UserInterface extends JPanel {
 
         JPanel tempPanel = boardimage.returnPanel(bi);
 
-        tempPanel = boardimage.move(from, to);
+        tempPanel = boardimage.move(direction, name);
         return tempPanel;
     }
 
@@ -592,18 +640,3 @@ public class UserInterface extends JPanel {
         return ImageIO.read(imageUrl);
     }
 }
-
-
-   
-
-
-
-    
-    
-    
-  
-    
- 
-
-    
-
