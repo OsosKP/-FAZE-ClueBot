@@ -5,6 +5,14 @@
 package cluedo_game;
 
 public class test {
+	public test() {
+		//nothing	
+	}
+	/* Forces the game to reset by creating a new obj -- only happens when the user does not correctly input the players */
+	public void  resetgame() {	
+		GameLogic resetGame = new GameLogic();
+	}
+		
 	public static void main(String[] args) {
 //		BoardBuilder bb = new BoardBuilder();
 //		BoardImageTest board = new BoardImageTest(bb);

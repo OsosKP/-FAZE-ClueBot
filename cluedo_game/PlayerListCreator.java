@@ -7,13 +7,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+/**
+ * Creates a GUI that allows players to select their characters
+ * @author george
+ *
+ */
 public class PlayerListCreator {
 
     private JFrame display = new JFrame();
     private Tokens playerList = new Tokens();
-
-    private String currentSelection = null;
 
     /* Holds the GUIPlayer choices */
     private  CharacterList[] GUIPlayerList = null;
@@ -23,10 +25,6 @@ public class PlayerListCreator {
     private  ArrayList<String> selectedPlayers = new ArrayList<>();
     /* JPanel that will hold the createPlayersGUI */
     JPanel panel;
-    
-    boolean tooFew = false;
-    
-    BoardBuilder gameBoard;
 
     public PlayerListCreator() {
         // ref line 661 for more info on subclass GUIPLayerList
@@ -69,11 +67,6 @@ public class PlayerListCreator {
     	return this.playerList;
     }
     
-    public boolean runGame() {
-    	System.out.println("I am getting here?");
-    	return tooFew;
-    }
-
     /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
 
@@ -322,14 +315,15 @@ public class PlayerListCreator {
             	deletedPlayers.remove(i);
             }
             
+            /* If the user has entered too few players -- we cant let them continue */
             if (numPlayers < 3) {
-            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at LEAST 3 players");
-            	System.exit(0);
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at LEAST 3 players", "ERROR: Too Few Players", JOptionPane.ERROR_MESSAGE);
+       
+            	/* Creating a new test obj should start this whole process over again -- WARNING uses alot of mem || need to try to find another way to write this*/
+            	test resetGame = new test();
+            	resetGame.resetgame();
             }
-            else {
-            	/*
-            	Once players have been entered, tell GameLogic to continue
-            	 */
+            else { //if the user(s) have entered the playerInfo correctly, we can tell GameLogic to continue
             	playerList.printList();
             	GameLogic.createBoardAndUI();           	
             }
