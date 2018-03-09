@@ -148,13 +148,13 @@ public class AcceptedUserInputs {
     /*
     Methods to handle cards and guessing
      */
-    public boolean compareInputToDeck(String in, int index){
-        for(String st : Deck.getSubDeck(index)){
-            if(simpleString(st).equals(simpleString(in)))
-                return true;
-        }
-        return false;
-    }
+//    public boolean compareInputToDeck(String in, int index){
+//        for(Card st : Deck.getSubDeck(index)){
+//            if(simpleString(st).equals(simpleString(in)))
+//                return true;
+//        }
+//        return false;
+//    }
 
 
 

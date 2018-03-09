@@ -1,7 +1,5 @@
 package cluedo_game;
 
-import java.util.Iterator;
-
 /**
  * This is a modified circularly linked list.
  * We will need to add players to the end and pull from the front (as with a queue)
@@ -147,42 +145,4 @@ public class Tokens {
     	}
     	System.out.print("\n\n");
     }
-    
-
-    /*
-    Traversal method
-     */
-    public Token next(Token t) {
-        return t.next();
-    }
-
-//    public Iterator<Token> iterator() {
-//        return new Iterator<>() {
-//            private Token current;
-//
-//            @Override
-//            public boolean hasNext() {
-//                return !(isEmpty())
-//                        || (current == null)
-//                        || !(current == last);
-//            }
-//
-//            @Override
-//            public Token next() {
-//                if (current == null)
-//                    current = first;
-//                else
-//                    current = Tokens.this.next(current);
-//                return current;
-//            }
-//        };
-//
-//
-//    }
-
-//    }
-
-//    public Iterator<Token> iterator() { return new TokensIterator(); }
-
-
 }
