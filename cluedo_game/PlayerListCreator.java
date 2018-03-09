@@ -35,10 +35,12 @@ public class PlayerListCreator {
         GUIPlayerList = new CharacterList[6];
 
         /* Setting default params for JFrame */
-        display.setSize(400, 900);
+        display.setSize(497, 900);
         display.setTitle("Create Players");
+        
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        display.setResizable(false);
+        
         /* populating panel which will hold the character choices */
         panel = new JPanel();
         panel.setLayout(new GridLayout(6,2));
@@ -89,11 +91,10 @@ public class PlayerListCreator {
 
 
         private JTextField value;
-        String willThisWork;
+        String willThisWork, username;
         public int objNum;
         JList list;
         DefaultListModel model = new DefaultListModel();
-
 
         public CharacterList(int i) {
             super(new BorderLayout(5, 5));
@@ -132,17 +133,14 @@ public class PlayerListCreator {
                         selectedPlayers.add(willThisWork);
 
                         String[] output = getValue();
-                        System.out.println("this is the uername: " + output[0]);
+                        username = output[0];
 
                         
                         value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
-
+                        
                         value.setEditable(false);
                         
                         value.revalidate();
-
-                        // TODO: FIX
-//                       GUIPlayerList[objNum].add(value, BorderLayout.EAST);
                     }
                     else { // if we don't, we set the string = to what we selected earlier (in the selected players array)
                         willThisWork = selectedPlayers.get(objNum);
@@ -206,7 +204,15 @@ public class PlayerListCreator {
                             }
                          else { // if this is the current JList
                         	 /* removing the JList elements from the current obj (since the user already chose that they wanted) */
-                             model.removeAllElements();
+                        	 model.removeAllElements();
+                        	 
+                        	 /* Making the username appear in a different box next to the character selection */ 
+                        	 JTextField userNameHold = new JTextField("", 20);
+                        	 userNameHold.setText("Username: " + username);
+                        	 userNameHold.setEditable(false);
+                        	 
+                        	 add(value, BorderLayout.WEST);
+                        	 add(userNameHold, BorderLayout.EAST);
                          }
                       }
                    }
@@ -216,9 +222,8 @@ public class PlayerListCreator {
             /* setting the JList and txt box to their initial values */
             System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
-            value = new JTextField("", 40);
+            value = new JTextField("", 20);
 
-            // TODO: Kelsey is trying to work here
             value.setEnabled(true);
 
             add(value, BorderLayout.EAST);
@@ -353,12 +358,6 @@ public class PlayerListCreator {
             	restartGame.resetgame();
             }
             else {
-            	// This is a debugging call
-//            	playerList.printList();
-
-                /*
-            	Once players have been entered, tell GameLogic to continue
-            	 */
             	playerList.printList();
             	GameLogic.createBoardAndUI();           	
             }
