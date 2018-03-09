@@ -10,7 +10,9 @@ public class test {
 	}
 	/* Forces the game to reset by creating a new obj -- only happens when the user does not correctly input the players */
 	public void  resetgame() {	
+		System.out.println("Am I getting here?");
 		GameLogic resetGame = new GameLogic();
+
 	}
 		
 	public static void main(String[] args) {

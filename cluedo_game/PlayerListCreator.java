@@ -339,7 +339,9 @@ public class PlayerListCreator {
             
             if (numPlayers < 2) {
             	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-            	System.exit(0);
+            	
+            	test restartGame = new test();
+            	restartGame.resetgame();
             }
             else {
             	// This is a debugging call
