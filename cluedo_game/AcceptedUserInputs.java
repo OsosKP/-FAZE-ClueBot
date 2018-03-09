@@ -64,6 +64,15 @@ public class AcceptedUserInputs {
         roomChoices.add("lounge");
     }
 
+    /**
+     * Converts a string to all lower case and eliminates white spaces
+     * @param in string to convert
+     * @return converted string
+     */
+    public static String simpleString(String in){
+        return in.replaceAll("\\s+","").toLowerCase();
+    }
+
     public static ArrayList<String> getFloorNavigation() {
         return floorNavigation;
     }
@@ -89,7 +98,7 @@ public class AcceptedUserInputs {
      */
     public static boolean checkForValidEntry(Token p, String in){
         // Change input to lower case and erase whitespaces to check against allowed entries
-        in = in.replaceAll("\\s+","").toLowerCase();
+        in = simpleString(in);
 
         boolean result = false;
 
@@ -135,5 +144,18 @@ public class AcceptedUserInputs {
         }
         return true;
     }
+
+    /*
+    Methods to handle cards and guessing
+     */
+    public boolean compareInputToDeck(String in, int index){
+        for(String st : Deck.getSubDeck(index)){
+            if(simpleString(st).equals(simpleString(in)))
+                return true;
+        }
+        return false;
+    }
+
+
 
 }

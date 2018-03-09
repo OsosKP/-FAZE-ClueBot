@@ -265,25 +265,25 @@ public class BoardImage {
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 		int startx=0, starty=0, endx=0, endy=0;
-		int[] modifyer = {0,0};
+		int[] modifier = {0,0};
 		Boolean simpledirection = true;//This tells the next switch to not overwrite the endx endy;
 
 		switch (direction) {
 			case "up":
-				modifyer[0]=-1;
-				modifyer[1]=0;
+				modifier[0]=-1;
+				modifier[1]=0;
 				break;
 			case "down":
-				modifyer[0]=1;
-				modifyer[1]=0;
+				modifier[0]=1;
+				modifier[1]=0;
 				break;
 			case "left":
-				modifyer[0]=0;
-				modifyer[1]=-1;
+				modifier[0]=0;
+				modifier[1]=-1;
 				break;
 			case "right":
-				modifyer[0]=0;
-				modifyer[1]=1;
+				modifier[0]=0;
+				modifier[1]=1;
 				break;
 			case "Kitchen":
 			case "Ballroom":
@@ -352,60 +352,60 @@ public class BoardImage {
 				startx=whiteindex[0];
 				starty=whiteindex[1];
 				if (simpledirection){
-					endx=whiteindex[0]+modifyer[0];
-					endy=whiteindex[1]+modifyer[1];
-					whiteindex[0]+=modifyer[0];
-					whiteindex[1]+=modifyer[1];
+					endx=whiteindex[0]+modifier[0];
+					endy=whiteindex[1]+modifier[1];
+					whiteindex[0]+=modifier[0];
+					whiteindex[1]+=modifier[1];
 				}
 				break;
 			case "Green":
 				startx=greenindex[0];
 				starty=greenindex[1];
 				if (simpledirection){
-					endx=greenindex[0]+modifyer[0];
-					endy=greenindex[1]+modifyer[1];
-					greenindex[0]+=modifyer[0];
-					greenindex[1]+=modifyer[1];
+					endx=greenindex[0]+modifier[0];
+					endy=greenindex[1]+modifier[1];
+					greenindex[0]+=modifier[0];
+					greenindex[1]+=modifier[1];
 				}
 				break;
 			case "Peacock":
 				startx=peacockindex[0];
 				starty=peacockindex[1];
 				if (simpledirection){
-					endx=peacockindex[0]+modifyer[0];
-					endy=peacockindex[1]+modifyer[1];
-					peacockindex[0]+=modifyer[0];
-					peacockindex[1]+=modifyer[1];
+					endx=peacockindex[0]+modifier[0];
+					endy=peacockindex[1]+modifier[1];
+					peacockindex[0]+=modifier[0];
+					peacockindex[1]+=modifier[1];
 				}
 				break;
 			case "Mustard":
 				startx=mustardindex[0];
 				starty=mustardindex[1];
 				if (simpledirection){
-					endx=mustardindex[0]+modifyer[0];
-					endy=mustardindex[1]+modifyer[1];
-					mustardindex[0]+=modifyer[0];
-					mustardindex[1]+=modifyer[1];
+					endx=mustardindex[0]+modifier[0];
+					endy=mustardindex[1]+modifier[1];
+					mustardindex[0]+=modifier[0];
+					mustardindex[1]+=modifier[1];
 				}
 				break;
 			case "Plum":
 				startx=plumindex[0];
 				starty=plumindex[1];
 				if (simpledirection){
-					endx=plumindex[0]+modifyer[0];
-					endy=plumindex[1]+modifyer[1];
-					plumindex[0]+=modifyer[0];
-					plumindex[1]+=modifyer[1];
+					endx=plumindex[0]+modifier[0];
+					endy=plumindex[1]+modifier[1];
+					plumindex[0]+=modifier[0];
+					plumindex[1]+=modifier[1];
 				}
 				break;
 			case "Scarlet":
 				startx=scarletindex[0];
 				starty=scarletindex[1];
 				if (simpledirection){
-					endx=scarletindex[0]+modifyer[0];
-					endy=scarletindex[1]+modifyer[1];
-					scarletindex[0]+=modifyer[0];
-					scarletindex[1]+=modifyer[1];
+					endx=scarletindex[0]+modifier[0];
+					endy=scarletindex[1]+modifier[1];
+					scarletindex[0]+=modifier[0];
+					scarletindex[1]+=modifier[1];
 				}
 				break;
 			default:
@@ -415,7 +415,7 @@ public class BoardImage {
 
 
 
-		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifyer[0] + "," + modifyer[1] + "] = [" + endx + "," + endy + "]");
+		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifier[0] + "," + modifier[1] + "] = [" + endx + "," + endy + "]");
 
 		/* Assigning the colour of the new JButton */
 
@@ -441,8 +441,8 @@ public class BoardImage {
 	//Probably  will delete
 	public int[] calculateModifier(int[] destinationSquare, int[] playerindex){
 		BoardBuilder roomsReference = new BoardBuilder(new Tokens());//I know this sucks but it works
-		int[] modifyer = {playerindex[0]-destinationSquare[0], playerindex[1]-playerindex[1]};
-		return modifyer;
+		int[] modifier = {playerindex[0]-destinationSquare[0], playerindex[1]-playerindex[1]};
+		return modifier;
 	}
 
 	public int[] returnExitSquares(String exit){
@@ -455,7 +455,7 @@ public class BoardImage {
 	static int[] playersinRooms = {0,0,0,0,0,0,0,0,0};
 	public int[] calculateEndSquareRoom(String room){
 		int[] destination = {0,0};
-		 if (room=="Kitchen"){
+		 if (room.equals("Kitchen")){
 			switch (playersinRooms[0]){
 				case 0:
 					destination[0] = 3;
@@ -487,7 +487,7 @@ public class BoardImage {
 			}
 			playersinRooms[0]++;
 			}
-			if (room=="Ballroom"){
+			if (room.equals("Ballroom")){
 			   switch (playersinRooms[1]){
 				   case 0:
 					   destination[0] = 4;
@@ -519,7 +519,7 @@ public class BoardImage {
 			   }
 			   playersinRooms[1]++;
 		   }
-	   if (room=="Conservatory"){
+	   if (room.equals("Conservatory")){
 		  switch (playersinRooms[2]){
 			  case 0:
 				  destination[0] = 2;
@@ -551,7 +551,7 @@ public class BoardImage {
 		  }
 		  playersinRooms[2]++;
 	  }
-	  if (room=="DiningRoom"){
+	  if (room.equals("DiningRoom")){
 		 switch (playersinRooms[3]){
 			 case 0:
 				 destination[0] = 11;
@@ -584,7 +584,7 @@ public class BoardImage {
 		 playersinRooms[3]++;
 	 }
 
-	 if (room=="BilliardRoom"){
+	 if (room.equals("BilliardRoom")){
 		switch (playersinRooms[4]){
 			case 0:
 				destination[0] = 4;
@@ -616,7 +616,7 @@ public class BoardImage {
 		}
 		playersinRooms[4]++;
 	}
-			if (room=="Library"){
+			if (room.equals("Library")){
 				switch (playersinRooms[5]){
 					case 0:
 						destination[0] = 15;
@@ -648,7 +648,7 @@ public class BoardImage {
 				}
 				playersinRooms[5]++;
 			}
-			if (room=="Lounge"){
+			if (room.equals("Lounge")){
 				switch (playersinRooms[6]){
 					case 0:
 						destination[0] = 21;
@@ -680,7 +680,7 @@ public class BoardImage {
 				}
 				playersinRooms[6]++;
 			}
-			if (room=="Hall"){
+			if (room.equals("Hall")){
 				switch (playersinRooms[4]){
 					case 0:
 						destination[0] = 21;
@@ -712,7 +712,7 @@ public class BoardImage {
 				}
 				playersinRooms[7]++;
 			}
-			if (room=="Study"){
+			if (room.equals("Study")){
 				switch (playersinRooms[4]){
 					case 0:
 						destination[0] = 22;
