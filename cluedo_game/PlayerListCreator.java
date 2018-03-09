@@ -35,10 +35,12 @@ public class PlayerListCreator {
         GUIPlayerList = new CharacterList[6];
 
         /* Setting default params for JFrame */
-        display.setSize(400, 900);
+        display.setSize(497, 900);
         display.setTitle("Create Players");
+        
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        display.setResizable(false);
+        
         /* populating panel which will hold the character choices */
         panel = new JPanel();
         panel.setLayout(new GridLayout(6,2));
@@ -76,6 +78,7 @@ public class PlayerListCreator {
 
     /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
+
         public String[] items = {
                 "Miss Scarlett",
                 "Colonel Mustard",
@@ -86,8 +89,9 @@ public class PlayerListCreator {
                 "Not Playing"
         };
 
+
         private JTextField value;
-        String willThisWork;
+        String willThisWork, username, characterName;
         public int objNum;
         JList list;
         DefaultListModel model = new DefaultListModel();
@@ -122,22 +126,28 @@ public class PlayerListCreator {
                             selectedPlayers.remove(i+1);
                         }
                     }
+                    
 
                     /* If we have gotten a value from the list -- we add it to the selectedPlayers Array and inform the user */
                     if (willThisWork != null) {
                         selectedPlayers.add(willThisWork);
-                        value.setText("You have selected: " + selectedPlayers.get(objNum));
-                        value.revalidate();
 
-                        // TODO: FIX
-//                       GUIPlayerList[objNum].add(value, BorderLayout.EAST);
+                        String[] output = getValue();
+                        username = output[0];
+                        characterName = selectedPlayers.get(objNum);
+
+                        value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
+                        
+                        value.setEditable(false);
+                        
+                        value.revalidate();
                     }
                     else { // if we don't, we set the string = to what we selected earlier (in the selected players array)
                         willThisWork = selectedPlayers.get(objNum);
                         value.setText("You have selected: " + selectedPlayers.get(objNum));
-                        value.revalidate();
 
-//                        GUIPlayerList[objNum].add(value, BorderLayout.EAST);
+                        //value.setEditable(false);
+                        value.revalidate();
 
                         return; //we don't want the rest of the method to run, because we have our value
                     }
@@ -194,7 +204,24 @@ public class PlayerListCreator {
                             }
                          else { // if this is the current JList
                         	 /* removing the JList elements from the current obj (since the user already chose that they wanted) */
-                             model.removeAllElements();
+                        	 model.removeAllElements();
+                        	 
+                        	 /* Making the username appear in a different box next to the character selection */ 
+                        	 JTextField userNameHold = new JTextField("", 20);
+                        	 
+                        	 /* need to check the case in which the user didnt enter a usname -- or chose 'not plying' */
+                        	 if (username.isEmpty()) {
+                        		 username = "Player " + objNum;
+                        	 }
+                        	 else if (characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
+                        		 username = "NA";
+                        	 }
+                        	 
+                        	 userNameHold.setText("Username: " + username);
+                        	 userNameHold.setEditable(false);
+                        	 
+                        	 add(value, BorderLayout.WEST);
+                        	 add(userNameHold, BorderLayout.EAST);
                          }
                       }
                    }
@@ -206,8 +233,7 @@ public class PlayerListCreator {
             add(list, BorderLayout.CENTER);
             value = new JTextField("", 20);
 
-            // TODO: Kelsey is trying to work here
-            value.setEnabled(false);
+            value.setEnabled(true);
 
             add(value, BorderLayout.EAST);
         }
@@ -336,15 +362,12 @@ public class PlayerListCreator {
             
             if (numPlayers < 2) {
             	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-            	System.exit(0);
+            	
+            	test restartGame = new test();
+            	restartGame.resetgame();
             }
             else {
-            	// This is a debugging call
-//            	playerList.printList();
-
-                /*
-            	Once players have been entered, tell GameLogic to continue
-            	 */
+            	playerList.printList();
             	GameLogic.createBoardAndUI();           	
             }
 
