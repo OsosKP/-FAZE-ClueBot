@@ -91,7 +91,7 @@ public class PlayerListCreator {
 
 
         private JTextField value;
-        String willThisWork, username;
+        String willThisWork, username, characterName;
         public int objNum;
         JList list;
         DefaultListModel model = new DefaultListModel();
@@ -134,8 +134,8 @@ public class PlayerListCreator {
 
                         String[] output = getValue();
                         username = output[0];
+                        characterName = selectedPlayers.get(objNum);
 
-                        
                         value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
                         
                         value.setEditable(false);
@@ -208,6 +208,15 @@ public class PlayerListCreator {
                         	 
                         	 /* Making the username appear in a different box next to the character selection */ 
                         	 JTextField userNameHold = new JTextField("", 20);
+                        	 
+                        	 /* need to check the case in which the user didnt enter a usname -- or chose 'not plying' */
+                        	 if (username.isEmpty()) {
+                        		 username = "Player " + objNum;
+                        	 }
+                        	 else if (characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
+                        		 username = "NA";
+                        	 }
+                        	 
                         	 userNameHold.setText("Username: " + username);
                         	 userNameHold.setEditable(false);
                         	 
