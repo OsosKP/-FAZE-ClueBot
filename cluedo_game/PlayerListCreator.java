@@ -125,11 +125,20 @@ public class PlayerListCreator {
                             selectedPlayers.remove(i+1);
                         }
                     }
+                    
 
                     /* If we have gotten a value from the list -- we add it to the selectedPlayers Array and inform the user */
                     if (willThisWork != null) {
                         selectedPlayers.add(willThisWork);
-                        value.setText("You have selected: " + selectedPlayers.get(objNum));
+
+                        String[] output = getValue();
+                        System.out.println("this is the uername: " + output[0]);
+
+                        
+                        value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
+
+                        value.setEditable(false);
+                        
                         value.revalidate();
 
                         // TODO: FIX
@@ -138,9 +147,9 @@ public class PlayerListCreator {
                     else { // if we don't, we set the string = to what we selected earlier (in the selected players array)
                         willThisWork = selectedPlayers.get(objNum);
                         value.setText("You have selected: " + selectedPlayers.get(objNum));
-                        value.revalidate();
 
-//                        GUIPlayerList[objNum].add(value, BorderLayout.EAST);
+                        //value.setEditable(false);
+                        value.revalidate();
 
                         return; //we don't want the rest of the method to run, because we have our value
                     }
@@ -207,10 +216,10 @@ public class PlayerListCreator {
             /* setting the JList and txt box to their initial values */
             System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
-            value = new JTextField("", 20);
+            value = new JTextField("", 40);
 
             // TODO: Kelsey is trying to work here
-            value.setEnabled(false);
+            value.setEnabled(true);
 
             add(value, BorderLayout.EAST);
         }
