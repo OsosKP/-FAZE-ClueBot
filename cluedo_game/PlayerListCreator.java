@@ -368,7 +368,7 @@ public class PlayerListCreator {
             }
             else {
             	playerList.printList();
-            	GameLogic.createBoardAndUI();           	
+            	GameLogic.createGame();
             }
 
         }

@@ -15,7 +15,7 @@ public class Token {
 	private BoardSquare squareOn;
 	private Room inRoom;
 	private ArrayList<Card> hand;
-	private ArrayList<ArrayList<String>> playerDeckNotes;
+	private NoteCards playerDeckNotes;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -32,8 +32,8 @@ public class Token {
 
 		hand = new ArrayList<>();
 
-		// Set up a note card for the player, right now with no information
-		this.populatePlayerDeckNotes();
+		// TODO: Set up a note card for the player, right now with no information
+		playerDeckNotes = new NoteCards();
 	}
 
 	public void enterRoom(Room room){
@@ -110,34 +110,90 @@ public class Token {
 		return hand;
 	}
 
-	//
-	// Player Note Card methods
-	//
-	// First declaration of the deck
-	public void populatePlayerDeckNotes(){
-		playerDeckNotes = new ArrayList<>();
+	public ArrayList<String> getNotes(){
+		ArrayList<String> notes = new ArrayList<>();
 		for(int i=0; i<3; i++) {
-			playerDeckNotes.add(new ArrayList<>());
-				for(int j=0; j<9; j++){
-					// Don't do the entire loop if we're on players or weapons
-					if ((i == 0 || i == 2) && j == 6)
-						break;
-					playerDeckNotes.get(i).add(" ");
-				}
+			for (NoteCards.NoteCard n : playerDeckNotes.getNoteSheet().get(i))
+				notes.add(String.valueOf(n.guessed) + "\t" + n.name);
 		}
+		return notes;
 	}
 
-	public void updateNotesFromPublicDeck(Deck deck){
-
+	public NoteCards getPlayerDeckNotes() {
+		return playerDeckNotes;
 	}
 
 	/**
-	 * updateNotesFromGuess
-	 * 	When a player finds a card in another player's deck while guessing, that card's index is sent here
-	 * 		to be crossed off on the note card
-	 * @param index Index of item that was found through guessing
+	 * NoteCards is just the note list for a player, with each Token/Room/Weapon
+	 * 	represented along with a 'mark' for whether that card has been guessed
+	 * 		Marks:
+	 * 			(blank)	-	Unknown
+	 * 			'A'		-	Card is in public deck
+	 * 			'X'		-	Card was found in another player's hand
+	 * 			'?'		-	Card was guess but not discovered in another hand
 	 */
-	public void updateNotesFromGuess(int[] index){
-		playerDeckNotes.get(index[0]).set(index[1], "X");
+	static class NoteCards extends Deck {
+		ArrayList<ArrayList<NoteCard>> noteSheet = new ArrayList<>();
+		/*
+			NoteCard is the same as card with one extra variable -
+				The char that denotes whether the card has been guessed and, if
+					so, what the result was
+		 */
+		private class NoteCard extends Card {
+			char guessed;
+			public NoteCard(String name, int ref0, int ref1, String type){
+				super(name, ref0, ref1, type);
+				this.guessed = ' ';
+			}
+			public void changeStatus(char mark){
+				this.guessed = mark;
+			}
+		}
+		/*
+			Constructor of NoteCards is the same as for Deck
+				This isn't efficient but makes for simple referencing
+				Since a card's 'reference' is set at declaration and never
+					changed, we can use it to move seamlessly between public deck,
+					hands, murder envelope and noteCards.
+		 */
+		public NoteCards(){
+			noteSheet.add(new ArrayList<>());
+			noteSheet.get(0).add(new NoteCard("White", 0, 0, "token"));
+			noteSheet.get(0).add(new NoteCard("Green", 0, 1, "token"));
+			noteSheet.get(0).add(new NoteCard("Mustard", 0, 2, "token"));
+			noteSheet.get(0).add(new NoteCard("Scarlet", 0, 3, "token"));
+			noteSheet.get(0).add(new NoteCard("Peacock", 0, 4, "token"));
+			noteSheet.get(0).add(new NoteCard("Plum", 0, 5, "token"));
+
+			noteSheet.add(new ArrayList<>());
+			noteSheet.get(1).add(new NoteCard("Kitchen", 1, 0, "room"));
+			noteSheet.get(1).add(new NoteCard("Ball Room", 1, 1, "room"));
+			noteSheet.get(1).add(new NoteCard("Conservatory", 1, 2, "room"));
+			noteSheet.get(1).add(new NoteCard("Dining Room", 1, 3, "room"));
+			noteSheet.get(1).add(new NoteCard("Billiard Room", 1, 4, "room"));
+			noteSheet.get(1).add(new NoteCard("Library", 1, 5, "room"));
+			noteSheet.get(1).add(new NoteCard("Lounge", 1, 6, "room"));
+			noteSheet.get(1).add(new NoteCard("Hall", 1, 7, "room"));
+			noteSheet.get(1).add(new NoteCard("Study", 1, 8, "room"));
+
+			noteSheet.add(new ArrayList<>());
+			noteSheet.get(2).add(new NoteCard("Candlestick", 2, 0, "weapon"));
+			noteSheet.get(2).add(new NoteCard("Dagger", 2, 1, "weapon"));
+			noteSheet.get(2).add(new NoteCard("Gun", 2, 2, "weapon"));
+			noteSheet.get(2).add(new NoteCard("Pipe", 2, 3, "weapon"));
+			noteSheet.get(2).add(new NoteCard("Rope", 2, 4, "weapon"));
+			noteSheet.get(2).add(new NoteCard("Wrench", 2, 5, "weapon"));
+		}
+
+		/*
+			When guess, call this method to update the appropriate noteCard
+		 */
+		protected void changeGuessStatus(int[] reference, char mark){
+			noteSheet.get(reference[0]).get(reference[1]).changeStatus(mark);
+		}
+
+		protected ArrayList<ArrayList<NoteCard>> getNoteSheet() {
+			return noteSheet;
+		}
 	}
 }
