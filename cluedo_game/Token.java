@@ -14,7 +14,7 @@ public class Token {
 	private String locationAsString;
 	private BoardSquare squareOn;
 	private Room inRoom;
-	private ArrayList<ArrayList<String>> hand;
+	private ArrayList<Card> hand;
 	private ArrayList<ArrayList<String>> playerDeckNotes;
 
 	// Variable to help with circularly linked list traversal
@@ -98,18 +98,16 @@ public class Token {
 		this.next = next;
 	}
 
+
 	//
 	// Player hand methods
 	//
-	public void populateHand(ArrayList<String> cards, int[][] indices){
-		int i = 0;
-		for(String st : cards) {
-			hand.add(new ArrayList<>());
-				hand.get(i).add(st);
-				hand.get(i).add(Integer.toString(indices[i][0]));
-				hand.get(i).add(Integer.toString(indices[i][1]));
-			i++;
-		}
+	public void addCardToHand(Card card){
+		this.hand.add(card);
+	}
+
+	public ArrayList<Card> getHand() {
+		return hand;
 	}
 
 	//
