@@ -9,59 +9,54 @@ import java.util.Random;
  */
 
 public class Deck {
-    private ArrayList<ArrayList<Card>> deck = new ArrayList<>();
+    // Once all cards are dealt, any leftovers remain int he publicDeck
+    private ArrayList<ArrayList<Card>> publicDeck = new ArrayList<>();
     private ArrayList<Card> murderEnvelope = new ArrayList<>();
     private Card first;
 
     /*
-    Generic constructor for the primary deck of all cards
+    Generic constructor for the primary publicDeck of all cards
      */
     public Deck() {
-        deck.add(new ArrayList<>());
-        deck.get(0).add(new Card("White", 0, 0, "token"));
-        deck.get(0).add(new Card("Green", 0, 1, "token"));
-        deck.get(0).add(new Card("Mustard", 0, 2, "token"));
-        deck.get(0).add(new Card("Scarlet", 0, 3, "token"));
-        deck.get(0).add(new Card("Peacock", 0, 4, "token"));
-        deck.get(0).add(new Card("Plum", 0, 5, "token"));
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(0).add(new Card("White", 0, 0, "token"));
+        publicDeck.get(0).add(new Card("Green", 0, 1, "token"));
+        publicDeck.get(0).add(new Card("Mustard", 0, 2, "token"));
+        publicDeck.get(0).add(new Card("Scarlet", 0, 3, "token"));
+        publicDeck.get(0).add(new Card("Peacock", 0, 4, "token"));
+        publicDeck.get(0).add(new Card("Plum", 0, 5, "token"));
 
-        deck.add(new ArrayList<>());
-        deck.get(1).add(new Card("Kitchen", 1, 0, "room"));
-        deck.get(1).add(new Card("Ball Room", 1, 1, "room"));
-        deck.get(1).add(new Card("Conservatory", 1, 2, "room"));
-        deck.get(1).add(new Card("Dining Room", 1, 3, "room"));
-        deck.get(1).add(new Card("Billiard Room", 1, 4, "room"));
-        deck.get(1).add(new Card("Library", 1, 5, "room"));
-        deck.get(1).add(new Card("Lounge", 1, 6, "room"));
-        deck.get(1).add(new Card("Hall", 1, 7, "room"));
-        deck.get(1).add(new Card("Study", 1, 8, "room"));
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(1).add(new Card("Kitchen", 1, 0, "room"));
+        publicDeck.get(1).add(new Card("Ball Room", 1, 1, "room"));
+        publicDeck.get(1).add(new Card("Conservatory", 1, 2, "room"));
+        publicDeck.get(1).add(new Card("Dining Room", 1, 3, "room"));
+        publicDeck.get(1).add(new Card("Billiard Room", 1, 4, "room"));
+        publicDeck.get(1).add(new Card("Library", 1, 5, "room"));
+        publicDeck.get(1).add(new Card("Lounge", 1, 6, "room"));
+        publicDeck.get(1).add(new Card("Hall", 1, 7, "room"));
+        publicDeck.get(1).add(new Card("Study", 1, 8, "room"));
 
-        deck.add(new ArrayList<>());
-        deck.get(2).add(new Card("Candlestick", 2, 0, "weapon"));
-        deck.get(2).add(new Card("Dagger", 2, 1, "weapon"));
-        deck.get(2).add(new Card("Gun", 2, 2, "weapon"));
-        deck.get(2).add(new Card("Pipe", 2, 3, "weapon"));
-        deck.get(2).add(new Card("Rope", 2, 4, "weapon"));
-        deck.get(2).add(new Card("Wrench", 2, 5, "weapon"));
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon"));
+        publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon"));
+        publicDeck.get(2).add(new Card("Gun", 2, 2, "weapon"));
+        publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon"));
+        publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon"));
+        publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon"));
 
-        this.first = deck.get(0).get(0);
+        this.first = publicDeck.get(0).get(0);
 
-    }
-    /*
-    Specialized constructor for real decks - hands, murder envelope, public deck
-     */
-    public Deck(ArrayList<ArrayList<Card>> deck){
-        this.deck = deck;
     }
 
     //
     //  Accessors
     //
     public Card getCardByReference(int[] reference){
-        return deck.get(reference[0]).get(reference[1]);
+        return publicDeck.get(reference[0]).get(reference[1]);
     }
     public Card getCardByReference(int ref1, int ref2){
-        return deck.get(ref1).get(ref2);
+        return publicDeck.get(ref1).get(ref2);
     }
 
     /**
@@ -72,7 +67,7 @@ public class Deck {
      * @return simpleString version of card type strings
      */
     public ArrayList<Card> getSubDeckSimplified(int index) {
-        ArrayList<Card> simplifiedSubDeck = deck.get(index);
+        ArrayList<Card> simplifiedSubDeck = publicDeck.get(index);
         for (Card c : simplifiedSubDeck) {
             c.setName(c.getName());
         }
@@ -80,11 +75,11 @@ public class Deck {
     }
 
     public ArrayList<Card> getSubDeck(int index) {
-        return deck.get(index);
+        return publicDeck.get(index);
     }
 
     public ArrayList<ArrayList<Card>> getDeckSimplified() {
-        ArrayList<ArrayList<Card>> simplified = deck;
+        ArrayList<ArrayList<Card>> simplified = publicDeck;
         for (int i = 0; i < 3; i++) {
             for (Card c : simplified.get(i)) {
                 c.setName(c.getName());
@@ -94,7 +89,7 @@ public class Deck {
     }
 
     public ArrayList<ArrayList<Card>> getDeck() {
-        return deck;
+        return publicDeck;
     }
 
     public ArrayList<Card> getMurderEnvelope() {
@@ -102,16 +97,16 @@ public class Deck {
     }
 
     /*
-            Returns the total size of the deck, including all three sublists
+            Returns the total size of the publicDeck, including all three sublists
          */
     public int totalSize(){
-        return deck.get(0).size() + deck.get(1).size() + deck.get(2).size();
+        return publicDeck.get(0).size() + publicDeck.get(1).size() + publicDeck.get(2).size();
     }
     /*
         Returns size of a given sublist by index
      */
     public int size(int index){
-        return deck.get(index).size();
+        return publicDeck.get(index).size();
     }
 
     //
@@ -120,14 +115,14 @@ public class Deck {
     /*
         This is an inefficient remove method, because it has to search through
             a sublist for a given reference. This seems unavoidable to me, since
-            the deck is changing variably to suit the number of players.
+            the publicDeck is changing variably to suit the number of players.
         At most, in the current implementation, it will have to loop 8 times.
             I figure that's not too terrible of a situation to be in.
      */
     public Card remove(int[] reference) {
         Card card = null;
         int index = 0;
-        for(Card c : deck.get(reference[0])){
+        for(Card c : publicDeck.get(reference[0])){
             if(c.reference == reference){
                 card = c;
                 break;
@@ -136,7 +131,7 @@ public class Deck {
         }
         if (card == null)
             throw new CardNotFoundException();
-        deck.get(reference[0]).remove(index);
+        publicDeck.get(reference[0]).remove(index);
 
         return card;
     }
@@ -147,16 +142,16 @@ public class Deck {
 
         for(int i=0; i<3; i++){
             randIndex = rand.nextInt(6 + (3 * i%2));
-            murderEnvelope.add(deck.get(i).remove(randIndex));
+            murderEnvelope.add(publicDeck.get(i).remove(randIndex));
         }
     }
 
     public void dealHands(Tokens list){
         // Put all cards in one ArrayList for easier traversal
         ArrayList<Card> fullDeck = new ArrayList<>();
-            fullDeck.addAll(deck.get(0));
-            fullDeck.addAll(deck.get(1));
-            fullDeck.addAll(deck.get(2));
+            fullDeck.addAll(publicDeck.get(0));
+            fullDeck.addAll(publicDeck.get(1));
+            fullDeck.addAll(publicDeck.get(2));
 
         /*
             Find size of each player's hand
@@ -187,7 +182,7 @@ public class Deck {
                 card = fullDeck.get(randValue);
                 // Add that randomized card to given player's hand
                 list.getPlayerByIndex(j).addCardToHand(card);
-                // Remove card from decks
+                // Remove card from publicDecks
                 this.remove(card.reference);
                 fullDeck.remove(randValue);
             }

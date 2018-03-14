@@ -15,7 +15,7 @@ public class CardTester {
         deck.dealHands(list);
 
         Token curr = list.getFirst();
-        while(curr.next()!=list.getFirst()){
+        for(int i=0; i<list.getNumberOfPlayers(); i++){
             System.out.println("");
             System.out.println(curr.getName());
             for(Card c : curr.getHand())

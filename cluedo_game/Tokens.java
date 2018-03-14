@@ -24,18 +24,18 @@ public class Tokens {
         Token white = new Token(0, 9, "White", 2);
         Token green = new Token(0, 14, "Green", 3);
         Token peacock = new Token(6, 23, "Peacock", 4);
-        Token plum = new Token(19, 23, "Plum", 5);
+//        Token plum = new Token(19, 23, "Plum", 5);
 
         mustard.setNext(scarlet);
         scarlet.setNext(white);
         white.setNext(green);
         green.setNext(peacock);
-        peacock.setNext(plum);
-        plum.setNext(mustard);
+        peacock.setNext(mustard);
+//        plum.setNext(mustard);
 
         first = mustard;
-        last = plum;
-        numberOfPlayers = 6;
+        last = peacock;
+        numberOfPlayers = 5;
     }
 
     /*
