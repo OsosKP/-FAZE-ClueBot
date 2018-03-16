@@ -92,6 +92,14 @@ public class Deck {
         return publicDeck;
     }
 
+    public ArrayList<Card> getFullPublicDeck(){
+        ArrayList<Card> fullPublicDeck = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            fullPublicDeck.addAll(publicDeck.get(i));
+        }
+        return fullPublicDeck;
+    }
+
     public ArrayList<Card> getMurderEnvelope() {
         return murderEnvelope;
     }
