@@ -20,6 +20,8 @@ public class AcceptedUserInputs {
     private static final ArrayList<String> roomChoices = new ArrayList<>();
     // For 'exit', 'guess', 'passage'
     private static final ArrayList<String> roomNavigation = new ArrayList<>();
+    // For other commands: 'help', 'notes', 'cheat'
+    private static final ArrayList<String> auxiliaryCommands = new ArrayList<>();
 
     public static void setAcceptedUserInputs(){
         floorNavigation.add("up");
@@ -59,9 +61,13 @@ public class AcceptedUserInputs {
         roomChoices.add("study");
         roomChoices.add("hall");
         roomChoices.add("library");
-        roomChoices.add("billiard room");
-        roomChoices.add("dining room");
+        roomChoices.add("billiardroom");
+        roomChoices.add("diningroom");
         roomChoices.add("lounge");
+
+        auxiliaryCommands.add("help");
+        auxiliaryCommands.add("notes");
+        auxiliaryCommands.add("cheat");
     }
 
     /**
@@ -88,6 +94,7 @@ public class AcceptedUserInputs {
     public static ArrayList<String> getRoomNavigation() {
         return roomNavigation;
     }
+    public static ArrayList<String> getAuxiliaryCommands() {return auxiliaryCommands; }
 
     /**
      * This method handles user input checking for FloorSquares and in Rooms -
@@ -103,7 +110,8 @@ public class AcceptedUserInputs {
         boolean result = false;
 
         // No shortcuts on these - you have to enter the full word
-        if (in.equals("done") || in.equals("quit"))
+        if (in.equals("done") || in.equals("quit") ||
+                in.equals("notes") || in.equals("cheat"))
             return true;
 
         switch(p.getLocationAsString()){
@@ -148,9 +156,18 @@ public class AcceptedUserInputs {
     /*
     Methods to handle cards and guessing
      */
-    public boolean compareInputToDeck(String in, int index){
-        for(String st : Deck.getSubDeck(index)){
-            if(simpleString(st).equals(simpleString(in)))
+    public static boolean checkGuessValidity(String guess){
+        guess = simpleString(guess);
+        for(String s : characterChoices){
+            if(guess.equals(s))
+                return true;
+        }
+        for(String s : roomChoices){
+            if(guess.equals(s))
+                return true;
+        }
+        for(String s : weaponChoices){
+            if(guess.equals(s))
                 return true;
         }
         return false;

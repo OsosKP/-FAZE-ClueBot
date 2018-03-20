@@ -5,6 +5,7 @@
 package cluedo_game;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -16,6 +17,7 @@ public class GameLogic {
 	/* This is going to handle the board */
 	static BoardBuilder currentBoard;
 	static Tokens playerList;
+	static Deck deck;
 	static UserInterface ui;
 
 	public GameLogic() {
@@ -54,8 +56,12 @@ public class GameLogic {
 	/**
 	 * This method waits for PlayerListCreator to tell it to run
 	 */
-	public static void createBoardAndUI(){
+	public static void createGame(){
 		currentBoard = new BoardBuilder(playerList);
+		deck = new Deck();
+		deck.fillMurderEnvelope();
+		deck.dealHands(playerList);
+		populatePlayerNoteCards();
 		ui = new UserInterface(playerList);
 	}
 
@@ -112,7 +118,6 @@ public class GameLogic {
 		 * @return string with result of command or error message
 		 */
 		public static String ActionPerformer(Token player, String entry) {
-
 			// Check that user input was a valid command (no game logic check yet, just that the command was allowed)
 			boolean validEntryCheck = AcceptedUserInputs.checkForValidEntry(player, entry);
 			// Setting value to result will switch the commandSuccessful boolean to true if it is valid
@@ -134,6 +139,11 @@ public class GameLogic {
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("quit")) {
 				return quitGameHandler();
 			}
+			// Don't set movement successful if player is just viewing notes
+			if(entry.replaceAll("\\s+","").toLowerCase().equals("notes"))
+				return "notes";
+			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
+				return "cheat";
 
 			switch (player.getLocationAsString()) {
 				case "floor":
@@ -313,20 +323,26 @@ public class GameLogic {
 		}
 
 		public static String quitGameHandler() {
-			int result = JOptionPane.showConfirmDialog(null, "Are you sure you would like to quit?", "Cluedo",
+			int result = JOptionPane.showConfirmDialog(null,
+					"Are you sure you would like to quit?", "Cluedo",
 					JOptionPane.YES_NO_OPTION);
 			if (result == 0)
 				System.exit(1);
 
 			return "Game Will Continue";
 		}
-
-
-
-
 	}
 
-	/**
+	/*
+	 * Update player note cards with public deck and individual hands
+	 */
+	public static void populatePlayerNoteCards() {
+		for (int i = 0; i < playerList.getNumberOfPlayers(); i++) {
+			playerList.getPlayerByIndex(i).populateNoteCards(deck);
+		}
+	}
+
+	/*
 	 * These methods are for player movement and dice rolls
 	 */
 	public static class Dice {

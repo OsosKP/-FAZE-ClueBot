@@ -33,6 +33,9 @@ public class UserInterface extends JPanel {
     JPanel boardImagePanel;
     BoardImage myImg;
 
+    // The guessing panel, which replaces the input panel
+//    private JPanel guess = in.createGuessPanel();
+
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
@@ -107,8 +110,10 @@ public class UserInterface extends JPanel {
         private JLabel promptLabel = new JLabel("     What would you like to do?");
         private JButton performActionButton;
         private JButton exitChoiceButton;
+        private JButton viewNotesButton;
         private UserInputListener returnPressListener;
         private ExitChoiceListener returnPressExitListener;
+        private ViewNotesListener returnPressViewNotesListener;
 
         public JPanel createInputPanel() {
             JPanel input = new JPanel();
@@ -121,8 +126,8 @@ public class UserInterface extends JPanel {
             returnPressListener = new UserInputListener();
             inputField.addActionListener(returnPressListener);
 
-            // Not using this listener yet, but will have the same functionality when user is exiting a room
             returnPressExitListener = new ExitChoiceListener();
+            returnPressViewNotesListener = new ViewNotesListener();
 
             input.add(whoseTurnLabel, BorderLayout.NORTH);
             input.add(promptLabel, BorderLayout.CENTER);
@@ -187,6 +192,9 @@ public class UserInterface extends JPanel {
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
                 }
+                if (result.equals("notes") || result.equals("cheat")){
+                    switchToViewNotes(result);
+                }
                 else {
                     if (currentPlayer.getLocationAsString().equals("room")) {
                         switch (result) {
@@ -221,9 +229,6 @@ public class UserInterface extends JPanel {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-//                          /*
-//                          TODO: This was my idea for movement on the board image, and it doesn't work
-//                         */
                            int[] destinationCoordinates;
                           // JPanel panelAfterPlayerMove = null;
                           userDisplay.remove(boardImagePanel);
@@ -300,7 +305,8 @@ public class UserInterface extends JPanel {
                         refreshDisplayForNextTurn(currentPlayer);
                     }
                     // If not, show error and do not cycle to next turn
-                    else {
+                        // Error doesn't show if player viewed notes
+                    else if (!(result.equals("notes") || result.equals("cheat"))){
                         // This will be an error message if move was unsuccessful
                         JOptionPane.showMessageDialog(null, result);
                     }
@@ -355,7 +361,7 @@ public class UserInterface extends JPanel {
                     display.repaint();
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
-                    switchExitPickerToInput();
+                    switchToInput(returnPressExitListener, exitChoiceButton);
                     if(currentPlayer.getInRoom() == null) {
                         System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: Exit " + choice
                                 + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
@@ -377,17 +383,55 @@ public class UserInterface extends JPanel {
 
         /**
          * This method switches back to general user input
+         *  It can be called to remove panels for either 'exit' or 'notes'/'cheat'
          */
-        public void switchExitPickerToInput() {
-            inputField.removeActionListener(returnPressExitListener);
+        public void switchToInput(ActionListener al, JButton button) {
+            inputField.removeActionListener(al);
             inputField.addActionListener(returnPressListener);
             in.inputField.setText("");
             in.inputField.requestFocus();
             promptLabel.setText("     What would you like to do?");
-            input.remove(exitChoiceButton);
+            input.remove(button);
             input.add(performActionButton, BorderLayout.EAST);
             input.revalidate();
             refreshDisplayForNextTurn(currentPlayer);
+        }
+
+        public void switchToViewNotes(String in){
+            switchInputToViewNotes();
+            out.viewNotes(in);
+            input.remove(performActionButton);
+            input.add(createViewNotesButton(), BorderLayout.EAST);
+            inputField.setText("");
+
+            input.revalidate();
+            output.revalidate();
+        }
+
+        // TODO: NOT WORKING
+        private void switchInputToViewNotes(){
+            input.remove(promptLabel);
+            inputField.removeActionListener(returnPressListener);
+            inputField.addActionListener(returnPressViewNotesListener);
+            promptLabel.setText("     You are viewing your notes.");
+            input.add(promptLabel, BorderLayout.CENTER);
+            input.revalidate();
+        }
+
+        private JButton createViewNotesButton(){
+            viewNotesButton = new JButton("Done");
+            ActionListener listener = new ViewNotesListener();
+            viewNotesButton.addActionListener(listener);
+
+            return viewNotesButton;
+        }
+
+        class ViewNotesListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                out.endViewNotes();
+                switchToInput(returnPressViewNotesListener, viewNotesButton);
+            }
         }
     }
 
@@ -401,17 +445,18 @@ public class UserInterface extends JPanel {
      * The user output portion of the GUI
      */
     public class OutputTextDisplay {
-        JTextArea textOutput;
+        JTextArea moveHistory;
         JScrollPane scroller;
+        JScrollPane notesScroller;
         JPanel allowedCommandsDisplay;
         JLabel locationReadout;
         JPanel possibleCommandsList;
 
         public OutputTextDisplay() {
-            textOutput = new JTextArea("", 10, 15);
-            textOutput.setEnabled(false);
-            textOutput.setLineWrap(true);
-            textOutput.setForeground(Color.BLACK);
+            moveHistory = new JTextArea("", 10, 15);
+            moveHistory.setEnabled(false);
+            moveHistory.setLineWrap(true);
+            moveHistory.setForeground(Color.BLACK);
 
             createAllowedCommandsDisplay();
 
@@ -439,7 +484,7 @@ public class UserInterface extends JPanel {
             /*
             The move history will be in a scrollable window
              */
-            scroller = new JScrollPane(textOutput);
+            scroller = new JScrollPane(moveHistory);
         }
 
         public void createAllowedCommandsDisplay() {
@@ -548,8 +593,8 @@ public class UserInterface extends JPanel {
          * @param in String created by PlayerMovementHandler (in GameLogic.PlayerEntry)
          */
         public void updateMoveHistory(String in) {
-            textOutput.append(in);
-            textOutput.append("\n\n");
+            moveHistory.append(in);
+            moveHistory.append("\n\n");
 
             // Refresh the panel after updating
             output.revalidate();
@@ -562,6 +607,36 @@ public class UserInterface extends JPanel {
             output.add(allowedCommandsDisplay);
 
             return output;
+        }
+
+        // TODO: Readouts for 'notes' and 'cheat'
+        public void viewNotes(String entry){
+            JTextArea notes = new JTextArea("", 10, 15);
+            notes.setBackground(Color.BLACK);
+            notes.setForeground(Color.WHITE);
+            if(entry.equals("notes")) {
+                for (String s : currentPlayer.getNotes())
+                    notes.append(s + "\n");
+            }
+            else if(entry.equals("cheat")){
+                notes.append("CHEATER!!!\n");
+                for (Card c : GameLogic.deck.getMurderEnvelope())
+                    notes.append(c.toString() + "\n");
+            }
+
+            notesScroller = new JScrollPane(notes);
+            output.removeAll();
+            output.setLayout(new GridLayout(1,1));
+            output.add(notesScroller);
+            output.revalidate();
+            userDisplay.repaint();
+        }
+        public void endViewNotes(){
+            output.remove(notesScroller);
+            output.setLayout(new GridLayout(2, 1));
+            output.add(scroller);
+            output.add(allowedCommandsDisplay);
+            output.repaint();
         }
     }
 

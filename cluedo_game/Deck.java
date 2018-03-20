@@ -1,67 +1,199 @@
 package cluedo_game;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * Data structure which holds Card objects as a modified ArrayList
+ * See Card usage notes
+ */
 
 public class Deck {
-    private static final ArrayList<ArrayList<String>> deck= new ArrayList<>();
+    // Once all cards are dealt, any leftovers remain int he publicDeck
+    private ArrayList<ArrayList<Card>> publicDeck = new ArrayList<>();
+    private ArrayList<Card> murderEnvelope = new ArrayList<>();
+    private Card first;
 
-    public Deck(){
-        deck.add(new ArrayList<>());
-            deck.get(0).add("White");
-            deck.get(0).add("Green");
-            deck.get(0).add("Mustard");
-            deck.get(0).add("Scarlet");
-            deck.get(0).add("Peacock");
-            deck.get(0).add("Plum");
+    /*
+    Generic constructor for the primary publicDeck of all cards
+     */
+    public Deck() {
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(0).add(new Card("White", 0, 0, "token"));
+        publicDeck.get(0).add(new Card("Green", 0, 1, "token"));
+        publicDeck.get(0).add(new Card("Mustard", 0, 2, "token"));
+        publicDeck.get(0).add(new Card("Scarlet", 0, 3, "token"));
+        publicDeck.get(0).add(new Card("Peacock", 0, 4, "token"));
+        publicDeck.get(0).add(new Card("Plum", 0, 5, "token"));
 
-        deck.add(new ArrayList<>());
-            deck.get(1).add("Kitchen");
-            deck.get(1).add("Ball Room");
-            deck.get(1).add("Conservatory");
-            deck.get(1).add("Dining Room");
-            deck.get(1).add("Billiard Room");
-            deck.get(1).add("Library");
-            deck.get(1).add("Lounge");
-            deck.get(1).add("Hall");
-            deck.get(1).add("Study");
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(1).add(new Card("Kitchen", 1, 0, "room"));
+        publicDeck.get(1).add(new Card("Ball Room", 1, 1, "room"));
+        publicDeck.get(1).add(new Card("Conservatory", 1, 2, "room"));
+        publicDeck.get(1).add(new Card("Dining Room", 1, 3, "room"));
+        publicDeck.get(1).add(new Card("Billiard Room", 1, 4, "room"));
+        publicDeck.get(1).add(new Card("Library", 1, 5, "room"));
+        publicDeck.get(1).add(new Card("Lounge", 1, 6, "room"));
+        publicDeck.get(1).add(new Card("Hall", 1, 7, "room"));
+        publicDeck.get(1).add(new Card("Study", 1, 8, "room"));
 
-        deck.add(new ArrayList<>());
-            deck.get(2).add("Candlestick");
-            deck.get(2).add("Dagger");
-            deck.get(2).add("Gun");
-            deck.get(2).add("Pipe");
-            deck.get(2).add("Rope");
-            deck.get(2).add("Wrench");
+        publicDeck.add(new ArrayList<>());
+        publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon"));
+        publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon"));
+        publicDeck.get(2).add(new Card("Gun", 2, 2, "weapon"));
+        publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon"));
+        publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon"));
+        publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon"));
+
+        this.first = publicDeck.get(0).get(0);
+
     }
 
-    /**
-     * Converts a string to all lower case and eliminates white spaces
-     * @param in string to convert
-     * @return converted string
-     */
-    public String simpleString(String in){
-        return in.replaceAll("\\s+","").toLowerCase();
+    //
+    //  Accessors
+    //
+    public Card getCardByReference(int[] reference){
+        return publicDeck.get(reference[0]).get(reference[1]);
+    }
+    public Card getCardByReference(int ref1, int ref2){
+        return publicDeck.get(ref1).get(ref2);
     }
 
     /**
      * @param index index of which card type to get string from
      *              0 = Players
      *              1 = Rooms
-     *              3 = Weapons
+     *              2 = Weapons
      * @return simpleString version of card type strings
      */
-    public ArrayList<String> getCardTypeString(int index){
-        ArrayList<String> simplifiedSubDeck = deck.get(index);
-        for(String st : simplifiedSubDeck) {
-            st = simpleString(st);
+    public ArrayList<Card> getSubDeckSimplified(int index) {
+        ArrayList<Card> simplifiedSubDeck = publicDeck.get(index);
+        for (Card c : simplifiedSubDeck) {
+            c.setName(c.getName());
         }
         return simplifiedSubDeck;
     }
 
-    public static ArrayList<ArrayList<String>> getDeck(){
-        return deck;
+    public ArrayList<Card> getSubDeck(int index) {
+        return publicDeck.get(index);
     }
-    public static ArrayList<String> getSubDeck(int index){
-        return deck.get(index);
+
+    public ArrayList<ArrayList<Card>> getDeckSimplified() {
+        ArrayList<ArrayList<Card>> simplified = publicDeck;
+        for (int i = 0; i < 3; i++) {
+            for (Card c : simplified.get(i)) {
+                c.setName(c.getName());
+            }
+        }
+        return simplified;
+    }
+
+    public ArrayList<ArrayList<Card>> getDeck() {
+        return publicDeck;
+    }
+
+    public ArrayList<Card> getFullPublicDeck(){
+        ArrayList<Card> fullPublicDeck = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            fullPublicDeck.addAll(publicDeck.get(i));
+        }
+        return fullPublicDeck;
+    }
+
+    public ArrayList<Card> getMurderEnvelope() {
+        return murderEnvelope;
+    }
+
+    /*
+            Returns the total size of the publicDeck, including all three sublists
+         */
+    public int totalSize(){
+        return publicDeck.get(0).size() + publicDeck.get(1).size() + publicDeck.get(2).size();
+    }
+    /*
+        Returns size of a given sublist by index
+     */
+    public int size(int index){
+        return publicDeck.get(index).size();
+    }
+
+    //
+    //  Mutators and Game methods
+    //
+    /*
+        This is an inefficient remove method, because it has to search through
+            a sublist for a given reference. This seems unavoidable to me, since
+            the publicDeck is changing variably to suit the number of players.
+        At most, in the current implementation, it will have to loop 8 times.
+            I figure that's not too terrible of a situation to be in.
+     */
+    public Card remove(int[] reference) {
+        Card card = null;
+        int index = 0;
+        for(Card c : publicDeck.get(reference[0])){
+            if(c.reference == reference){
+                card = c;
+                break;
+            }
+            index++;
+        }
+        if (card == null)
+            throw new CardNotFoundException();
+        publicDeck.get(reference[0]).remove(index);
+
+        return card;
+    }
+
+    public void fillMurderEnvelope(){
+        Random rand = new Random();
+        int randIndex;
+
+        for(int i=0; i<3; i++){
+            randIndex = rand.nextInt(6 + (3 * i%2));
+            murderEnvelope.add(publicDeck.get(i).remove(randIndex));
+        }
+    }
+
+    public void dealHands(Tokens list){
+        // Put all cards in one ArrayList for easier traversal
+        ArrayList<Card> fullDeck = new ArrayList<>();
+            fullDeck.addAll(publicDeck.get(0));
+            fullDeck.addAll(publicDeck.get(1));
+            fullDeck.addAll(publicDeck.get(2));
+
+        /*
+            Find size of each player's hand
+                Number of cards remaining (usually 18) minus number of cards
+                    that won't divide evenly into number of players, then
+                    divided by number of players.
+                Example: 18 cards, 4 players.
+                    18%4 = 2, 18-2=16 so 4 players get 4 cards.
+                    Remaining 2 cards are public
+         */
+        int handSize = ((this.totalSize() -
+                this.totalSize()%list.getNumberOfPlayers())/list.getNumberOfPlayers());
+
+        // Generate a random seed
+        Random rand = new Random();
+        int randValue;
+
+        Card card;
+        /*
+            Iterate through each player as many times as needed to distribute
+                cards up to handSize
+         */
+        for(int i=0; i<handSize; i++){
+            for(int j=0; j<list.getNumberOfPlayers(); j++){
+                // Random value bounded by number of cards left
+                randValue = rand.nextInt(fullDeck.size());
+
+                card = fullDeck.get(randValue);
+                // Add that randomized card to given player's hand
+                list.getPlayerByIndex(j).addCardToHand(card);
+                // Remove card from publicDecks
+                this.remove(card.reference);
+                fullDeck.remove(randValue);
+            }
+        }
     }
 }

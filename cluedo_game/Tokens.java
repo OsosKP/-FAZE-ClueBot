@@ -1,7 +1,5 @@
 package cluedo_game;
 
-import java.util.Iterator;
-
 /**
  * This is a modified circularly linked list.
  * We will need to add players to the end and pull from the front (as with a queue)
@@ -18,6 +16,26 @@ public class Tokens {
         this.first = null;
         this.last = null;
         numberOfPlayers = 0;
+    }
+    // Constructor used only for debugging
+    public Tokens(int i){
+        Token mustard = new Token(17, 0, "Mustard", 0);
+        Token scarlet = new Token(24, 7, "Scarlet", 1);
+        Token white = new Token(0, 9, "White", 2);
+        Token green = new Token(0, 14, "Green", 3);
+        Token peacock = new Token(6, 23, "Peacock", 4);
+//        Token plum = new Token(19, 23, "Plum", 5);
+
+        mustard.setNext(scarlet);
+        scarlet.setNext(white);
+        white.setNext(green);
+        green.setNext(peacock);
+        peacock.setNext(mustard);
+//        plum.setNext(mustard);
+
+        first = mustard;
+        last = peacock;
+        numberOfPlayers = 5;
     }
 
     /*
@@ -147,42 +165,4 @@ public class Tokens {
     	}
     	System.out.print("\n\n");
     }
-    
-
-    /*
-    Traversal method
-     */
-    public Token next(Token t) {
-        return t.next();
-    }
-
-//    public Iterator<Token> iterator() {
-//        return new Iterator<>() {
-//            private Token current;
-//
-//            @Override
-//            public boolean hasNext() {
-//                return !(isEmpty())
-//                        || (current == null)
-//                        || !(current == last);
-//            }
-//
-//            @Override
-//            public Token next() {
-//                if (current == null)
-//                    current = first;
-//                else
-//                    current = Tokens.this.next(current);
-//                return current;
-//            }
-//        };
-//
-//
-//    }
-
-//    }
-
-//    public Iterator<Token> iterator() { return new TokensIterator(); }
-
-
 }
