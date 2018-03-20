@@ -236,26 +236,27 @@ public class UserInterface extends JPanel {
                                case "up":
                                case "u":
                                    destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                   boardImagePanel = myImg.move("up", currentPlayer.getName()); //Updates the boardImagePanel with the moved one
+
+                                   boardImagePanel = myImg.move("up", currentPlayer.getName());
                                    break;
                                case "down":
                                case "d":
                                    destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                   boardImagePanel = myImg.move("down", currentPlayer.getName()); //Updates the boardImagePanel with the moved one
+                                   boardImagePanel = myImg.move("down", currentPlayer.getName());
                                    break;
                                case "left":
                                case "l":
                                    destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                   boardImagePanel = myImg.move("left", currentPlayer.getName()); //Updates the boardImagePanel with the moved one
+                                   boardImagePanel = myImg.move("left", currentPlayer.getName());
                                    break;
                                case "right":
                                case "r":
                                    destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                   boardImagePanel = myImg.move("right", currentPlayer.getName()); //Updates the boardImagePanel with the moved one
+                                   boardImagePanel = myImg.move("right", currentPlayer.getName());
                                    break;
                                default:
                                    destinationCoordinates = new int[2];
-                                   System.out.println("No direction detected");
+                                   System.out.println("No direction detected ERROR");
                                    break;
                            }
                            // TODO: Josh plz fix below is fixed
@@ -264,9 +265,9 @@ public class UserInterface extends JPanel {
                         //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
                            //boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
                            userDisplay.add(boardImagePanel);
-                           userDisplay.invalidate();
-                           userDisplay.validate();
-                           userDisplay.repaint();
+                           display.invalidate();
+                           display.validate();
+                           display.repaint();
                         //    boardImagePanel.revalidate();
                             }
                             else {

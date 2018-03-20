@@ -264,8 +264,7 @@ public class BoardImage {
 
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
-		int endx=0, endy=0;
-		int[] start = {0,0};
+		int startx=0, starty=0, endx=0, endy=0;
 		int[] modifier = {0,0};
 		Boolean simpledirection = true;//This tells the next switch to not overwrite the endx endy;
 
@@ -350,7 +349,8 @@ public class BoardImage {
 
 		switch (player) {
 			case "White":
-				start=GameLogic.playerList.white.getPosition();
+				startx=whiteindex[0];
+				starty=whiteindex[1];
 				if (simpledirection){
 					endx=whiteindex[0]+modifier[0];
 					endy=whiteindex[1]+modifier[1];
@@ -359,7 +359,8 @@ public class BoardImage {
 				}
 				break;
 			case "Green":
-					start=GameLogic.playerList.green.getPosition();
+				startx=greenindex[0];
+				starty=greenindex[1];
 				if (simpledirection){
 					endx=greenindex[0]+modifier[0];
 					endy=greenindex[1]+modifier[1];
