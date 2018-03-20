@@ -125,9 +125,13 @@ public class GameLogic {
 				return "Please Enter a Valid Command!";
 
 			commandSuccessful = true;
-
-			// If we pass the above check, call the appropriate game logic handler
 			String result = "";
+			
+			if (entry.replaceAll("\\s+","").toLowerCase().equals("help") || entry.replaceAll("\\s+","").toLowerCase().equals("?")){
+					return "help";
+			}
+			
+			// If we pass the above check, call the appropriate game logic handler	
 
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("done")){
 				Dice.setMovesLeft(0);

@@ -66,6 +66,7 @@ public class AcceptedUserInputs {
         roomChoices.add("lounge");
 
         auxiliaryCommands.add("help");
+        auxiliaryCommands.add("?");
         auxiliaryCommands.add("notes");
         auxiliaryCommands.add("cheat");
     }
@@ -110,8 +111,7 @@ public class AcceptedUserInputs {
         boolean result = false;
 
         // No shortcuts on these - you have to enter the full word
-        if (in.equals("done") || in.equals("quit") ||
-                in.equals("notes") || in.equals("cheat"))
+        if (in.equals("done") || in.equals("quit") || in.equals("notes") || in.equals("cheat") || in.equals("help") || in.equals("?"))
             return true;
 
         switch(p.getLocationAsString()){

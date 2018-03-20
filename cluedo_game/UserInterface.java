@@ -186,12 +186,18 @@ public class UserInterface extends JPanel {
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
                 String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
-
+                
                 // If user did not enter an appropriate command, show a JOptionPane telling
                 // them to reenter the command then clear the input box.
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
                 }
+               
+                /* If the user wants to get helpful hints */
+                if (result.equals("help")) {
+                	System.out.println("I am working on this now!");
+                }
+                
                 if (result.equals("notes") || result.equals("cheat")){
                     switchToViewNotes(result);
                 }
@@ -307,9 +313,9 @@ public class UserInterface extends JPanel {
                     }
                     // If not, show error and do not cycle to next turn
                         // Error doesn't show if player viewed notes
-                    else if (!(result.equals("notes") || result.equals("cheat"))){
+                    else if (!(result.equals("notes") || result.equals("cheat") || result.equals("help"))){
                         // This will be an error message if move was unsuccessful
-                        JOptionPane.showMessageDialog(null, result);
+                    	JOptionPane.showMessageDialog(null, result);	 
                     }
                 }
                 GameLogic.PlayerEntry.resetSwitches();
