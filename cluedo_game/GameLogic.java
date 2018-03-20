@@ -61,7 +61,7 @@ public class GameLogic {
 		deck = new Deck();
 		deck.fillMurderEnvelope();
 		deck.dealHands(playerList);
-		populatePlayerNoteCards();
+		populatePubliclyViewableCards();
 		ui = new UserInterface(playerList);
 	}
 
@@ -323,26 +323,36 @@ public class GameLogic {
 		}
 
 		public static String quitGameHandler() {
-			int result = JOptionPane.showConfirmDialog(null,
-					"Are you sure you would like to quit?", "Cluedo",
+			int result = JOptionPane.showConfirmDialog(null, "Are you sure you would like to quit?", "Cluedo",
 					JOptionPane.YES_NO_OPTION);
 			if (result == 0)
 				System.exit(1);
 
 			return "Game Will Continue";
 		}
+
+
+
+
 	}
 
 	/*
-	 * Update player note cards with public deck and individual hands
+	 * If there are extra cards after dealing hands, make them viewable to everyone
 	 */
-	public static void populatePlayerNoteCards() {
-		for (int i = 0; i < playerList.getNumberOfPlayers(); i++) {
-			playerList.getPlayerByIndex(i).populateNoteCards(deck);
+	public static void populatePubliclyViewableCards(){
+		if (deck.getDeck() != null){
+			for(int i=0; i<3; i++){
+				for(Card c : deck.getDeck().get(i)){
+					for(int j=0; j<playerList.getNumberOfPlayers(); j++){
+						playerList.getPlayerByIndex(j).getPlayerDeckNotes().
+								changeGuessStatus(c.reference, 'A');
+					}
+				}
+			}
 		}
 	}
 
-	/*
+	/**
 	 * These methods are for player movement and dice rolls
 	 */
 	public static class Dice {

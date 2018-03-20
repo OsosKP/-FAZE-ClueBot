@@ -124,30 +124,13 @@ public class Token {
 	}
 
 	/**
-	 * Update player's note card with public deck and cards in hand
-	 * @param deck Game deck of cards
-	 */
-	public void populateNoteCards(Deck deck){
-		// Add each card in player's hand to note card
-		for(Card c : hand){
-			playerDeckNotes.changeGuessStatus(c.reference, 'X');
-		}
-		// If there is a publicly viewable deck, add those cards to the notes
-		if(deck.getDeck() != null){
-			for(Card c : deck.getFullPublicDeck())
-				getPlayerDeckNotes().changeGuessStatus(c.reference, 'A');
-		}
-	}
-
-	/**
 	 * NoteCards is just the note list for a player, with each Token/Room/Weapon
 	 * 	represented along with a 'mark' for whether that card has been guessed
 	 * 		Marks:
 	 * 			(blank)	-	Unknown
 	 * 			'A'		-	Card is in public deck
-	 * 			'X'		-	Card is in this player's hand
-	 * 			'✔'		-	Card was found in another player's hand
-	 * 			'?'		-	Card was guessed but not discovered in another hand
+	 * 			'X'		-	Card was found in another player's hand
+	 * 			'?'		-	Card was guess but not discovered in another hand
 	 */
 	static class NoteCards extends Deck {
 		ArrayList<ArrayList<NoteCard>> noteSheet = new ArrayList<>();

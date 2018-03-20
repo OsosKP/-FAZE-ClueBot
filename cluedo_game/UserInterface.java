@@ -308,6 +308,7 @@ public class UserInterface extends JPanel {
                         // Error doesn't show if player viewed notes
                     else if (!(result.equals("notes") || result.equals("cheat"))){
                         // This will be an error message if move was unsuccessful
+                        System.out.println("WRONG");
                         JOptionPane.showMessageDialog(null, result);
                     }
                 }
