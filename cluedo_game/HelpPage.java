@@ -17,6 +17,7 @@ public class HelpPage {
 	
 	private JFrame displayTemp = new JFrame(); //currently just here for testing, will be removed later
 	private JPanel userInputtedCommandsPanel;
+	private JPanel howToPlayInfoPanel;
 	
 	public HelpPage() {
 		/* Test Code that will be removed when functionality is done */
@@ -44,7 +45,17 @@ public class HelpPage {
 	    userInputtedCommandsPanel.add(solveCommands);
 	    userInputtedCommandsPanel.add(miscCommands);
 	    
+	    
+	    /* Setting up the JPanel which will hold onto the second half of the help info */
+	    howToPlayInfoPanel = new JPanel();
+	    howToPlayInfoPanel.setLayout(new GridLayout(1,1));
+	    
+	    /* Creating the different inputs that we can work */
+	    
 	    displayTemp.add(userInputtedCommandsPanel);
+	    
+	    
+	    
 	    displayTemp.setVisible(true);
 	}
 }
@@ -218,4 +229,12 @@ class MiscCommands extends JPanel{
 		this.add(helpTitle);
 		this.add(notesTitle);
 	}
+}
+/* Contains info on how the player can actually play the game */
+class HowToPlayInfo extends JPanel{
+	
+}
+/* Will return the list of players currently playing */
+class PlayerListInfo extends JPanel{
+	
 }
