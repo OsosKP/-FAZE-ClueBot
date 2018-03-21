@@ -16,18 +16,16 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class BoardImage {
-	private final int WIDTH  = 552; //Width of the board
-	private final int HEIGHT = 575; //Height of the board
+	private final int WIDTH  = 552; //Width of the board, should be 552 pixels
+	private final int HEIGHT = 575; //Height of the board, should be 575 pixels
 	private final int step = 23;//Incrementer for for loop to correctly move to next square,size of each square
-	private final Color PURPLE = new Color(75, 0, 130); // Poor Professor Plum should get his own color, too
-
 	BufferedImage bi;//Object for the board itself
+	private final Color PURPLE = new Color(75, 0, 130); // Poor Professor Plum should get his own color, too
 
 	private JButton[] weaponArray;
 	private ArrayList<Integer[]> weaponRoomLocations;
 
-	// DELETE
-	// private JPanel imagePanel;
+	private JPanel imagePanel;
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
@@ -64,7 +62,7 @@ public class BoardImage {
 	}
 
 
-	public JPanel returnPanel() {//Handles image fetch as well
+	public JPanel returnPanel() {
 		try {
 			URL imageUrl = this.getClass().getResource("board1.jpg");
 			bi = ImageIO.read(imageUrl);
@@ -91,6 +89,7 @@ public class BoardImage {
 	 * @return JPanel with an empty grid layout
 	 */
 	private JPanel returnEmptyGridLayout() {
+        /* Creating JPanel -- will represent the grid that will overly the image */
         JPanel p = new JPanel(new GridLayout(25,24));
         p.setOpaque(false);
         return p;
@@ -115,6 +114,7 @@ public class BoardImage {
             yIndex = 0;
         	for (int jj=0; jj<WIDTH; jj+=step) {
             	/* Getting the sub-image of the given BufferedImage */
+            	//System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
                 Image icon = bi.getSubimage(jj, ii, step, step);
 
                 /* Creating the button that will will have the image of this current section of the map*/
@@ -152,13 +152,13 @@ public class BoardImage {
                 /* Adding button to panel -- doesn't really matter that we add this now because this is an un-edited board */
                 //p.add(button);
              }
+
             /* Incrementing array counters */
             xIndex++;
         }
 		drawForTheFistTime(p);
 		return p;
 	}
-
 	/**
 	 * "moves" the players on the screen by swapping the JButtons on the screen
 	 * @param initX = the initial X starting position
@@ -226,6 +226,7 @@ public class BoardImage {
 				move("study1", player);
 				break;
 		}
+
 		return null;
 	}
 
@@ -720,6 +721,30 @@ public class BoardImage {
 			}
 
 	 	return destination;
+	}
+
+	public JPanel move(int init[], int fin[]) {
+		/* Creating new JPanel -- set = to an empty layout */
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
+		/* Assigning the colour of the new JButton */
+		this.editedBoard[fin[1]][fin[0]] = this.editedBoard[init[1]][init[0]];
+
+		/* Returning the old JButton to its original colour */
+		this.editedBoard[init[1]][init[0]] = this.defaultBoard[init[1]][init[0]];
+
+		/* Need to recreate the JPanel based on the new */
+		for (int rows = 0; rows < 25; rows++) {
+			for (int cols = 0; cols < 24; cols++) {
+				/* This *should* correctly re-add the JButtons to the JPanel */
+				JButton temp = this.editedBoard[rows][cols];
+				temp.setBorder(null);
+				newPanel.add(temp);
+			}
+		}
+		returnMe.add(newPanel);
+
+		return returnMe;
 	}
 
 	public JPanel refreshMe() {

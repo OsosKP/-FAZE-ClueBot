@@ -9,9 +9,13 @@ import java.awt.BorderLayout;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.sun.corba.se.spi.orbutil.threadpool.NoSuchWorkQueueException;
 
 public class HelpPage {
 	
@@ -22,16 +26,16 @@ public class HelpPage {
 	
 	public HelpPage() {
 		/* Test Code that will be removed when functionality is done */
-		displayTemp.setSize(500,500);
+		displayTemp.setSize(800,700);
 		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    displayTemp.setResizable(true);
 	    
 	    /* Going to handle the overall 'list of commands' section of the help page */
 	    userInputtedCommandsPanel = new JPanel();
-	    userInputtedCommandsPanel.setLayout(new GridLayout(6,1));
+	    userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
 	    
 	    /* Creating Individual Objects -- which will be inserted into the help page */
-	    ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
+	    //ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
 	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
 	    HowToGuessCommands guessCommands = new HowToGuessCommands();
@@ -39,7 +43,7 @@ public class HelpPage {
 	    MiscCommands miscCommands = new MiscCommands();
 	    
 	    /* Adding components to overall movement commands */
-	    userInputtedCommandsPanel.add(commandTitle);
+	    //userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
 	    userInputtedCommandsPanel.add(roomCommands);
 	    userInputtedCommandsPanel.add(guessCommands);
@@ -49,38 +53,40 @@ public class HelpPage {
 	    
 	    /* Setting up the JPanel which will hold onto the second half of the help info */
 	    howToPlayInfoPanel = new JPanel();
-	    howToPlayInfoPanel.setLayout(new GridLayout(2,1));
+	    howToPlayInfoPanel.setLayout(new GridLayout(1,1));
 	    
 	    HowToPlayInfo playInfo = new HowToPlayInfo();
-	    PlayerListInfo playerList = new PlayerListInfo();
 
 	    /* Creating the different inputs that we can work */
 	    howToPlayInfoPanel.add(playInfo);
-	    //howToPlayInfoPanel.add(playerList);
+	    
+	    ListOfCommandsTitle Buttons = new ListOfCommandsTitle();
 	    
 	    containerJPanel = new JPanel();
-	    containerJPanel.setLayout(new GridLayout(1,1));
+	    containerJPanel.setLayout(new BorderLayout());
 	    
-	    containerJPanel.add(userInputtedCommandsPanel);
-	    containerJPanel.add(howToPlayInfoPanel);
-	    
+	    containerJPanel.add(Buttons, BorderLayout.NORTH);
+	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.CENTER);
+	    	    
 	    displayTemp.add(containerJPanel);
 	    displayTemp.setVisible(true);
 	}
 }
 
 class ListOfCommandsTitle extends JPanel{
-	JLabel myLabel = new JLabel("List of Commands");
-	
+	JButton userCommands = new JButton("Accepted Commands");
+	JButton howToPlay = new JButton("How to Play Cleudo");
+	JButton playerList = new JButton("PLayer List");
 	public void setLayout(LayoutManager mgr) {
 		super.setLayout(mgr);
 	}
 	
 	public ListOfCommandsTitle() {
-		this.setLayout(new BorderLayout());
-		myLabel.setHorizontalAlignment(JLabel.CENTER);
+		this.setLayout(new GridLayout(1,3));
 		
-		this.add(myLabel);
+		this.add(userCommands);
+		this.add(howToPlay);
+		this.add(playerList);
 	}
 	
 }
