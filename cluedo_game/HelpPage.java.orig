@@ -58,10 +58,12 @@ public class HelpPage {
 	    //howToPlayInfoPanel.add(playerList);
 	    
 	    
-
+<<<<<<< HEAD
 	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.WEST);
 	    containerJPanel.add(howToPlayInfoPanel, BorderLayout.EAST);
-    
+=======
+>>>>>>> parent of 3af94e6... added container jPanel, still need to work on making the menu align correctly
+	    
 	    
 	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
