@@ -1,5 +1,0 @@
-package cluedo_game;
-
-public interface Square {
-
-}
