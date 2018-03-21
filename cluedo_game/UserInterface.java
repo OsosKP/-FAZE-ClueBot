@@ -196,7 +196,7 @@ public class UserInterface extends JPanel {
 
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
-                	System.out.println("I am working on this now!");
+                	HelpPage userAid = new HelpPage();
                 }
 
                 if (result.equals("notes") || result.equals("cheat")){
