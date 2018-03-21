@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,23 +26,26 @@ public class HelpPage {
 	    
 	    /* Going to handle the overall 'list of commands' section of the help page */
 	    userInputtedCommandsPanel = new JPanel();
-	    userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
+	    userInputtedCommandsPanel.setLayout(new GridLayout(6,1));
 	    
 	    /* Creating Individual Objects -- which will be inserted into the help page */
 	    ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
 	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
 	    HowToGuessCommands guessCommands = new HowToGuessCommands();
+	    WhenTryingToSolveCommands solveCommands = new WhenTryingToSolveCommands();
+	    MiscCommands miscCommands = new MiscCommands();
 	    
 	    /* Adding components to overall movement commands */
 	    userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
 	    userInputtedCommandsPanel.add(roomCommands);
 	    userInputtedCommandsPanel.add(guessCommands);
+	    userInputtedCommandsPanel.add(solveCommands);
+	    userInputtedCommandsPanel.add(miscCommands);
 	    
 	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
-	
 	}
 }
 
@@ -144,8 +146,8 @@ class HowToGuessCommands extends JPanel{
 	
 	public void setTitles() {
 		guessingTitle = new JLabel("Guess");
-		weaponOptions = new JLabel("pistol, dagger, candlestick, wrench, rope, pipe");
-		playerOptions = new JLabel("mustard, scarlet, peacock, plum, white, green");
+		weaponOptions = new JLabel("pistol, dagger, candlestick, wrench, rope, pipe - possible murder weapons to guess");
+		playerOptions = new JLabel("mustard, scarlet, peacock, plum, white, green - possible murderers to guess");
 	}
 	
 	public HowToGuessCommands() {
@@ -161,10 +163,59 @@ class HowToGuessCommands extends JPanel{
 }
 /* Class that is going to deal with displaying the solving commands help */
 class WhenTryingToSolveCommands extends JPanel{
+	private JLabel solvingTitle;
+	private JLabel weaponOptions;
+	private JLabel playerOptions;
 	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
+	
+	public void setTitles() {
+		solvingTitle = new JLabel("Solve");
+		weaponOptions = new JLabel("pistol, dagger, candlestick, wrench, rope, pipe - possible murder weapons to accuse");
+		playerOptions = new JLabel("mustard, scarlet, peacock, plum, white, green - possible murderers to accuse");
+	}
+	
+	public WhenTryingToSolveCommands() {
+		this.setLayout(new GridLayout(3,1));
+		
+		this.setTitles();
+		
+		solvingTitle.setHorizontalAlignment(JLabel.CENTER);
+		this.add(solvingTitle);
+		this.add(weaponOptions);
+		this.add(playerOptions);
+	}
 }
 /* Class that is going to deal with displaying the Misc Commands help */
 class MiscCommands extends JPanel{
+	private JLabel miscTitle;
+	private JLabel helpTitle;
+	private JLabel notesTitle;
 	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
 	
+	public void setTitles() {
+		miscTitle = new JLabel("Miscellaneous");
+		helpTitle = new JLabel("help - opens the current page, this does not count as your action for the turn");
+		notesTitle = new JLabel("notes - shows all the infomation that you have about the murder");
+	}
+	
+	public MiscCommands() {
+		this.setLayout(new GridLayout(3,1));
+		
+		this.setTitles();
+		miscTitle.setHorizontalAlignment(JLabel.CENTER);
+		
+		this.add(miscTitle);
+		this.add(helpTitle);
+		this.add(notesTitle);
+	}
 }
