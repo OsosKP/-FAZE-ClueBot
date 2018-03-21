@@ -33,11 +33,13 @@ public class HelpPage {
 	    ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
 	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
+	    HowToGuessCommands guessCommands = new HowToGuessCommands();
 	    
 	    /* Adding components to overall movement commands */
 	    userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
 	    userInputtedCommandsPanel.add(roomCommands);
+	    userInputtedCommandsPanel.add(guessCommands);
 	    
 	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
@@ -130,7 +132,32 @@ class AfterEnteringRoomCommands extends JPanel{
 }
 /* Class that is going to deal with displaying the guessing commands help */
 class HowToGuessCommands extends JPanel{
+	private JLabel guessingTitle;
+	private JLabel weaponOptions;
+	private JLabel playerOptions;
 	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
+	
+	public void setTitles() {
+		guessingTitle = new JLabel("Guess");
+		weaponOptions = new JLabel("pistol, dagger, candlestick, wrench, rope, pipe");
+		playerOptions = new JLabel("mustard, scarlet, peacock, plum, white, green");
+	}
+	
+	public HowToGuessCommands() {
+		this.setLayout(new GridLayout(3,1));
+		
+		this.setTitles();
+		
+		guessingTitle.setHorizontalAlignment(JLabel.CENTER);
+		this.add(guessingTitle);
+		this.add(weaponOptions);
+		this.add(playerOptions);
+	}
 }
 /* Class that is going to deal with displaying the solving commands help */
 class WhenTryingToSolveCommands extends JPanel{
