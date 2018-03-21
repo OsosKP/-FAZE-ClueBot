@@ -39,12 +39,8 @@ public class BoardImage {
 	static int[] plumindex = {19,23};
 	static int[] scarletindex = {24,7};
 
-<<<<<<< HEAD
 	//DELETE
 	// int myVar = 24;
-=======
-	int myVar = 2;
->>>>>>> 3af94e69fc9af44bd048934478c2ff0c7540895e
 
 
 	/**
