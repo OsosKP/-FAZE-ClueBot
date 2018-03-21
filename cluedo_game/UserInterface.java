@@ -244,25 +244,25 @@ public class UserInterface extends JPanel {
                                case "u":
                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                    currentCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                   boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                   boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "down":
                                case "d":
                                     destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "left":
                                case "l":
                                     destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                case "right":
                                case "r":
                                     destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                default:
                                    destinationCoordinates = new int[2];

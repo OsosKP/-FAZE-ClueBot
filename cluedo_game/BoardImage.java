@@ -165,19 +165,19 @@ public class BoardImage {
 	 */
 
 	//DELETE?
-	public JPanel move(int initY, int initX, int finY, int finX) {
+	public JPanel move(int[] init, int[] fin) {
 		/* Creating new JPanel -- set = to an empty layout */
 
-		System.out.println("Init: ["+initY+","+initX+"] Fin: ["+finY + "," + finX + "]");
+		System.out.println("Init: ["+init[0]+","+init[1]+"] Fin: ["+fin[0] + "," + fin[1] + "]");
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 		/* Assigning the colour of the new JButton */
-		this.editedBoard[finY][finX] = this.editedBoard[initY][initX];
+		this.editedBoard[fin[0]][fin[1]] = this.editedBoard[init[0]][init[1]];
 
 		/* Returning the old JButton to its original colour */
-		this.editedBoard[initY][initX] = this.defaultBoard[initY][initX];
+		this.editedBoard[init[0]][init[1]] = this.defaultBoard[init[0]][init[1]];
 
-		/* Need to recreate the JPanel based on the new */
+		/* Need to recreate the JPanel based on the new *, int finX */
 		for (int rows = 0; rows < 25; rows++) {
 			for (int cols = 0; cols < 24; cols++) {
 				/* This *should* correctly re-add the JButtons to the JPanel */
@@ -716,30 +716,6 @@ public class BoardImage {
 			}
 
 	 	return destination;
-	}
-
-	public JPanel move(int init[], int fin[]) {
-		/* Creating new JPanel -- set = to an empty layout */
-		JPanel newPanel = returnEmptyGridLayout();
-		JPanel returnMe = returnFinalJPanel();
-		/* Assigning the colour of the new JButton */
-		this.editedBoard[fin[1]][fin[0]] = this.editedBoard[init[1]][init[0]];
-
-		/* Returning the old JButton to its original colour */
-		this.editedBoard[init[1]][init[0]] = this.defaultBoard[init[1]][init[0]];
-
-		/* Need to recreate the JPanel based on the new */
-		for (int rows = 0; rows < 25; rows++) {
-			for (int cols = 0; cols < 24; cols++) {
-				/* This *should* correctly re-add the JButtons to the JPanel */
-				JButton temp = this.editedBoard[rows][cols];
-				temp.setBorder(null);
-				newPanel.add(temp);
-			}
-		}
-		returnMe.add(newPanel);
-
-		return returnMe;
 	}
 
 	public JPanel refreshMe() {
