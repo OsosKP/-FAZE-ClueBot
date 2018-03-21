@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 public class HelpPage {
 	
 	private JFrame displayTemp = new JFrame(); //currently just here for testing, will be removed later
-	private JPanel listOfCommandsOverallPanel;
 	private JPanel listOfMovementCommands;
 	
 	public HelpPage() {
@@ -26,11 +25,22 @@ public class HelpPage {
 		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    displayTemp.setResizable(false);
 	    
+	    /* Going to handle the overall 'list of commands' section of the help page */
+	    listOfMovementCommands = new JPanel();
+	    listOfMovementCommands.setLayout(new GridLayout(5,1));
+	    
+	    /* Creating Individual Objects -- which will be inserted into the help page */
 	    ListOfCommandsTitle title = new ListOfCommandsTitle();
-	    displayTemp.add(title);
+	    
+	    /* Adding components to overall movement commands */
+	    listOfMovementCommands.add(title);
+	    
+	    
 	    displayTemp.setVisible(true);
+	
 	}
 }
+
 class ListOfCommandsTitle extends JPanel{
 	JLabel myLabel = new JLabel("List of Commands");
 	
@@ -44,5 +54,27 @@ class ListOfCommandsTitle extends JPanel{
 		
 		this.add(myLabel);
 	}
+	
+}
+/* Class that is going to deal with displaying the movement commands help */
+class ListOfMovementCommands extends JPanel{
+	
+}
+/* Class that is going to deal with displaying the enter commands help */
+class AfterEnteringRoomCommands extends JPanel{
+	
+}
+/* Class that is going to deal with displaying the guessing commands help */
+class HowToGuessCommands extends JPanel{
+	
+	
+}
+/* Class that is going to deal with displaying the solving commands help */
+class WhenTryingToSolveCommands extends JPanel{
+	
+}
+/* Class that is going to deal with displaying the Misc Commands help */
+class MiscCommands extends JPanel{
+	
 	
 }
