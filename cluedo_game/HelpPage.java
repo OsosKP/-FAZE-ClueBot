@@ -24,7 +24,9 @@ public class HelpPage {
 	private JPanel howToPlayInfoPanel;
 	private JPanel containerJPanel;
 	
+
 	public HelpPage() {
+	
 		/* Test Code that will be removed when functionality is done */
 		displayTemp.setSize(800,700);
 		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,12 +62,14 @@ public class HelpPage {
 	    /* Creating the different inputs that we can work */
 	    howToPlayInfoPanel.add(playInfo);
 	    
-	    ListOfCommandsTitle Buttons = new ListOfCommandsTitle();
+	    
+	    ListOfCommandsTitle buttons = new ListOfCommandsTitle();
+	    buttons.toggleUser();
 	    
 	    containerJPanel = new JPanel();
 	    containerJPanel.setLayout(new BorderLayout());
 	    
-	    containerJPanel.add(Buttons, BorderLayout.NORTH);
+	    containerJPanel.add(buttons, BorderLayout.NORTH);
 	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.CENTER);
 	    	    
 	    displayTemp.add(containerJPanel);
@@ -74,21 +78,42 @@ public class HelpPage {
 }
 
 class ListOfCommandsTitle extends JPanel{
-	JButton userCommands = new JButton("Accepted Commands");
-	JButton howToPlay = new JButton("How to Play Cleudo");
-	JButton playerList = new JButton("PLayer List");
+	private JButton userCommands;
+	private JButton howToPlay;
+	private JButton playerList;
+		
+	@Override
 	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
 		super.setLayout(mgr);
+	}
+	
+	public void setTitle() {
+		userCommands = new JButton("Accepted Commands");
+		howToPlay = new JButton("How to Play Cleudo");
+		playerList = new JButton("PLayer List");
 	}
 	
 	public ListOfCommandsTitle() {
 		this.setLayout(new GridLayout(1,3));
+		this.setTitle();
 		
 		this.add(userCommands);
 		this.add(howToPlay);
 		this.add(playerList);
 	}
 	
+	public void toggleUser() {
+		userCommands.setEnabled(false);
+		howToPlay.setEnabled(true);
+		playerList.setEnabled(true);
+	}
+	
+	public void togglePlay() {
+		howToPlay.setEnabled(false);
+		userCommands.setEnabled(true);
+		playerList.setEnabled(true);
+	}
 }
 /* Class that is going to deal with displaying the movement commands help */
 class ListOfMovementCommands extends JPanel{
