@@ -72,7 +72,7 @@ public class GameLogic {
 		public static boolean getCommandSuccessful() {
 			return commandSuccessful;
 		}
-
+//
 		public static void resetCommandSuccessfulSwitchToFalse() {
 			commandSuccessful = false;
 		}
@@ -126,12 +126,12 @@ public class GameLogic {
 
 			commandSuccessful = true;
 			String result = "";
-			
+
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("help") || entry.replaceAll("\\s+","").toLowerCase().equals("?")){
 					return "help";
 			}
-			
-			// If we pass the above check, call the appropriate game logic handler	
+
+			// If we pass the above check, call the appropriate game logic handler
 
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("done")){
 				Dice.setMovesLeft(0);

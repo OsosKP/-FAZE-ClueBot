@@ -81,6 +81,7 @@ public class UserInterface extends JPanel {
         /*
         TODO: Not going to use this, but I'm saving it in case we need to reference it for movement
         */
+        // DELETE
 //        JPanel movementPanel = movementUpdate();
 //        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
 //        userDisplay.remove(boardImagePanel);
@@ -186,18 +187,18 @@ public class UserInterface extends JPanel {
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
                 String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
-                
+
                 // If user did not enter an appropriate command, show a JOptionPane telling
                 // them to reenter the command then clear the input box.
                 if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
                     JOptionPane.showMessageDialog(null, result);
                 }
-               
+
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
                 	System.out.println("I am working on this now!");
                 }
-                
+
                 if (result.equals("notes") || result.equals("cheat")){
                     switchToViewNotes(result);
                 }
@@ -235,37 +236,42 @@ public class UserInterface extends JPanel {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-                           int[] destinationCoordinates;
+                           int[] destinationCoordinates, currentCoordinates;
                           // JPanel panelAfterPlayerMove = null;
                           userDisplay.remove(boardImagePanel);
                            switch (inputField.getText()) {
-                               case "up":
+                               case "up"://Since the player has already moved, I need to get the sqare of the undo operation
                                case "u":
-                                   destinationCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-
-                                   boardImagePanel = myImg.move("up", currentPlayer.getName());
+                                   destinationCoordinates = currentPlayer.getSquareOn().getPosition();
+                                   currentCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                   boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
                                    break;
                                case "down":
                                case "d":
-                                   destinationCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                   boardImagePanel = myImg.move("down", currentPlayer.getName());
+                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
+                                    currentCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
                                    break;
                                case "left":
                                case "l":
-                                   destinationCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                   boardImagePanel = myImg.move("left", currentPlayer.getName());
-                                   break;
+                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
+                                    currentCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                    break;
                                case "right":
                                case "r":
-                                   destinationCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                   boardImagePanel = myImg.move("right", currentPlayer.getName());
-                                   break;
+                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
+                                    currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates[0], currentCoordinates[1], destinationCoordinates[0], destinationCoordinates[1]);
+                                    break;
                                default:
                                    destinationCoordinates = new int[2];
                                    System.out.println("No direction detected ERROR");
                                    break;
                            }
-                           // TODO: Josh plz fix below is fixed
+
+                           System.out.println("Destination Coords: " + destinationCoordinates[0]);
+                           // TODO: Josh plz fix below -- is fixed
 
                           // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
                         //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
@@ -315,7 +321,7 @@ public class UserInterface extends JPanel {
                         // Error doesn't show if player viewed notes
                     else if (!(result.equals("notes") || result.equals("cheat") || result.equals("help"))){
                         // This will be an error message if move was unsuccessful
-                    	JOptionPane.showMessageDialog(null, result);	 
+                    	JOptionPane.showMessageDialog(null, result);
                     }
                 }
                 GameLogic.PlayerEntry.resetSwitches();
@@ -668,27 +674,28 @@ public class UserInterface extends JPanel {
         this.boardImagePanel = panel;
     }
 
-    /*
-    This is a tester class for movement
-     */
-    public JPanel movementUpdate() {
-        BufferedImage bi = null;
-        BoardImage boardimage = new BoardImage();
-
-        /*
-        This version is a hopefully more mobile version of the image loading method
-         */
-        try {
-            bi = attemptToLoadImageFromResourceFolder();
-        } catch (Exception resourceLoadException) {
-            resourceLoadException.printStackTrace();
-        }
-
-        JPanel tempPanel = boardimage.returnPanel(bi);
-
-        tempPanel = boardimage.move(0, 9, 1, 9);
-        return tempPanel;
-    }
+    // DELETE
+    // /*
+    // This is a tester class for movement
+    //  */
+    // public JPanel movementUpdate() {
+    //     BufferedImage bi = null;
+    //     BoardImage boardimage = new BoardImage();
+    //
+    //     /*
+    //     This version is a hopefully more mobile version of the image loading method
+    //      */
+    //     try {
+    //         bi = attemptToLoadImageFromResourceFolder();
+    //     } catch (Exception resourceLoadException) {
+    //         resourceLoadException.printStackTrace();
+    //     }
+    //
+    //     JPanel tempPanel = boardimage.returnPanel(bi);
+    //
+    //     tempPanel = boardimage.move(0, 9, 1, 9);
+    //     return tempPanel;
+    // }
 
     public JPanel movePlayerAndUpdate(String direction, String name) {
         BufferedImage bi = null;

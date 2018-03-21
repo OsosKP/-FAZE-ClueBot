@@ -16,16 +16,18 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class BoardImage {
-	private final int WIDTH  = 552; //Width of the board, should be 552 pixels
-	private final int HEIGHT = 575; //Height of the board, should be 575 pixels
+	private final int WIDTH  = 552; //Width of the board
+	private final int HEIGHT = 575; //Height of the board
 	private final int step = 23;//Incrementer for for loop to correctly move to next square,size of each square
-	BufferedImage bi;//Object for the board itself
 	private final Color PURPLE = new Color(75, 0, 130); // Poor Professor Plum should get his own color, too
+
+	BufferedImage bi;//Object for the board itself
 
 	private JButton[] weaponArray;
 	private ArrayList<Integer[]> weaponRoomLocations;
 
-	private JPanel imagePanel;
+	// DELETE
+	// private JPanel imagePanel;
 	private JButton[][] defaultBoard = new JButton[25][24];
 	private JButton[][] editedBoard = new JButton[25][24];
 
@@ -37,7 +39,8 @@ public class BoardImage {
 	static int[] plumindex = {19,23};
 	static int[] scarletindex = {24,7};
 
-	int myVar = 24;
+	//DELETE
+	// int myVar = 24;
 
 
 	/**
@@ -57,7 +60,7 @@ public class BoardImage {
 	}
 
 
-	public JPanel returnPanel() {
+	public JPanel returnPanel() {//Handles image fetch as well
 		try {
 			URL imageUrl = this.getClass().getResource("board1.jpg");
 			bi = ImageIO.read(imageUrl);
@@ -72,61 +75,23 @@ public class BoardImage {
 				System.err.println("Unable to find image file in local system AND has no connection to imgur");
 			}
 		}
-
-		JPanel p = this.returnEmptyGridLayout();
-		p = this.populateGrid(p);
-
-		JPanel holder = this.returnFinalJPanel();
-		holder.add(p);
-		return holder;
+		return returnPanel(bi);//calls overloaded version of function
 	}
 
-	public JPanel getImagePanel() {
-		return imagePanel;
-	}
+	// DELETE
+	// public JPanel getImagePanel() {
+	// 	return imagePanel;
+	// }
 
 	/**
-     * Sticks the image into a JPanel and makes that the instance variable for this class
-	 */
-//	public void createPanel() {
-//        BufferedImage test = null;
-//
-//        try {
-//            test = ImageIO.read(new File("board1.jpg"));
-//        }
-//        catch (IOException e) {
-//        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
-//        	try {
-//            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
-//            	bi = ImageIO.read(url);
-//				System.out.println("Uh oh");
-//        	}
-//        	catch (Exception q) {
-//        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
-//        	}
-//
-//        }
-//
-//		this.bi = test;
-//
-//		JPanel p = this.returnEmptyGridLayout();
-//		p = this.populateGrid(p);
-//
-//		JPanel holder = this.returnFinalJPanel();
-//		holder.add(p);
-//		imagePanel = holder;
-//	}
-
-	/**
-	 * Constructs an empty grid, places it in a JPanel and returns it
-	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
+	 * @return JPanel with an empty grid layout
 	 */
 	private JPanel returnEmptyGridLayout() {
-        /* Creating JPanel -- will represent the grid that will overly the image */
         JPanel p = new JPanel(new GridLayout(25,24));
         p.setOpaque(false);
         return p;
 	}
+
 	/**
 	 * method that populates a JPanel with an array of buttons, which are colored with the image of the BufferedImage defined earlier
 	 * @param p the JPanel to be populated
@@ -146,7 +111,6 @@ public class BoardImage {
             yIndex = 0;
         	for (int jj=0; jj<WIDTH; jj+=step) {
             	/* Getting the sub-image of the given BufferedImage */
-            	//System.out.println("Getting subimage coords: " + jj + ", " + ", " + ii + ", " +step + ", "+ step);
                 Image icon = bi.getSubimage(jj, ii, step, step);
 
                 /* Creating the button that will will have the image of this current section of the map*/
@@ -184,13 +148,13 @@ public class BoardImage {
                 /* Adding button to panel -- doesn't really matter that we add this now because this is an un-edited board */
                 //p.add(button);
              }
-
             /* Incrementing array counters */
             xIndex++;
         }
 		drawForTheFistTime(p);
 		return p;
 	}
+
 	/**
 	 * "moves" the players on the screen by swapping the JButtons on the screen
 	 * @param initX = the initial X starting position
@@ -199,8 +163,12 @@ public class BoardImage {
 	 * @param finY = the final Y starting position
 	 * @return the JPanel that will represent the new board
 	 */
+
+	//DELETE?
 	public JPanel move(int initY, int initX, int finY, int finX) {
 		/* Creating new JPanel -- set = to an empty layout */
+
+		System.out.println("Init: ["+initY+","+initX+"] Fin: ["+finY + "," + finX + "]");
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 		/* Assigning the colour of the new JButton */
@@ -254,9 +222,11 @@ public class BoardImage {
 				move("study1", player);
 				break;
 		}
-
 		return null;
 	}
+
+	//move by passing token instead of player name
+	//public JPanel move()
 
 	public JPanel move(String direction, String player){
 
