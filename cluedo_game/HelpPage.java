@@ -18,7 +18,6 @@ public class HelpPage {
 	private JFrame displayTemp = new JFrame(); //currently just here for testing, will be removed later
 	private JPanel userInputtedCommandsPanel;
 	private JPanel howToPlayInfoPanel;
-	private JPanel containerJPanel;
 	
 	public HelpPage() {
 		/* Test Code that will be removed when functionality is done */
@@ -58,13 +57,15 @@ public class HelpPage {
 	    howToPlayInfoPanel.add(playInfo);
 	    //howToPlayInfoPanel.add(playerList);
 	    
-	    containerJPanel = new JPanel();
-	    containerJPanel.setLayout(new GridLayout(1,1));
 	    
+<<<<<<< HEAD
 	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.WEST);
 	    containerJPanel.add(howToPlayInfoPanel, BorderLayout.EAST);
+=======
+>>>>>>> parent of 3af94e6... added container jPanel, still need to work on making the menu align correctly
 	    
-	    displayTemp.add(containerJPanel);
+	    
+	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
 	}
 }
