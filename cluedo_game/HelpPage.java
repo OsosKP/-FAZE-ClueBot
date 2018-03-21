@@ -32,11 +32,13 @@ public class HelpPage {
 	    /* Creating Individual Objects -- which will be inserted into the help page */
 	    ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
+	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
 	    
 	    /* Adding components to overall movement commands */
 	    userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
-	   
+	    userInputtedCommandsPanel.add(roomCommands);
+	    
 	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
 	
@@ -60,11 +62,11 @@ class ListOfCommandsTitle extends JPanel{
 }
 /* Class that is going to deal with displaying the movement commands help */
 class ListOfMovementCommands extends JPanel{
-	JLabel movementTitle;
-	JLabel upTitle;
-	JLabel downTitle;
-	JLabel leftTitle;
-	JLabel rightTitle;
+	private JLabel movementTitle;
+	private JLabel upTitle;
+	private JLabel downTitle;
+	private JLabel leftTitle;
+	private JLabel rightTitle;
 	
 	@Override
 	public void setLayout(LayoutManager mgr) {
@@ -74,16 +76,16 @@ class ListOfMovementCommands extends JPanel{
 	
 	public void setTitles() {
 		movementTitle = new JLabel("Movement");
-		upTitle = new JLabel("Up - Moves the current player up one space");
-		downTitle = new JLabel("Down - Moves current player down one space");
-		leftTitle = new JLabel("Left - Moves the current player left one space");
-		rightTitle = new JLabel("Right - Moves the Current Player right one space");
+		upTitle = new JLabel("up - Moves the current player up one space");
+		downTitle = new JLabel("down - Moves current player down one space");
+		leftTitle = new JLabel("left - Moves the current player left one space");
+		rightTitle = new JLabel("right - Moves the Current Player right one space");
 	}
 	
 	public ListOfMovementCommands() {
 		this.setLayout(new GridLayout(5,1));
 		/* sets the titles for the labels */
-		setTitles();
+		this.setTitles();
 		
 		/* Adding the titles to the JPanel */
 		movementTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -96,7 +98,35 @@ class ListOfMovementCommands extends JPanel{
 }
 /* Class that is going to deal with displaying the enter commands help */
 class AfterEnteringRoomCommands extends JPanel{
+	private JLabel enteringTitle;
+	private JLabel passageTitle;
+	private JLabel exitTitle;
+	private JLabel guessingTitle;
 	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
+	
+	public void setTitles() {
+		enteringTitle = new JLabel("After Entering a Room");
+		passageTitle = new JLabel("passage - Moves the current player through the room's seacret passage");
+		exitTitle = new JLabel("exit - Moves the current player out of the current room");
+		guessingTitle = new JLabel("guess - The Current player makes a guess about the murder");
+	}
+	
+	public AfterEnteringRoomCommands() {
+		this.setLayout(new GridLayout(4,1));
+		
+		this.setTitles();
+		
+		enteringTitle.setHorizontalAlignment(JLabel.CENTER);
+		this.add(enteringTitle);
+		this.add(passageTitle);
+		this.add(exitTitle);
+		this.add(guessingTitle);
+	}
 }
 /* Class that is going to deal with displaying the guessing commands help */
 class HowToGuessCommands extends JPanel{
