@@ -18,12 +18,13 @@ public class HelpPage {
 	private JFrame displayTemp = new JFrame(); //currently just here for testing, will be removed later
 	private JPanel userInputtedCommandsPanel;
 	private JPanel howToPlayInfoPanel;
+	private JPanel containerJPanel;
 	
 	public HelpPage() {
 		/* Test Code that will be removed when functionality is done */
 		displayTemp.setSize(500,500);
 		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    displayTemp.setResizable(false);
+	    displayTemp.setResizable(true);
 	    
 	    /* Going to handle the overall 'list of commands' section of the help page */
 	    userInputtedCommandsPanel = new JPanel();
@@ -57,10 +58,13 @@ public class HelpPage {
 	    howToPlayInfoPanel.add(playInfo);
 	    howToPlayInfoPanel.add(playerList);
 	    
+	    containerJPanel = new JPanel();
+	    containerJPanel.setLayout(new GridLayout(1,1));
 	    
+	    containerJPanel.add(userInputtedCommandsPanel);
+	    containerJPanel.add(howToPlayInfoPanel);
 	    
-	    
-	    displayTemp.add(userInputtedCommandsPanel);
+	    displayTemp.add(containerJPanel);
 	    displayTemp.setVisible(true);
 	}
 }

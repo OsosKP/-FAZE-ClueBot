@@ -37,7 +37,7 @@ public class BoardImage {
 	static int[] plumindex = {19,23};
 	static int[] scarletindex = {24,7};
 
-	int myVar = 24;
+	int myVar = 2;
 
 
 	/**
