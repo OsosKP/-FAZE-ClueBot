@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
@@ -195,7 +196,12 @@ public class UserInterface extends JPanel {
                
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
-                	HelpPage userAid = new HelpPage();
+                	try {
+						HelpPageHtml userAid = new HelpPageHtml();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
                 
                 if (result.equals("notes") || result.equals("cheat")){
