@@ -35,6 +35,22 @@ public class Token {
 		// TODO: Set up a note card for the player, right now with no information
 		playerDeckNotes = new NoteCards();
 	}
+	
+	public Token(int x, int y, String characterName, String userName, int playerNumber) {
+		this.position[0] = x;
+		this.position[1] = y;
+
+		this.name = characterName;
+		this.playerName = userName;
+		this.playerNumber = playerNumber;
+		this.inRoom = null;
+		// This is set to the spawn point when the board is created
+
+		hand = new ArrayList<>();
+
+		// TODO: Set up a note card for the player, right now with no information
+		playerDeckNotes = new NoteCards();	
+	}
 
 	public void enterRoom(Room room){
 		this.squareOn = null;

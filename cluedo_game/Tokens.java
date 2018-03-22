@@ -1,5 +1,7 @@
 package cluedo_game;
 
+import java.util.ArrayList;
+
 /**
  * This is a modified circularly linked list.
  * We will need to add players to the end and pull from the front (as with a queue)
@@ -164,5 +166,41 @@ public class Tokens {
     		}
     	}
     	System.out.print("\n\n");
+    }
+    
+    /* Need to pulling the characterNames from the list -- needed for the help menu */
+    public ArrayList<String> returnCharacterNames(){
+    	ArrayList<String> characterNames = new ArrayList<>();
+    	
+    	Token currentToken = this.first;
+    	boolean run = true;
+    	
+    	while (run) {
+    		characterNames.add(currentToken.getName());
+    		currentToken = currentToken.next();
+    		if (currentToken == last.next()) {
+    			run = false;
+    		}
+    	}
+    	
+    	return characterNames;
+    }
+    
+    /* Pulling the usernames from the list -- needed for the help menu */
+    public ArrayList<String> returnUsernames(){
+    	ArrayList<String> userNames = new ArrayList<>();
+    	
+    	Token currentToken = this.first;
+    	boolean run = true;
+    	
+    	while (run) {
+    		userNames.add(currentToken.getPlayerName());
+    		currentToken = currentToken.next();
+    		if (currentToken == last.next()) {
+    			run = false;
+    		}
+    	}
+    	
+    	return userNames;
     }
 }
