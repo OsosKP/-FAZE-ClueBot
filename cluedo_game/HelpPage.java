@@ -27,7 +27,7 @@ public class HelpPage {
 	private JPanel currentPlayerInfoPanel = null;
 	private JPanel containerJPanel = null;
 	
-
+	//TODO when I am actually implementing this with the main JFrame, I can pass that object into this constructor, then I can mess with it all I want
 	public HelpPage() {
 	
 		/* Test Code that will be removed when functionality is done */
@@ -103,6 +103,12 @@ public class HelpPage {
 			this.add(howToPlay);
 			this.add(playerList);
 		}
+		
+		public void toggleList() {
+			playerList.setEnabled(false);
+			howToPlay.setEnabled(true);
+			userCommands.setEnabled(true);
+		}
 	
 		public void toggleUser() {
 			userCommands.setEnabled(false);
@@ -121,7 +127,6 @@ public class HelpPage {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		
