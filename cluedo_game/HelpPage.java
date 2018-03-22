@@ -1,6 +1,8 @@
 package cluedo_game;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 /**
  * Basic set up is we are going to have one MEGA JPanel which is going to hold all the other JPanels in the correct position
@@ -11,11 +13,16 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 
 public class HelpPage {
@@ -210,8 +217,32 @@ public class HelpPage {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			buttons.toggleList();
 			
+			if (userInputtedCommandsPanel != null) {
+				containerJPanel.remove(userInputtedCommandsPanel);
+				userInputtedCommandsPanel = null;
+			}
+			else if (howToPlayInfoPanel != null) {
+				containerJPanel.remove(howToPlayInfoPanel);
+				howToPlayInfoPanel = null;
+			}
+			else {
+				System.err.println("Someathing broke HelpPage.java");
+				System.exit(0);			
+			}
+			currentPlayerInfoPanel = new JPanel();
+			currentPlayerInfoPanel.setLayout(new GridLayout(2,1));
+			
+			PlayerListCharacterNameInfo characters = new PlayerListCharacterNameInfo();
+			PlayerListUsernameInfo users = new PlayerListUsernameInfo();
+			
+			currentPlayerInfoPanel.add(characters);
+			currentPlayerInfoPanel.add(users);
+			
+			containerJPanel.add(currentPlayerInfoPanel, BorderLayout.CENTER);
+			displayTemp.repaint();
+			displayTemp.revalidate();
 		}
 		
 	}
@@ -399,10 +430,10 @@ class HowToPlayInfo extends JPanel{
 		this.add(solveInstructions);
 	}
 }
-/* Will return the list of players currently playing */
-class PlayerListInfo extends JPanel{
-	private JLabel playerListInfoTitle;
-	private JLabel playerList;
+/* Will return the list of characters who are currently playing */
+class PlayerListCharacterNameInfo extends JPanel{
+	private JLabel playerTitle;
+	private ArrayList<JLabel> playerListArray = new ArrayList<JLabel>();
 	
 	@Override
 	public void setLayout(LayoutManager mgr) {
@@ -411,17 +442,70 @@ class PlayerListInfo extends JPanel{
 	}
 	
 	public void setTitles() {
-		playerListInfoTitle = new JLabel("List of Players");
-		playerList = new JLabel("This is going to be a placeHolder");
+			ArrayList<String> characterNames = new ArrayList<String>();
+			ArrayList<String> usernames = new ArrayList<String>();
+			
+			characterNames = GameLogic.playerList.returnCharacterNames();
+			usernames = GameLogic.playerList.returnUsernames();
+			
+			String characterNameString;
+			String userNameString = "<html>";
+			String titleTest = "This is a test";
+			
+			for (int i = 0; i < characterNames.size(); i++) {
+				characterNameString = characterNames.get(i);
+				userNameString = userNameString + usernames.get(i) + " is playing: " + characterNames.get(i) +"<br>";
+				playerListArray.add(new JLabel(characterNameString));
+			}
+			userNameString = userNameString + "</html>";
+			playerTitle = new JLabel("All the Characters who were Created", SwingConstants.CENTER);
 	}
 	
-	public PlayerListInfo() {
-		this.setLayout(new GridLayout(2,1));
-		
-		this.setTitles();
-		playerListInfoTitle.setHorizontalAlignment(JLabel.CENTER);
-		
-		this.add(playerListInfoTitle);
-		this.add(playerList);
+	public PlayerListCharacterNameInfo() {
+		this.setLayout(new GridLayout(playerListArray.size(),1));
+		this.setTitles(); 
+		this.add(playerTitle);
+		for (int i = 0; i < playerListArray.size(); i++) {
+			this.add(playerListArray.get(i));
+		}
 	}
 }
+
+/* Will return the list of players currently playing their character */
+//TODO add alive/dead stats here at some point
+class PlayerListUsernameInfo extends JPanel{
+	private JLabel playerTitle;
+	private ArrayList<JLabel> playerListArray = new ArrayList<JLabel>();
+	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
+	
+	public void setTitles() {
+			ArrayList<String> usernames = new ArrayList<String>();
+			ArrayList<String> characterNames = new ArrayList<String>();
+			
+			usernames = GameLogic.playerList.returnUsernames();
+			characterNames = GameLogic.playerList.returnCharacterNames();		
+			
+			String userNameString;
+			
+			for (int i = 0; i < usernames.size(); i++) {
+				userNameString = usernames.get(i) + " is playing: " + characterNames.get(i);
+				playerListArray.add(new JLabel(userNameString));
+			}
+			playerTitle = new JLabel("Players' Character Selection", SwingConstants.CENTER);
+	}
+	
+	public PlayerListUsernameInfo() {
+		this.setLayout(new GridLayout(playerListArray.size(),1));
+		this.setTitles(); 
+		this.add(playerTitle);
+		for (int i = 0; i < playerListArray.size(); i++) {
+			this.add(playerListArray.get(i));
+		}
+	}
+}
+

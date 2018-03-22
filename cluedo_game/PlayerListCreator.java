@@ -134,6 +134,7 @@ public class PlayerListCreator {
 
                         String[] output = getValue();
                         username = output[0];
+                        
                         characterName = selectedPlayers.get(objNum);
 
                         value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
@@ -300,43 +301,44 @@ public class PlayerListCreator {
             
             for (int i = 0; i < 6; i++) {
                 String[] returnArray = GUIPlayerList[i].getValue();
-
+                
                 /* If the user wants to actually play, the above token objects get populated */
                 if (!(returnArray[1].equals("Not Playing"))){
                 	numPlayersCreated++;
+                	                	
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
-                            mustard = new Token(17, 0, "Mustard", numPlayers++);
+                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(mustard);
                         }
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
-                            scarlet = new Token(24, 7, "Scarlet", numPlayers++);
+                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(scarlet);
                         }
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
-                            white = new Token(0, 9, "White", numPlayers++);
+                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(white);
                         }
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
-                            green = new Token(0, 14, "Green", numPlayers++);
+                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(green);
                         }
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
-                            peacock = new Token(6, 23, "Peacock", numPlayers++);
+                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(peacock);
                         }
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
-                            plum = new Token(19, 23, "Plum", numPlayers++);
+                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++);
                             playerList.addPlayer(plum);
                         }
                     }
@@ -348,7 +350,7 @@ public class PlayerListCreator {
             display.getContentPane().removeAll();
 
             /* To conserve on memory, we are going to reset all the items in the arrayLists/arrays
-                    (since we aren't going to need them anymore */
+                    (since we aren't going to need them anymore) */
             int i;
             for (i = 0; i < GUIPlayerList.length; i++) {
             	GUIPlayerList[i] = null;
