@@ -87,38 +87,6 @@ public class BoardImage {
 	}
 
 	/**
-     * Sticks the image into a JPanel and makes that the instance variable for this class
-	 */
-//	public void createPanel() {
-//        BufferedImage test = null;
-//
-//        try {
-//            test = ImageIO.read(new File("board1.jpg"));
-//        }
-//        catch (IOException e) {
-//        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
-//        	try {
-//            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
-//            	bi = ImageIO.read(url);
-//				System.out.println("Uh oh");
-//        	}
-//        	catch (Exception q) {
-//        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
-//        	}
-//
-//        }
-//
-//		this.bi = test;
-//
-//		JPanel p = this.returnEmptyGridLayout();
-//		p = this.populateGrid(p);
-//
-//		JPanel holder = this.returnFinalJPanel();
-//		holder.add(p);
-//		imagePanel = holder;
-//	}
-
-	/**
 	 * Constructs an empty grid, places it in a JPanel and returns it
 	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
 	 */
@@ -192,6 +160,23 @@ public class BoardImage {
 		drawForTheFistTime(p);
 		return p;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * "moves" the players on the screen by swapping the JButtons on the screen
 	 * @param initX = the initial X starting position
@@ -202,30 +187,58 @@ public class BoardImage {
 	 */
 
 	public JPanel move(int[] init, int[] fin) {
-		/* Creating new JPanel -- set = to an empty layout */
+		//Check to see if you're about to move on an entry square
+		if (GameLogic.currentBoard.getSquare(fin) instanceof EntrySquare){
+			System.out.println("That's an entry square " + GameLogic.currentBoard.getSquare(fin).getClass());
+			return null;
+		}
+		else{
+			System.out.println("\n\n\nThat's an " + GameLogic.currentBoard.getSquare(fin).getClass() + "square");
+			return swapsquares(init, fin);
+		}
+	}
 
-		System.out.println("Init: ["+init[0]+","+init[1]+"] Fin: ["+fin[0] + "," + fin[1] + "]");
+	public JPanel swapsquares(int[] init, int[] fin){
+		/* Creating new JPanel -- set = to an empty layout */
+		//System.out.println("Init: ["+init[0]+","+init[1]+"] Fin: ["+fin[0] + "," + fin[1] + "]");
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
-		/* Assigning the colour of the new JButton */
-		this.editedBoard[fin[0]][fin[1]] = this.editedBoard[init[0]][init[1]];
 
-		/* Returning the old JButton to its original colour */
-		this.editedBoard[init[0]][init[1]] = this.defaultBoard[init[0]][init[1]];
+		if ((init!=null)&&(fin!=null)){//Safety, can be called null
+			/* Assigning the colour of the new JButton */
+			this.editedBoard[fin[0]][fin[1]] = this.editedBoard[init[0]][init[1]];
 
-		/* Need to recreate the JPanel based on the new *, int finX */
-		for (int rows = 0; rows < 25; rows++) {
-			for (int cols = 0; cols < 24; cols++) {
-				/* This *should* correctly re-add the JButtons to the JPanel */
-				JButton temp = this.editedBoard[rows][cols];
-				temp.setBorder(null);
-				newPanel.add(temp);
+			/* Returning the old JButton to its original colour */
+			this.editedBoard[init[0]][init[1]] = this.defaultBoard[init[0]][init[1]];
+
+			/* Need to recreate the JPanel based on the new *, int finX */
+			for (int rows = 0; rows < 25; rows++) {
+				for (int cols = 0; cols < 24; cols++) {
+					/* This *should* correctly re-add the JButtons to the JPanel */
+					JButton temp = this.editedBoard[rows][cols];
+					temp.setBorder(null);
+					newPanel.add(temp);
+				}
 			}
+			returnMe.add(newPanel);
 		}
-		returnMe.add(newPanel);
-
 		return returnMe;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public JPanel movetoExit(String room, int exitnumber, String player){
 		switch(room){
@@ -752,29 +765,31 @@ public class BoardImage {
 	 	return destination;
 	}
 
-	public JPanel move(int init[], int fin[]) {
-		/* Creating new JPanel -- set = to an empty layout */
-		JPanel newPanel = returnEmptyGridLayout();
-		JPanel returnMe = returnFinalJPanel();
-		/* Assigning the colour of the new JButton */
-		this.editedBoard[fin[1]][fin[0]] = this.editedBoard[init[1]][init[0]];
 
-		/* Returning the old JButton to its original colour */
-		this.editedBoard[init[1]][init[0]] = this.defaultBoard[init[1]][init[0]];
-
-		/* Need to recreate the JPanel based on the new */
-		for (int rows = 0; rows < 25; rows++) {
-			for (int cols = 0; cols < 24; cols++) {
-				/* This *should* correctly re-add the JButtons to the JPanel */
-				JButton temp = this.editedBoard[rows][cols];
-				temp.setBorder(null);
-				newPanel.add(temp);
-			}
-		}
-		returnMe.add(newPanel);
-
-		return returnMe;
-	}
+	// DELETE
+	// public JPanel move(int init[], int fin[]) {
+	// 	/* Creating new JPanel -- set = to an empty layout */
+	// 	JPanel newPanel = returnEmptyGridLayout();
+	// 	JPanel returnMe = returnFinalJPanel();
+	// 	/* Assigning the colour of the new JButton */
+	// 	this.editedBoard[fin[1]][fin[0]] = this.editedBoard[init[1]][init[0]];
+	//
+	// 	/* Returning the old JButton to its original colour */
+	// 	this.editedBoard[init[1]][init[0]] = this.defaultBoard[init[1]][init[0]];
+	//
+	// 	/* Need to recreate the JPanel based on the new */
+	// 	for (int rows = 0; rows < 25; rows++) {
+	// 		for (int cols = 0; cols < 24; cols++) {
+	// 			/* This *should* correctly re-add the JButtons to the JPanel */
+	// 			JButton temp = this.editedBoard[rows][cols];
+	// 			temp.setBorder(null);
+	// 			newPanel.add(temp);
+	// 		}
+	// 	}
+	// 	returnMe.add(newPanel);
+	//
+	// 	return returnMe;
+	// }
 
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();

@@ -236,33 +236,27 @@ public class UserInterface extends JPanel {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-                           int[] destinationCoordinates, currentCoordinates;
+                           int[] currentCoordinates = null;
+                           int[] destinationCoordinates = currentPlayer.getSquareOn().getPosition();//Since the player has already moved, destination is the "current" square
                           // JPanel panelAfterPlayerMove = null;
                           userDisplay.remove(boardImagePanel);
+
                            switch (inputField.getText()) {
-                               case "up"://Since the player has already moved, I need to get the sqare of the undo operation
+                               case "up"://Since the player has already moved, current is the "previous" position
                                case "u":
-                                   destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                    currentCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
-                                   boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "down":
                                case "d":
-                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "left":
                                case "l":
-                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                case "right":
                                case "r":
-                                    destinationCoordinates = currentPlayer.getSquareOn().getPosition();
                                     currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
-                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                default:
                                    destinationCoordinates = new int[2];
@@ -270,12 +264,7 @@ public class UserInterface extends JPanel {
                                    break;
                            }
 
-                           System.out.println("Destination Coords: " + destinationCoordinates[0]);
-                           // TODO: Josh plz fix below -- is fixed
-
-                          // int[] currentPlayergetPositionArray = currentPlayer.getPosition();
-                        //    System.out.println("Moving from "+ currentPlayergetPositionArray[0] + ","+currentPlayergetPositionArray[1] + " to " + destinationCoordinates[0] + "," + destinationCoordinates[1]);
-                           //boardImagePanel = movePlayerAndUpdate(currentPlayer.getPosition(), destinationCoordinates);
+                           boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                            userDisplay.add(boardImagePanel);
                            display.invalidate();
                            display.validate();
@@ -283,14 +272,14 @@ public class UserInterface extends JPanel {
                         //    boardImagePanel.revalidate();
                             }
                             else {
-
                                 //I think this is the right place
-                                userDisplay.remove(boardImagePanel);
-                                boardImagePanel = myImg.move(currentPlayer.getInRoom().getName(), currentPlayer.getName());
-                                userDisplay.add(boardImagePanel);
-                                display.invalidate();
-                                display.validate();
-                                display.repaint();
+                                //userDisplay.remove(boardImagePanel);
+                                System.out.println("ENTRY TRIGGERED 2");
+                                // boardImagePanel = myImg.move(currentPlayer.getInRoom().getName(), currentPlayer.getName());
+                                // userDisplay.add(boardImagePanel);
+                                // display.invalidate();
+                                // display.validate();
+                                // display.repaint();
 
                                 // Print action and location to system out
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
