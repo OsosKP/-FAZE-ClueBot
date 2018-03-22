@@ -127,11 +127,49 @@ public class HelpPage {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			/* Disabling the option for the user to toggle the 'accepted commands' button -- since that is what they are supposed to be looking at anyway */
+			buttons.toggleUser();
 			
+			/* Checking which component is actually attached to the panel, and removing it */
+			if (howToPlayInfoPanel != null) {
+				containerJPanel.remove(howToPlayInfoPanel);
+				howToPlayInfoPanel = null;
+			}
+			else if (currentPlayerInfoPanel != null) {
+				containerJPanel.remove(currentPlayerInfoPanel);
+				currentPlayerInfoPanel = null;
+			}
+			else {
+				System.err.println("Someathing broke HelpPage.java");
+				System.exit(0);			
+			}
+			
+			/* Going to handle the overall 'list of commands' section of the help page */
+			userInputtedCommandsPanel = new JPanel();
+			userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
+	    
+			/* Creating Individual Objects -- which will be inserted into the help page */
+			ListOfMovementCommands movementCommands = new ListOfMovementCommands();
+			AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
+			HowToGuessCommands guessCommands = new HowToGuessCommands();
+			WhenTryingToSolveCommands solveCommands = new WhenTryingToSolveCommands();
+			MiscCommands miscCommands = new MiscCommands();
+	    
+			/* Adding components to overall movement commands */
+			userInputtedCommandsPanel.add(movementCommands);
+			userInputtedCommandsPanel.add(roomCommands);
+			userInputtedCommandsPanel.add(guessCommands);
+			userInputtedCommandsPanel.add(solveCommands);
+			userInputtedCommandsPanel.add(miscCommands);
+			
+			containerJPanel.add(userInputtedCommandsPanel, BorderLayout.CENTER);
+			displayTemp.repaint();
+			displayTemp.revalidate();
 		}
 		
 	}
 	/* Going to be toggled when the user wants to learn more about how to play cluedo */
+	
 	class HowToPlayListener implements ActionListener{
 
 		@Override
