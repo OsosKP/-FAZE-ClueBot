@@ -9,37 +9,28 @@ import java.awt.BorderLayout;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 public class HelpPage {
-	private ListOfCommandsTitle buttons;
 	
 	private JFrame displayTemp = new JFrame(); //currently just here for testing, will be removed later
-	private JPanel userInputtedCommandsPanel = null;
-	private JPanel howToPlayInfoPanel = null;
-	private JPanel currentPlayerInfoPanel = null;
-	private JPanel containerJPanel = null;
+	private JPanel userInputtedCommandsPanel;
+	private JPanel howToPlayInfoPanel;
 	
-	//TODO when I am actually implementing this with the main JFrame, I can pass that object into this constructor, then I can mess with it all I want
 	public HelpPage() {
-	
 		/* Test Code that will be removed when functionality is done */
-		displayTemp.setSize(800,700);
+		displayTemp.setSize(1000,1000);
 		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    displayTemp.setResizable(true);
+	    displayTemp.setResizable(false);
 	    
 	    /* Going to handle the overall 'list of commands' section of the help page */
 	    userInputtedCommandsPanel = new JPanel();
-	    userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
+	    userInputtedCommandsPanel.setLayout(new GridLayout(6,1));
 	    
 	    /* Creating Individual Objects -- which will be inserted into the help page */
+	    ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
 	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
 	    HowToGuessCommands guessCommands = new HowToGuessCommands();
@@ -47,138 +38,56 @@ public class HelpPage {
 	    MiscCommands miscCommands = new MiscCommands();
 	    
 	    /* Adding components to overall movement commands */
+	    userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
 	    userInputtedCommandsPanel.add(roomCommands);
 	    userInputtedCommandsPanel.add(guessCommands);
 	    userInputtedCommandsPanel.add(solveCommands);
 	    userInputtedCommandsPanel.add(miscCommands);
-	   
 	    
-	    buttons = new ListOfCommandsTitle();
-	    buttons.toggleUser();
 	    
-	    containerJPanel = new JPanel();
-	    containerJPanel.setLayout(new BorderLayout());
+	    /* Setting up the JPanel which will hold onto the second half of the help info */ 
+	    howToPlayInfoPanel = new JPanel();
+	    howToPlayInfoPanel.setLayout(new GridLayout(1,1));
 	    
-	    containerJPanel.add(buttons, BorderLayout.NORTH);
-	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.CENTER);
-	    	    
-	    displayTemp.add(containerJPanel);
+	    HowToPlayInfo playInfo = new HowToPlayInfo();
+	    //PlayerListInfo playerList = new PlayerListInfo();
+	    /* Creating the different inputs that we can work */
+
+	    howToPlayInfoPanel.add(playInfo);
+	    //howToPlayInfoPanel.add(playerList);
+	    
+	    
+<<<<<<< HEAD
+
+	    containerJPanel.add(userInputtedCommandsPanel, BorderLayout.WEST);
+	    containerJPanel.add(howToPlayInfoPanel, BorderLayout.EAST);
+    
+	    
+=======
+	    
+	    
+>>>>>>> parent of 3af94e6... added container jPanel, still need to work on making the menu align correctly
+	    displayTemp.add(userInputtedCommandsPanel);
 	    displayTemp.setVisible(true);
-	}
-	
-	/* Using the title as an inner class because we need to change the created objects */
-	class ListOfCommandsTitle extends JPanel{
-		private JButton userCommands;
-		private JButton howToPlay;
-		private JButton playerList;
-		
-		@Override
-		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
-			super.setLayout(mgr);
-		}
-	
-		public void setTitle() {
-			userCommands = new JButton("Accepted Commands");
-			howToPlay = new JButton("How to Play Cleudo");
-			playerList = new JButton("Player List");
-		}
-	
-		public ListOfCommandsTitle() {
-			this.setLayout(new GridLayout(1,3));
-			this.setTitle();
-	
-			/* Action Listeners used to change the info displayed on the help page */
-			AcceptedListener acceptedAction = new AcceptedListener();
-			HowToPlayListener howToAction = new HowToPlayListener();
-			PlayerListListener playAction = new PlayerListListener();
-			
-			/* Adding actionListeners to the buttons */
-			userCommands.addActionListener(acceptedAction);
-			howToPlay.addActionListener(howToAction);
-			playerList.addActionListener(playAction);
-			
-			this.add(userCommands);
-			this.add(howToPlay);
-			this.add(playerList);
-		}
-		
-		public void toggleList() {
-			playerList.setEnabled(false);
-			howToPlay.setEnabled(true);
-			userCommands.setEnabled(true);
-		}
-	
-		public void toggleUser() {
-			userCommands.setEnabled(false);
-			howToPlay.setEnabled(true);
-			playerList.setEnabled(true);
-		}
-	
-		public void togglePlay() {
-			howToPlay.setEnabled(false);
-			userCommands.setEnabled(true);
-			playerList.setEnabled(true);
-		}
-	}
-	/* Going to be toggled when the user wants to learn more about the valid commands for the game */
-	class AcceptedListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
-		}
-		
-	}
-	/* Going to be toggled when the user wants to learn more about how to play cluedo */
-	class HowToPlayListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			/* Disabling the option for the user to toggle the 'how to play' button -- since that is the page they will be looking at already */
-			buttons.togglePlay();
-			
-			if (userInputtedCommandsPanel != null) {
-				containerJPanel.remove(userInputtedCommandsPanel);
-				userInputtedCommandsPanel = null;
-			}
-			else if (currentPlayerInfoPanel != null){
-				containerJPanel.remove(currentPlayerInfoPanel);
-				currentPlayerInfoPanel = null;
-			}
-			else {
-				System.err.println("Someathing broke HelpPage.java");
-				System.exit(0);
-			}
-			
-			/* Setting up the JPanel which will hold onto the second half of the help info */
-			howToPlayInfoPanel = new JPanel();
-			howToPlayInfoPanel.setLayout(new GridLayout(1,1));
-	    
-			HowToPlayInfo playInfo = new HowToPlayInfo();
-
-			/* Creating the different inputs that we can work */
-			howToPlayInfoPanel.add(playInfo);
-			
-			containerJPanel.add(howToPlayInfoPanel, BorderLayout.CENTER);
-			displayTemp.repaint();
-			displayTemp.revalidate();
-		}
-		
-	}
-	/* Going to be toggled when the user wants to learn more about the current players playing the game */
-	class PlayerListListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 }
 
+class ListOfCommandsTitle extends JPanel{
+	JLabel myLabel = new JLabel("List of Commands");
+	
+	public void setLayout(LayoutManager mgr) {
+		super.setLayout(mgr);
+	}
+	
+	public ListOfCommandsTitle() {
+		this.setLayout(new BorderLayout());
+		myLabel.setHorizontalAlignment(JLabel.CENTER);
+		
+		this.add(myLabel);
+	}
+	
+}
 /* Class that is going to deal with displaying the movement commands help */
 class ListOfMovementCommands extends JPanel{
 	private JLabel movementTitle;
@@ -336,6 +245,7 @@ class MiscCommands extends JPanel{
 }
 /* Contains info on how the player can actually play the game */
 class HowToPlayInfo extends JPanel{
+	private JLabel howToPlayTitle;
 	private JLabel movementInstructions;
 	private JLabel guessingInstructions;
 	private JLabel solveInstructions;
@@ -347,15 +257,21 @@ class HowToPlayInfo extends JPanel{
 	}
 	
 	public void setTitles() {
-		movementInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Move</div><br>You can move only horizontally or vertically, never diagonally, and can't enter a space or doorway you have already entered this turn.<br><br>You can move through a doorway to enter a room, but this ends your movement.<br><br>You can't move through a yellow space occupied by another player, but multiple players can be in the same room.<br><br>If you start your turn in a room with a secret passage, you can use the secret passage instead of rolling the die.<br><br>This will put your character in another room across the board, ending your movement.<br></html>");
-		guessingInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Guess</div><br>If you end your movement in a room, you get to make a guess. To do this, reference the guess commands to the left. For example, if you just entered the lounge, you might say, \"XX \" The named suspect and murder weapon are both moved into your current room.<br><br>The player to your left must disprove your suggestion by showing you one card from her hand that matches your suggestion. If that player can't do so, the player to her left must disprove your suggestion by showing you one card from his hand. This responsibility passes clockwise until someone shows you a card, or until all players have passed.<br><br>If someone shows you a card, you should cross it off on your detective notebook as a possibility. Any cards you hold should also be crossed off as possibilities. Don't let other players see your notebook.<br></html>");
-		solveInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Accuse</div><br>If you think you have solved the case by eliminating all the false possibilities and have not just had your suggestion disproved this turn, you can end your turn by making an accusation, provided that you are in the celler. Announce that you are making an accusation, and state your final guess of the murderer, the murder weapon, and the murder location.<br><br>Once this is done, secretly look at the three cards in the murder envelope. If you are correct, lay the cards face-up on the table, proving to all players that you have won the game.<br><br>If you are wrong, you lose the game! Secretly replace the three cards back in the murder envelope without revealing them. Your turn is over, and you are now eliminated from the game.<br></html>");
+		howToPlayTitle = new JLabel("How to Play Clue");
+			
+		movementInstructions = new JLabel("<html>You can move only horizontally or vertically, never diagonally, and can't enter a space or doorway you have already entered this turn<br>You can move through a doorway to enter a room, but this ends your movement.<br>  You can't move through a yellow space occupied by another player, but multiple players can be in the same room.<br> If you start your turn in a room with a secret passage, you can use the secret passage instead of rolling the die.<br>This will put your character in another room across the board, ending your movement.</html>");
+		
+		guessingInstructions = new JLabel("<html>If you end your movement in a room, you get to make a guess. To do this, reference the guess commands to the left.<br>For example, if you just entered the lounge, you might say, \"XX \" The named suspect and murder weapon are both moved into your current room.<br>The player to your left must disprove your suggestion by showing you one card from her hand that matches your suggestion. If that player can't do so, the player to her left must disprove your suggestion by showing you one card from his hand. This responsibility passes clockwise until someone shows you a card, or until all players have passed<br>If someone shows you a card, you should cross it off on your detective notebook as a possibility. Any cards you hold should also be crossed off as possibilities. Don't let other players see your notebook.</html>");
+		solveInstructions = new JLabel("<html>If you think you have solved the case by eliminating all the false possibilities and have not just had your suggestion disproved this turn, you can end your turn by making an accusation, provided that you are in the celler.<br> Announce that you are making an accusation, and state your final guess of the murderer, the murder weapon, and the murder location.<br>Once this is done, secretly look at the three cards in the murder envelope. If you are correct, lay the cards face-up on the table, proving to all players that you have won the game.<br>If you are wrong, you lose the game! Secretly replace the three cards back in the murder envelope without revealing them. Your turn is over, and you are now eliminated from the game<br>You no longer take any turns, but must stay at the table to disprove the suggestions of others. If your piece is blocking a doorway, it is moved into the room.</html>");
 	}
 	
 	public HowToPlayInfo() {
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(4,1));
 		
 		this.setTitles();
+		howToPlayTitle.setHorizontalAlignment(JLabel.CENTER);
+		
+		this.add(howToPlayTitle);
 		this.add(movementInstructions);
 		this.add(guessingInstructions);
 		this.add(solveInstructions);

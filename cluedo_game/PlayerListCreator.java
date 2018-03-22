@@ -39,7 +39,7 @@ public class PlayerListCreator {
         display.setTitle("Create Players");
         
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        display.setResizable(false);
+        display.setResizable(true);
         
         /* populating panel which will hold the character choices */
         panel = new JPanel();

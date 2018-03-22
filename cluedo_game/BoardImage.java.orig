@@ -37,8 +37,12 @@ public class BoardImage {
 	static int[] plumindex = {19,23};
 	static int[] scarletindex = {24,7};
 
+<<<<<<< HEAD
 	//DELETE
 	// int myVar = 24;
+=======
+	int myVar = 24;
+>>>>>>> parent of 3af94e6... added container jPanel, still need to work on making the menu align correctly
 
 
 	/**
@@ -73,54 +77,16 @@ public class BoardImage {
 				System.err.println("Unable to find image file in local system AND has no connection to imgur");
 			}
 		}
-
-		JPanel p = this.returnEmptyGridLayout();
-		p = this.populateGrid(p);
-
-		JPanel holder = this.returnFinalJPanel();
-		holder.add(p);
-		return holder;
+		return returnPanel(bi);//calls overloaded version of function
 	}
 
-	public JPanel getImagePanel() {
-		return imagePanel;
-	}
+	// DELETE
+	// public JPanel getImagePanel() {
+	// 	return imagePanel;
+	// }
 
 	/**
-     * Sticks the image into a JPanel and makes that the instance variable for this class
-	 */
-//	public void createPanel() {
-//        BufferedImage test = null;
-//
-//        try {
-//            test = ImageIO.read(new File("board1.jpg"));
-//        }
-//        catch (IOException e) {
-//        	System.err.println("Unable to find default map file in file system...trying to fetch it from imgur...");
-//        	try {
-//            	URL url = new URL("https://i.imgur.com/7eO9OJA.jpg");
-//            	bi = ImageIO.read(url);
-//				System.out.println("Uh oh");
-//        	}
-//        	catch (Exception q) {
-//        		System.err.println("Unable to find image file in local system AND has no connection to imgur");
-//        	}
-//
-//        }
-//
-//		this.bi = test;
-//
-//		JPanel p = this.returnEmptyGridLayout();
-//		p = this.populateGrid(p);
-//
-//		JPanel holder = this.returnFinalJPanel();
-//		holder.add(p);
-//		imagePanel = holder;
-//	}
-
-	/**
-	 * Constructs an empty grid, places it in a JPanel and returns it
-	 * @return a JPanel with an empty grid layout -- will be filled with JButtons later
+	 * @return JPanel with an empty grid layout
 	 */
 	private JPanel returnEmptyGridLayout() {
         /* Creating JPanel -- will represent the grid that will overly the image */
@@ -128,6 +94,7 @@ public class BoardImage {
         p.setOpaque(false);
         return p;
 	}
+
 	/**
 	 * method that populates a JPanel with an array of buttons, which are colored with the image of the BufferedImage defined earlier
 	 * @param p the JPanel to be populated
@@ -201,6 +168,7 @@ public class BoardImage {
 	 * @return the JPanel that will represent the new board
 	 */
 
+	//DELETE?
 	public JPanel move(int[] init, int[] fin) {
 		/* Creating new JPanel -- set = to an empty layout */
 
@@ -261,6 +229,9 @@ public class BoardImage {
 
 		return null;
 	}
+
+	//move by passing token instead of player name
+	//public JPanel move()
 
 	public JPanel move(String direction, String player){
 
