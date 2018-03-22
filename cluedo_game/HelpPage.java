@@ -9,13 +9,14 @@ import java.awt.BorderLayout;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.corba.se.spi.orbutil.threadpool.NoSuchWorkQueueException;
 
 public class HelpPage {
 	
@@ -37,7 +38,6 @@ public class HelpPage {
 	    userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
 	    
 	    /* Creating Individual Objects -- which will be inserted into the help page */
-	    //ListOfCommandsTitle commandTitle = new ListOfCommandsTitle();
 	    ListOfMovementCommands movementCommands = new ListOfMovementCommands();
 	    AfterEnteringRoomCommands roomCommands = new AfterEnteringRoomCommands();
 	    HowToGuessCommands guessCommands = new HowToGuessCommands();
@@ -45,7 +45,6 @@ public class HelpPage {
 	    MiscCommands miscCommands = new MiscCommands();
 	    
 	    /* Adding components to overall movement commands */
-	    //userInputtedCommandsPanel.add(commandTitle);
 	    userInputtedCommandsPanel.add(movementCommands);
 	    userInputtedCommandsPanel.add(roomCommands);
 	    userInputtedCommandsPanel.add(guessCommands);
@@ -90,7 +89,7 @@ public class HelpPage {
 		public void setTitle() {
 			userCommands = new JButton("Accepted Commands");
 			howToPlay = new JButton("How to Play Cleudo");
-			playerList = new JButton("PLayer List");
+			playerList = new JButton("Player List");
 		}
 	
 		public ListOfCommandsTitle() {
@@ -113,6 +112,36 @@ public class HelpPage {
 			userCommands.setEnabled(true);
 			playerList.setEnabled(true);
 		}
+	}
+	/* Going to be toggled when the user wants to learn more about the valid commands for the game */
+	class AcceptedListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	/* Going to be toggled when the user wants to learn more about how to play cluedo */
+	class HowToPlayListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	/* Going to be toggled when the user wants to learn more about the current players playing the game */
+	class PlayerListListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
 
