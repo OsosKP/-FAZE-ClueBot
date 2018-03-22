@@ -75,46 +75,47 @@ public class HelpPage {
 	    displayTemp.add(containerJPanel);
 	    displayTemp.setVisible(true);
 	}
+	/* Using the title as an inner class because we need to change the created objects */
+	class ListOfCommandsTitle extends JPanel{
+		private JButton userCommands;
+		private JButton howToPlay;
+		private JButton playerList;
+		
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
+	
+		public void setTitle() {
+			userCommands = new JButton("Accepted Commands");
+			howToPlay = new JButton("How to Play Cleudo");
+			playerList = new JButton("PLayer List");
+		}
+	
+		public ListOfCommandsTitle() {
+			this.setLayout(new GridLayout(1,3));
+			this.setTitle();
+		
+			this.add(userCommands);
+			this.add(howToPlay);
+			this.add(playerList);
+		}
+	
+		public void toggleUser() {
+			userCommands.setEnabled(false);
+			howToPlay.setEnabled(true);
+			playerList.setEnabled(true);
+		}
+	
+		public void togglePlay() {
+			howToPlay.setEnabled(false);
+			userCommands.setEnabled(true);
+			playerList.setEnabled(true);
+		}
+	}
 }
 
-class ListOfCommandsTitle extends JPanel{
-	private JButton userCommands;
-	private JButton howToPlay;
-	private JButton playerList;
-		
-	@Override
-	public void setLayout(LayoutManager mgr) {
-		// TODO Auto-generated method stub
-		super.setLayout(mgr);
-	}
-	
-	public void setTitle() {
-		userCommands = new JButton("Accepted Commands");
-		howToPlay = new JButton("How to Play Cleudo");
-		playerList = new JButton("PLayer List");
-	}
-	
-	public ListOfCommandsTitle() {
-		this.setLayout(new GridLayout(1,3));
-		this.setTitle();
-		
-		this.add(userCommands);
-		this.add(howToPlay);
-		this.add(playerList);
-	}
-	
-	public void toggleUser() {
-		userCommands.setEnabled(false);
-		howToPlay.setEnabled(true);
-		playerList.setEnabled(true);
-	}
-	
-	public void togglePlay() {
-		howToPlay.setEnabled(false);
-		userCommands.setEnabled(true);
-		playerList.setEnabled(true);
-	}
-}
 /* Class that is going to deal with displaying the movement commands help */
 class ListOfMovementCommands extends JPanel{
 	private JLabel movementTitle;
