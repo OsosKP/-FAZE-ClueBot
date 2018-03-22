@@ -201,7 +201,6 @@ public class BoardImage {
 	 * @return the JPanel that will represent the new board
 	 */
 
-	//DELETE?
 	public JPanel move(int[] init, int[] fin) {
 		/* Creating new JPanel -- set = to an empty layout */
 
