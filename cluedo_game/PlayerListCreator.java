@@ -19,6 +19,7 @@ public class PlayerListCreator {
 
     /* Holds the GUIPlayer choices */
     private  CharacterList[] GUIPlayerList = null;
+    private int[] storedValues = new int[6];
     /* Holds that player choices who were deleted form the createPlayersGUI */
     private  ArrayList<String> deletedPlayers = new ArrayList<>();
     /* Holds the players who were selected form the createPlayersGUI */
@@ -98,7 +99,8 @@ public class PlayerListCreator {
 
         private JTextField value;
         String willThisWork, username, characterName;
-        public int objNum;
+        private int objNum;
+        private int diceNumber = -1;
         JList list;
         DefaultListModel model = new DefaultListModel();
 
@@ -213,8 +215,35 @@ public class PlayerListCreator {
                         	 /* removing the JList elements from the current obj (since the user already chose that they wanted) */
                         	 model.removeAllElements();
                         	 
+                        	 /* Creating the dice roll that determines who will go first */
+                        	 diceNumber = GameLogic.Dice.rollDice();
+                        	 storedValues[objNum] = diceNumber;
+                        	 System.out.println("This is the dice that I rolled!"+ diceNumber + " my ObjNumber is " + objNum);
+                        	 System.out.println("These are the curent diec rolls so far:");
+
+                        	 for (int q = 0; q < 6; q++) {
+                        		System.out.println(storedValues[i]); 
+                        	 }
+                        	 
+                        	 
+//                        	 for (int index = 0; index < 6; index++) {
+//                        		 if ((GUIPlayerList[i].diceNumber != -1) ){
+//                        			 System.out.println("Comparing the " + GUIPlayerList[i].diceNumber + " With " + diceNumber + "ObjNum from array = " + GUIPlayerList[i].objNum + "MyNUm = " + objNum);
+//                        			 if (GUIPlayerList[i].objNum != objNum) {
+//                        			 	if (GUIPlayerList[i].diceNumber == diceNumber) {
+//                        			 		System.out.println("\n\n\n");
+//                        			 		System.out.println("I am actually getting here! ObjNum = " + objNum + "Compring ObjNUm = " + GUIPlayerList[i].objNum);
+//                        			 		diceNumber = GameLogic.Dice.rollDice();
+//                        			 		index = 0;
+//                        			 	}
+//                        			 }
+//                        		 }
+//                        	 }
+                        	 
+                        	 
                         	 /* Making the username appear in a different box next to the character selection */ 
                         	 JTextField userNameHold = new JTextField("", 20);
+                        	 JTextField userDice = new JTextField("", 20);
                         	 
                         	 /* need to check the case in which the user didnt enter a usname -- or chose 'not plying' */
                         	 if (username.isEmpty() || username.equals("Type username here: ")) {
@@ -224,9 +253,12 @@ public class PlayerListCreator {
                         		 username = "NA";
                         	 }
 	                        	 
+                        	 userDice.setText("Dice Rolled: " + diceNumber);
                         	 userNameHold.setText("Username: " + username);
                         	 userNameHold.setEditable(false);
                         	 value.setEditable(false);
+                        	 userDice.setEditable(false);
+                        	 
                         	 
                         	 /* JPanel is going to hold the characterSelection/username so we can have space for the user's dice roll */
                         	 JPanel holderValue = new JPanel();
@@ -235,8 +267,8 @@ public class PlayerListCreator {
                         	 holderValue.add(value);
                         	 holderValue.add(userNameHold);
                         	 add(holderValue, BorderLayout.WEST);
-                        	 //add(userNameHold, BorderLayout.EAST);
-                         }
+                        	 add(userDice, BorderLayout.EAST);
+                        }
                       }
                    }
 
@@ -372,7 +404,6 @@ public class PlayerListCreator {
                             playerList.addPlayer(plum);
                         }
                     }
-
                 }
             }
             /* Removing all the JPanels and closing the JFrame */
