@@ -20,6 +20,7 @@ public class Token {
 	private NoteCards playerDeckNotes;
 	private int diceRoll = -1;
 	private int initialObjNum;
+	private int positionInRoom;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -115,6 +116,7 @@ public class Token {
 	//
 	public String getName() { return name;}
 	public Room getPreviousRoom(){ return previousRoom; }
+	public void setPreviousRoom(Room room){ previousRoom = room;}
 	public String getPlayerName() {return playerName; }
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}

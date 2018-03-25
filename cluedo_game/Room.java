@@ -85,6 +85,14 @@ public class Room {
 	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
 	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
 
+	public String playerListInRoom(){//returns printable string of players in room
+		String returnstring = "";
+		for (int i=0;i<playersInRoom.size();i++){
+			returnstring += playersInRoom.get(0).getName() + " ";
+		}
+		return returnstring;
+	}
+
 	public void addPlayerToRoom(Token p){
 		this.playersInRoom.add(p);
 	}

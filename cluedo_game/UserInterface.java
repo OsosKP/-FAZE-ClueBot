@@ -278,8 +278,17 @@ public class UserInterface extends JPanel {
                                     currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                     boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
+                                case "passage":
+                                    System.out.println("passage triggered!");
+                                    break;
                                 case "exit":
-                                    System.out.println("Exit?");
+                                    userDisplay.remove(boardImagePanel);
+                                    System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
+                                    boardImagePanel = boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                    userDisplay.add(boardImagePanel);
+                                    display.invalidate();
+                                    display.validate();
+                                    display.repaint();
                                     break;
                                default:
                                    destinationCoordinates = new int[2];
@@ -308,16 +317,11 @@ public class UserInterface extends JPanel {
                                         userDisplay.remove(boardImagePanel);
                                         System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
                                         boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
+                                        currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                         userDisplay.add(boardImagePanel);
                                         display.invalidate();
                                         display.validate();
                                         display.repaint();
-                                        break;
-                                    case "exit":
-                                        System.out.println("user picked exit");
-                                        break;
-                                    case "exitChoice":
-                                        System.out.println("Exit choice picked");
                                         break;
                                 }
 
@@ -395,8 +399,6 @@ public class UserInterface extends JPanel {
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
 
                     userDisplay.remove(boardImagePanel);
-                    System.out.println("Would exit here");
-                    System.out.println("At this point, the player is at: "+ currentPlayer.getSquareOn().getPositionAsString() + "And was in: " + currentPlayer.getPreviousRoom().getName());
                     boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     userDisplay.add(boardImagePanel);
                     display.invalidate();

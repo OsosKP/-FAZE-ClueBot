@@ -338,7 +338,7 @@ public class BoardBuilder {
         ArrayList<int[]> kitchenCoords = new ArrayList<>(Arrays.asList(new int[]{3,2}, new int[]{3,1}, new int[]{3,3}, new int[]{2,2}, new int[]{2,1}, new int[]{2,3}));
         ArrayList<int[]> conservatoryCoords = new ArrayList<>(Arrays.asList(new int[]{2,21}, new int[]{2,20}, new int[]{2,22}, new int[]{1,21}, new int[]{1,20}, new int[]{1,22}));
         ArrayList<int[]> diningCoords = new ArrayList<>(Arrays.asList(new int[]{11,3}, new int[]{11,2}, new int[]{11,4}, new int[]{11,1}, new int[]{11,5}, new int[]{11,6}));
-        ArrayList<int[]> billiardCoords = new ArrayList<>(Arrays.asList(new int[]{4,10}, new int[]{4,11}, new int[]{4,12}, new int[]{3,10}, new int[]{3,11}, new int[]{3,12}));
+        ArrayList<int[]> billiardCoords = new ArrayList<>(Arrays.asList(new int[]{9,20}, new int[]{9,21}, new int[]{9,22}, new int[]{11,20}, new int[]{11,21}, new int[]{11,22}));
         ArrayList<int[]> libraryCoords = new ArrayList<>(Arrays.asList(new int[]{15,20}, new int[]{15,19}, new int[]{15,21}, new int[]{16,19}, new int[]{16,21}, new int[]{17,20}));
         ArrayList<int[]> loungeCoords = new ArrayList<>(Arrays.asList(new int[]{21,3}, new int[]{21,2}, new int[]{21,4}, new int[]{22,3}, new int[]{22,2}, new int[]{22,4}));
         ArrayList<int[]> hallCoords = new ArrayList<>(Arrays.asList(new int[]{21,11}, new int[]{21,12}, new int[]{22,11}, new int[]{22,12}, new int[]{20,11}, new int[]{20,12}));
