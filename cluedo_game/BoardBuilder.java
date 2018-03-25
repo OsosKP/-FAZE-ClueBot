@@ -275,7 +275,7 @@ public class BoardBuilder {
         }
 
         // Library
-        for(i = 15; i < 19; i++){
+        for(i = 15; i < 18; i++){
             board[i][17] = new WallSquare(i, 17);
         }
         for(i = 14; i < 19; i++){
