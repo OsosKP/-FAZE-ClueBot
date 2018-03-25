@@ -109,6 +109,7 @@ public class PlayerListCreator {
             this.objNum = i;
             this.setListener();
         }
+        
         @SuppressWarnings("unchecked")
         public void setListener() {
 
@@ -217,30 +218,18 @@ public class PlayerListCreator {
                         	 
                         	 /* Creating the dice roll that determines who will go first */
                         	 diceNumber = GameLogic.Dice.rollDice();
-                        	 storedValues[objNum] = diceNumber;
                         	 System.out.println("This is the dice that I rolled!"+ diceNumber + " my ObjNumber is " + objNum);
-                        	 System.out.println("These are the curent diec rolls so far:");
 
-                        	 for (int q = 0; q < 6; q++) {
-                        		System.out.println(storedValues[i]); 
+                        	 /* Checking the diceNumber for this Obj against the other diceNumber -- if so we generate a new number */
+                        	 for (int index = 0; index < 6; index++) {
+                        		 if ((GUIPlayerList[index].diceNumber != -1) && (GUIPlayerList[index].objNum != objNum) &&(GUIPlayerList[index].diceNumber == diceNumber)) {
+                        			 		System.out.println("\n\n\n");
+                        			 		System.out.println("I am actually getting here! ObjNum = " + objNum + "Compring ObjNUm = " + GUIPlayerList[index].objNum);
+                        			 		diceNumber = GameLogic.Dice.rollDice();
+                        			 		index = 0;
+                        		 }
                         	 }
-                        	 
-                        	 
-//                        	 for (int index = 0; index < 6; index++) {
-//                        		 if ((GUIPlayerList[i].diceNumber != -1) ){
-//                        			 System.out.println("Comparing the " + GUIPlayerList[i].diceNumber + " With " + diceNumber + "ObjNum from array = " + GUIPlayerList[i].objNum + "MyNUm = " + objNum);
-//                        			 if (GUIPlayerList[i].objNum != objNum) {
-//                        			 	if (GUIPlayerList[i].diceNumber == diceNumber) {
-//                        			 		System.out.println("\n\n\n");
-//                        			 		System.out.println("I am actually getting here! ObjNum = " + objNum + "Compring ObjNUm = " + GUIPlayerList[i].objNum);
-//                        			 		diceNumber = GameLogic.Dice.rollDice();
-//                        			 		index = 0;
-//                        			 	}
-//                        			 }
-//                        		 }
-//                        	 }
-                        	 
-                        	 
+                        	 	 
                         	 /* Making the username appear in a different box next to the character selection */ 
                         	 JTextField userNameHold = new JTextField("", 20);
                         	 JTextField userDice = new JTextField("", 20);
