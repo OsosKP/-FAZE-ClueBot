@@ -232,25 +232,17 @@ public class BoardImage {
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 
-		int roomcapacity = room.playersInRoom.size();
-		int[] firstelement1 = null;
-		firstelement1=room.getPlayerFloors().get(0);
-		System.out.println("This: "+room.getName()+" Capacity: "+ roomcapacity + " Firstsquare: [" + firstelement1[0] + "," + firstelement1[1]+"]");
-
-
-
-		//Actually populates board
-		for (int rows = 0; rows < 25; rows++) {
-			for (int cols = 0; cols < 24; cols++) {
-				/* This *should* correctly re-add the JButtons to the JPanel */
-				JButton temp = this.editedBoard[rows][cols];
-				temp.setBorder(null);
-				newPanel.add(temp);
-			}
+		System.out.println("\n\n\n\n\nHello the room is " + room.getName());
+		for (int i=0;i<room.playersInRoom.size();i++){
+			System.out.print(room.playersInRoom.get(0).getName() + "is in the room");
 		}
-		returnMe.add(newPanel);
 
-		return returnMe;
+		int currentcapacity = room.playersInRoom.size();
+		System.out.println("Current cap is : " + currentcapacity);
+		int[] fin = room.getPlayerFloors().get(currentcapacity);
+
+		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
+		return swapsquares(init, fin);
 	}
 
 
@@ -258,219 +250,219 @@ public class BoardImage {
 
 
 	public JPanel movetoExit(String room, int exitnumber, String player){
-		switch(room){
-			case "Kitchen":
-				move("kexit1", player);
-				break;
-			case "BallRoom":
-				if (exitnumber==1) this.move("br1", player);
-				if (exitnumber==2) this.move("br2", player);
-				break;
-			case "Conservatory":
-				move("cons1", player);
-				break;
-			case "DiningRoom":
-				move("dinexit1",player);
-				break;
-			case "BilliardRoom":
-				move("bilexit1", player);
-				break;
-			case "Library":
-				move("libexit1", player);
-				break;
-			case "Lounge":
-				move("louexit1", player);
-				break;
-			case "Hall":
-				move("hallexit1", player);
-				break;
-			case "Study":
-				move("study1", player);
-				break;
-		}
+		// switch(room){
+		// 	case "Kitchen":
+		// 		move("kexit1", player);
+		// 		break;
+		// 	case "BallRoom":
+		// 		if (exitnumber==1) this.move("br1", player);
+		// 		if (exitnumber==2) this.move("br2", player);
+		// 		break;
+		// 	case "Conservatory":
+		// 		move("cons1", player);
+		// 		break;
+		// 	case "DiningRoom":
+		// 		move("dinexit1",player);
+		// 		break;
+		// 	case "BilliardRoom":
+		// 		move("bilexit1", player);
+		// 		break;
+		// 	case "Library":
+		// 		move("libexit1", player);
+		// 		break;
+		// 	case "Lounge":
+		// 		move("louexit1", player);
+		// 		break;
+		// 	case "Hall":
+		// 		move("hallexit1", player);
+		// 		break;
+		// 	case "Study":
+		// 		move("study1", player);
+		// 		break;
+		// }
 
 		return null;
 	}
 
-	public JPanel move(String direction, String player){
-
-		System.out.println("Moving " + player + " " + direction);
-
-		JPanel newPanel = returnEmptyGridLayout();
-		JPanel returnMe = returnFinalJPanel();
-		int startx=0, starty=0, endx=0, endy=0;
-		int[] modifier = {0,0};
-		Boolean simpledirection = true;//This tells the next switch to not overwrite the endx endy;
-
-		switch (direction) {
-			case "up":
-				modifier[0]=-1;
-				modifier[1]=0;
-				break;
-			case "down":
-				modifier[0]=1;
-				modifier[1]=0;
-				break;
-			case "left":
-				modifier[0]=0;
-				modifier[1]=-1;
-				break;
-			case "right":
-				modifier[0]=0;
-				modifier[1]=1;
-				break;
-			case "Kitchen":
-			case "Ballroom":
-			case "Conservatory":
-			case "DiningRoom":
-			case "BilliardRoom":
-			case "Library":
-			case "Lounge":
-			case "Hall":
-			case "Study":
-				int[] endsquares = calculateEndSquareRoom(direction);
-				endx=endsquares[0];
-				endy=endsquares[1];
-				simpledirection=false;
-				break;
-			//Exits
-			case "kexit1":
-				endx=7;
-				endy=4;
-				simpledirection=false;
-				break;
-			case "br1":
-				endx=5;
-				endy=7;
-				simpledirection=false;
-				break;
-			case "br2":
-				endx=8;
-				endy=9;
-				simpledirection=false;
-				break;
-			case "cons1":
-				endx=5;
-				endy=18;
-				simpledirection=false;
-				break;
-			case "dinexit1":
-				endx=12;
-				endy=8;
-				simpledirection=false;
-				break;
-			case "libexit1":
-				endx=16;
-				endy=16;
-				simpledirection=false;
-				break;
-			case "louexit1":
-				endx=18;
-				endy=6;
-				simpledirection=false;
-				break;
-			case "hallexit1":
-				endx=17;
-				endy=12;
-				simpledirection=false;
-				break;
-
-			default:
-				System.out.println("ERROR INPUT "+direction+"NOT FOUND");
-				break;
-		}
-
-
-		switch (player) {
-			case "White":
-				startx=whiteindex[0];
-				starty=whiteindex[1];
-				if (simpledirection){
-					endx=whiteindex[0]+modifier[0];
-					endy=whiteindex[1]+modifier[1];
-					whiteindex[0]+=modifier[0];
-					whiteindex[1]+=modifier[1];
-				}
-				break;
-			case "Green":
-				startx=greenindex[0];
-				starty=greenindex[1];
-				if (simpledirection){
-					endx=greenindex[0]+modifier[0];
-					endy=greenindex[1]+modifier[1];
-					greenindex[0]+=modifier[0];
-					greenindex[1]+=modifier[1];
-				}
-				break;
-			case "Peacock":
-				startx=peacockindex[0];
-				starty=peacockindex[1];
-				if (simpledirection){
-					endx=peacockindex[0]+modifier[0];
-					endy=peacockindex[1]+modifier[1];
-					peacockindex[0]+=modifier[0];
-					peacockindex[1]+=modifier[1];
-				}
-				break;
-			case "Mustard":
-				startx=mustardindex[0];
-				starty=mustardindex[1];
-				if (simpledirection){
-					endx=mustardindex[0]+modifier[0];
-					endy=mustardindex[1]+modifier[1];
-					mustardindex[0]+=modifier[0];
-					mustardindex[1]+=modifier[1];
-				}
-				break;
-			case "Plum":
-				startx=plumindex[0];
-				starty=plumindex[1];
-				if (simpledirection){
-					endx=plumindex[0]+modifier[0];
-					endy=plumindex[1]+modifier[1];
-					plumindex[0]+=modifier[0];
-					plumindex[1]+=modifier[1];
-				}
-				break;
-			case "Scarlet":
-				startx=scarletindex[0];
-				starty=scarletindex[1];
-				if (simpledirection){
-					endx=scarletindex[0]+modifier[0];
-					endy=scarletindex[1]+modifier[1];
-					scarletindex[0]+=modifier[0];
-					scarletindex[1]+=modifier[1];
-				}
-				break;
-			default:
-				System.out.println("ERROR CANNT FIND PLAYER");
-				break;
-		}
-
-
-
-		System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifier[0] + "," + modifier[1] + "] = [" + endx + "," + endy + "]");
-
-		/* Assigning the colour of the new JButton */
-
-		this.editedBoard[endx][endy] = this.editedBoard[startx][starty];
-
-		/* Returning the old JButton to its original colour */
-		this.editedBoard[startx][starty] = this.defaultBoard[startx][starty];
-
-		for (int rows = 0; rows < 25; rows++) {
-			for (int cols = 0; cols < 24; cols++) {
-				/* This *should* correctly re-add the JButtons to the JPanel */
-				JButton temp = this.editedBoard[rows][cols];
-				temp.setBorder(null);
-				newPanel.add(temp);
-			}
-		}
-		returnMe.add(newPanel);
-
-		return returnMe;
-
-	}
+	// public JPanel move(String direction, String player){
+	//
+	// 	System.out.println("Moving " + player + " " + direction);
+	//
+	// 	JPanel newPanel = returnEmptyGridLayout();
+	// 	JPanel returnMe = returnFinalJPanel();
+	// 	int startx=0, starty=0, endx=0, endy=0;
+	// 	int[] modifier = {0,0};
+	// 	Boolean simpledirection = true;//This tells the next switch to not overwrite the endx endy;
+	//
+	// 	switch (direction) {
+	// 		case "up":
+	// 			modifier[0]=-1;
+	// 			modifier[1]=0;
+	// 			break;
+	// 		case "down":
+	// 			modifier[0]=1;
+	// 			modifier[1]=0;
+	// 			break;
+	// 		case "left":
+	// 			modifier[0]=0;
+	// 			modifier[1]=-1;
+	// 			break;
+	// 		case "right":
+	// 			modifier[0]=0;
+	// 			modifier[1]=1;
+	// 			break;
+	// 		 case "Kitchen":
+	// 		case "Ballroom":
+	// 		case "Conservatory":
+	// 		case "DiningRoom":
+	// 		case "BilliardRoom":
+	// 		case "Library":
+	// 		case "Lounge":
+	// 		case "Hall":
+	// 		case "Study":
+	// 			int[] endsquares = calculateEndSquareRoom(direction);
+	// 			endx=endsquares[0];
+	// 			endy=endsquares[1];
+	// 			simpledirection=false;
+	// 			break;
+	// 		//Exits
+	// 		case "kexit1":
+	// 			endx=7;
+	// 			endy=4;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "br1":
+	// 			endx=5;
+	// 			endy=7;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "br2":
+	// 			endx=8;
+	// 			endy=9;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "cons1":
+	// 			endx=5;
+	// 			endy=18;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "dinexit1":
+	// 			endx=12;
+	// 			endy=8;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "libexit1":
+	// 			endx=16;
+	// 			endy=16;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "louexit1":
+	// 			endx=18;
+	// 			endy=6;
+	// 			simpledirection=false;
+	// 			break;
+	// 		case "hallexit1":
+	// 			endx=17;
+	// 			endy=12;
+	// 			simpledirection=false;
+	// 			break;
+	//
+	// 		default:
+	// 			System.out.println("ERROR INPUT "+direction+"NOT FOUND");
+	// 			break;
+	// 	}
+	//
+	//
+	// 	switch (player) {
+	// 		case "White":
+	// 			startx=whiteindex[0];
+	// 			starty=whiteindex[1];
+	// 			if (simpledirection){
+	// 				endx=whiteindex[0]+modifier[0];
+	// 				endy=whiteindex[1]+modifier[1];
+	// 				whiteindex[0]+=modifier[0];
+	// 				whiteindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		case "Green":
+	// 			startx=greenindex[0];
+	// 			starty=greenindex[1];
+	// 			if (simpledirection){
+	// 				endx=greenindex[0]+modifier[0];
+	// 				endy=greenindex[1]+modifier[1];
+	// 				greenindex[0]+=modifier[0];
+	// 				greenindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		case "Peacock":
+	// 			startx=peacockindex[0];
+	// 			starty=peacockindex[1];
+	// 			if (simpledirection){
+	// 				endx=peacockindex[0]+modifier[0];
+	// 				endy=peacockindex[1]+modifier[1];
+	// 				peacockindex[0]+=modifier[0];
+	// 				peacockindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		case "Mustard":
+	// 			startx=mustardindex[0];
+	// 			starty=mustardindex[1];
+	// 			if (simpledirection){
+	// 				endx=mustardindex[0]+modifier[0];
+	// 				endy=mustardindex[1]+modifier[1];
+	// 				mustardindex[0]+=modifier[0];
+	// 				mustardindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		case "Plum":
+	// 			startx=plumindex[0];
+	// 			starty=plumindex[1];
+	// 			if (simpledirection){
+	// 				endx=plumindex[0]+modifier[0];
+	// 				endy=plumindex[1]+modifier[1];
+	// 				plumindex[0]+=modifier[0];
+	// 				plumindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		case "Scarlet":
+	// 			startx=scarletindex[0];
+	// 			starty=scarletindex[1];
+	// 			if (simpledirection){
+	// 				endx=scarletindex[0]+modifier[0];
+	// 				endy=scarletindex[1]+modifier[1];
+	// 				scarletindex[0]+=modifier[0];
+	// 				scarletindex[1]+=modifier[1];
+	// 			}
+	// 			break;
+	// 		default:
+	// 			System.out.println("ERROR CANNT FIND PLAYER");
+	// 			break;
+	// 	}
+	//
+	//
+	//
+	// 	System.out.println("Calculation is [" +startx + "," + starty + "] + [" + modifier[0] + "," + modifier[1] + "] = [" + endx + "," + endy + "]");
+	//
+	// 	/* Assigning the colour of the new JButton */
+	//
+	// 	this.editedBoard[endx][endy] = this.editedBoard[startx][starty];
+	//
+	// 	/* Returning the old JButton to its original colour */
+	// 	this.editedBoard[startx][starty] = this.defaultBoard[startx][starty];
+	//
+	// 	for (int rows = 0; rows < 25; rows++) {
+	// 		for (int cols = 0; cols < 24; cols++) {
+	// 			/* This *should* correctly re-add the JButtons to the JPanel */
+	// 			JButton temp = this.editedBoard[rows][cols];
+	// 			temp.setBorder(null);
+	// 			newPanel.add(temp);
+	// 		}
+	// 	}
+	// 	returnMe.add(newPanel);
+	//
+	// 	return returnMe;
+	//
+	// }
 
 	//Probably  will delete
 	public int[] calculateModifier(int[] destinationSquare, int[] playerindex){
