@@ -375,7 +375,6 @@ public class PlayerListCreator {
             int numPlayersCreated = 0;
             
             ArrayList<Token> tempTokenArray = new ArrayList<>();
-            ArrayList<Integer> playerNumbers = new ArrayList<Integer>();
             
             
             for (int i = 0; i < 6; i++) {
@@ -389,7 +388,7 @@ public class PlayerListCreator {
                         if (mustard == null) {
                             mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(mustard);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(mustard);
                         }
                     }
@@ -397,7 +396,7 @@ public class PlayerListCreator {
                         if (scarlet == null) {
                             scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(scarlet);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(scarlet);
                         }
                     }
@@ -405,7 +404,7 @@ public class PlayerListCreator {
                         if (white == null) {
                             white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(white);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(white);
                         }
                     }
@@ -413,7 +412,7 @@ public class PlayerListCreator {
                         if (green == null) {
                             green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(green);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(green);
                         }
                     }
@@ -421,7 +420,7 @@ public class PlayerListCreator {
                         if (peacock == null) {
                             peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(peacock);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(peacock);
                         }
                     }
@@ -429,7 +428,7 @@ public class PlayerListCreator {
                         if (plum == null) {
                             plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(plum);
-                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            
                             playerList.addPlayer(plum);
                         }
                     }
@@ -450,7 +449,20 @@ public class PlayerListCreator {
             		i = 0;
             	}
             }
+           
+            /* Populating afterHighRoller Array */
+            for (int i = 0; i < tempTokenArray.size(); i++) {
+            	if (tempTokenArray.get(i).getPlayerNumber() > highRoller.getPlayerNumber()) {
+            		afterHighRoller.add(tempTokenArray.get(i));
+            	}
+            }
             
+            /* Populating the beforeHighRoller Array */
+            for (int i = 0; i < tempTokenArray.size(); i++) {
+            	if (tempTokenArray.get(i).getPlayerNumber() < highRoller.getPlayerNumber()) {
+            		
+            	}
+            }
             
             System.out.println("The largest Roll was: " + largestRoll + " Done by " + highRoller.getName());
             
@@ -475,18 +487,17 @@ public class PlayerListCreator {
             for (i = 0; i < deletedPlayers.size(); i++) {
             	deletedPlayers.remove(i);
             }
-            GameLogic.createGame();
-            
-//            if (numPlayers < 2) {
-//            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-//            	
-//            	test restartGame = new test();
-//            	restartGame.resetgame();
-//            }
-//            else {
-//            	playerList.printList();
-//            	GameLogic.createGame();
-//            }
+             
+            if (numPlayers < 2) {
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
+            	
+            	test restartGame = new test();
+            	restartGame.resetgame();
+            }
+            else {
+            	playerList.printList();
+            	GameLogic.createGame();
+            }
 
         }
     }
