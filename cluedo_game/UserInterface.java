@@ -196,7 +196,24 @@ public class UserInterface extends JPanel {
 
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
-                	HelpPage userAid = new HelpPage();
+                	Thread helpThread = new Thread() {
+                		@Override
+                		public void run() {
+                			this.setName("Help Thread");
+                			HelpPage userAid = new HelpPage();
+                		}
+                	};
+                	helpThread.start();
+                	
+                	/* Closing the thread once it has created the HelpPage object -- the main thread handles the actionListeners anyway */
+                	try {
+						helpThread.join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                	
+                	
                 }
 
                 if (result.equals("notes") || result.equals("cheat")){

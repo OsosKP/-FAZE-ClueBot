@@ -13,6 +13,8 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -39,9 +41,20 @@ public class HelpPage {
 	
 		/* Test Code that will be removed when functionality is done */
 		displayTemp.setSize(800,700);
-		displayTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		displayTemp.setTitle("Help Menu");
 	    displayTemp.setResizable(true);
 	    
+	    /* Over-riding the default window closing operation */
+	    displayTemp.addWindowListener(new WindowAdapter() {
+	    	@Override
+	    	public void windowClosing(WindowEvent e) {
+	    		// TODO Auto-generated method stub
+	    		System.out.println(Thread.currentThread().getName());
+	    		System.err.println("---Help-Menu is getting closed---");
+	    	}
+	    });
+	    
+	    System.out.println(Thread.currentThread().getName());
 	    /* Going to handle the overall 'list of commands' section of the help page */
 	    userInputtedCommandsPanel = new JPanel();
 	    userInputtedCommandsPanel.setLayout(new GridLayout(5,1));
@@ -73,7 +86,6 @@ public class HelpPage {
 	    displayTemp.add(containerJPanel);
 	    displayTemp.setVisible(true);
 	}
-	
 	/* Using the title as an inner class because we need to change the created objects */
 	class ListOfCommandsTitle extends JPanel{
 		private JButton userCommands;
@@ -136,7 +148,8 @@ public class HelpPage {
 		public void actionPerformed(ActionEvent arg0) {
 			/* Disabling the option for the user to toggle the 'accepted commands' button -- since that is what they are supposed to be looking at anyway */
 			buttons.toggleUser();
-			
+		
+				    System.out.println(Thread.currentThread().getName());
 			/* Checking which component is actually attached to the panel, and removing it */
 			if (howToPlayInfoPanel != null) {
 				containerJPanel.remove(howToPlayInfoPanel);
@@ -243,9 +256,9 @@ public class HelpPage {
 			containerJPanel.add(currentPlayerInfoPanel, BorderLayout.CENTER);
 			displayTemp.repaint();
 			displayTemp.revalidate();
-		}
-		
+		}	
 	}
+	
 }
 
 /* Class that is going to deal with displaying the movement commands help */
@@ -486,7 +499,7 @@ class PlayerListUsernameInfo extends JPanel{
 	public void setTitles() {
 			ArrayList<String> usernames = new ArrayList<String>();
 			ArrayList<String> characterNames = new ArrayList<String>();
-			
+		
 			usernames = GameLogic.playerList.returnUsernames();
 			characterNames = GameLogic.playerList.returnCharacterNames();		
 			

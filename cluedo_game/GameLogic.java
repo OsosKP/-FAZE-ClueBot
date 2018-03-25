@@ -16,7 +16,7 @@ import java.util.Random;
 public class GameLogic {
 	/* This is going to handle the board */
 	static BoardBuilder currentBoard;
-	static Tokens playerList;
+	static volatile Tokens playerList;
 	static Deck deck;
 	static UserInterface ui;
 
