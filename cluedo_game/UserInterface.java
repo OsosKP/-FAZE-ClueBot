@@ -62,7 +62,6 @@ public class UserInterface extends JPanel {
         display.setSize(800, 700);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // BorderLayout for overall JPanel
         userDisplay.setLayout(new BorderLayout());
         // Add the input and output panels in the appropriate positions
@@ -155,7 +154,7 @@ public class UserInterface extends JPanel {
 
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
-                GameLogic.Dice.rollDice();
+                GameLogic.Dice.rollForTurn();
                 input.remove(startGameButton);
                 performActionButton = createPerformActionButton();
                 input.add(performActionButton, BorderLayout.EAST);
@@ -196,7 +195,24 @@ public class UserInterface extends JPanel {
 
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
-                	HelpPage userAid = new HelpPage();
+                	Thread helpThread = new Thread() {
+                		@Override
+                		public void run() {
+                			this.setName("Help Thread");
+                			HelpPage userAid = new HelpPage();
+                		}
+                	};
+                	helpThread.start();
+                	
+                	/* Closing the thread once it has created the HelpPage object -- the main thread handles the actionListeners anyway */
+                	try {
+						helpThread.join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                	
+                	
                 }
 
                 if (result.equals("notes") || result.equals("cheat")){
@@ -300,7 +316,7 @@ public class UserInterface extends JPanel {
                             out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn. Location: "
                                     + currentPlayer.safeGetLocation());
                             // Roll the dice for the next player
-                            GameLogic.Dice.rollDice();
+                            GameLogic.Dice.rollForTurn();
                         }
 
                         // Update input display with that player

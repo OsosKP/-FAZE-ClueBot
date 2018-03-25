@@ -354,10 +354,14 @@ public class GameLogic {
 		private static int movesLeft;
 		private static int initialNumberOfMoves;
 
-		public static void rollDice(){
-			movesLeft = rand.nextInt(6)+1 + rand.nextInt(6)+1;
+		public static void rollForTurn(){
+			movesLeft = rollDice();
 			// Use this to check if player has moved
 			initialNumberOfMoves = movesLeft;
+		}
+
+		public static int rollDice(){
+			return rand.nextInt(6)+1 + rand.nextInt(6)+1;
 		}
 
 		public static void decrementMovesLeft(){

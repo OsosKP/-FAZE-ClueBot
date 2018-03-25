@@ -6,6 +6,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 public class PlayerListCreator {
@@ -60,6 +62,10 @@ public class PlayerListCreator {
         display.add(panel, BorderLayout.CENTER);
         display.add(titleBar, BorderLayout.NORTH);
         display.add(submitButton, BorderLayout.SOUTH);
+        
+        /* Making sure that the JFrmae is displayed in the center of the users screen */
+        display.setLocationRelativeTo(null); 
+        
         display.setVisible(true);
     }
     
@@ -139,7 +145,7 @@ public class PlayerListCreator {
 
                         value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
                         
-                        value.setEditable(false);
+                       // value.setEditable(false);
                         
                         value.revalidate();
                     }
@@ -211,18 +217,25 @@ public class PlayerListCreator {
                         	 JTextField userNameHold = new JTextField("", 20);
                         	 
                         	 /* need to check the case in which the user didnt enter a usname -- or chose 'not plying' */
-                        	 if (username.isEmpty()) {
+                        	 if (username.isEmpty() || username.equals("Type username here: ")) {
                         		 username = "Player " + objNum;
                         	 }
                         	 else if (characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
                         		 username = "NA";
                         	 }
-                        	 
+	                        	 
                         	 userNameHold.setText("Username: " + username);
                         	 userNameHold.setEditable(false);
+                        	 value.setEditable(false);
                         	 
-                        	 add(value, BorderLayout.WEST);
-                        	 add(userNameHold, BorderLayout.EAST);
+                        	 /* JPanel is going to hold the characterSelection/username so we can have space for the user's dice roll */
+                        	 JPanel holderValue = new JPanel();
+                        	 holderValue.setLayout(new GridLayout(2,1));
+                        	
+                        	 holderValue.add(value);
+                        	 holderValue.add(userNameHold);
+                        	 add(holderValue, BorderLayout.WEST);
+                        	 //add(userNameHold, BorderLayout.EAST);
                          }
                       }
                    }
@@ -232,7 +245,24 @@ public class PlayerListCreator {
             /* setting the JList and txt box to their initial values */
             System.out.println("\n\n");
             add(list, BorderLayout.CENTER);
-            value = new JTextField("", 20);
+            /* Setting a default value for the text filed -- so the user knows that they have to enter their uername here */
+            value = new JTextField("Type username here: ", 20);
+            
+            /* If the user wants to type in a username -- we want all the pre-loaded text to go away */
+            value.addFocusListener(new FocusListener() {
+				
+				@Override
+				public void focusLost(FocusEvent arg0) {
+					// nothing	
+				}
+				
+				@Override
+				public void focusGained(FocusEvent arg0) {
+					// removes the pre-loaded text
+					value.setText("");
+				}
+			});
+            
 
             value.setEnabled(true);
 

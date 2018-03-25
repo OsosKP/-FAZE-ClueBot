@@ -110,6 +110,9 @@ public class Tokens {
     public boolean isEmpty(){ return numberOfPlayers == 0; }
 
     // Mutators
+    public void setFirst(Token t){
+        first = t;
+    }
     public void addPlayer(Token t){
         if(this.isEmpty()) {
             this.first = t;
