@@ -32,8 +32,6 @@ public class Room {
 		this.exits = new ArrayList<>(exits);
 		this.secretPassage = null;
 		this.playerFloors = playercoordinates;
-		int[] coords = playerFloors.get(0);
-		System.out.println("Room: " + this.name + "Coords: "+ coords[0]+","+coords[1]);
 	}
 
 	/**

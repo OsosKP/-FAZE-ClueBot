@@ -680,24 +680,24 @@ public class UserInterface extends JPanel {
         boardImagePanel = panel;
     }
 
-    public JPanel movePlayerAndUpdate(String direction, String name) {
-        BufferedImage bi = null;
-        BoardImage boardimage = new BoardImage();
-
-        /*
-        This version is a hopefully more mobile version of the image loading method
-         */
-        try {
-            bi = attemptToLoadImageFromResourceFolder();
-        } catch (Exception resourceLoadException) {
-            resourceLoadException.printStackTrace();
-        }
-
-        JPanel tempPanel = boardimage.returnPanel(bi);
-
-        tempPanel = boardimage.move(direction, name);
-        return tempPanel;
-    }
+    // public JPanel movePlayerAndUpdate(String direction, String name) {
+    //     BufferedImage bi = null;
+    //     BoardImage boardimage = new BoardImage();
+    //
+    //     /*
+    //     This version is a hopefully more mobile version of the image loading method
+    //      */
+    //     try {
+    //         bi = attemptToLoadImageFromResourceFolder();
+    //     } catch (Exception resourceLoadException) {
+    //         resourceLoadException.printStackTrace();
+    //     }
+    //
+    //     JPanel tempPanel = boardimage.returnPanel(bi);
+    //
+    //     tempPanel = boardimage.move(direction, name);
+    //     return tempPanel;
+    // }
 
     /**
      * attemptToLoadImageFromResourceFolder
