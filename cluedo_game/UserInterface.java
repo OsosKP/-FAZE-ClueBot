@@ -154,7 +154,7 @@ public class UserInterface extends JPanel {
 
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
-                GameLogic.Dice.rollDice();
+                GameLogic.Dice.rollForTurn();
                 input.remove(startGameButton);
                 performActionButton = createPerformActionButton();
                 input.add(performActionButton, BorderLayout.EAST);
@@ -316,7 +316,7 @@ public class UserInterface extends JPanel {
                             out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn. Location: "
                                     + currentPlayer.safeGetLocation());
                             // Roll the dice for the next player
-                            GameLogic.Dice.rollDice();
+                            GameLogic.Dice.rollForTurn();
                         }
 
                         // Update input display with that player
