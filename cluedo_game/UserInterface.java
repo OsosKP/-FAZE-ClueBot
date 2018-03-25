@@ -273,13 +273,13 @@ public class UserInterface extends JPanel {
                             }
                             else {
                                 //I think this is the right place
-                                //userDisplay.remove(boardImagePanel);
-                                System.out.println("ENTRY TRIGGERED 2");
-                                // boardImagePanel = myImg.move(currentPlayer.getInRoom().getName(), currentPlayer.getName());
-                                // userDisplay.add(boardImagePanel);
-                                // display.invalidate();
-                                // display.validate();
-                                // display.repaint();
+                                userDisplay.remove(boardImagePanel);
+                                System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
+                                boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
+                                userDisplay.add(boardImagePanel);
+                                display.invalidate();
+                                display.validate();
+                                display.repaint();
 
                                 // Print action and location to system out
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
@@ -660,7 +660,7 @@ public class UserInterface extends JPanel {
     }
 
     public void setBoardImagePanel(JPanel panel) {
-        this.boardImagePanel = panel;
+        boardImagePanel = panel;
     }
 
     public JPanel movePlayerAndUpdate(String direction, String name) {
