@@ -9,6 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class PlayerListCreator {
 
@@ -19,6 +23,7 @@ public class PlayerListCreator {
 
     /* Holds the GUIPlayer choices */
     private  CharacterList[] GUIPlayerList = null;
+    private int[] storedValues = new int[6];
     /* Holds that player choices who were deleted form the createPlayersGUI */
     private  ArrayList<String> deletedPlayers = new ArrayList<>();
     /* Holds the players who were selected form the createPlayersGUI */
@@ -49,9 +54,16 @@ public class PlayerListCreator {
 
         /* creating GUIPlayer list objects -- they will represent each character choice and adding it to the panel */
         for (int i = 0; i < 6; i++) {
-            this.GUIPlayerList[i] = new CharacterList(i);
-            panel.add(GUIPlayerList[i]);
+            this.GUIPlayerList[i] = new CharacterList(i); 
         }
+        /* 'Rolling' the dice for the users -- they are in fats's hands now */
+        assignDice();
+        
+        /* Adding the users to the JFrame */
+        for (int i = 0; i < 6; i++) {
+        	panel.add(GUIPlayerList[i]);
+        }
+        
         /* Creating title bar class */
         CharacterListUITitle titleBar = new CharacterListUITitle();
 
@@ -81,6 +93,28 @@ public class PlayerListCreator {
     	System.out.println("I am getting here?");
     	return tooFew;
     }
+    /**
+     * simulates rolling the dice for the players
+     * @param rollMe
+     */
+    public void assignDice() {
+    	Random numberGenerator = new Random();
+    	/* Using a set because it will not accpet duplicates */
+    	Set<Integer> generatedNumers = new LinkedHashSet<Integer>();
+    	
+    	while (generatedNumers.size() < 6) {
+    		Integer nextToInsert = numberGenerator.nextInt(6) + 1;
+    		generatedNumers.add(nextToInsert);
+    	}
+    	
+    	Iterator<Integer> iterateOverMe = generatedNumers.iterator();
+    	int index = 0;
+    	
+    	while (iterateOverMe.hasNext()) {
+    		GUIPlayerList[index].diceNumber = iterateOverMe.next();
+    		index++;
+    	}
+    }
 
     /* Inner classes that will be useful later */
     class CharacterList extends JPanel {
@@ -98,7 +132,8 @@ public class PlayerListCreator {
 
         private JTextField value;
         String willThisWork, username, characterName;
-        public int objNum;
+        private int objNum;
+        private int diceNumber = -1;
         JList list;
         DefaultListModel model = new DefaultListModel();
 
@@ -107,6 +142,7 @@ public class PlayerListCreator {
             this.objNum = i;
             this.setListener();
         }
+        
         @SuppressWarnings("unchecked")
         public void setListener() {
 
@@ -212,21 +248,30 @@ public class PlayerListCreator {
                          else { // if this is the current JList
                         	 /* removing the JList elements from the current obj (since the user already chose that they wanted) */
                         	 model.removeAllElements();
-                        	 
+                        	                         	                         	 	 
                         	 /* Making the username appear in a different box next to the character selection */ 
                         	 JTextField userNameHold = new JTextField("", 20);
+                        	 JTextField userDice = new JTextField("", 20);
                         	 
                         	 /* need to check the case in which the user didnt enter a usname -- or chose 'not plying' */
                         	 if (username.isEmpty() || username.equals("Type username here: ")) {
                         		 username = "Player " + objNum;
+                        		 userDice.setText("Dice Rolled: " + diceNumber);
                         	 }
                         	 else if (characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
                         		 username = "NA";
+                        		 userDice.setText("Dice Rolled: NA");
+                        	 }
+                        	 else {
+                        		 userDice.setText("Dice Rolled: " + diceNumber); 
                         	 }
 	                        	 
+                        	 
                         	 userNameHold.setText("Username: " + username);
                         	 userNameHold.setEditable(false);
                         	 value.setEditable(false);
+                        	 userDice.setEditable(false);
+                        	 
                         	 
                         	 /* JPanel is going to hold the characterSelection/username so we can have space for the user's dice roll */
                         	 JPanel holderValue = new JPanel();
@@ -235,8 +280,8 @@ public class PlayerListCreator {
                         	 holderValue.add(value);
                         	 holderValue.add(userNameHold);
                         	 add(holderValue, BorderLayout.WEST);
-                        	 //add(userNameHold, BorderLayout.EAST);
-                         }
+                        	 add(userDice, BorderLayout.EAST);
+                        }
                       }
                    }
 
@@ -329,6 +374,8 @@ public class PlayerListCreator {
             
             int numPlayersCreated = 0;
             
+            ArrayList<Token> tempTokenArray = new ArrayList<>();
+            
             for (int i = 0; i < 6; i++) {
                 String[] returnArray = GUIPlayerList[i].getValue();
                 
@@ -338,43 +385,51 @@ public class PlayerListCreator {
                 	                	
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
-                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(mustard);
+                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(mustard);
                         }
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
-                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(scarlet);
+                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(scarlet);
                         }
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
-                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(white);
+                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(white);
                         }
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
-                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(green);
+                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(green);
                         }
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
-                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(peacock);
+                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(peacock);
                         }
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
-                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++);
-                            playerList.addPlayer(plum);
+                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            tempTokenArray.add(plum);
                         }
                     }
-
                 }
             }
+            /* Pulling the player with the highest diceNumber */
+            int largestNumberPosition = -1, largestRoll = -1;
+            
+            for (int i = 0; i < tempTokenArray.size(); i++) {
+            	if (tempTokenArray.get(i).returnDiceNumber() > largestRoll) {
+            		
+            	}
+            }
+            
             /* Removing all the JPanels and closing the JFrame */
             display.setVisible(false);
             display.getContentPane().removeAll();

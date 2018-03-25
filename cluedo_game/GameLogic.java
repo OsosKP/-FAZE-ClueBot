@@ -363,6 +363,10 @@ public class GameLogic {
 		public static int rollDice(){
 			return rand.nextInt(6)+1 + rand.nextInt(6)+1;
 		}
+		
+		public static int roll6Sided() {
+			return rand.nextInt(6)+1;
+		}
 
 		public static void decrementMovesLeft(){
 			movesLeft--;
