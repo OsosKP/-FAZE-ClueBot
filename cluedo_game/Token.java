@@ -17,6 +17,7 @@ public class Token {
 	private Room inRoom;
 	private ArrayList<Card> hand;
 	private NoteCards playerDeckNotes;
+	private int diceRoll = -1;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -52,6 +53,23 @@ public class Token {
 		// TODO: Set up a note card for the player, right now with no information
 		playerDeckNotes = new NoteCards();
 	}
+	
+	public Token(int x, int y, String characterName, String userName, int playerNumber, int diceRoll) {
+		this.position[0] = x;
+		this.position[1] = y;
+
+		this.name = characterName;
+		this.playerName = userName;
+		this.playerNumber = playerNumber;
+		this.inRoom = null;
+		this.diceRoll = diceRoll;
+		// This is set to the spawn point when the board is created
+
+		hand = new ArrayList<>();
+
+		// TODO: Set up a note card for the player, right now with no information
+		playerDeckNotes = new NoteCards();
+	}
 
 	public void enterRoom(Room room){
 		this.previous = squareOn;
@@ -77,6 +95,7 @@ public class Token {
 	public String getPlayerName() {return playerName; }
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
+	public int returnDiceNumber() { return this.diceRoll;}
 	public String getLocationAsString() {
 		if(inRoom != null)
 			return "room";
