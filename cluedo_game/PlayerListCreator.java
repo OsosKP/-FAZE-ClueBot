@@ -388,48 +388,36 @@ public class PlayerListCreator {
                         if (mustard == null) {
                             mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(mustard);
-                            
-                          //  playerList.addPlayer(mustard);
                         }
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
                             scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(scarlet);
-                            
-                         //   playerList.addPlayer(scarlet);
                         }
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
                             white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(white);
-                            
-                         //   playerList.addPlayer(white);
                         }
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
                             green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(green);
-                            
-                         //   playerList.addPlayer(green);
                         }
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
                             peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(peacock);
-                            
-                         //   playerList.addPlayer(peacock);
                         }
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
                             plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(plum);
-                            
-                         //   playerList.addPlayer(plum);
                         }
                     }
                 }
@@ -450,7 +438,7 @@ public class PlayerListCreator {
             	}
             }
            
-            System.out.println("This is the plaerNum for the gighest player: " + highRoller.returnObjNum() + "Name is " + highRoller.getName());
+            System.out.println("This is the objNum for the highroller player: " + highRoller.returnObjNum() + "Name is " + highRoller.getName());
             /* Populating afterHighRoller Array */
             for (int i = 0; i < tempTokenArray.size(); i++) {
             	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum()) {
@@ -465,12 +453,6 @@ public class PlayerListCreator {
             	}
             }
             
-            for (int i = 0; i < beforeHighRoller.size(); i++) {
-            	System.out.println(beforeHighRoller.get(i).returnObjNum());
-            }
-                        
-            /* We want the 'high roller' to be the first person to play */
-            
             /* Now we want to correctly set all the other players to come after him/her */
             playerList.addPlayer(highRoller);
             
@@ -478,7 +460,7 @@ public class PlayerListCreator {
             	
             	playerList.addPlayer(afterHighRoller.get(i));
             }
-            /* Now we want to correctly set the order of the players who come before the currenet player */
+            /* Now we want to correctly set the order of the players who come before the current player */
             for (int i = 0; i < beforeHighRoller.size(); i++) {
             	playerList.addPlayer(beforeHighRoller.get(i));
             }
