@@ -240,7 +240,7 @@ public class BoardImage {
 		int currentcapacity = room.playersInRoom.size();
 		System.out.println("Current cap is : " + currentcapacity);
 		int[] fin = room.getPlayerFloors().get(currentcapacity);
-
+		System.out.println("Get here?");
 		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
 		return swapsquares(init, fin);
 	}

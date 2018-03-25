@@ -34,6 +34,15 @@ public class Room {
 		this.playerFloors = playercoordinates;
 	}
 
+	public Room(String name, EntrySquare entrance, FloorSquare exit) {
+		this.name = name;
+		this.entrances = new ArrayList<>();
+		this.entrances.add(entrance);
+		this.exits = new ArrayList<>();
+		this.exits.add(exit);
+		this.secretPassage = null;
+	}
+
 	/**
 	 * Since this method handles rooms with only one entry (besides the secret passage), we
 	 * just construct an ArrayList for doorway within the constructor then add the single
@@ -49,6 +58,7 @@ public class Room {
 		this.exits = new ArrayList<>();
 		this.exits.add(exit);
 		this.secretPassage = null;
+		this.playerFloors = playercoordinates;
 	}
 
 	//
