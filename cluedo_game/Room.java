@@ -10,6 +10,7 @@ public class Room {
 	private String name;
 	private Weapon weaponInRoom = null;
 	private Room secretPassage;
+	private ArrayList<int[]> playerFloors = null;
 	private final ArrayList<FloorSquare> exits;
 	private final ArrayList<EntrySquare> entrances;
 
@@ -24,12 +25,15 @@ public class Room {
 	 * @param entrances The EntrySquares that lead to this room
 	 * @param exits The FloorSquares to which this room exits
 	 */
-	public Room(String name, ArrayList<EntrySquare> entrances, ArrayList<FloorSquare> exits) {
+	public Room(String name, ArrayList<EntrySquare> entrances, ArrayList<FloorSquare> exits, ArrayList<int[]> playercoordinates) {
 		this.name = name;
 //		ArrayList<EntrySquare> in = new ArrayList<>(entrances);
 		this.entrances = new ArrayList<>(entrances);
 		this.exits = new ArrayList<>(exits);
 		this.secretPassage = null;
+		this.playerFloors = playercoordinates;
+		int[] coords = playerFloors.get(0);
+		System.out.println("Room: " + this.name + "Coords: "+ coords[0]+","+coords[1]);
 	}
 
 	/**
@@ -60,6 +64,7 @@ public class Room {
 	public ArrayList<FloorSquare> getExits() {
 		return exits;
 	}
+	public ArrayList<int[]> getPlayerFloors() { return playerFloors; }
 
 	//
 	//Mutators

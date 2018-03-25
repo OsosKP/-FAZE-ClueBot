@@ -5,6 +5,7 @@
 package cluedo_game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BoardBuilder {
     /*
@@ -325,13 +326,23 @@ public class BoardBuilder {
             }
         }
     }
-    
+
     public void createRooms() {
         /* Creating the Rooms with Multiple Entrances*/
         /* Will be used to store the entrances for the individual rooms */
         ArrayList<EntrySquare> entrances = new ArrayList<>();
         /* Will be used to store the FloorSquares to which the rooms exit*/
         ArrayList<FloorSquare> exits = new ArrayList<>();
+
+        ArrayList<int[]> ballroomCoords = new ArrayList<>(Arrays.asList(new int[]{4,10}, new int[]{4,11}, new int[]{4,12}, new int[]{3,10}, new int[]{3,11}, new int[]{3,12}));
+        ArrayList<int[]> kitchenCoords = new ArrayList<>(Arrays.asList(new int[]{3,2}, new int[]{3,1}, new int[]{3,3}, new int[]{2,2}, new int[]{2,1}, new int[]{2,3}));
+        ArrayList<int[]> conservatoryCoords = new ArrayList<>(Arrays.asList(new int[]{2,21}, new int[]{2,20}, new int[]{2,22}, new int[]{1,21}, new int[]{1,20}, new int[]{1,22}));
+        ArrayList<int[]> diningCoords = new ArrayList<>(Arrays.asList(new int[]{11,3}, new int[]{11,2}, new int[]{11,4}, new int[]{11,1}, new int[]{11,5}, new int[]{11,6}));
+        ArrayList<int[]> billiardCoords = new ArrayList<>(Arrays.asList(new int[]{4,10}, new int[]{4,11}, new int[]{4,12}, new int[]{3,10}, new int[]{3,11}, new int[]{3,12}));
+        ArrayList<int[]> libraryCoords = new ArrayList<>(Arrays.asList(new int[]{15,20}, new int[]{15,19}, new int[]{15,21}, new int[]{16,19}, new int[]{16,21}, new int[]{17,20}));
+        ArrayList<int[]> loungeCoords = new ArrayList<>(Arrays.asList(new int[]{21,3}, new int[]{21,2}, new int[]{21,4}, new int[]{22,3}, new int[]{22,2}, new int[]{22,4}));
+        ArrayList<int[]> hallCoords = new ArrayList<>(Arrays.asList(new int[]{21,11}, new int[]{21,12}, new int[]{22,11}, new int[]{22,12}, new int[]{20,11}, new int[]{20,12}));
+
 
         /* Creating Ballroom Object*/
         entrances.add((EntrySquare)board[5][8]);
@@ -342,7 +353,7 @@ public class BoardBuilder {
         exits.add((FloorSquare)board[8][9]);
         exits.add((FloorSquare)board[8][14]);
         exits.add((FloorSquare)board[5][16]);
-        Ballroom = new Room("Ballroom", entrances, exits);
+        Ballroom = new Room("Ballroom", entrances, exits, ballroomCoords);
 
         entrances.clear(); //clearing the arrayLists, since we need it to hold the Squares for the next object
         exits.clear();
@@ -352,7 +363,7 @@ public class BoardBuilder {
         entrances.add((EntrySquare)board[12][7]);
         exits.add((FloorSquare)board[16][6]);
         exits.add((FloorSquare)board[12][8]);
-        DiningRoom = new Room("DiningRoom", entrances, exits);
+        DiningRoom = new Room("DiningRoom", entrances, exits, diningCoords);
 
         entrances.clear();
         exits.clear();
@@ -362,7 +373,7 @@ public class BoardBuilder {
         entrances.add((EntrySquare)board[12][22]);
         exits.add((FloorSquare)board[9][17]);
         exits.add((FloorSquare)board[13][22]);
-        BilliardRoom = new Room("BilliardRoom", entrances, exits);
+        BilliardRoom = new Room("BilliardRoom", entrances, exits, billiardCoords);
 
         entrances.clear();
         exits.clear();
@@ -372,7 +383,7 @@ public class BoardBuilder {
         entrances.add((EntrySquare)board[14][20]);
         exits.add((FloorSquare)board[16][16]);
         exits.add((FloorSquare)board[13][20]);
-        Library = new Room("Library", entrances, exits);
+        Library = new Room("Library", entrances, exits, libraryCoords);
 
         entrances.clear();
         exits.clear();
@@ -384,7 +395,7 @@ public class BoardBuilder {
         exits.add((FloorSquare)board[17][11]);
         exits.add((FloorSquare)board[17][12]);
         exits.add((FloorSquare)board[20][15]);
-        Hall = new Room("Hall", entrances, exits);
+        Hall = new Room("Hall", entrances, exits, hallCoords);
 
         /* Create rooms with one entrance and a secret passage */
         Kitchen = new Room("Kitchen", (EntrySquare)board[6][4], (FloorSquare)board[7][4]);
@@ -440,7 +451,7 @@ public class BoardBuilder {
      */
     public void RecreateBoard() {
     	System.err.println("BOARD GETTING ERASED");
-    	
+
     	board = new BoardSquare[24][25];
 
         Ballroom = null;
@@ -458,7 +469,7 @@ public class BoardBuilder {
        	this.createRooms();
        	this.addEntrySquares();
        	this.addWalls();
-       	this.addFloorSquares();			
+       	this.addFloorSquares();
     }
 
 }

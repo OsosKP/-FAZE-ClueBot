@@ -203,7 +203,7 @@ public class UserInterface extends JPanel {
                 		}
                 	};
                 	helpThread.start();
-                	
+
                 	/* Closing the thread once it has created the HelpPage object -- the main thread handles the actionListeners anyway */
                 	try {
 						helpThread.join();
@@ -211,8 +211,8 @@ public class UserInterface extends JPanel {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                	
-                	
+
+
                 }
 
                 if (result.equals("notes") || result.equals("cheat")){
@@ -289,6 +289,7 @@ public class UserInterface extends JPanel {
                             }
                             else {
                                 //I think this is the right place
+
                                 userDisplay.remove(boardImagePanel);
                                 System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
                                 boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
