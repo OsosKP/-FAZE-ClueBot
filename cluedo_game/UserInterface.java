@@ -33,8 +33,8 @@ public class UserInterface extends JPanel {
     JPanel boardImagePanel;
     BoardImage myImg;
 
-    JPanel bigPanel = new JPanel(new BorderLayout());
     JPanel cardPanel;
+    JPanel bigPanel = new JPanel(new BorderLayout());
 
     // The guessing panel, which replaces the input panel
 //    private JPanel guess = in.createGuessPanel();
