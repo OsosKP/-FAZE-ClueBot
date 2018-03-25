@@ -232,9 +232,16 @@ public class BoardImage {
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
 
+		System.out.println("\n\n\n\n\nHello the room is " + room.getName());
+		for (int i=0;i<room.playersInRoom.size();i++){
+			System.out.print(room.playersInRoom.get(0).getName() + "is in the room");
+		}
+
 		int currentcapacity = room.playersInRoom.size();
+		System.out.println("Current cap is : " + currentcapacity);
 		int[] fin = room.getPlayerFloors().get(currentcapacity);
 
+		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
 		return swapsquares(init, fin);
 	}
 

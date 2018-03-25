@@ -287,16 +287,25 @@ public class UserInterface extends JPanel {
                            display.repaint();
                         //    boardImagePanel.revalidate();
                             }
-                            else {
+                            else {//If the player (In game logic) has already moved into a room
                                 //I think this is the right place
-
-                                userDisplay.remove(boardImagePanel);
-                                System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
-                                boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
-                                userDisplay.add(boardImagePanel);
-                                display.invalidate();
-                                display.validate();
-                                display.repaint();
+                                switch (inputField.getText()) {
+                                    case "up"://Since the player has already moved, current is the "previous" position
+                                    case "u":
+                                    case "down":
+                                    case "d":
+                                    case "left":
+                                    case "l":
+                                    case "right":
+                                    case "r":
+                                        userDisplay.remove(boardImagePanel);
+                                        System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
+                                        boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
+                                        userDisplay.add(boardImagePanel);
+                                        display.invalidate();
+                                        display.validate();
+                                        display.repaint();
+                                }
 
                                 // Print action and location to system out
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()

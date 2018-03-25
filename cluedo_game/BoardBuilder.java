@@ -342,6 +342,7 @@ public class BoardBuilder {
         ArrayList<int[]> libraryCoords = new ArrayList<>(Arrays.asList(new int[]{15,20}, new int[]{15,19}, new int[]{15,21}, new int[]{16,19}, new int[]{16,21}, new int[]{17,20}));
         ArrayList<int[]> loungeCoords = new ArrayList<>(Arrays.asList(new int[]{21,3}, new int[]{21,2}, new int[]{21,4}, new int[]{22,3}, new int[]{22,2}, new int[]{22,4}));
         ArrayList<int[]> hallCoords = new ArrayList<>(Arrays.asList(new int[]{21,11}, new int[]{21,12}, new int[]{22,11}, new int[]{22,12}, new int[]{20,11}, new int[]{20,12}));
+        ArrayList<int[]> studyCoords = new ArrayList<>(Arrays.asList(new int[]{22,18}, new int[]{22,19}, new int[]{22,20}, new int[]{23,19}, new int[]{23,20}, new int[]{23,21}));
 
 
         /* Creating Ballroom Object*/
@@ -398,10 +399,10 @@ public class BoardBuilder {
         Hall = new Room("Hall", entrances, exits, hallCoords);
 
         /* Create rooms with one entrance and a secret passage */
-        Kitchen = new Room("Kitchen", (EntrySquare)board[6][4], (FloorSquare)board[7][4]);
-        Study = new Room("Study", (EntrySquare)board[21][17], (FloorSquare)board[20][17]);
-        Conservatory = new Room("Conservatory", (EntrySquare)board[4][18], (FloorSquare)board[5][18]);
-        Lounge = new Room("Lounge", (EntrySquare)board[19][6], (FloorSquare)board[18][6]);
+        Kitchen = new Room("Kitchen", (EntrySquare)board[6][4], (FloorSquare)board[7][4], kitchenCoords);
+        Study = new Room("Study", (EntrySquare)board[21][17], (FloorSquare)board[20][17], studyCoords);
+        Conservatory = new Room("Conservatory", (EntrySquare)board[4][18], (FloorSquare)board[5][18], conservatoryCoords);
+        Lounge = new Room("Lounge", (EntrySquare)board[19][6], (FloorSquare)board[18][6], loungeCoords);
 
     // Create Cellar
         Cellar = new Room("Cellar", (EntrySquare)board[16][12], (FloorSquare)board[17][12]);

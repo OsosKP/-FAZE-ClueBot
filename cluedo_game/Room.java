@@ -42,7 +42,7 @@ public class Room {
 	 * @param entrance The EntrySquare that leads to this room
 	 * @param exit The FloorSquare to which this room exits
 	 */
-	public Room(String name, EntrySquare entrance, FloorSquare exit) {
+	public Room(String name, EntrySquare entrance, FloorSquare exit, ArrayList<int[]> playercoordinates) {
 		this.name = name;
 		this.entrances = new ArrayList<>();
 		this.entrances.add(entrance);
