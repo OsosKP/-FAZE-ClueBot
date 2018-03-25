@@ -62,7 +62,6 @@ public class UserInterface extends JPanel {
         display.setSize(800, 700);
         display.setTitle("Cluedo");
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // BorderLayout for overall JPanel
         userDisplay.setLayout(new BorderLayout());
         // Add the input and output panels in the appropriate positions

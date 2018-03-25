@@ -3,6 +3,8 @@ package cluedo_game;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 /**
  * Basic set up is we are going to have one MEGA JPanel which is going to hold all the other JPanels in the correct position
@@ -11,6 +13,7 @@ import java.awt.FlowLayout;
 
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -43,7 +46,7 @@ public class HelpPage {
 		displayTemp.setSize(800,700);
 		displayTemp.setTitle("Help Menu");
 	    displayTemp.setResizable(true);
-	    
+	    	    
 	    /* Over-riding the default window closing operation */
 	    displayTemp.addWindowListener(new WindowAdapter() {
 	    	@Override
@@ -85,6 +88,15 @@ public class HelpPage {
 	    	    
 	    displayTemp.add(containerJPanel);
 	    displayTemp.setVisible(true);
+
+	    /* Code that positions the help menu to the right of the display */
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+        int x = (int) rect.getMaxX() - displayTemp.getWidth();
+        int y = 0;
+        displayTemp.setLocation(x, y);
+        displayTemp.setVisible(true);
 	}
 	/* Using the title as an inner class because we need to change the created objects */
 	class ListOfCommandsTitle extends JPanel{

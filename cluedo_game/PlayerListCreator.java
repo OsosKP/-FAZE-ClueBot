@@ -60,6 +60,10 @@ public class PlayerListCreator {
         display.add(panel, BorderLayout.CENTER);
         display.add(titleBar, BorderLayout.NORTH);
         display.add(submitButton, BorderLayout.SOUTH);
+        
+        /* Making sure that the JFrmae is displayed in the center of the users screen */
+        display.setLocationRelativeTo(null); 
+        
         display.setVisible(true);
     }
     
