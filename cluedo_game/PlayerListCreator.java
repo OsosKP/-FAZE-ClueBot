@@ -453,8 +453,8 @@ public class PlayerListCreator {
             
             
             /* Removing all the JPanels and closing the JFrame */
-            //display.setVisible(false);
-            //display.getContentPane().removeAll();
+            display.setVisible(false);
+            display.getContentPane().removeAll();
 
             /* To conserve on memory, we are going to reset all the items in the arrayLists/arrays
                     (since we aren't going to need them anymore) */
