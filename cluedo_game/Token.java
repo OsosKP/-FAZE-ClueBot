@@ -61,6 +61,7 @@ public class Token {
 		this.name = characterName;
 		this.playerName = userName;
 		this.playerNumber = playerNumber;
+		System.out.println(playerNumber);
 		this.inRoom = null;
 		this.diceRoll = diceRoll;
 		// This is set to the spawn point when the board is created

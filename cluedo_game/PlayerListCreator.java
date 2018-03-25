@@ -266,7 +266,7 @@ public class PlayerListCreator {
                         		 userDice.setText("Dice Rolled: " + diceNumber); 
                         	 }
 	                        	 
-                        	 
+        
                         	 userNameHold.setText("Username: " + username);
                         	 userNameHold.setEditable(false);
                         	 value.setEditable(false);
@@ -375,6 +375,8 @@ public class PlayerListCreator {
             int numPlayersCreated = 0;
             
             ArrayList<Token> tempTokenArray = new ArrayList<>();
+            ArrayList<Integer> playerNumbers = new ArrayList<Integer>();
+            
             
             for (int i = 0; i < 6; i++) {
                 String[] returnArray = GUIPlayerList[i].getValue();
@@ -385,54 +387,74 @@ public class PlayerListCreator {
                 	                	
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
-                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(mustard);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(mustard);
                         }
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
-                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(scarlet);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(scarlet);
                         }
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
-                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            white = new Token(0, 9, "White",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(white);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(white);
                         }
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
-                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(green);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(green);
                         }
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
-                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(peacock);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(peacock);
                         }
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
-                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(plum);
+                            playerNumbers.add(GUIPlayerList[i].objNum);
+                            playerList.addPlayer(plum);
                         }
                     }
                 }
             }
             /* Pulling the player with the highest diceNumber */
             int largestNumberPosition = -1, largestRoll = -1;
-            
+            Token highRoller = null;
+           
+            /* Pulling the position of the largest diceNumber from the array -- since that user will be the first to go */
             for (int i = 0; i < tempTokenArray.size(); i++) {
             	if (tempTokenArray.get(i).returnDiceNumber() > largestRoll) {
-            		
+            		highRoller = tempTokenArray.get(i);
+            		largestRoll = tempTokenArray.get(i).returnDiceNumber();
+            		i = 0;
             	}
             }
+            System.out.println("The largest Roll was: " + largestRoll + " Done by " + highRoller.getName());
+            
+            /* */
+            
             
             /* Removing all the JPanels and closing the JFrame */
-            display.setVisible(false);
-            display.getContentPane().removeAll();
+            //display.setVisible(false);
+            //display.getContentPane().removeAll();
 
             /* To conserve on memory, we are going to reset all the items in the arrayLists/arrays
                     (since we aren't going to need them anymore) */
