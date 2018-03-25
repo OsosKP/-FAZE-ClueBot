@@ -387,7 +387,7 @@ public class PlayerListCreator {
                 	                	
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
-                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(mustard);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(mustard);
@@ -395,7 +395,7 @@ public class PlayerListCreator {
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
-                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(scarlet);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(scarlet);
@@ -403,7 +403,7 @@ public class PlayerListCreator {
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
-                            white = new Token(0, 9, "White",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(white);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(white);
@@ -411,7 +411,7 @@ public class PlayerListCreator {
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
-                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(green);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(green);
@@ -419,7 +419,7 @@ public class PlayerListCreator {
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
-                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(peacock);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(peacock);
@@ -427,7 +427,7 @@ public class PlayerListCreator {
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
-                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, GUIPlayerList[i].objNum, GUIPlayerList[i].diceNumber);
+                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
                             tempTokenArray.add(plum);
                             playerNumbers.add(GUIPlayerList[i].objNum);
                             playerList.addPlayer(plum);
@@ -437,8 +437,11 @@ public class PlayerListCreator {
             }
             /* Pulling the player with the highest diceNumber */
             int largestNumberPosition = -1, largestRoll = -1;
+            
             Token highRoller = null;
-           
+            ArrayList<Token> beforeHighRoller = new ArrayList<Token>();
+            ArrayList<Token> afterHighRoller = new ArrayList<Token>();
+            
             /* Pulling the position of the largest diceNumber from the array -- since that user will be the first to go */
             for (int i = 0; i < tempTokenArray.size(); i++) {
             	if (tempTokenArray.get(i).returnDiceNumber() > largestRoll) {
@@ -447,9 +450,13 @@ public class PlayerListCreator {
             		i = 0;
             	}
             }
+            
+            
             System.out.println("The largest Roll was: " + largestRoll + " Done by " + highRoller.getName());
             
-            /* */
+            /* We want the 'high roller' to be the first person to play */
+            playerList.setFirst(highRoller);
+            /* Now we want to correctly set all the other players to come after him/her */
             
             
             /* Removing all the JPanels and closing the JFrame */
@@ -468,17 +475,18 @@ public class PlayerListCreator {
             for (i = 0; i < deletedPlayers.size(); i++) {
             	deletedPlayers.remove(i);
             }
+            GameLogic.createGame();
             
-            if (numPlayers < 2) {
-            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-            	
-            	test restartGame = new test();
-            	restartGame.resetgame();
-            }
-            else {
-            	playerList.printList();
-            	GameLogic.createGame();
-            }
+//            if (numPlayers < 2) {
+//            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
+//            	
+//            	test restartGame = new test();
+//            	restartGame.resetgame();
+//            }
+//            else {
+//            	playerList.printList();
+//            	GameLogic.createGame();
+//            }
 
         }
     }
