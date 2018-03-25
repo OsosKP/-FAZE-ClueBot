@@ -386,50 +386,50 @@ public class PlayerListCreator {
                 	                	
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
-                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(mustard);
                             
-                            playerList.addPlayer(mustard);
+                          //  playerList.addPlayer(mustard);
                         }
                     }
                     else if (returnArray[1].equals("Miss Scarlett")) {
                         if (scarlet == null) {
-                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            scarlet = new Token(24, 7, "Scarlet",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(scarlet);
                             
-                            playerList.addPlayer(scarlet);
+                         //   playerList.addPlayer(scarlet);
                         }
                     }
                     else if (returnArray[1].equals("Mrs White")) {
                         if (white == null) {
-                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            white = new Token(0, 9, "White",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(white);
                             
-                            playerList.addPlayer(white);
+                         //   playerList.addPlayer(white);
                         }
                     }
                     else if (returnArray[1].equals("Mr Green")) {
                         if (green == null) {
-                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            green = new Token(0, 14, "Green",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(green);
                             
-                            playerList.addPlayer(green);
+                         //   playerList.addPlayer(green);
                         }
                     }
                     else if (returnArray[1].equals("Mrs Peacock")) {
                         if (peacock == null) {
-                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            peacock = new Token(6, 23, "Peacock",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(peacock);
                             
-                            playerList.addPlayer(peacock);
+                         //   playerList.addPlayer(peacock);
                         }
                     }
                     else if (returnArray[1].equals("Professor Plum")) {
                         if (plum == null) {
-                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber);
+                            plum = new Token(19, 23, "Plum",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
                             tempTokenArray.add(plum);
                             
-                            playerList.addPlayer(plum);
+                         //   playerList.addPlayer(plum);
                         }
                     }
                 }
@@ -450,27 +450,39 @@ public class PlayerListCreator {
             	}
             }
            
+            System.out.println("This is the plaerNum for the gighest player: " + highRoller.returnObjNum() + "Name is " + highRoller.getName());
             /* Populating afterHighRoller Array */
             for (int i = 0; i < tempTokenArray.size(); i++) {
-            	if (tempTokenArray.get(i).getPlayerNumber() > highRoller.getPlayerNumber()) {
+            	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum()) {
             		afterHighRoller.add(tempTokenArray.get(i));
             	}
             }
             
             /* Populating the beforeHighRoller Array */
             for (int i = 0; i < tempTokenArray.size(); i++) {
-            	if (tempTokenArray.get(i).getPlayerNumber() < highRoller.getPlayerNumber()) {
-            		
+            	if (tempTokenArray.get(i).returnObjNum() < highRoller.returnObjNum()) {
+            		beforeHighRoller.add(tempTokenArray.get(i));
             	}
             }
             
-            System.out.println("The largest Roll was: " + largestRoll + " Done by " + highRoller.getName());
-            
+            for (int i = 0; i < beforeHighRoller.size(); i++) {
+            	System.out.println(beforeHighRoller.get(i).returnObjNum());
+            }
+                        
             /* We want the 'high roller' to be the first person to play */
-            playerList.setFirst(highRoller);
+            
             /* Now we want to correctly set all the other players to come after him/her */
+            playerList.addPlayer(highRoller);
             
-            
+            for (int i = 0; i < afterHighRoller.size(); i++) {
+            	
+            	playerList.addPlayer(afterHighRoller.get(i));
+            }
+            /* Now we want to correctly set the order of the players who come before the currenet player */
+            for (int i = 0; i < beforeHighRoller.size(); i++) {
+            	playerList.addPlayer(beforeHighRoller.get(i));
+            }
+          
             /* Removing all the JPanels and closing the JFrame */
             display.setVisible(false);
             display.getContentPane().removeAll();
@@ -487,7 +499,8 @@ public class PlayerListCreator {
             for (i = 0; i < deletedPlayers.size(); i++) {
             	deletedPlayers.remove(i);
             }
-             
+           
+            System.out.println("This is the playerNumber we are at: " + numPlayers);
             if (numPlayers < 2) {
             	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
             	
