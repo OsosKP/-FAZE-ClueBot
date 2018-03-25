@@ -33,9 +33,6 @@ public class UserInterface extends JPanel {
     JPanel boardImagePanel;
     BoardImage myImg;
 
-    JPanel cardPanel;
-    JPanel bigPanel = new JPanel(new BorderLayout());
-
     // The guessing panel, which replaces the input panel
 //    private JPanel guess = in.createGuessPanel();
 
@@ -75,9 +72,7 @@ public class UserInterface extends JPanel {
         boardImagePanel = myImg.returnPanel();
         boardImagePanel = myImg.refreshMe();
 
-        bigPanel.setLayout(new BorderLayout());
-        bigPanel.add(boardImagePanel);
-        userDisplay.add(bigPanel);
+        userDisplay.add(boardImagePanel);
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -266,18 +261,25 @@ public class UserInterface extends JPanel {
                                case "up"://Since the player has already moved, current is the "previous" position
                                case "u":
                                    currentCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
+                                   boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "down":
                                case "d":
                                     currentCoordinates = currentPlayer.getSquareOn().getAbove().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                    break;
                                case "left":
                                case "l":
                                     currentCoordinates = currentPlayer.getSquareOn().getRight().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                case "right":
                                case "r":
                                     currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
+                                    boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
+                                    break;
+                                case "exit":
+                                    System.out.println("Exit?");
                                     break;
                                default:
                                    destinationCoordinates = new int[2];
@@ -285,7 +287,7 @@ public class UserInterface extends JPanel {
                                    break;
                            }
 
-                           boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
+
                            userDisplay.add(boardImagePanel);
                            display.invalidate();
                            display.validate();
@@ -310,6 +312,13 @@ public class UserInterface extends JPanel {
                                         display.invalidate();
                                         display.validate();
                                         display.repaint();
+                                        break;
+                                    case "exit":
+                                        System.out.println("user picked exit");
+                                        break;
+                                    case "exitChoice":
+                                        System.out.println("Exit choice picked");
+                                        break;
                                 }
 
                                 // Print action and location to system out
@@ -387,7 +396,8 @@ public class UserInterface extends JPanel {
 
                     userDisplay.remove(boardImagePanel);
                     System.out.println("Would exit here");
-                    //boardImagePanel = myImg.movetoExit(currentPlayer.getInRoom().getName(), choice, currentPlayer.getName());
+                    System.out.println("At this point, the player is at: "+ currentPlayer.getSquareOn().getPositionAsString() + "And was in: " + currentPlayer.getPreviousRoom().getName());
+                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     userDisplay.add(boardImagePanel);
                     display.invalidate();
                     display.validate();

@@ -228,60 +228,24 @@ public class BoardImage {
 	}
 
 	public JPanel moveToRoom(int[] init, Room room){
-		//Initializes panels
-		JPanel newPanel = returnEmptyGridLayout();
-		JPanel returnMe = returnFinalJPanel();
+		int currentcapacity = room.getCapacity();
+		System.out.println("Current capacity is: " + currentcapacity);
 
-		System.out.println("\n\n\n\n\nHello the room is " + room.getName());
-		for (int i=0;i<room.playersInRoom.size();i++){
-			System.out.print(room.playersInRoom.get(0).getName() + "is in the room");
-		}
 
-		int currentcapacity = room.playersInRoom.size();
-		System.out.println("Current cap is : " + currentcapacity);
 		int[] fin = room.getPlayerFloors().get(currentcapacity);
-		System.out.println("Get here?");
 		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
+		room.setCapacity(currentcapacity + 1);
 		return swapsquares(init, fin);
 	}
 
+	public JPanel movetoExit(int[] fin, Room room){
+		int currentcapacity = room.getCapacity();
+		int[] init = room.getPlayerFloors().get(currentcapacity-1);
+		System.out.println("Moving from room square" + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
 
+		room.setCapacity(currentcapacity - 1);
 
-
-
-	public JPanel movetoExit(String room, int exitnumber, String player){
-		// switch(room){
-		// 	case "Kitchen":
-		// 		move("kexit1", player);
-		// 		break;
-		// 	case "BallRoom":
-		// 		if (exitnumber==1) this.move("br1", player);
-		// 		if (exitnumber==2) this.move("br2", player);
-		// 		break;
-		// 	case "Conservatory":
-		// 		move("cons1", player);
-		// 		break;
-		// 	case "DiningRoom":
-		// 		move("dinexit1",player);
-		// 		break;
-		// 	case "BilliardRoom":
-		// 		move("bilexit1", player);
-		// 		break;
-		// 	case "Library":
-		// 		move("libexit1", player);
-		// 		break;
-		// 	case "Lounge":
-		// 		move("louexit1", player);
-		// 		break;
-		// 	case "Hall":
-		// 		move("hallexit1", player);
-		// 		break;
-		// 	case "Study":
-		// 		move("study1", player);
-		// 		break;
-		// }
-
-		return null;
+		return swapsquares(init, fin);
 	}
 
 	// public JPanel move(String direction, String player){

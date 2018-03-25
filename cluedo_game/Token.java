@@ -14,6 +14,7 @@ public class Token {
 	private String locationAsString;
 	private BoardSquare squareOn;
 	private BoardSquare previous;
+	private Room previousRoom = null;
 	private Room inRoom;
 	private ArrayList<Card> hand;
 	private NoteCards playerDeckNotes;
@@ -54,7 +55,7 @@ public class Token {
 		// TODO: Set up a note card for the player, right now with no information
 		playerDeckNotes = new NoteCards();
 	}
-	
+
 	public Token(int x, int y, String characterName, String userName, int playerNumber, int diceRoll) {
 		this.position[0] = x;
 		this.position[1] = y;
@@ -90,18 +91,19 @@ public class Token {
 		// TODO: Set up a note card for the player, right now with no information
 		playerDeckNotes = new NoteCards();
 	}
-	
+
 	public void enterRoom(Room room){
 		this.previous = squareOn;
 		this.squareOn = null;
 
 		this.inRoom = room;
+		this.previousRoom = room;
 
 		this.setLocationAsString("room");
 	}
 	public void exitRoom(int exitIndex){
-		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.previous = null;
+		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){
@@ -112,6 +114,7 @@ public class Token {
 	// Accessors
 	//
 	public String getName() { return name;}
+	public Room getPreviousRoom(){ return previousRoom; }
 	public String getPlayerName() {return playerName; }
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
@@ -129,7 +132,7 @@ public class Token {
 	public BoardSquare getPrevious(){
 		return previous;
 	}
-	
+
 	public Room getInRoom() { return inRoom; }
 	public Token next() {
 		return next;

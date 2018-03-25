@@ -13,6 +13,7 @@ public class Room {
 	private ArrayList<int[]> playerFloors = null;
 	private final ArrayList<FloorSquare> exits;
 	private final ArrayList<EntrySquare> entrances;
+	private int capacity = 0;
 
 	ArrayList<Token> playersInRoom = new ArrayList<>();
 
@@ -65,6 +66,8 @@ public class Room {
 	//Accessors
 	//
 	public String getName() {return name;}
+	public int getCapacity() {return capacity;}
+	public void setCapacity(int x) {capacity=x;}
 	public Weapon getWeaponInRoom() {return weaponInRoom;}
 	public Room getSecretPassage() {return secretPassage;}
 	public ArrayList<Token> getPlayersInRoom() {return playersInRoom;}
@@ -86,8 +89,9 @@ public class Room {
 		this.playersInRoom.add(p);
 	}
 	public void removePlayerFromRoom(Token p){
-		if (playersInRoom.contains(p))
+		if (playersInRoom.contains(p)){
 			this.playersInRoom.remove(p);
+		}
 		else
 			System.err.println("Player was not located in this room. Error?");
 	}
