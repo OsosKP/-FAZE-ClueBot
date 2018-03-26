@@ -109,7 +109,9 @@ public class Token {
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){
+		this.inRoom.removeCapacity();
 		this.inRoom = inRoom.getSecretPassage();
+		this.inRoom.addCapacity();
 	}
 
 	//
