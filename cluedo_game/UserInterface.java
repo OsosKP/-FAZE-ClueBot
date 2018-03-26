@@ -78,7 +78,7 @@ public class UserInterface extends JPanel {
         display.add(userDisplay);
 
         /*
-        TODO: Not going to use this, but I'm saving it in case we need to reference it for movement
+            Not going to use this, but I'm saving it in case we need to reference it for movement
         */
         // DELETE
 //        JPanel movementPanel = movementUpdate();
@@ -208,7 +208,6 @@ public class UserInterface extends JPanel {
                 	try {
 						helpThread.join();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -279,7 +278,7 @@ public class UserInterface extends JPanel {
                                     boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                     break;
                                 case "passage":
-                                    System.out.println("passage triggered!");
+                                    System.out.println("Player is taking a passage!");
                                     break;
                                 case "exit":
                                     userDisplay.remove(boardImagePanel);
@@ -443,6 +442,8 @@ public class UserInterface extends JPanel {
         }
 
         public void switchToViewNotes(String in){
+            // Clear input box no matter what
+            //  but only show notes if game has started
             if(performActionButton != null &&
                     performActionButton.getParent() == input) {
                 switchInputToViewNotes();
@@ -451,6 +452,7 @@ public class UserInterface extends JPanel {
                 input.add(createViewNotesButton(), BorderLayout.EAST);
             }
             inputField.setText("");
+            inputField.requestFocus();
 
             input.revalidate();
             output.revalidate();
@@ -656,7 +658,6 @@ public class UserInterface extends JPanel {
             return output;
         }
 
-        // TODO: Readouts for 'notes' and 'cheat'
         public void viewNotes(String entry){
             JTextArea notes = new JTextArea("", 10, 15);
             notes.setBackground(Color.BLACK);
@@ -678,6 +679,7 @@ public class UserInterface extends JPanel {
             output.revalidate();
             userDisplay.repaint();
         }
+        // TODO: Fix 'done' button not going away
         public void endViewNotes(){
             output.remove(notesScroller);
             output.setLayout(new GridLayout(2, 1));
