@@ -182,14 +182,18 @@ public class BoardImage {
 	}
 
 	public JPanel passageMove(Room roomfrom, Room roomto){
+
+		System.out.println("\t\tFrom capacity: " + roomfrom.getCapacity());
+		System.out.println("\t\tTocapacity: " + roomto.getCapacity());
+
 		int fromcapacity = roomfrom.getCapacity();
 		int tocapacity = roomto.getCapacity();
 
 		int[] init = roomfrom.getPlayerFloors().get(fromcapacity-1);
 		int[] fin = roomto.getPlayerFloors().get(tocapacity);
 
-		// roomfrom.removeCapacity();
-		// roomto.removeCapacity();
+		roomfrom.removeCapacity();
+		roomto.addCapacity();
 
 		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
 
