@@ -164,12 +164,8 @@ public class BoardImage {
 	}
 
 
-	/**
+	/*
 	 * "moves" the players on the screen by swapping the JButtons on the screen
-	 * @param initX = the initial X starting position
-	 * @param initY = the initial Y starting position
-	 * @param finX = the final X starting position
-	 * @param finY = the final Y starting position
 	 * @return the JPanel that will represent the new board
 	 */
 

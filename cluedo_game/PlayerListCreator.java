@@ -467,7 +467,7 @@ public class PlayerListCreator {
             display.setVisible(false);
             display.getContentPane().removeAll();
 
-            /* To conserve on memory, we are going to reset all the items in the arrayLists/arrays
+            /* To conserve memory, we are going to reset all the items in the arrayLists/arrays
                     (since we aren't going to need them anymore) */
             int i;
             for (i = 0; i < GUIPlayerList.length; i++) {

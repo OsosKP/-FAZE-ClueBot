@@ -304,6 +304,7 @@ public class GameLogic {
 				// selection-1 because indices of exits start at 0
 				p.exitRoom(selection - 1);
 				roomExitCheck = true;
+				p.setPosition(p.getInRoom().getExits().get(selection - 1).getPosition());
 			}
 			/*
 			Otherwise, clear input field and keep asking
