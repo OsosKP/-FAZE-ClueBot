@@ -189,8 +189,8 @@ public class BoardImage {
 		int fromcapacity = roomfrom.getCapacity();
 		int tocapacity = roomto.getCapacity();
 
-		int[] init = roomfrom.getPlayerFloors().get(fromcapacity-1);
-		int[] fin = roomto.getPlayerFloors().get(tocapacity);
+		int[] init = roomfrom.getPlayerFloors().get(fromcapacity);
+		int[] fin = roomto.getPlayerFloors().get(tocapacity-1);
 
 		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
 
