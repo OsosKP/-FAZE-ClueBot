@@ -77,18 +77,6 @@ public class UserInterface extends JPanel {
         // Add formatted JPanel to the frame
         display.add(userDisplay);
 
-        /*
-            Not going to use this, but I'm saving it in case we need to reference it for movement
-        */
-        // DELETE
-//        JPanel movementPanel = movementUpdate();
-//        JOptionPane.showConfirmDialog(this, "Demonstrating Movement....");
-//        userDisplay.remove(boardImagePanel);
-//        userDisplay.add(movementPanel);
-//        display.invalidate();
-//        display.validate();
-//        display.repaint();
-
         // Make the UI visible
         display.setVisible(true);
     }
