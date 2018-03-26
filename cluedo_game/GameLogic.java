@@ -21,20 +21,13 @@ public class GameLogic {
 	static UserInterface ui;
 
 	public GameLogic() {
-		// Old way kept for future reference
-//		AcceptedUserInputs.setAcceptedUserInputs();
-//		playerList = new Tokens();
-//		playerList.setPlayerList();
-//		currentBoard = new BoardBuilder(playerList);
-//		ui = new UserInterface(currentBoard);
-
 		AcceptedUserInputs.setAcceptedUserInputs();
 		PlayerListCreator playersCreator = new PlayerListCreator();
 
 		playerList = playersCreator.getPlayerList();
 
 		/*
-		Keeping this for future debugging if I want to skip player entry
+		Keeping this for future debugging if we want to skip player entry
 		 */
 //		AcceptedUserInputs.setAcceptedUserInputs();
 //		playerList = new Tokens();
@@ -390,29 +383,4 @@ public class GameLogic {
 	public static boolean isThisTheFirstMove(){
 		return Dice.movesLeft == Dice.initialNumberOfMoves;
 	}
-
-
-	// TODO: We might use this dice method?
-//		class Dice{
-//			/* We need to roll two dice to determines the movement */
-//			private int dice1 = 0, dice2 = 0;
-//			private int movesLeft;
-//
-//			/* Going to represent the rolling of the dice*/
-//			Random rand = new Random();
-//
-//			public int[] rollDice() {
-//				int[] myDice = new int[2];
-//
-//				/* Rolling the dice [max 6 --  min 1] */
-//				dice1 = rand.nextInt(6) + 1;
-//				dice2 = rand.nextInt(6) + 1;
-//
-//
-//				myDice[0] = dice1;
-//				myDice[1] = dice2;
-//
-//				return myDice;
-//			}
-//		}
 }
