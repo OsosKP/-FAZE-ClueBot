@@ -300,7 +300,7 @@ public class GameLogic {
 			/*
 			If the choice was valid, the player exits the room
 			 */
-			if (AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection - 1)) {
+			if (AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection)) {
 				p.setPosition(p.getInRoom().getExits().get(selection).getPosition());
 				p.exitRoom(selection);
 				roomExitCheck = true;
@@ -356,7 +356,7 @@ public class GameLogic {
 		public static int rollDice(){
 			return rand.nextInt(6)+1 + rand.nextInt(6)+1;
 		}
-		
+
 		public static int roll6Sided() {
 			return rand.nextInt(6)+1;
 		}
