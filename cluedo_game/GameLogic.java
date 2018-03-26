@@ -301,8 +301,8 @@ public class GameLogic {
 			If the choice was valid, the player exits the room
 			 */
 			if (AcceptedUserInputs.roomExitCheck(p.getInRoom(), selection - 1)) {
-				p.setPosition(p.getInRoom().getExits().get(selection).getPosition());
-				p.exitRoom(selection);
+				p.setPosition(p.getInRoom().getExits().get(selection - 1).getPosition());
+				p.exitRoom(selection - 1);
 				roomExitCheck = true;
 			}
 			/*
