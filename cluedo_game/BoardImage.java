@@ -188,8 +188,8 @@ public class BoardImage {
 		int[] init = roomfrom.getPlayerFloors().get(fromcapacity-1);
 		int[] fin = roomto.getPlayerFloors().get(tocapacity);
 
-		roomfrom.removeCapacity();
-		roomto.removeCapacity();
+		// roomfrom.removeCapacity();
+		// roomto.removeCapacity();
 
 		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
 
@@ -238,8 +238,6 @@ public class BoardImage {
 		System.out.println("Room: "+room.getName()+" Capacity: " + currentcapacity);
 		int[] init = room.getPlayerFloors().get(currentcapacity);
 		System.out.println("Moving from room square" + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
-
-		room.removeCapacity();
 
 		return swapsquares(init, fin);
 	}
