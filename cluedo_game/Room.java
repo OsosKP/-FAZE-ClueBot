@@ -102,7 +102,6 @@ public class Room {
 	public void removePlayerFromRoom(Token p){
 		if (playersInRoom.contains(p)){
 			this.playersInRoom.remove(p);
-			this.capacity--;
 		}
 		else
 			System.err.println("Player was not located in this room. Error?");

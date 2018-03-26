@@ -188,8 +188,8 @@ public class BoardImage {
 		int[] init = roomfrom.getPlayerFloors().get(fromcapacity-1);
 		int[] fin = roomto.getPlayerFloors().get(tocapacity);
 
-		roomfrom.setCapacity(fromcapacity - 1);
-		roomto.setCapacity(tocapacity + 1);
+		roomfrom.removeCapacity();
+		roomto.removeCapacity();
 
 		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
 
@@ -225,23 +225,21 @@ public class BoardImage {
 	}
 
 	public JPanel moveToRoom(int[] init, Room room){
-		int currentcapacity = room.getCapacity();
-		System.out.println("Room contains (after move):" + room.playerListInRoom());
-
-
+		System.out.println("Capacity is: " + room.getCapacity());
+		int currentcapacity = room.getCapacity()-1;//capacity is incremented in the move logic in GameLogic, so it's already higher here, hence -1
 		int[] fin = room.getPlayerFloors().get(currentcapacity);
 		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
-		room.setCapacity(currentcapacity + 1);
 		return swapsquares(init, fin);
 	}
 
 	public JPanel movetoExit(int[] fin, Room room){
+		System.out.println("Current players in room: " + room.playerListInRoom());
 		int currentcapacity = room.getCapacity();
 		System.out.println("Room: "+room.getName()+" Capacity: " + currentcapacity);
-		int[] init = room.getPlayerFloors().get(currentcapacity-1);
+		int[] init = room.getPlayerFloors().get(currentcapacity);
 		System.out.println("Moving from room square" + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
 
-		room.setCapacity(currentcapacity - 1);
+		room.removeCapacity();
 
 		return swapsquares(init, fin);
 	}

@@ -388,12 +388,15 @@ public class UserInterface extends JPanel {
                 // The checkRoomExit method switches 'roomExitCheck' to true if successful
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
 
-                    userDisplay.remove(boardImagePanel);
-                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
-                    userDisplay.add(boardImagePanel);
-                    display.invalidate();
-                    display.validate();
-                    display.repaint();
+                    //userDisplay.remove(boardImagePanel);
+                    System.out.println("Getting here");
+                    //int[] coords = currentPlayer.getSquareOn().getPosition();
+                    //System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
+                    // boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                    // userDisplay.add(boardImagePanel);
+                    // display.invalidate();
+                    // display.validate();
+                    // display.repaint();
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchToInput(returnPressExitListener, exitChoiceButton);
