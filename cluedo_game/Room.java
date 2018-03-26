@@ -67,7 +67,6 @@ public class Room {
 	//
 	public String getName() {return name;}
 	public int getCapacity() {return capacity;}
-	public void setCapacity(int x) {capacity=x;}
 	public Weapon getWeaponInRoom() {return weaponInRoom;}
 	public Room getSecretPassage() {return secretPassage;}
 	public ArrayList<Token> getPlayersInRoom() {return playersInRoom;}
@@ -81,6 +80,9 @@ public class Room {
 	//Mutators
 	//
 	public void setName(String name) {this.name = name;}
+	public void setCapacity(int x) { capacity=x; }
+	public void addCapacity() { capacity++; }
+	public void removeCapacity() { capacity--; }
 	public void setWeaponInRoom(Weapon weaponInRoom) {this.weaponInRoom = weaponInRoom;}
 	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
 	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
@@ -100,6 +102,7 @@ public class Room {
 	public void removePlayerFromRoom(Token p){
 		if (playersInRoom.contains(p)){
 			this.playersInRoom.remove(p);
+			this.capacity--;
 		}
 		else
 			System.err.println("Player was not located in this room. Error?");

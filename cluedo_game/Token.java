@@ -105,6 +105,7 @@ public class Token {
 	public void exitRoom(int exitIndex){
 		this.previous = null;
 		this.setSquareOn(inRoom.getExits().get(exitIndex));
+		this.inRoom.removeCapacity();
 		this.inRoom = null;
 	}
 	public void exitRoomThroughPassage(){
