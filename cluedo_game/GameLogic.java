@@ -144,8 +144,9 @@ public class GameLogic {
 				return quitGameHandler();
 			}
 			// Don't set movement successful if player is just viewing notes
-			if(entry.replaceAll("\\s+","").toLowerCase().equals("notes"))
+			if(entry.replaceAll("\\s+","").toLowerCase().equals("notes")) {
 				return "notes";
+			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
 				return "cheat";
 

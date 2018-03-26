@@ -284,7 +284,7 @@ public class UserInterface extends JPanel {
                                 case "exit":
                                     userDisplay.remove(boardImagePanel);
                                     System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
-                                    boardImagePanel = boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                                     userDisplay.add(boardImagePanel);
                                     display.invalidate();
                                     display.validate();
@@ -443,17 +443,19 @@ public class UserInterface extends JPanel {
         }
 
         public void switchToViewNotes(String in){
-            switchInputToViewNotes();
-            out.viewNotes(in);
-            input.remove(performActionButton);
-            input.add(createViewNotesButton(), BorderLayout.EAST);
+            if(performActionButton != null &&
+                    performActionButton.getParent() == input) {
+                switchInputToViewNotes();
+                out.viewNotes(in);
+                input.remove(performActionButton);
+                input.add(createViewNotesButton(), BorderLayout.EAST);
+            }
             inputField.setText("");
 
             input.revalidate();
             output.revalidate();
         }
 
-        // TODO: NOT WORKING
         private void switchInputToViewNotes(){
             input.remove(promptLabel);
             inputField.removeActionListener(returnPressListener);
