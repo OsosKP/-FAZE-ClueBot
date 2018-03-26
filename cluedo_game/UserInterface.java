@@ -235,7 +235,13 @@ public class UserInterface extends JPanel {
                                 break;
                             case "passage":
                                 // TODO: JOSH
-                                System.out.println("Passage");
+                                userDisplay.remove(boardImagePanel);
+                                System.out.println("Moving from " + currentPlayer.getPreviousRoom().getName()+" to "+ currentPlayer.getInRoom().getName());
+                                boardImagePanel = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
+                                userDisplay.add(boardImagePanel);
+                                display.invalidate();
+                                display.validate();
+                                display.repaint();
                                 break;
                         }
                     }
