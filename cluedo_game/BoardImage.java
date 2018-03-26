@@ -195,6 +195,8 @@ public class BoardImage {
 		roomfrom.setCapacity(fromcapacity - 1);
 		roomto.setCapacity(tocapacity + 1);
 
+		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
+
 		return swapsquares(init, fin);
 
 	}
@@ -239,6 +241,7 @@ public class BoardImage {
 
 	public JPanel movetoExit(int[] fin, Room room){
 		int currentcapacity = room.getCapacity();
+		System.out.println("Room: "+room.getName()+" Capacity: " + currentcapacity);
 		int[] init = room.getPlayerFloors().get(currentcapacity-1);
 		System.out.println("Moving from room square" + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
 
