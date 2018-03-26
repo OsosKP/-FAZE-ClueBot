@@ -93,21 +93,20 @@ public class PlayerListCreator {
     	System.out.println("I am getting here?");
     	return tooFew;
     }
-    /**
+    /*
      * simulates rolling the dice for the players
-     * @param rollMe
      */
     public void assignDice() {
     	Random numberGenerator = new Random();
-    	/* Using a set because it will not accpet duplicates */
-    	Set<Integer> generatedNumers = new LinkedHashSet<Integer>();
+    	/* Using a set because it will not accept duplicates */
+    	Set<Integer> generatedNumbers = new LinkedHashSet<Integer>();
     	
-    	while (generatedNumers.size() < 6) {
+    	while (generatedNumbers.size() < 6) {
     		Integer nextToInsert = numberGenerator.nextInt(6) + 1;
-    		generatedNumers.add(nextToInsert);
+    		generatedNumbers.add(nextToInsert);
     	}
     	
-    	Iterator<Integer> iterateOverMe = generatedNumers.iterator();
+    	Iterator<Integer> iterateOverMe = generatedNumbers.iterator();
     	int index = 0;
     	
     	while (iterateOverMe.hasNext()) {
@@ -426,8 +425,8 @@ public class PlayerListCreator {
             int largestNumberPosition = -1, largestRoll = -1;
             
             Token highRoller = null;
-            ArrayList<Token> beforeHighRoller = new ArrayList<Token>();
-            ArrayList<Token> afterHighRoller = new ArrayList<Token>();
+            ArrayList<Token> beforeHighRoller = new ArrayList<>();
+            ArrayList<Token> afterHighRoller = new ArrayList<>();
             
             /* Pulling the position of the largest diceNumber from the array -- since that user will be the first to go */
             for (int i = 0; i < tempTokenArray.size(); i++) {
@@ -437,8 +436,7 @@ public class PlayerListCreator {
             		i = 0;
             	}
             }
-           
-            System.out.println("This is the objNum for the highroller player: " + highRoller.returnObjNum() + "Name is " + highRoller.getName());
+            System.out.println("Highest dice roll: " + highRoller.returnObjNum() + ": " + highRoller.getName());
             /* Populating afterHighRoller Array */
             for (int i = 0; i < tempTokenArray.size(); i++) {
             	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum()) {
@@ -482,7 +480,7 @@ public class PlayerListCreator {
             	deletedPlayers.remove(i);
             }
            
-            System.out.println("This is the playerNumber we are at: " + numPlayers);
+            System.out.println("Number of players: " + numPlayers);
             if (numPlayers < 2) {
             	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
             	
