@@ -284,7 +284,7 @@ public class UserInterface extends JPanel {
                                 case "exit":
                                     userDisplay.remove(boardImagePanel);
                                     System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
-                                    boardImagePanel = boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                                     userDisplay.add(boardImagePanel);
                                     display.invalidate();
                                     display.validate();
