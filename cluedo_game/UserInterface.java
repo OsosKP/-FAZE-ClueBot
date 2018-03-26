@@ -210,8 +210,6 @@ public class UserInterface extends JPanel {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
-
                 }
 
                 if (result.equals("notes") || result.equals("cheat")){
@@ -236,6 +234,8 @@ public class UserInterface extends JPanel {
                                 result = currentPlayer.getName() + " is making a guess.";
                                 break;
                             case "passage":
+                                // TODO: JOSH
+                                System.out.println("Passage");
                                 break;
                         }
                     }
@@ -276,9 +276,6 @@ public class UserInterface extends JPanel {
                                case "r":
                                     currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                     boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
-                                    break;
-                                case "passage":
-                                    System.out.println("Player is taking a passage!");
                                     break;
                                 case "exit":
                                     userDisplay.remove(boardImagePanel);

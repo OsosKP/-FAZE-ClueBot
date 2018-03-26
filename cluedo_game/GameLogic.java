@@ -276,8 +276,7 @@ public class GameLogic {
 					}
 					else {
 						player.exitRoomThroughPassage();
-						result = player.getName() + " has taken a secret passage to the "
-								+ player.getInRoom().getName();
+						result = "passage";
 						// Player cannot move after taking a secret passage
 						Dice.setMovesLeft(1);
 					}
