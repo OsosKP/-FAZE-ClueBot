@@ -184,12 +184,6 @@ public class UserInterface extends JPanel {
             public void actionPerformed(ActionEvent event) {
                 String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
 
-                // If user did not enter an appropriate command, show a JOptionPane telling
-                // them to reenter the command then clear the input box.
-                if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
-                    JOptionPane.showMessageDialog(null, result);
-                }
-
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
                 	Thread helpThread = new Thread() {
@@ -236,7 +230,10 @@ public class UserInterface extends JPanel {
                                 break;
                             case "passage":
                                 userDisplay.remove(boardImagePanel);
+                                currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                 boardImagePanel = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
+                                currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);
+                                System.out.println("Current Room players: " + currentPlayer.getInRoom().playerListInRoom());
                                 currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                 userDisplay.add(boardImagePanel);
                                 display.invalidate();
@@ -248,6 +245,7 @@ public class UserInterface extends JPanel {
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
+                        System.out.println("Turn Successful");
                         if(result.equals("done")){
                             out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
                         }
@@ -282,7 +280,8 @@ public class UserInterface extends JPanel {
                                         currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                         boardImagePanel = myImg.move(currentCoordinates, destinationCoordinates);
                                         break;
-                                    case "exit":
+                                   case "exit":
+                                   case "e":
                                         userDisplay.remove(boardImagePanel);
                                         System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
                                         boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
@@ -296,8 +295,7 @@ public class UserInterface extends JPanel {
                                        System.out.println("No direction detected ERROR");
                                        break;
                                }
-
-
+                               
                                userDisplay.add(boardImagePanel);
                                display.invalidate();
                                display.validate();
@@ -733,25 +731,6 @@ public class UserInterface extends JPanel {
     public void setBoardImagePanel(JPanel panel) {
         boardImagePanel = panel;
     }
-
-    // public JPanel movePlayerAndUpdate(String direction, String name) {
-    //     BufferedImage bi = null;
-    //     BoardImage boardimage = new BoardImage();
-    //
-    //     /*
-    //     This version is a hopefully more mobile version of the image loading method
-    //      */
-    //     try {
-    //         bi = attemptToLoadImageFromResourceFolder();
-    //     } catch (Exception resourceLoadException) {
-    //         resourceLoadException.printStackTrace();
-    //     }
-    //
-    //     JPanel tempPanel = boardimage.returnPanel(bi);
-    //
-    //     tempPanel = boardimage.move(direction, name);
-    //     return tempPanel;
-    // }
 
     /**
      * attemptToLoadImageFromResourceFolder
