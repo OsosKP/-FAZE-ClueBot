@@ -10,17 +10,14 @@ public class QuestionMenu {
 	private JPanel currentContainer;
 	private JFrame currentDisplay;
 	
-	public QuestionMenu(JPanel initialPanel, JFrame currentDisplay) {
+	public QuestionMenu(JFrame currentDisplay) {
 		/* Saving thre state of the board -- so it doenst get erased */
 		initialState = new JPanel();
 		currentContainer = new JPanel();
 		currentContainer.setLayout(new BorderLayout());
 		
-		currentDisplay = new JFrame();
-		
+		this.currentDisplay = new JFrame();
 		this.currentDisplay = currentDisplay;
-		initialState = initialPanel;
-		
-		this.currentDisplay.remove(initialPanel);
+		this.currentDisplay.revalidate();
 	}
 }
