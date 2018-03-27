@@ -1,10 +1,21 @@
 package cluedo_game;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class QuestionMenu {
-	
-	public QuestionMenu(JPanel initialPanel) {
+	private JPanel initialState;
+	private JPanel currentContainer;
+	private JFrame currentDisplay;
+
+	public QuestionMenu(JFrame currentDisplay) {
+		/* Saving the state of the board -- so it doenst get erased */
+		this.currentDisplay = new JFrame();
+		this.currentDisplay.setSize(800,700);
+		this.currentDisplay.setTitle("Temp Question Frame");
 		
+		this.currentDisplay.setVisible(true);
 	}
 }
