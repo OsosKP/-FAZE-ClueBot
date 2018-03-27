@@ -43,8 +43,8 @@ public class UserInterface extends JPanel {
     private Token currentPlayer;
     private Tokens playerList;
 
-    // Copy of playerList for asking questions - so if a player is out, they still answer
-    private Tokens questionPlayerList;
+    private JButton questionDoneButton;
+
 
     /**
      * The constructor for the UI which will set off a chain of events drawing all of the components
@@ -53,7 +53,6 @@ public class UserInterface extends JPanel {
     public UserInterface(Tokens playerList) {
         /* This is going to happen AFTER the start game button is pressed */
         this.playerList = playerList;
-        this.questionPlayerList = playerList;
         this.currentPlayer = playerList.getFirst();
         this.buildGUI();
     }
@@ -103,6 +102,7 @@ public class UserInterface extends JPanel {
         private JButton performActionButton;
         private JButton exitChoiceButton;
         private JButton viewNotesButton;
+        private StartGameListener returnStartGameListener;
         private UserInputListener returnPressListener;
         private ExitChoiceListener returnPressExitListener;
         private ViewNotesListener returnPressViewNotesListener;
@@ -116,7 +116,10 @@ public class UserInterface extends JPanel {
 
             // Making it so user can press 'return' to 'Perform Action'
             returnPressListener = new UserInputListener();
-            inputField.addActionListener(returnPressListener);
+            // But at the beginning, pressing 'return' should start the game
+            returnStartGameListener = new StartGameListener();
+            // TODO:
+            inputField.addActionListener(returnStartGameListener);
 
             returnPressExitListener = new ExitChoiceListener();
             returnPressViewNotesListener = new ViewNotesListener();
@@ -149,6 +152,8 @@ public class UserInterface extends JPanel {
                 GameLogic.Dice.rollForTurn();
                 input.remove(startGameButton);
                 performActionButton = createPerformActionButton();
+                inputField.removeActionListener(returnStartGameListener);
+                inputField.addActionListener(returnPressListener);
                 input.add(performActionButton, BorderLayout.EAST);
                 whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn. Moves Left: "
                         + GameLogic.getMovesLeft());
@@ -250,9 +255,8 @@ public class UserInterface extends JPanel {
                                 System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
                                         + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
-                               int[] currentCoordinates = null;
+                               int[] currentCoordinates;
                                int[] destinationCoordinates = currentPlayer.getSquareOn().getPosition();//Since the player has already moved, destination is the "current" square
-                              // JPanel panelAfterPlayerMove = null;
                               userDisplay.remove(boardImagePanel);
 
                                switch (inputField.getText()) {
@@ -309,7 +313,8 @@ public class UserInterface extends JPanel {
                                     case "right":
                                     case "r":
                                         userDisplay.remove(boardImagePanel);
-                                        System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
+                                        currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);//I don't know if this will work
+                                        System.out.println("\t\t\tAyylmao" + currentPlayer.getInRoom().playerListInRoom());
                                         boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
                                         currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                         userDisplay.add(boardImagePanel);
@@ -485,15 +490,19 @@ public class UserInterface extends JPanel {
     /**
      * Panels and methods for asking a question
      */
-    private JButton questionButtonDone(){
-        return null;
+    private JButton createQuestionDoneButton(){
+        JButton button = new JButton();
+        button.addActionListener(new questionDoneListener());
+        return button;
     }
 
     class questionDoneListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+//            display.remove(questionMenu);
+            display.add(userDisplay);
+            display.revalidate();
         }
     }
 

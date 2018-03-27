@@ -315,7 +315,6 @@ public class GameLogic {
 		}
 
 		public static String questionPrompt() {
-			// This is just a placeholder for a later sprint
 			return "question";
 		}
 
