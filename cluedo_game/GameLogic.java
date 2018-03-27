@@ -152,7 +152,7 @@ public class GameLogic {
 					break;
 				// This is a placeholder for when the player is solving
 				case "cellar":
-					result = "Solving";
+					result = "solving";
 					break;
 			}
 			// If move was successful, subtract one more from dice roll
@@ -296,7 +296,7 @@ public class GameLogic {
 				case "question":
 				case "q":
 					result = questionPrompt();
-					Dice.setMovesLeft(1);
+					Dice.setMovesLeft(2);
 					break;
 			}
 			return result;
