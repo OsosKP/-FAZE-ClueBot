@@ -384,4 +384,17 @@ public class GameLogic {
 	public static boolean isThisTheFirstMove(){
 		return Dice.movesLeft == Dice.initialNumberOfMoves;
 	}
+
+	public static class Guessing {
+	    private static Token accusedPlayer;
+	    private static Weapon accusedWeapon;
+
+	    public static void getAccusedPlayerAndWeapon(int player, int weapon){
+	        accusedPlayer = playerList.getPlayerByIndex(player);
+
+        }
+    }
+
+
+
 }
