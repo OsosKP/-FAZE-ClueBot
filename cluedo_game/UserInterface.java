@@ -224,6 +224,8 @@ public class UserInterface extends JPanel {
                             case "question":
                                 // TODO: Question
                                 result = currentPlayer.getName() + " is asking a question.";
+                                /* Creating a question menu  */
+                                QuestionMenu initialQuestion = new QuestionMenu(userDisplay);
                                 break;
                             case "passage":
                                 userDisplay.remove(boardImagePanel);
