@@ -13,12 +13,12 @@ public class AcceptedUserInputs {
      */
     // The player is moving on a general floorNavigation square
     private static final ArrayList<String> floorNavigation = new ArrayList<>();
-    // Making a guess or exiting
+    // Making a question or exiting
     private static final ArrayList<String> weaponChoices = new ArrayList<>();
     private static final ArrayList<String> characterChoices = new ArrayList<>();
-    // Room guesses are only allowed if they player is solving
+    // Room questiones are only allowed if they player is solving
     private static final ArrayList<String> roomChoices = new ArrayList<>();
-    // For 'exit', 'guess', 'passage'
+    // For 'exit', 'question', 'passage'
     private static final ArrayList<String> roomNavigation = new ArrayList<>();
     // For other commands: 'help', 'notes', 'cheat'
     private static final ArrayList<String> auxiliaryCommands = new ArrayList<>();
@@ -31,13 +31,13 @@ public class AcceptedUserInputs {
 
         /*
         When having just entered a room, the user may leave, take the secret passage or exit.
-        If guessing, that's a different list of commands and is handled differently.
+        If questioning, that's a different list of commands and is handled differently.
          */
         roomNavigation.add("passage");
         roomNavigation.add("exit");
-        roomNavigation.add("guess");
+        roomNavigation.add("question");
         /*
-        If in a room, the player is allowed to make a guess - but the room guess has to be the one they're in
+        If in a room, the player is allowed to make a question - but the room question has to be the one they're in
          */
         weaponChoices.add("pistol");
         weaponChoices.add("dagger");
@@ -53,7 +53,7 @@ public class AcceptedUserInputs {
         characterChoices.add("white");
         characterChoices.add("green");
         /*
-        Rooms are inputted when the player is attempting to solve, NOT guess
+        Rooms are inputted when the player is attempting to solve, NOT question
          */
         roomChoices.add("kitchen");
         roomChoices.add("ballroom");
@@ -99,7 +99,7 @@ public class AcceptedUserInputs {
 
     /**
      * This method handles user input checking for FloorSquares and in Rooms -
-     *  It does NOT handle cases where user is guessing or solving. That will be a different panel and logic.
+     *  It does NOT handle cases where user is questioning or solving. That will be a different panel and logic.
      * @param p Player who entered command
      * @param in Command entered by player
      * @return Boolean designating whether the command was found in the associated list of valid commands
@@ -111,7 +111,9 @@ public class AcceptedUserInputs {
         boolean result = false;
 
         // No shortcuts on these - you have to enter the full word
-        if (in.equals("done") || in.equals("quit") || in.equals("notes") || in.equals("cheat") || in.equals("help") || in.equals("?"))
+        if (in.equals("done") || in.equals("quit") ||
+                in.equals("notes") || in.equals("cheat") ||
+                in.equals("help") || in.equals("?"))
             return true;
 
         switch(p.getLocationAsString()){
@@ -152,27 +154,4 @@ public class AcceptedUserInputs {
         }
         return true;
     }
-
-    /*
-    Methods to handle cards and guessing
-     */
-    public static boolean checkGuessValidity(String guess){
-        guess = simpleString(guess);
-        for(String s : characterChoices){
-            if(guess.equals(s))
-                return true;
-        }
-        for(String s : roomChoices){
-            if(guess.equals(s))
-                return true;
-        }
-        for(String s : weaponChoices){
-            if(guess.equals(s))
-                return true;
-        }
-        return false;
-    }
-
-
-
 }
