@@ -9,15 +9,13 @@ public class QuestionMenu {
 	private JPanel initialState;
 	private JPanel currentContainer;
 	private JFrame currentDisplay;
-	
+
 	public QuestionMenu(JFrame currentDisplay) {
-		/* Saving thre state of the board -- so it doenst get erased */
-		initialState = new JPanel();
-		currentContainer = new JPanel();
-		currentContainer.setLayout(new BorderLayout());
-		
+		/* Saving the state of the board -- so it doenst get erased */
 		this.currentDisplay = new JFrame();
-		this.currentDisplay = currentDisplay;
-		this.currentDisplay.revalidate();
+		this.currentDisplay.setSize(800,700);
+		this.currentDisplay.setTitle("Temp Question Frame");
+		
+		this.currentDisplay.setVisible(true);
 	}
 }
