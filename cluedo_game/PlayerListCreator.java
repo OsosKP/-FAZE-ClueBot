@@ -488,7 +488,7 @@ public class PlayerListCreator {
             	restartGame.resetgame();
             }
             else {
-            	playerList.printList();
+//            	playerList.printList();
             	GameLogic.createGame();
             }
 

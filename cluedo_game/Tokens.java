@@ -144,14 +144,18 @@ public class Tokens {
             } while(curr != t && prev != t);
             if(prev == t)
                 throw new PlayerNotFoundException();
-            prev.setNext(curr.next());
+            curr.setInGame(false);
         }
         this.numberOfPlayers--;
         return name;
     }
-    // This might be a good quick method to call to move to the next player?
-    public void advanceTurn(Token t){
+    // advanceTurn lets us skip players who are "out" without removing them
+        // (We want to keep them for questioning)
+    public Token advanceTurn(Token t){
         t = t.next();
+        while (!t.getInGame())
+            t = t.next();
+        return t;
     }
 
 

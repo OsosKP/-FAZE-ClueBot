@@ -21,6 +21,7 @@ public class Token {
 	private int diceRoll = -1;
 	private int initialObjNum;
 	private int positionInRoom;
+	private boolean inGame;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -33,6 +34,7 @@ public class Token {
 		this.name = name;
 		this.playerNumber = playerNumber;
 		this.inRoom = null;
+		this.inGame = true;
 		// This is set to the spawn point when the board is created
 
 		hand = new ArrayList<>();
@@ -142,6 +144,9 @@ public class Token {
 	public Token next() {
 		return next;
 	}
+	public boolean getInGame(){
+		return inGame;
+	}
 
 	/**
 	 * If player's location isn't known, this will either return the room name or the square coordinates.
@@ -170,7 +175,9 @@ public class Token {
 	public void setNext(Token next) {
 		this.next = next;
 	}
-
+	public void setInGame(boolean b){
+		this.inGame = b;
+	}
 
 	//
 	// Player hand methods

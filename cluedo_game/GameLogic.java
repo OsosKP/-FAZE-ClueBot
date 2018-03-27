@@ -246,7 +246,7 @@ public class GameLogic {
 		 * ... passage... : 	player is taking the passage to another room
 		 * exit:				player is exiting from a room with only one exit
 		 * exitChoice: 		player is exiting and must choose one of multiple exits
-		 * guess:				this will be the result of what happens from guessPrompt
+		 * question:				this will be the result of what happens from questionPrompt
 		 */
 		public static String RoomActionHandler(Token player, String command) {
 			String result = "";
@@ -285,11 +285,11 @@ public class GameLogic {
 					}
 					break;
 				/*
-				Player is in the room and wants to make a guess
+				Player is in the room and wants to make a question
 				 */
-				case "guess":
-				case "g":
-					result = guessPrompt();
+				case "question":
+				case "q":
+					result = questionPrompt();
 					Dice.setMovesLeft(1);
 					break;
 			}
@@ -314,9 +314,9 @@ public class GameLogic {
 			}
 		}
 
-		public static String guessPrompt() {
+		public static String questionPrompt() {
 			// This is just a placeholder for a later sprint
-			return "Guess Prompt";
+			return "question";
 		}
 
 		public static String quitGameHandler() {
@@ -355,10 +355,6 @@ public class GameLogic {
 
 		public static int rollDice(){
 			return rand.nextInt(6)+1 + rand.nextInt(6)+1;
-		}
-		
-		public static int roll6Sided() {
-			return rand.nextInt(6)+1;
 		}
 
 		public static void decrementMovesLeft(){
