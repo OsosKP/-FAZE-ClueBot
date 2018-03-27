@@ -146,7 +146,6 @@ public class UserInterface extends JPanel {
 
             return startGameButton;
         }
-
         class StartGameListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
                 GameLogic.Dice.rollForTurn();
@@ -163,7 +162,20 @@ public class UserInterface extends JPanel {
                 output.revalidate();
             }
         }
+        private JButton createViewNotesButton(){
+            viewNotesButton = new JButton("Done");
+            ActionListener listener = new ViewNotesListener();
+            viewNotesButton.addActionListener(listener);
 
+            return viewNotesButton;
+        }
+        class ViewNotesListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                out.endViewNotes();
+                switchToInput(returnPressViewNotesListener, viewNotesButton);
+            }
+        }
         /**
          * Button for the user to press when they enter a command
          *
@@ -176,10 +188,6 @@ public class UserInterface extends JPanel {
 
             return performAction;
         }
-
-        /*
-         * This ActionListener reads when somebody presses the "Perform Action" button
-         */
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
                 String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
@@ -244,7 +252,6 @@ public class UserInterface extends JPanel {
 
                     // If the turn was successful, cycle to next turn
                     if (GameLogic.PlayerEntry.wasTurnSuccessful()) {
-                        System.out.println("Turn Successful");
                         if(result.equals("done")){
                             out.updateMoveHistory(currentPlayer.getName() + " has finished the turn early.");
                         }
@@ -290,7 +297,6 @@ public class UserInterface extends JPanel {
                                         display.repaint();
                                         break;
                                    default:
-                                       destinationCoordinates = new int[2];
                                        System.out.println("No direction detected ERROR");
                                        break;
                                }
@@ -360,18 +366,6 @@ public class UserInterface extends JPanel {
                 inputField.requestFocus();
             }
         }
-
-        public void switchToExitChoiceButton(){
-            switchInputToExitPicker();
-            out.roomExitChoicesUpdater();
-            input.remove(performActionButton);
-            input.add(createExitPickerButton(), BorderLayout.EAST);
-            inputField.setText("");
-
-            input.revalidate();
-            output.revalidate();
-        }
-
         private JButton createExitPickerButton(){
             exitChoiceButton = new JButton("Choose Exit");
             ActionListener listener = new ExitChoiceListener();
@@ -379,7 +373,6 @@ public class UserInterface extends JPanel {
 
             return exitChoiceButton;
         }
-
         class ExitChoiceListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -399,11 +392,11 @@ public class UserInterface extends JPanel {
                     userDisplay.remove(boardImagePanel);
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
-                     boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
-                     userDisplay.add(boardImagePanel);
-                     display.invalidate();
-                     display.validate();
-                     display.repaint();
+                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                    userDisplay.add(boardImagePanel);
+                    display.invalidate();
+                    display.validate();
+                    display.repaint();
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchToInput(returnPressExitListener, exitChoiceButton);
@@ -415,6 +408,16 @@ public class UserInterface extends JPanel {
             }
         }
 
+        public void switchToExitChoiceButton(){
+            switchInputToExitPicker();
+            out.roomExitChoicesUpdater();
+            input.remove(performActionButton);
+            input.add(createExitPickerButton(), BorderLayout.EAST);
+            inputField.setText("");
+
+            input.revalidate();
+            output.revalidate();
+        }
         /**
          * This method changes the user input panel to reflect choice for exiting a room
          */
@@ -424,22 +427,6 @@ public class UserInterface extends JPanel {
             inputField.addActionListener(returnPressExitListener);
             promptLabel.setText("     Which exit would you like to take?");
             input.add(promptLabel, BorderLayout.CENTER);
-        }
-
-        /**
-         * This method switches back to general user input
-         *  It can be called to remove panels for either 'exit' or 'notes'/'cheat'
-         */
-        public void switchToInput(ActionListener al, JButton button) {
-            inputField.removeActionListener(al);
-            inputField.addActionListener(returnPressListener);
-            in.inputField.setText("");
-            in.inputField.requestFocus();
-            promptLabel.setText("     What would you like to do?");
-            input.remove(button);
-            input.add(performActionButton, BorderLayout.EAST);
-            input.revalidate();
-            refreshDisplayForNextTurn(currentPlayer);
         }
 
         public void switchToViewNotes(String in){
@@ -458,7 +445,6 @@ public class UserInterface extends JPanel {
             input.revalidate();
             output.revalidate();
         }
-
         private void switchInputToViewNotes(){
             input.remove(promptLabel);
             inputField.removeActionListener(returnPressListener);
@@ -468,20 +454,20 @@ public class UserInterface extends JPanel {
             input.revalidate();
         }
 
-        private JButton createViewNotesButton(){
-            viewNotesButton = new JButton("Done");
-            ActionListener listener = new ViewNotesListener();
-            viewNotesButton.addActionListener(listener);
-
-            return viewNotesButton;
-        }
-
-        class ViewNotesListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                out.endViewNotes();
-                switchToInput(returnPressViewNotesListener, viewNotesButton);
-            }
+        /**
+         * This method switches back to general user input
+         *  It can be called to remove panels for either 'exit' or 'notes'/'cheat'
+         */
+        public void switchToInput(ActionListener al, JButton button) {
+            inputField.removeActionListener(al);
+            inputField.addActionListener(returnPressListener);
+            in.inputField.setText("");
+            in.inputField.requestFocus();
+            promptLabel.setText("     What would you like to do?");
+            input.remove(button);
+            input.add(performActionButton, BorderLayout.EAST);
+            input.revalidate();
+            refreshDisplayForNextTurn(currentPlayer);
         }
     }
 
