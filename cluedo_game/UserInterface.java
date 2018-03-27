@@ -229,6 +229,8 @@ public class UserInterface extends JPanel {
                             case "question":
                                 // TODO: Question
                                 result = currentPlayer.getName() + " is asking a question.";
+                                /* Creating a question menu  */
+                                QuestionMenu initialQuestion = new QuestionMenu(userDisplay);
                                 break;
                             case "passage":
                                 userDisplay.remove(boardImagePanel);
@@ -311,7 +313,8 @@ public class UserInterface extends JPanel {
                                     case "right":
                                     case "r":
                                         userDisplay.remove(boardImagePanel);
-                                        System.out.println("Moving from " + currentPlayer.getPrevious().getPositionAsString() + " to room " + currentPlayer.getInRoom().getName());
+                                        currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);//I don't know if this will work
+                                        System.out.println("\t\t\tAyylmao" + currentPlayer.getInRoom().playerListInRoom());
                                         boardImagePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
                                         currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                         userDisplay.add(boardImagePanel);
