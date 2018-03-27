@@ -208,12 +208,13 @@ public class UserInterface extends JPanel {
 						e.printStackTrace();
 					}
                 }
-
+                System.out.println(result);
                 if (result.equals("notes") || result.equals("cheat")){
                     switchToViewNotes(result);
                 }
+                // TODO: Get rid of || result.equals("question") when done debugging!
                 else {
-                    if (currentPlayer.getLocationAsString().equals("room")) {
+                    if (currentPlayer.getLocationAsString().equals("room") || result.equals("question")) {
                         switch (result) {
                             // If player has chosen to exit a room, bring up the appropriate prompt if necessary
                             case "exitChoice":
