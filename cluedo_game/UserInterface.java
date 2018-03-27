@@ -362,10 +362,6 @@ public class UserInterface extends JPanel {
                 inputField.requestFocus();
             }
         }
-<<<<<<< HEAD
-=======
-
-
         public void switchToExitChoiceButton(){
             switchInputToExitPicker();
             out.roomExitChoicesUpdater();
@@ -377,7 +373,6 @@ public class UserInterface extends JPanel {
             output.revalidate();
         }
 
->>>>>>> ffce06804a8b26551c678308ee62f195229187a7
         private JButton createExitPickerButton(){
             exitChoiceButton = new JButton("Choose Exit");
             ActionListener listener = new ExitChoiceListener();
@@ -402,16 +397,8 @@ public class UserInterface extends JPanel {
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
-<<<<<<< HEAD
-                    boardImagePanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
-                    userDisplay.add(boardImagePanel);
-                    display.invalidate();
-                    display.validate();
-                    display.repaint();
-=======
                     JPanel complexExitPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     refreshBoard(complexExitPanel);
->>>>>>> ffce06804a8b26551c678308ee62f195229187a7
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchToInput(returnPressExitListener, exitChoiceButton);
