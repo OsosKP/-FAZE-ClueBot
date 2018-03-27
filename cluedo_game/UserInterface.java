@@ -410,16 +410,6 @@ public class UserInterface extends JPanel {
             }
         }
 
-        public void switchToExitChoiceButton(){
-            switchInputToExitPicker();
-            out.roomExitChoicesUpdater();
-            input.remove(performActionButton);
-            input.add(createExitPickerButton(), BorderLayout.EAST);
-            inputField.setText("");
-
-            input.revalidate();
-            output.revalidate();
-        }
         /**
          * This method changes the user input panel to reflect choice for exiting a room
          */
