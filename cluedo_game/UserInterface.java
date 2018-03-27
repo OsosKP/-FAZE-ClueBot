@@ -251,10 +251,10 @@ public class UserInterface extends JPanel {
                                 QuestionMenu initialQuestion = new QuestionMenu(display);
                                 break;
                             case "passage":
+                                //Moves players in ArrayList<Token> Room.playersInRoom, and moves player in boardpanel
                                 currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                 JPanel newBoard = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
                                 currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);
-                                System.out.println("Current Room players: " + currentPlayer.getInRoom().playerListInRoom());
                                 currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                 refreshBoard(newBoard);
                                 break;
@@ -298,8 +298,9 @@ public class UserInterface extends JPanel {
                                         movementPanel = myImg.move(currentCoordinates, destinationCoordinates);
                                         break;
                                     case "exit":
-                                        System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
+                                        currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                         movementPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                        currentPlayer.setPreviousRoom(null);
                                         break;
                                    default:
                                        System.out.println("No direction detected ERROR");
