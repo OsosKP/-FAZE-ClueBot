@@ -78,7 +78,6 @@ public class EntrySquare implements BoardSquare{
 	// This method will now transport the player directly to the room
 	public void setPlayerOn(Token player) {
 		player.enterRoom(this.getRoomAssigned());
-		getRoomAssigned().addCapacity();
 	}
 	// This method will not be invoked by EntrySquare
 	@Override

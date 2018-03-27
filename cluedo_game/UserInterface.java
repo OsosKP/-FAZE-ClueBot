@@ -398,8 +398,10 @@ public class UserInterface extends JPanel {
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
+                    currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);
                     JPanel complexExitPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     refreshBoard(complexExitPanel);
+                    currentPlayer.setPreviousRoom(null);//frees up a little memory
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchToInput(returnPressExitListener, exitChoiceButton);
