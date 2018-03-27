@@ -190,6 +190,12 @@ public class GameLogic {
 		 * @return result of movement or an error if invalid
 		 */
 		public static String FloorMovementHandler(Token player, String move) {
+
+		    //TODO: For debugging only
+            if(AcceptedUserInputs.simpleString(move).equals("question"))
+                return "question";
+
+
 			BoardSquare square = player.getSquareOn();
 			String moveResult = "That move is not allowed.";
 			// Check user input in lower case and without whitespaces
@@ -315,7 +321,6 @@ public class GameLogic {
 		}
 
 		public static String questionPrompt() {
-			// This is just a placeholder for a later sprint
 			return "question";
 		}
 

@@ -28,6 +28,8 @@ public class AcceptedUserInputs {
         floorNavigation.add("down");
         floorNavigation.add("left");
         floorNavigation.add("right");
+        // TODO: Get rid of this when done debugging
+        floorNavigation.add("question");
 
         /*
         When having just entered a room, the user may leave, take the secret passage or exit.

@@ -153,8 +153,12 @@ public class Tokens {
         // (We want to keep them for questioning)
     public Token advanceTurn(Token t){
         t = t.next();
-        while (!t.getInGame())
-            t = t.next();
+        while (true) {
+            if (!t.getInGame())
+                t = t.next();
+            else
+                break;
+        }
         return t;
     }
 
