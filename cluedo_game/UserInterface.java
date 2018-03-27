@@ -229,7 +229,10 @@ public class UserInterface extends JPanel {
                                 break;
                             case "passage":
                                 userDisplay.remove(boardImagePanel);
+                                currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                 boardImagePanel = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
+                                currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);
+                                System.out.println("Current Room players: " + currentPlayer.getInRoom().playerListInRoom());
                                 currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                 userDisplay.add(boardImagePanel);
                                 display.invalidate();
@@ -727,25 +730,6 @@ public class UserInterface extends JPanel {
     public void setBoardImagePanel(JPanel panel) {
         boardImagePanel = panel;
     }
-
-    // public JPanel movePlayerAndUpdate(String direction, String name) {
-    //     BufferedImage bi = null;
-    //     BoardImage boardimage = new BoardImage();
-    //
-    //     /*
-    //     This version is a hopefully more mobile version of the image loading method
-    //      */
-    //     try {
-    //         bi = attemptToLoadImageFromResourceFolder();
-    //     } catch (Exception resourceLoadException) {
-    //         resourceLoadException.printStackTrace();
-    //     }
-    //
-    //     JPanel tempPanel = boardimage.returnPanel(bi);
-    //
-    //     tempPanel = boardimage.move(direction, name);
-    //     return tempPanel;
-    // }
 
     /**
      * attemptToLoadImageFromResourceFolder
