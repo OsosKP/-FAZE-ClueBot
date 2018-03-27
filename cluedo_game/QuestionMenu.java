@@ -11,10 +11,11 @@ public class QuestionMenu {
 	private JFrame currentDisplay;
 
 	public QuestionMenu(JFrame currentDisplay) {
-		/* Saving the state of the board -- so it doenst get erased */
+		
 		this.currentDisplay = new JFrame();
 		this.currentDisplay.setSize(800,700);
 		this.currentDisplay.setTitle("Temp Question Frame");
+		
 		
 		this.currentDisplay.setVisible(true);
 	}
