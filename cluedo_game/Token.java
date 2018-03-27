@@ -51,6 +51,8 @@ public class Token {
 		this.playerName = userName;
 		this.playerNumber = playerNumber;
 		this.inRoom = null;
+		this.inGame = true;
+
 		// This is set to the spawn point when the board is created
 
 		hand = new ArrayList<>();
@@ -68,6 +70,8 @@ public class Token {
 		this.playerNumber = playerNumber;
 		System.out.println(playerNumber);
 		this.inRoom = null;
+		this.inGame = true;
+
 		this.diceRoll = diceRoll;
 		// This is set to the spawn point when the board is created
 
@@ -85,6 +89,8 @@ public class Token {
 		this.playerName = userName;
 		this.playerNumber = playerNumber;
 		this.inRoom = null;
+		this.inGame = true;
+
 		this.diceRoll = diceRoll;
 		this.initialObjNum = objNum;
 		// This is set to the spawn point when the board is created
