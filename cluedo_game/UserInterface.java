@@ -251,10 +251,10 @@ public class UserInterface extends JPanel {
                                 QuestionMenu initialQuestion = new QuestionMenu(display);
                                 break;
                             case "passage":
+                                //Moves players in ArrayList<Token> Room.playersInRoom, and moves player in boardpanel
                                 currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                 JPanel newBoard = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
                                 currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);
-                                System.out.println("Current Room players: " + currentPlayer.getInRoom().playerListInRoom());
                                 currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                 refreshBoard(newBoard);
                                 break;
@@ -298,8 +298,9 @@ public class UserInterface extends JPanel {
                                         movementPanel = myImg.move(currentCoordinates, destinationCoordinates);
                                         break;
                                     case "exit":
-                                        System.out.println("Moving to? " + currentPlayer.getSquareOn().getPositionAsString());
+                                        currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                         movementPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                        currentPlayer.setPreviousRoom(null);
                                         break;
                                    default:
                                        System.out.println("No direction detected ERROR");
@@ -397,8 +398,10 @@ public class UserInterface extends JPanel {
                 if (GameLogic.PlayerEntry.getRoomExitCheck()) {
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
+                    currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);
                     JPanel complexExitPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     refreshBoard(complexExitPanel);
+                    currentPlayer.setPreviousRoom(null);//frees up a little memory
 
                     out.updateMoveHistory(currentPlayer.getName() + " has exited the room.");
                     switchToInput(returnPressExitListener, exitChoiceButton);
@@ -410,16 +413,6 @@ public class UserInterface extends JPanel {
             }
         }
 
-        public void switchToExitChoiceButton(){
-            switchInputToExitPicker();
-            out.roomExitChoicesUpdater();
-            input.remove(performActionButton);
-            input.add(createExitPickerButton(), BorderLayout.EAST);
-            inputField.setText("");
-
-            input.revalidate();
-            output.revalidate();
-        }
         /**
          * This method changes the user input panel to reflect choice for exiting a room
          */

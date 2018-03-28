@@ -182,20 +182,20 @@ public class BoardImage {
 	}
 
 	public JPanel passageMove(Room roomfrom, Room roomto){
-
-		System.out.println("\t\tFrom capacity: " + roomfrom.getCapacity());
-		System.out.println("\t\tTocapacity: " + roomto.getCapacity());
-
-		int fromcapacity = roomfrom.getCapacity();
-		int tocapacity = roomto.getCapacity();
-
-		int[] init = roomfrom.getPlayerFloors().get(fromcapacity);
-		int[] fin = roomto.getPlayerFloors().get(tocapacity-1);
-
-		System.out.println("\t New capacities From: " + roomfrom.getCapacity() + " to: " + roomto.getCapacity());
-
+		int[] init = roomfrom.getPlayerFloors().get(roomfrom.playersInRoom.size());
+		int[] fin = roomto.getPlayerFloors().get(roomto.playersInRoom.size());
 		return swapsquares(init, fin);
 
+	}
+
+	public JPanel moveToRoom(int[] init, Room room){
+		int[] fin = room.getPlayerFloors().get(room.playersInRoom.size()-1);
+		return swapsquares(init, fin);
+	}
+
+	public JPanel movetoExit(int[] fin, Room room){
+		int[] init = room.getPlayerFloors().get(room.playersInRoom.size());
+		return swapsquares(init, fin);
 	}
 
 	public JPanel swapsquares(int[] init, int[] fin){
@@ -225,23 +225,6 @@ public class BoardImage {
 		return returnMe;
 	}
 
-	public JPanel moveToRoom(int[] init, Room room){
-		System.out.println("Capacity is: " + room.getCapacity());
-		int currentcapacity = room.getCapacity()-1;//capacity is incremented in the move logic in GameLogic, so it's already higher here, hence -1
-		int[] fin = room.getPlayerFloors().get(currentcapacity);
-		System.out.println("Moving to room from " + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
-		return swapsquares(init, fin);
-	}
-
-	public JPanel movetoExit(int[] fin, Room room){
-		System.out.println("Current players in room: " + room.playerListInRoom());
-		int currentcapacity = room.getCapacity();
-		System.out.println("Room: "+room.getName()+" Capacity: " + currentcapacity);
-		int[] init = room.getPlayerFloors().get(currentcapacity);
-		System.out.println("Moving from room square" + init[0] + "," +init[1]+" to "+ fin[0] +"," +fin[1]);
-
-		return swapsquares(init, fin);
-	}
 
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();

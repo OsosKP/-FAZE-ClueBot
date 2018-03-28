@@ -13,7 +13,6 @@ public class Room {
 	private ArrayList<int[]> playerFloors = null;
 	private final ArrayList<FloorSquare> exits;
 	private final ArrayList<EntrySquare> entrances;
-	private int capacity = 0;
 
 	ArrayList<Token> playersInRoom = new ArrayList<>();
 
@@ -66,7 +65,6 @@ public class Room {
 	//Accessors
 	//
 	public String getName() {return name;}
-	public int getCapacity() {return capacity;}
 	public Weapon getWeaponInRoom() {return weaponInRoom;}
 	public Room getSecretPassage() {return secretPassage;}
 	public ArrayList<Token> getPlayersInRoom() {return playersInRoom;}
@@ -80,9 +78,6 @@ public class Room {
 	//Mutators
 	//
 	public void setName(String name) {this.name = name;}
-	public void setCapacity(int x) { capacity=x; }
-	public void addCapacity() { capacity++; }
-	public void removeCapacity() { capacity--; }
 	public void setWeaponInRoom(Weapon weaponInRoom) {this.weaponInRoom = weaponInRoom;}
 	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
 	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
