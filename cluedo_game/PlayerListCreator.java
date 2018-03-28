@@ -75,17 +75,13 @@ public class PlayerListCreator {
         display.add(titleBar, BorderLayout.NORTH);
         display.add(submitButton, BorderLayout.SOUTH);
         
-        /* Making sure that the JFrmae is displayed in the center of the users screen */
+        /* Making sure that the JFrame is displayed in the center of the users screen */
         display.setLocationRelativeTo(null); 
         
         display.setVisible(true);
     }
     
-    public void  forceReset() {
-    	PlayerListCreator temp = new PlayerListCreator();
-    }
-
-    public Tokens getPlayerList(){ 
+    public Tokens getPlayerList(){
     	return this.playerList;
     }
     
@@ -438,30 +434,43 @@ public class PlayerListCreator {
             }
             System.out.println("Highest dice roll: " + highRoller.returnObjNum() + ": " + highRoller.getName());
             /* Populating afterHighRoller Array */
-            for (int i = 0; i < tempTokenArray.size(); i++) {
-            	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum()) {
-            		afterHighRoller.add(tempTokenArray.get(i));
-            	}
+            for (Token t : tempTokenArray){
+                if (t.returnObjNum() > highRoller.returnObjNum())
+                    afterHighRoller.add(t);
             }
+            // Old implementation, I think my above loop is better
+//            for (int i = 0; i < tempTokenArray.size(); i++) {
+//            	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum())
+//            		afterHighRoller.add(tempTokenArray.get(i));
+//            }
             
             /* Populating the beforeHighRoller Array */
-            for (int i = 0; i < tempTokenArray.size(); i++) {
-            	if (tempTokenArray.get(i).returnObjNum() < highRoller.returnObjNum()) {
-            		beforeHighRoller.add(tempTokenArray.get(i));
-            	}
+            for (Token t : tempTokenArray){
+                if (t.returnObjNum() < highRoller.returnObjNum())
+                    beforeHighRoller.add(t);
             }
+            // Old implementation, I think my above loop is better
+//            for (int i = 0; i < tempTokenArray.size(); i++) {
+//            	if (tempTokenArray.get(i).returnObjNum() < highRoller.returnObjNum())
+//            		beforeHighRoller.add(tempTokenArray.get(i));
+//            }
             
             /* Now we want to correctly set all the other players to come after him/her */
             playerList.addPlayer(highRoller);
-            
-            for (int i = 0; i < afterHighRoller.size(); i++) {
-            	
-            	playerList.addPlayer(afterHighRoller.get(i));
-            }
+
+            for (Token t : afterHighRoller)
+                playerList.addPlayer(t);
+            // Old implementation, I think my above loop is better
+//            for (int i = 0; i < afterHighRoller.size(); i++)
+//            	playerList.addPlayer(afterHighRoller.get(i));
+
             /* Now we want to correctly set the order of the players who come before the current player */
-            for (int i = 0; i < beforeHighRoller.size(); i++) {
-            	playerList.addPlayer(beforeHighRoller.get(i));
-            }
+            for (Token t : beforeHighRoller)
+                playerList.addPlayer(t);
+
+            // Old implementation, I think my above loop is better
+//            for (int i = 0; i < beforeHighRoller.size(); i++)
+//            	playerList.addPlayer(beforeHighRoller.get(i));
           
             /* Removing all the JPanels and closing the JFrame */
             display.setVisible(false);

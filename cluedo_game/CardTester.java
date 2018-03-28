@@ -10,7 +10,8 @@ public class CardTester {
         for(Card c : deck.getMurderEnvelope())
             System.out.println(c.getName());
 
-        Tokens list = new Tokens(1);
+        Tokens list = new Tokens();
+        list.setDefaultPlayerList();
 
         deck.dealHands(list);
 

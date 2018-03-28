@@ -22,18 +22,14 @@ public class GameLogic {
 
 	public GameLogic() {
 		AcceptedUserInputs.setAcceptedUserInputs();
-		PlayerListCreator playersCreator = new PlayerListCreator();
+		// TODO: Implementation for actual product - switch to this before turning in
+//		PlayerListCreator playersCreator = new PlayerListCreator();
+//		playerList = playersCreator.getPlayerList();
 
-		playerList = playersCreator.getPlayerList();
-
-		/*
-		Keeping this for future debugging if we want to skip player entry
-		 */
-//		AcceptedUserInputs.setAcceptedUserInputs();
-//		playerList = new Tokens();
-//		playerList.setDefaultPlayerList();
-//		currentBoard = new BoardBuilder(playerList);
-//		ui = new UserInterface(playerList);
+		// TODO: Debugging setup
+		playerList = new Tokens();
+		playerList.setDebugPlayerList();
+		createGame();
 	}
 
 	public static BoardBuilder getCurrentBoard() {
@@ -268,6 +264,7 @@ public class GameLogic {
 					if (player.getInRoom().getSecretPassage() == null) {
 						result = "The " + player.getInRoom().getName() + " does not have a secret passage!";
 						movementSuccessful = false;
+						break;
 					}
 					if (!isThisTheFirstMove()) {
 						result = "You have already moved this turn!";

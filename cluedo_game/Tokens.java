@@ -19,26 +19,6 @@ public class Tokens {
         this.last = null;
         numberOfPlayers = 0;
     }
-    // Constructor used only for debugging
-    public Tokens(int i){
-        Token mustard = new Token(17, 0, "Mustard", 0);
-        Token scarlet = new Token(24, 7, "Scarlet", 1);
-        Token white = new Token(0, 9, "White", 2);
-        Token green = new Token(0, 14, "Green", 3);
-        Token peacock = new Token(6, 23, "Peacock", 4);
-//        Token plum = new Token(19, 23, "Plum", 5);
-
-        mustard.setNext(scarlet);
-        scarlet.setNext(white);
-        white.setNext(green);
-        green.setNext(peacock);
-        peacock.setNext(mustard);
-//        plum.setNext(mustard);
-
-        first = mustard;
-        last = peacock;
-        numberOfPlayers = 5;
-    }
 
     /*
     Temporary methods to create and access all 6 characters to test spawn points and printouts
@@ -65,6 +45,16 @@ public class Tokens {
 
         numberOfPlayers = 6;
     }
+    // TODO: Change who spawns in this if you want to debug
+    public void setDebugPlayerList() {
+        Token mustard = new Token(17, 0, "Mustard", 0);
+        Token peacock = new Token(6, 23, "Peacock", 1);
+        mustard.setNext(peacock);
+        peacock.setNext(mustard);
+        first = mustard;
+        last = peacock;
+        numberOfPlayers = 2;
+    }
 
     /**
      * Checks if player is active
@@ -72,18 +62,22 @@ public class Tokens {
      * @return true or false
      */
     public boolean isPlayerInPlayerList(String name){
-        for (int i=0; i<numberOfPlayers; i++){
-            if (name.equals(this.getPlayerByIndex(i).getName().toLowerCase()))
+        Token curr = first;
+        do {
+            if (name.equals(curr.getName().toLowerCase()))
                 return true;
-        }
+            curr = curr.next();
+        } while (curr != first);
         return false;
     }
 
     public int getIndexOfPlayerByName(String name){
-        for (int i=0; i<numberOfPlayers; i++){
-            if (name.equals(this.getPlayerByIndex(i).getName().toLowerCase()))
-                return i;
-        }
+        Token curr = first;
+        do {
+            if (name.equals(curr.getName().toLowerCase()))
+                return curr.getPlayerNumber();
+            curr = curr.next();
+        } while (curr != first);
         return -1;
     }
 
@@ -95,16 +89,13 @@ public class Tokens {
         return last;
     }
     public Token getPlayerByIndex(int index) {
-        if (first.getPlayerNumber() == index)
-            return first;
-
-        Token curr = first.next();
-        while(curr.getPlayerNumber() != index) {
+        Token curr = first;
+        do {
+            if (curr.getPlayerNumber() == index)
+                return curr;
             curr = curr.next();
-            if (curr == first)
-                throw new PlayerNotFoundException();
-        }
-        return curr;
+        } while (curr != first);
+        return null;
     }
     public int getNumberOfPlayers() {return numberOfPlayers; }
     public boolean isEmpty(){ return numberOfPlayers == 0; }
