@@ -1,17 +1,14 @@
 package cluedo_game;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,12 +19,8 @@ public class QuestionMenu {
 
 	
 	private JPanel currentContainer;
-	private GridBagLayout layout;
-	private GridBagConstraints gbc;
 	
-	private JPanel characterPane;
-	private JPanel chracterTitle;
-	private JPanel characterPictures;
+	private CharacterPane character;
 	
 	public QuestionMenu(JFrame currentDisplay) {
 		
@@ -36,19 +29,12 @@ public class QuestionMenu {
 		this.currentDisplay.setTitle("Temp Question Frame");
 	
 		currentContainer = new JPanel();
-		characterPane = new JPanel();
-		
-		layout = new GridBagLayout();
-		gbc = new GridBagConstraints();
+		character = new CharacterPane();
 		
 		currentContainer.setLayout(new BorderLayout());
-		characterPane.setLayout(new BorderLayout());
-		
-		createCharacterTitle();
-		characterPane.add(chracterTitle, BorderLayout.NORTH);
 		
 		/* Just for testing */
-		currentContainer.add(characterPane, BorderLayout.NORTH);
+		currentContainer.add(character, BorderLayout.NORTH);
 		
 		//convertImg("green");	
 		this.currentDisplay.add(currentContainer);
@@ -67,17 +53,59 @@ public class QuestionMenu {
 		}
 		
 	}
-	
-	private void createCharacterTitle() {
-		chracterTitle = new JPanel();
-		
-		chracterTitle.setLayout(layout);
-		
-	    JLabel title= new JLabel("Select a Character: ");
-	    gbc.gridx=0;
-	    gbc.gridy=0;
-	    chracterTitle.add(title, gbc);
-	}
 }
+
+/* Class that is going to manage all the character input stuff */
+class CharacterPane extends JPanel{
+	private CharacterTitle title =  new CharacterTitle();
+	//TODO add a characterImages class
+	
+	@Override
+	public void setLayout(LayoutManager mgr) {
+		// TODO Auto-generated method stub
+		super.setLayout(mgr);
+	}
+	
+	public CharacterPane() {
+		this.setLayout(new BorderLayout());
+		this.add(title, BorderLayout.NORTH);
+	}
+
+	/* Class that handles the characterTitle  */
+	class CharacterTitle extends JPanel{
+		private JLabel title;
+		private GridBagLayout layout;
+		private GridBagConstraints gbc;
+
+	
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
+	
+		public CharacterTitle() {
+			layout = new GridBagLayout();
+			gbc = new GridBagConstraints();	
+		
+			this.setLayout(layout);
+		
+			title= new JLabel("Select a Character: ");
+			gbc.gridx=0;
+			gbc.gridy=0;
+			this.add(title, gbc);
+		}
+}
+
+
+
+
+
+}
+
+
+
+
+
 
 
