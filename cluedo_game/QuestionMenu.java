@@ -3,6 +3,7 @@ package cluedo_game;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -58,6 +59,7 @@ public class QuestionMenu {
 /* Class that is going to manage all the character input stuff */
 class CharacterPane extends JPanel{
 	private CharacterTitle title =  new CharacterTitle();
+	private CharacterPictures pictures = new CharacterPictures();
 	//TODO add a characterImages class
 	
 	@Override
@@ -69,6 +71,7 @@ class CharacterPane extends JPanel{
 	public CharacterPane() {
 		this.setLayout(new BorderLayout());
 		this.add(title, BorderLayout.NORTH);
+		this.add(pictures, BorderLayout.CENTER);
 	}
 
 	/* Class that handles the characterTitle  */
@@ -95,7 +98,43 @@ class CharacterPane extends JPanel{
 			gbc.gridy=0;
 			this.add(title, gbc);
 		}
-}
+	}
+	/* Will handle all the pictures of the players */
+	class CharacterPictures extends JPanel{
+		private JLabel green;
+		private JLabel mustard;
+		private JLabel peacock;
+		private JLabel plum;
+		private JLabel scarlet;
+		private JLabel white;
+		
+		private void setLables() {
+			green = new JLabel("Green");
+			mustard = new  JLabel("Mustard");
+			peacock = new JLabel("Peacock");
+			plum = new JLabel("Plum");
+			scarlet = new JLabel("Scarlet");
+			white = new JLabel("White");
+		}
+		
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
+		
+		public CharacterPictures() {
+			setLables();
+			this.setLayout(new GridLayout(1,6));
+			this.add(green);
+			this.add(mustard);
+			this.add(peacock);
+			this.add(plum);
+			this.add(scarlet);
+			this.add(white);
+		}
+		
+	}
 
 
 
