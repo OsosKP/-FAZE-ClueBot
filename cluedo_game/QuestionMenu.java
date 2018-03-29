@@ -110,13 +110,21 @@ class CharacterPane extends JPanel{
 		private JLabel white;
 		
 		private void setLables() {
+			
 			green = new JLabel("Green");
 			mustard = new  JLabel("Mustard");
 			peacock = new JLabel("Peacock");
 			plum = new JLabel("Plum");
 			scarlet = new JLabel("Scarlet");
 			white = new JLabel("White");
+			
+			/* Testing the file IO */
 			loadImage("green");
+			loadImage("mustard");
+			loadImage("peacock");
+			loadImage("plum");
+			loadImage("scarlet");
+			loadImage("white");
 		}
 		
 		@Override
@@ -134,19 +142,19 @@ class CharacterPane extends JPanel{
 					image = ImageIO.read(new File("src/characterCards/Green.png"));
 				}
 				else if (name.equals("mustard")) {
-					
+					image = ImageIO.read(new File("src/characterCards/Mustard.png"));
 				}
 				else if (name.equals("peacock")) {
-				
+					image = ImageIO.read(new File("src/characterCards/Peacock.png"));
 				}
 				else if (name.equals("plum")) {
-				
+					image = ImageIO.read(new File("src/characterCards/Plum.png"));
 				}
 				else if (name.equals("scarlet")) {
-				
+					image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
 				}
 				else if (name.equals("white")) {
-				
+					image = ImageIO.read(new File("src/characterCards/White.png"));
 				}
 			} catch (IOException e) {
 				System.err.println(e);
