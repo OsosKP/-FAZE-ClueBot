@@ -180,8 +180,22 @@ class CharacterPane extends JPanel{
 		}
 		
 	}
-
-
+	
+	/* Class to deal with the weapon selection */
+	class WeaponPane extends JPanel{
+		private WeaponTitle title = new WeaponTitle();
+		private WeaponPictures pitures = new WeaponPictures();
+		
+		/* Class is going to deal with the weapon title */
+		class WeaponTitle extends JPanel {
+			
+		}
+		
+		/* Class is going to deal with the weapon pictures */
+		class WeaponPictures extends JPanel {
+			
+		}
+	}
 
 
 
