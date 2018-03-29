@@ -8,6 +8,7 @@ import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -36,7 +37,7 @@ public class QuestionMenu {
 		
 		/* Just for testing */
 		currentContainer.add(character, BorderLayout.NORTH);
-		
+	
 		//convertImg("green");	
 		this.currentDisplay.add(currentContainer);
 		this.currentDisplay.setVisible(true);
@@ -115,12 +116,41 @@ class CharacterPane extends JPanel{
 			plum = new JLabel("Plum");
 			scarlet = new JLabel("Scarlet");
 			white = new JLabel("White");
+			loadImage("green");
 		}
 		
 		@Override
 		public void setLayout(LayoutManager mgr) {
 			// TODO Auto-generated method stub
 			super.setLayout(mgr);
+		}
+		
+		public void loadImage(String name) {
+			BufferedImage image;
+			
+			/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+			try {
+				if (name.equals("green")) {
+					image = ImageIO.read(new File("src/characterCards/Green.png"));
+				}
+				else if (name.equals("mustard")) {
+					
+				}
+				else if (name.equals("peacock")) {
+				
+				}
+				else if (name.equals("plum")) {
+				
+				}
+				else if (name.equals("scarlet")) {
+				
+				}
+				else if (name.equals("white")) {
+				
+				}
+			} catch (IOException e) {
+				System.err.println(e);
+			}
 		}
 		
 		public CharacterPictures() {
