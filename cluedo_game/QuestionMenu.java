@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -111,12 +112,12 @@ class CharacterPane extends JPanel{
 		
 		private void setLables() {
 			
-			green = new JLabel("Green");
-			mustard = new  JLabel("Mustard");
-			peacock = new JLabel("Peacock");
-			plum = new JLabel("Plum");
-			scarlet = new JLabel("Scarlet");
-			white = new JLabel("White");
+			green = new JLabel("");
+			mustard = new  JLabel("");
+			peacock = new JLabel("");
+			plum = new JLabel("");
+			scarlet = new JLabel("");
+			white = new JLabel("");
 			
 			/* Testing the file IO */
 			loadImage("green");
@@ -140,21 +141,27 @@ class CharacterPane extends JPanel{
 			try {
 				if (name.equals("green")) {
 					image = ImageIO.read(new File("src/characterCards/Green.png"));
+					green.setIcon(new ImageIcon(image));
 				}
 				else if (name.equals("mustard")) {
 					image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+					mustard.setIcon(new ImageIcon(image));
 				}
 				else if (name.equals("peacock")) {
 					image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+					peacock.setIcon(new ImageIcon(image));
 				}
 				else if (name.equals("plum")) {
 					image = ImageIO.read(new File("src/characterCards/Plum.png"));
+					plum.setIcon(new ImageIcon(image));
 				}
 				else if (name.equals("scarlet")) {
 					image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+					scarlet.setIcon(new ImageIcon(image));
 				}
 				else if (name.equals("white")) {
 					image = ImageIO.read(new File("src/characterCards/White.png"));
+					white.setIcon(new ImageIcon(image));
 				}
 			} catch (IOException e) {
 				System.err.println(e);
