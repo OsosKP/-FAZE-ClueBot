@@ -91,6 +91,14 @@ public class UserInterface extends JPanel {
         out.updateAllowedCommandsBasedOnSquare(p);
     }
 
+    public void setCurrentPlayer(Token t) {
+        currentPlayer = t;
+    }
+
+    public Token getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     /**
      * The user input portion of the GUI
      */
@@ -199,6 +207,12 @@ public class UserInterface extends JPanel {
         }
         class UserInputListener implements ActionListener {
             public void actionPerformed(ActionEvent event) {
+                if (inputField.getText().equals("")){
+                    inputField.setText("");
+                    inputField.requestFocus();
+                    return;
+                }
+
                 String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
 
                 // If user did not enter an appropriate command, show a JOptionPane telling
@@ -297,7 +311,8 @@ public class UserInterface extends JPanel {
                                         currentCoordinates = currentPlayer.getSquareOn().getLeft().getPosition();
                                         movementPanel = myImg.move(currentCoordinates, destinationCoordinates);
                                         break;
-                                    case "exit":
+                                   case "exit":
+                                   case "e":
                                         currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
                                         movementPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                                         currentPlayer.setPreviousRoom(null);
@@ -336,20 +351,8 @@ public class UserInterface extends JPanel {
                                         + " has entered the " + currentPlayer.getInRoom().getName());
                             }
                         }
-
-                        // Switch player if the turn is over (or if they entered 'done'
-                        if (GameLogic.getMovesLeft() == 0) {
-                            currentPlayer = playerList.advanceTurn(currentPlayer);
-                            // Update move history to show new turn and where the player is.
-                            //      This will be less useful when GUI works
-                            out.updateMoveHistory("It is now " + currentPlayer.getName() + "'s turn. Location: "
-                                    + currentPlayer.safeGetLocation());
-                            // Roll the dice for the next player
-                            GameLogic.Dice.rollForTurn();
-                        }
-
-                        // Update input display with that player
-                        refreshDisplayForNextTurn(currentPlayer);
+                        // Use GameLogic to decrement dice and check turn status
+                        GameLogic.checkEndOfTurn();
                     }
                     // If not, show error and do not cycle to next turn
                         // Error doesn't show if player viewed notes
@@ -409,6 +412,7 @@ public class UserInterface extends JPanel {
                         System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: Exit " + choice
                                 + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
                     }
+                    GameLogic.checkEndOfTurn();
                 }
             }
         }
@@ -689,6 +693,10 @@ public class UserInterface extends JPanel {
             output.add(allowedCommandsDisplay);
             output.repaint();
         }
+    }
+
+    public OutputTextDisplay getOut() {
+        return out;
     }
 
     /**
