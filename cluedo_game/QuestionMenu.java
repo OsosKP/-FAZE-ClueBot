@@ -22,10 +22,16 @@ import com.sun.corba.se.impl.protocol.BootstrapServerRequestDispatcher;
 public class QuestionMenu {
 	private JPanel initialState;
 	private JFrame currentDisplay;
-
+	
+	/* Representing which player is currently getting 'accused'  */
+	boolean characterSelected = false, isPlum = false, isGreen = false, isMustard = false, isPeacock = false, isScarlet = false, isWhite = false;
+	/* Representing which weapon is getting 'guessed' */
+	boolean isCandlestick = false, isDagger = false, isLeadPipe = false, isPistol = false, isRope = false;
 	
 	private ChoiceContainter currentContainer;
 	private JPanel finalPanel;
+	
+	private JLabel dynamicGuess;
 	
 	public QuestionMenu(JFrame currentDisplay) {
 		
@@ -36,7 +42,9 @@ public class QuestionMenu {
 		finalPanel = new JPanel();
 		finalPanel.setLayout(new BorderLayout());
 		
+		
 		currentContainer = new ChoiceContainter();	
+		dynamicGuess = new JLabel();
 		
 		JButton confirmButton = new JButton("Confirm");
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
@@ -44,6 +52,88 @@ public class QuestionMenu {
 		
 		this.currentDisplay.add(finalPanel);
 		this.currentDisplay.setVisible(true);		
+	}
+	
+	/**
+	 * updates the name section of the guessing JLabel 
+	 * @param name = the name of the character we are accusing
+	 */
+	private void updateDynamicName(String name) {
+		characterSelected = true;
+		
+		if (name.equals("plum")) {
+			dynamicGuess.setText("I think Plum is the killer, and he used ?");
+			isPlum = true;
+		}
+		else if (name.equals("green")) {
+			dynamicGuess.setText("I think Green is the killer, and he used ?");
+			isGreen = true;
+		}
+		else if (name.equals("mustard")) {
+			dynamicGuess.setText("I think Mustard is the killer, and he used ?");
+			isMustard = true;
+		}
+		else if (name.equals("peacock")) {
+			dynamicGuess.setText("I think Peacock is the killer, and she used ?");
+			isPeacock = true;
+		}
+		else if (name.equals("scarlet")) {
+			dynamicGuess.setText("I think Scarlet is the killer, and she used ?");
+			isScarlet = true;
+		}
+		else if (name.equals("white")) {
+			dynamicGuess.setText("I think White is the killer, and she used ?");
+			isWhite = true;
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void updateDynamicWeapon(String name) {
+	
+		/* If the user thinks its funny and tries to click the weapon cards before the characters*/
+		if (!characterSelected) {
+			if (name.equals("candlestick")) {
+				
+			}
+			else if (name.equals("dagger")) {
+				
+			}
+			else if (name.equals("leadpipe")) {
+				
+			}
+			else if (name.equals("pistol")) {
+				
+			}
+			else if (name.equals("rope")) {
+				
+			}
+		}
+		else {
+			/* Checking to see which player is getting 'accused' */
+			if (isPlum) {
+			
+			}
+			else if (isGreen) {
+			
+			}
+			else if (isMustard) {
+			
+			}
+			else if (isMustard) {
+			
+			}
+			else if (isPeacock) {
+			
+			}
+			else if (isScarlet) {
+			
+			}
+			else if (isWhite) {
+			
+			}		
+		}
 	}
 	
 	class ChoiceContainter extends JPanel{
@@ -299,15 +389,6 @@ public class QuestionMenu {
 				this.add(rope);
 			}
 		}
+	}
 }
-
-
-}
-
-
-	
-
-
-
-
 
