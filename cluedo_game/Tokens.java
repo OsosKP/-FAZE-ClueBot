@@ -145,8 +145,9 @@ public class Tokens {
     public Token advanceTurn(Token t){
         t = t.next();
         while (true) {
-            if (!t.getInGame())
+            if (!t.getInGame()) {
                 t = t.next();
+            }
             else
                 break;
         }

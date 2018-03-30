@@ -61,20 +61,12 @@ public class GameLogic {
 		public static boolean getCommandSuccessful() {
 			return commandSuccessful;
 		}
-//
-		public static void resetCommandSuccessfulSwitchToFalse() {
-			commandSuccessful = false;
-		}
 
 		// Designates that the player's move was successful
 		private static boolean movementSuccessful = false;
 
 		public static boolean isMovementSuccessful() {
 			return movementSuccessful;
-		}
-
-		public static void resetMovementSuccessfulSwitchToFalse() {
-			movementSuccessful = false;
 		}
 
 		// Designates whether player's choice in exiting a room was valid
@@ -145,6 +137,10 @@ public class GameLogic {
 					break;
 				case "room":
 					result = RoomActionHandler(player, entry);
+					if (result.equals("exitChoice")){
+						System.out.println("Command: " + commandSuccessful +
+								"\nMovement: " + movementSuccessful);
+					}
 					break;
 				// This is a placeholder for when the player is solving
 				case "cellar":
@@ -330,6 +326,25 @@ public class GameLogic {
 
 			return "Game Will Continue";
 		}
+	}
+
+	public static void checkEndOfTurn() {
+		// Switch player if the turn is over (or if they entered 'done')
+		if (GameLogic.getMovesLeft() == 0) {
+			// This calls UI to advance turn and change the output display
+				// Done from here so it can be called from multiple places in UI
+			getUi().setCurrentPlayer(playerList.advanceTurn(getUi().getCurrentPlayer()));
+
+			Dice.rollForTurn();
+
+			// Update move history to show new turn and where the player is.
+			//      This will be less useful when GUI works
+			getUi().getOut().updateMoveHistory("It is now " +
+					getUi().getCurrentPlayer().getName() + "'s turn. Location: "
+					+ getUi().getCurrentPlayer().safeGetLocation());
+		}
+		// Same as above - called from several places in UI so it's here
+		getUi().refreshDisplayForNextTurn(getUi().getCurrentPlayer());
 	}
 
 	/*
