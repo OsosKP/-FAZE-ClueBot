@@ -17,14 +17,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.corba.se.impl.protocol.BootstrapServerRequestDispatcher;
-
 public class QuestionMenu {
 	private JPanel initialState;
 	private JFrame currentDisplay;
 
 	
-	private ChoiceContainter currentContainer;
+	private ChoiceContainer currentContainer;
 	private JPanel finalPanel;
 	
 	public QuestionMenu(JFrame currentDisplay) {
@@ -36,7 +34,7 @@ public class QuestionMenu {
 		finalPanel = new JPanel();
 		finalPanel.setLayout(new BorderLayout());
 		
-		currentContainer = new ChoiceContainter();	
+		currentContainer = new ChoiceContainer();	
 		
 		JButton confirmButton = new JButton("Confirm");
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
@@ -46,17 +44,16 @@ public class QuestionMenu {
 		this.currentDisplay.setVisible(true);		
 	}
 	
-	class ChoiceContainter extends JPanel{
+	class ChoiceContainer extends JPanel{
 		private CharacterPane character = new CharacterPane();
 		private WeaponPane weapon = new WeaponPane();
 	
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 		
-		public ChoiceContainter() {
+		public ChoiceContainer() {
 			this.setLayout(new GridLayout(2,1));
 			this.add(character);
 			this.add(weapon);		
@@ -71,7 +68,6 @@ public class QuestionMenu {
 	
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 	
@@ -135,7 +131,6 @@ public class QuestionMenu {
 		
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 		
@@ -189,7 +184,7 @@ public class QuestionMenu {
 	/* Class to deal with the weapon selection */
 	class WeaponPane extends JPanel{
 		private WeaponTitle title = new WeaponTitle();
-		private WeaponPictures pitures = new WeaponPictures();
+		private WeaponPictures pictures = new WeaponPictures();
 		
 		@Override
 		public void setLayout(LayoutManager mgr) {
@@ -200,7 +195,7 @@ public class QuestionMenu {
 		public WeaponPane() {
 			this.setLayout(new BorderLayout());
 			this.add(title, BorderLayout.NORTH);
-			this.add(pitures, BorderLayout.CENTER);
+			this.add(pictures, BorderLayout.CENTER);
 		}
 		
 		/* Class is going to deal with the weapon title */
@@ -212,7 +207,6 @@ public class QuestionMenu {
 	
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -239,7 +233,6 @@ public class QuestionMenu {
 
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 			
