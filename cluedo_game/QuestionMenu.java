@@ -499,7 +499,7 @@ public class QuestionMenu {
 			
 			/* Going to represent the individual characterPicture */
 			class IndividualPicture extends JPanel{
-				private JLabel  currentImage = new JLabel();
+				public JLabel  currentImage = new JLabel();
 				private int objNum;
 				private String name;
 				
@@ -551,6 +551,74 @@ public class QuestionMenu {
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("Label: " + objNum + " was clicked!");	
 							updateDynamicName(name);
+							
+							BufferedImage image;
+							/* Looping though the list and loading the black and white images on all the other character images */
+							for (int i = 0; i < 6; i++) {
+								/* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
+								if (characterPictures[i].objNum != objNum) {
+									try {
+										/* Over-writing the specific JLables with te B&W image */
+										if (characterPictures[i].name.equals("green")) {
+											image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if(characterPictures[i].name.equals("mustard")) {
+											image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));									
+										}
+										else if (characterPictures[i].name.equals("peacock")) {
+											image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("plum")) {
+											image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("scarlet")) {
+											image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("white")) {
+											image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+									} catch (IOException a) {
+										System.err.println(e);
+									}
+								}
+								else {
+									try {
+										/* Over-writing the specific JLables with te B&W image */
+										if (characterPictures[i].name.equals("green")) {
+											image = ImageIO.read(new File("src/characterCards/Green.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if(characterPictures[i].name.equals("mustard")) {
+											image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));									
+										}
+										else if (characterPictures[i].name.equals("peacock")) {
+											image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("plum")) {
+											image = ImageIO.read(new File("src/characterCards/Plum.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("scarlet")) {
+											image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (characterPictures[i].name.equals("white")) {
+											image = ImageIO.read(new File("src/characterCards/White.png"));
+											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+									} catch (IOException a) {
+										System.err.println(e);
+									}								
+								}
+							}
 						}
 						
 					});				
