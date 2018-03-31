@@ -8,7 +8,6 @@ import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.corba.se.impl.protocol.BootstrapServerRequestDispatcher;
 
 public class QuestionMenu {
 	private JPanel initialState;
@@ -59,6 +57,14 @@ public class QuestionMenu {
 	 * @param name = the name of the character we are accusing
 	 */
 	private void updateDynamicName(String name) {
+		/* Need to make sure that the user is not allowed to select more than one character -- so we re-set the prior character thay chose */
+		isPlum = false;
+		isGreen = false;
+		isMustard = false;
+		isPeacock = false;
+		isScarlet = false;
+		isWhite = false;
+		
 		characterSelected = true;
 		
 		if (name.equals("plum")) {
@@ -91,47 +97,169 @@ public class QuestionMenu {
 	 * 
 	 */
 	private void updateDynamicWeapon(String name) {
-	
-		/* If the user thinks its funny and tries to click the weapon cards before the characters*/
+		/* Need to make sure we re-set any of booleans that MAY have been triggered by the user before -- we cant let them select more than one weapon */
+		isCandlestick = false;
+		isDagger = false;
+		isLeadPipe = false;
+		isPistol = false;
+		isRope = false;
+		
+		/* If the use tries to click the weapon cards before the character cards -- everything wont break */
 		if (!characterSelected) {
 			if (name.equals("candlestick")) {
-				
+				dynamicGuess.setText("I think ? is the killer, and s/he used the candlestick");
+				isCandlestick = true;
 			}
 			else if (name.equals("dagger")) {
-				
+				dynamicGuess.setText("I think ? is the killer, and s/he used the dagger");
+				isDagger = true;
 			}
 			else if (name.equals("leadpipe")) {
-				
+				dynamicGuess.setText("I think ? is the killer, and s/he used the lead pipe");
+				isRope = true;
 			}
 			else if (name.equals("pistol")) {
-				
+				dynamicGuess.setText("I think ? is the killer, and s/he used the pistol");
+				isRope = true;
 			}
 			else if (name.equals("rope")) {
-				
+				dynamicGuess.setText("I think ? is the killer, and s/he used the rope");
+				isRope = true;
 			}
 		}
 		else {
 			/* Checking to see which player is getting 'accused' */
 			if (isPlum) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think Plum is the killer, and he used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think Plum is the killer, and he used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think Plum is the killer, and he used the lead pipe");
+					isRope = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think Plum is the killer, and he used the pistol");
+					isRope = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think Plum is the killer, and he used the rope");
+					isRope = true;
+				}
 			}
 			else if (isGreen) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think Green is the killer, and he used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think Green is the killer, and he used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think Green is the killer, and he used the lead pipe");
+					isRope = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think Green is the killer, and he used the pistol");
+					isRope = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think Green is the killer, and he used the rope");
+					isRope = true;
+				}
 			}
 			else if (isMustard) {
-			
-			}
-			else if (isMustard) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think Mustard is the killer, and he used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think Mustard is the killer, and he used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think Mustard is the killer, and he used the lead pipe");
+					isRope = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think Mustard is the killer, and he used the pistol");
+					isRope = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think Mustard is the killer, and he used the rope");
+					isRope = true;
+				}
 			}
 			else if (isPeacock) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think Peacock is the killer, and she used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think Peacock is the killer, and she used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think Peacock is the killer, and she used the lead pipe");
+					isRope = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think Peacock is the killer, and she used the pistol");
+					isRope = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think Peacock is the killer, and she used the rope");
+					isRope = true;
+				}
 			}
 			else if (isScarlet) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think Scarlet is the killer, and she used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think Scarlet is the killer, and she used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think Scarlet is the killer, and she used the lead pipe");
+					isLeadPipe = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think Scarlet is the killer, and she used the pistol");
+					isPistol = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think Scarlet is the killer, and she used the rope");
+					isRope = true;
+				}
 			}
 			else if (isWhite) {
-			
+				if (name.equals("candlestick")) {
+					dynamicGuess.setText("I think White is the killer, and she used the candlestick");
+					isCandlestick = true;
+				}
+				else if (name.equals("dagger")) {
+					dynamicGuess.setText("I think White is the killer, and she used the dagger");
+					isDagger = true;
+				}
+				else if (name.equals("leadpipe")) {
+					dynamicGuess.setText("I think White is the killer, and she used the lead pipe");
+					isLeadPipe = true;
+				}
+				else if (name.equals("pistol")) {
+					dynamicGuess.setText("I think White is the killer, and she used the pistol");
+					isPistol = true;
+				}
+				else if (name.equals("rope")) {
+					dynamicGuess.setText("I think White is the killer, and she used the rope");
+					isRope = true;
+				}
 			}		
 		}
 	}
