@@ -5,6 +5,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +27,12 @@ public class QuestionMenu {
 	/* Representing which player is currently getting 'accused'  */
 	boolean characterSelected = false, isPlum = false, isGreen = false, isMustard = false, isPeacock = false, isScarlet = false, isWhite = false;
 	/* Representing which weapon is getting 'guessed' */
-	boolean isCandlestick = false, isDagger = false, isLeadPipe = false, isPistol = false, isRope = false;
+	boolean weaponSelected = false, isCandlestick = false, isDagger = false, isLeadPipe = false, isPistol = false, isRope = false;
 	
 	private ChoiceContainter currentContainer;
 	private JPanel finalPanel;
 	
-	private JLabel dynamicGuess;
+	private TitleBar dynamicGuess;
 	
 	public QuestionMenu(JFrame currentDisplay) {
 		
@@ -42,9 +45,10 @@ public class QuestionMenu {
 		
 		
 		currentContainer = new ChoiceContainter();	
-		dynamicGuess = new JLabel();
+		dynamicGuess = new TitleBar();
 		
 		JButton confirmButton = new JButton("Confirm");
+		finalPanel.add(dynamicGuess, BorderLayout.NORTH);
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
 		finalPanel.add(confirmButton, BorderLayout.SOUTH);		
 		
@@ -57,7 +61,7 @@ public class QuestionMenu {
 	 * @param name = the name of the character we are accusing
 	 */
 	private void updateDynamicName(String name) {
-		/* Need to make sure that the user is not allowed to select more than one character -- so we re-set the prior character thay chose */
+		/* Need to make sure that the user is not allowed to select more than one character -- so we re-set the prior character that chose */
 		isPlum = false;
 		isGreen = false;
 		isMustard = false;
@@ -65,32 +69,148 @@ public class QuestionMenu {
 		isScarlet = false;
 		isWhite = false;
 		
-		characterSelected = true;
+		if (isCandlestick || isDagger || isLeadPipe || isPistol || isRope) {
+			weaponSelected = true;
+		}
 		
-		if (name.equals("plum")) {
-			dynamicGuess.setText("I think Plum is the killer, and he used ?");
-			isPlum = true;
+		/* Checking the case where the user tries to select the weapon first -- then the character */
+		if (!weaponSelected) {
+			if (name.equals("plum")) {
+				dynamicGuess.setText("\"I think Plum is the killer, and he used ?\"");
+				isPlum = true;
+			}
+			else if (name.equals("green")) {
+				dynamicGuess.setText("\"I think Green is the killer, and he used ?\"");
+				isGreen = true;
+			}
+			else if (name.equals("mustard")) {
+				dynamicGuess.setText("\"I think Mustard is the killer, and he used ?\"");
+				isMustard = true;
+			}
+			else if (name.equals("peacock")) {
+				dynamicGuess.setText("\"I think Peacock is the killer, and she used ?\"");
+				isPeacock = true;
+			}
+			else if (name.equals("scarlet")) {
+				dynamicGuess.setText("\"I think Scarlet is the killer, and she used ?\"");
+				isScarlet = true;
+			}
+			else if (name.equals("white")) {
+				dynamicGuess.setText("\"I think White is the killer, and she used ?\"");
+				isWhite = true;
+			}		
 		}
-		else if (name.equals("green")) {
-			dynamicGuess.setText("I think Green is the killer, and he used ?");
-			isGreen = true;
+		else {
+			if (name.equals("plum")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the rope\"");
+				}
+				isPlum = true;
+			}
+			else if (name.equals("green")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the rope\"");
+				}
+				isGreen = true;
+			}
+			else if (name.equals("mustard")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the rope\"");
+				}
+				isMustard = true;
+			}
+			else if (name.equals("peacock")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the rope\"");
+				}
+				isPeacock = true;
+			}
+			else if (name.equals("scarlet")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the rope\"");
+				}
+				isScarlet = true;
+			}
+			else if (name.equals("white")) {
+				if (isCandlestick) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the candlestick\"");
+				}
+				else if (isDagger) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the dagger\"");
+				}
+				else if (isLeadPipe) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the lead pipe\"");
+				}
+				else if (isPistol) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the pistol\"");
+				}
+				else if (isRope) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the rope\"");
+				}
+				isWhite = true;
+			}		
 		}
-		else if (name.equals("mustard")) {
-			dynamicGuess.setText("I think Mustard is the killer, and he used ?");
-			isMustard = true;
-		}
-		else if (name.equals("peacock")) {
-			dynamicGuess.setText("I think Peacock is the killer, and she used ?");
-			isPeacock = true;
-		}
-		else if (name.equals("scarlet")) {
-			dynamicGuess.setText("I think Scarlet is the killer, and she used ?");
-			isScarlet = true;
-		}
-		else if (name.equals("white")) {
-			dynamicGuess.setText("I think White is the killer, and she used ?");
-			isWhite = true;
-		}
+	
 	}
 	
 	/**
@@ -104,26 +224,30 @@ public class QuestionMenu {
 		isPistol = false;
 		isRope = false;
 		
+		if (isPlum == true || isGreen == true || isMustard == true || isPeacock == true || isScarlet == true || isWhite == true) {
+			characterSelected = true;
+		}
+		
 		/* If the use tries to click the weapon cards before the character cards -- everything wont break */
 		if (!characterSelected) {
 			if (name.equals("candlestick")) {
-				dynamicGuess.setText("I think ? is the killer, and s/he used the candlestick");
+				dynamicGuess.setText("\"I think ? is the killer, and s/he used the candlestick\"");
 				isCandlestick = true;
 			}
 			else if (name.equals("dagger")) {
-				dynamicGuess.setText("I think ? is the killer, and s/he used the dagger");
+				dynamicGuess.setText("\"I think ? is the killer, and s/he used the dagger\"");
 				isDagger = true;
 			}
-			else if (name.equals("leadpipe")) {
-				dynamicGuess.setText("I think ? is the killer, and s/he used the lead pipe");
-				isRope = true;
+			else if (name.equals("pipe")) {
+				dynamicGuess.setText("\"I think ? is the killer, and s/he used the lead pipe\"");
+				isLeadPipe = true;
 			}
 			else if (name.equals("pistol")) {
-				dynamicGuess.setText("I think ? is the killer, and s/he used the pistol");
-				isRope = true;
+				dynamicGuess.setText("\"I think ? is the killer, and s/he used the pistol\"");
+				isPistol = true;
 			}
 			else if (name.equals("rope")) {
-				dynamicGuess.setText("I think ? is the killer, and s/he used the rope");
+				dynamicGuess.setText("\"I think ? is the killer, and s/he used the rope\"");
 				isRope = true;
 			}
 		}
@@ -131,137 +255,165 @@ public class QuestionMenu {
 			/* Checking to see which player is getting 'accused' */
 			if (isPlum) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think Plum is the killer, and he used the candlestick");
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think Plum is the killer, and he used the dagger");
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think Plum is the killer, and he used the lead pipe");
-					isRope = true;
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the lead pipe\"");
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think Plum is the killer, and he used the pistol");
-					isRope = true;
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the pistol\"");
+					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think Plum is the killer, and he used the rope");
+					dynamicGuess.setText("\"I think Plum is the killer, and he used the rope\"");
 					isRope = true;
 				}
 			}
 			else if (isGreen) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think Green is the killer, and he used the candlestick");
+					dynamicGuess.setText("\"I think Green is the killer, and he used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think Green is the killer, and he used the dagger");
+					dynamicGuess.setText("\"I think Green is the killer, and he used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think Green is the killer, and he used the lead pipe");
-					isRope = true;
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think Green is the killer, and he used the lead pipe\"");
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think Green is the killer, and he used the pistol");
-					isRope = true;
+					dynamicGuess.setText("\"I think Green is the killer, and he used the pistol\"");
+					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think Green is the killer, and he used the rope");
+					dynamicGuess.setText("\"I think Green is the killer, and he used the rope\"");
 					isRope = true;
 				}
 			}
 			else if (isMustard) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think Mustard is the killer, and he used the candlestick");
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think Mustard is the killer, and he used the dagger");
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think Mustard is the killer, and he used the lead pipe");
-					isRope = true;
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the lead pipe\"");
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think Mustard is the killer, and he used the pistol");
-					isRope = true;
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the pistol\"");
+					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think Mustard is the killer, and he used the rope");
+					dynamicGuess.setText("\"I think Mustard is the killer, and he used the rope\"");
 					isRope = true;
 				}
 			}
 			else if (isPeacock) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think Peacock is the killer, and she used the candlestick");
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think Peacock is the killer, and she used the dagger");
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think Peacock is the killer, and she used the lead pipe");
-					isRope = true;
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the lead pipe\"");
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think Peacock is the killer, and she used the pistol");
-					isRope = true;
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the pistol\"");
+					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think Peacock is the killer, and she used the rope");
+					dynamicGuess.setText("\"I think Peacock is the killer, and she used the rope\"");
 					isRope = true;
 				}
 			}
 			else if (isScarlet) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think Scarlet is the killer, and she used the candlestick");
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think Scarlet is the killer, and she used the dagger");
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think Scarlet is the killer, and she used the lead pipe");
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the lead pipe\"");
 					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think Scarlet is the killer, and she used the pistol");
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the pistol\"");
 					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think Scarlet is the killer, and she used the rope");
+					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the rope\"");
 					isRope = true;
 				}
 			}
 			else if (isWhite) {
 				if (name.equals("candlestick")) {
-					dynamicGuess.setText("I think White is the killer, and she used the candlestick");
+					dynamicGuess.setText("\"I think White is the killer, and she used the candlestick\"");
 					isCandlestick = true;
 				}
 				else if (name.equals("dagger")) {
-					dynamicGuess.setText("I think White is the killer, and she used the dagger");
+					dynamicGuess.setText("\"I think White is the killer, and she used the dagger\"");
 					isDagger = true;
 				}
-				else if (name.equals("leadpipe")) {
-					dynamicGuess.setText("I think White is the killer, and she used the lead pipe");
+				else if (name.equals("pipe")) {
+					dynamicGuess.setText("\"I think White is the killer, and she used the lead pipe\"");
 					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
-					dynamicGuess.setText("I think White is the killer, and she used the pistol");
+					dynamicGuess.setText("\"I think White is the killer, and she used the pistol\"");
 					isPistol = true;
 				}
 				else if (name.equals("rope")) {
-					dynamicGuess.setText("I think White is the killer, and she used the rope");
+					dynamicGuess.setText("\"I think White is the killer, and she used the rope\"");
 					isRope = true;
 				}
 			}		
 		}
+	}
+	/* Class that handles the characterTitle  */
+	class TitleBar extends JPanel{
+			private JLabel title;
+			private GridBagLayout layout;
+			private GridBagConstraints gbc;
+
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				// TODO Auto-generated method stub
+				super.setLayout(mgr);
+			}
+			
+			public void setText(String text) {
+				this.title.setText(text);
+			}
+	
+			public TitleBar() {
+				layout = new GridBagLayout();
+				gbc = new GridBagConstraints();	
+		
+				this.setLayout(layout);
+		
+				title= new JLabel("Select a character and weapon to make a guess ");
+				gbc.gridx=0;
+				gbc.gridy=0;
+				this.add(title, gbc);
+			}
 	}
 	
 	class ChoiceContainter extends JPanel{
@@ -347,8 +499,9 @@ public class QuestionMenu {
 			
 			/* Going to represent the individual characterPicture */
 			class IndividualPicture extends JPanel{
-				JLabel  currentImage = new JLabel();
-				int objNum;
+				private JLabel  currentImage = new JLabel();
+				private int objNum;
+				private String name;
 				
 				@Override
 				public void setLayout(LayoutManager mgr) {
@@ -357,6 +510,7 @@ public class QuestionMenu {
 				}
 				
 				public void loadImage(String name) {
+					this.name = name;
 					BufferedImage image;
 			
 					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
@@ -389,11 +543,25 @@ public class QuestionMenu {
 						System.err.println(e);
 					}
 				}
+				/* Adds a action listener -- TODO: flush this out */
+				private void addListener() {
+					this.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							System.out.println("Label: " + objNum + " was clicked!");	
+							updateDynamicName(name);
+						}
+						
+					});				
+				}
 			
 				public IndividualPicture(String name, int indexinArray) {
-					this.objNum = indexinArray;
 					this.setLayout(new BorderLayout());
+					this.objNum = indexinArray;
+					
 					this.loadImage(name);
+					this.addListener();
 					this.add(currentImage);
 				}
 			}
@@ -468,6 +636,7 @@ public class QuestionMenu {
 			class IndividualPicture extends JPanel{
 				private JLabel currentImage = new JLabel();
 				private int objNum;
+				private String name;
 			
 				@Override
 				public void setLayout(LayoutManager mgr) {
@@ -478,7 +647,8 @@ public class QuestionMenu {
 				/* Loads the specified image into our current JLabel */
 				public void loadImage(String name) {
 					BufferedImage image;
-			
+					this.name = name;
+					
 					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
 					try {
 						if (name.equals("candlestick")) {
@@ -505,13 +675,28 @@ public class QuestionMenu {
 						System.err.println(e);
 					}
 				}	
+				/* Just to segment the code out more TODO: flush this out to make the other JLabels in the array grey out + update the dynamicGuess */
+				private void addListener() {
+					this.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							System.out.println("Label: " + objNum + " was clicked!");	
+							updateDynamicWeapon(name);
+						}
+						
+					});
+				}
 			
 				public IndividualPicture(String weaponName, int indexInAarray) {
 					this.setLayout(new BorderLayout());
 					this.objNum = indexInAarray;
 				
 					this.loadImage(weaponName);
+					this.addListener();
 					this.add(currentImage);
+					
+					
 				}
 			}	
 		}
