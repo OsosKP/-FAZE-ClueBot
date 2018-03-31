@@ -499,7 +499,7 @@ public class QuestionMenu {
 			
 			/* Going to represent the individual characterPicture */
 			class IndividualPicture extends JPanel{
-				public JLabel  currentImage = new JLabel();
+				private JLabel  currentImage = new JLabel();
 				private int objNum;
 				private String name;
 				
@@ -682,7 +682,7 @@ public class QuestionMenu {
 		
 		/* Class is going to deal with the weapon pictures */
 		class WeaponPictures extends JPanel {
-			IndividualPicture[] weaponPictures = new IndividualPicture[5];
+			private IndividualPicture[] weaponPictures = new IndividualPicture[5];
 			
 			@Override
 			public void setLayout(LayoutManager mgr) {
@@ -749,8 +749,64 @@ public class QuestionMenu {
 						
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							System.out.println("Label: " + objNum + " was clicked!");	
+							System.out.println("Label: " + objNum + " was clicked!" + " and my name is " + name);	
 							updateDynamicWeapon(name);
+							
+							BufferedImage image;
+							for (int i = 0; i < 5; i++) {
+								if (weaponPictures[i].objNum != objNum) {
+									try {
+										if (weaponPictures[i].name.equals("candlestick")) {
+											image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (weaponPictures[i].name.equals("dagger")) {
+											image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (weaponPictures[i].name.equals("pipe")) {
+											image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+										else if (weaponPictures[i].name.equals("pistol")) {
+											image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+										else if (weaponPictures[i].name.equals("rope")) {
+											image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+									} catch (IOException d) {
+										System.err.println(d);
+									}
+								}
+								else {
+									try {
+										if (weaponPictures[i].name.equals("candlestick")) {
+											image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (weaponPictures[i].name.equals("dagger")) {
+											image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
+										}
+										else if (weaponPictures[i].name.equals("pipe")) {
+											image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+										else if (weaponPictures[i].name.equals("pistol")) {
+											image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+										else if (weaponPictures[i].name.equals("rope")) {
+											image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
+										}
+									} catch (IOException d) {
+										System.err.println(d);
+									}
+								}
+							}
 						}
 						
 					});
