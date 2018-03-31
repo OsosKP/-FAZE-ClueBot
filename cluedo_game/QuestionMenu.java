@@ -326,81 +326,78 @@ public class QuestionMenu {
 	
 		/* Will handle all the pictures of the players */
 		class CharacterPictures extends JPanel{
-			private JLabel green;
-			private JLabel mustard;
-			private JLabel peacock;
-			private JLabel plum;
-			private JLabel scarlet;
-			private JLabel white;
-		
-			private void setLables() {
+			private IndividualPicture[] characterPictures = new IndividualPicture[6];
 			
-				green = new JLabel("");
-				mustard = new  JLabel("");
-				peacock = new JLabel("");
-				plum = new JLabel("");
-				scarlet = new JLabel("");
-				white = new JLabel("");
-			
-				/* Testing the file IO */
-				loadImage("green");
-				loadImage("mustard");
-				loadImage("peacock");
-				loadImage("plum");
-				loadImage("scarlet");
-				loadImage("white");
-			}
-		
 			@Override
 			public void setLayout(LayoutManager mgr) {
 				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
-		
-			public void loadImage(String name) {
-				BufferedImage image;
+	
+			public CharacterPictures() {
+				this.setLayout(new GridLayout(1,6));
+				
+				/* Creating all the pictures we need: TODO: when this is implemented,  */
+				String[] characterNames = {"green", "mustard", "peacock", "plum", "scarlet", "white"};
+				for (int i = 0; i < 6; i++) {
+					characterPictures[i] = new IndividualPicture(characterNames[i], i);
+					this.add(characterPictures[i]);
+				}
+			}
 			
-				/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
-				try {
-					if (name.equals("green")) {
-						image = ImageIO.read(new File("src/characterCards/Green.png"));
-						green.setIcon(new ImageIcon(image));
+			/* Going to represent the individual characterPicture */
+			class IndividualPicture extends JPanel{
+				JLabel  currentImage = new JLabel();
+				int objNum;
+				
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					// TODO Auto-generated method stub
+					super.setLayout(mgr);
+				}
+				
+				public void loadImage(String name) {
+					BufferedImage image;
+			
+					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+					try {
+						if (name.equals("green")) {
+							image = ImageIO.read(new File("src/characterCards/Green.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("mustard")) {
+							image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("peacock")) {
+							image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("plum")) {
+							image = ImageIO.read(new File("src/characterCards/Plum.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("scarlet")) {
+							image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("white")) {
+							image = ImageIO.read(new File("src/characterCards/White.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+					} catch (IOException e) {
+						System.err.println(e);
 					}
-					else if (name.equals("mustard")) {
-						image = ImageIO.read(new File("src/characterCards/Mustard.png"));
-						mustard.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("peacock")) {
-						image = ImageIO.read(new File("src/characterCards/Peacock.png"));
-						peacock.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("plum")) {
-						image = ImageIO.read(new File("src/characterCards/Plum.png"));
-						plum.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("scarlet")) {
-						image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
-						scarlet.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("white")) {
-						image = ImageIO.read(new File("src/characterCards/White.png"));
-						white.setIcon(new ImageIcon(image));
-					}
-				} catch (IOException e) {
-					System.err.println(e);
+				}
+			
+				public IndividualPicture(String name, int indexinArray) {
+					this.objNum = indexinArray;
+					this.setLayout(new BorderLayout());
+					this.loadImage(name);
+					this.add(currentImage);
 				}
 			}
 		
-			public CharacterPictures() {
-				setLables();
-				this.setLayout(new GridLayout(1,6));
-				this.add(green);
-				this.add(mustard);
-				this.add(peacock);
-				this.add(plum);
-				this.add(scarlet);
-				this.add(white);
-			}
 		}
 	}
 
@@ -449,73 +446,74 @@ public class QuestionMenu {
 		
 		/* Class is going to deal with the weapon pictures */
 		class WeaponPictures extends JPanel {
-			private JLabel candlestick;
-			private JLabel dagger;
-			private JLabel leadPipe;
-			private JLabel pistol;
-			private JLabel rope;
-
+			IndividualPicture[] weaponPictures = new IndividualPicture[5];
+			
 			@Override
 			public void setLayout(LayoutManager mgr) {
 				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
-			
-			/*  */
-			private void setLables() {
-				candlestick = new JLabel();
-				dagger = new JLabel();
-				leadPipe = new JLabel();
-				pistol = new JLabel();
-				rope = new JLabel();
+		
+			public WeaponPictures() {
+				this.setLayout(new GridLayout(1,5));
+				String[] weaponNames = {"candlestick", "dagger", "pipe", "pistol", "rope"};
 				
-				/* Loading the images from file */
-				loadImage("candlestick");
-				loadImage("dagger");
-				loadImage("pipe");
-				loadImage("pistol");
-				loadImage("rope");
-			}
-			
-			public void loadImage(String name) {
-				BufferedImage image;
-			
-				/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
-				try {
-					if (name.equals("candlestick")) {
-						image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
-						candlestick.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("dagger")) {
-						image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
-						dagger.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("pipe")) {
-						image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
-						leadPipe.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("pistol")) {
-						image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
-						pistol.setIcon(new ImageIcon(image));
-					}
-					else if (name.equals("rope")) {
-						image = ImageIO.read(new File("src/weaponCards/Rope.png"));
-						rope.setIcon(new ImageIcon(image));
-					}
-				} catch (IOException e) {
-					System.err.println(e);
+				for (int i = 0; i < 5; i++) {
+					weaponPictures[i] = new IndividualPicture(weaponNames[i], i);
+					this.add(weaponPictures[i]);
 				}
 			}
 			
-			public WeaponPictures() {
-				setLables();
-				this.setLayout(new GridLayout(1,5));
-				this.add(candlestick);
-				this.add(dagger);
-				this.add(leadPipe);
-				this.add(pistol);
-				this.add(rope);
-			}
+			/* Going to handle the individual pictures for weapons */
+			class IndividualPicture extends JPanel{
+				private JLabel currentImage = new JLabel();
+				private int objNum;
+			
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					// TODO Auto-generated method stub
+					super.setLayout(mgr);
+				}
+			
+				/* Loads the specified image into our current JLabel */
+				public void loadImage(String name) {
+					BufferedImage image;
+			
+					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+					try {
+						if (name.equals("candlestick")) {
+							image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("dagger")) {
+							image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("pipe")) {
+							image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("pistol")) {
+							image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+						else if (name.equals("rope")) {
+							image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+							currentImage.setIcon(new ImageIcon(image));
+						}
+					} catch (IOException e) {
+						System.err.println(e);
+					}
+				}	
+			
+				public IndividualPicture(String weaponName, int indexInAarray) {
+					this.setLayout(new BorderLayout());
+					this.objNum = indexInAarray;
+				
+					this.loadImage(weaponName);
+					this.add(currentImage);
+				}
+			}	
 		}
 	}
 }
