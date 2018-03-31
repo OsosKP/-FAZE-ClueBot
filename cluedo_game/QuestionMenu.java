@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 
 public class QuestionMenu {
@@ -33,6 +34,7 @@ public class QuestionMenu {
 	private JPanel finalPanel;
 	
 	private TitleBar dynamicGuess;
+	private ConfirmButton confirm;
 	
 	public QuestionMenu(JFrame currentDisplay) {
 		
@@ -46,11 +48,11 @@ public class QuestionMenu {
 		
 		currentContainer = new ChoiceContainter();	
 		dynamicGuess = new TitleBar();
+		confirm = new ConfirmButton();
 		
-		JButton confirmButton = new JButton("Confirm");
 		finalPanel.add(dynamicGuess, BorderLayout.NORTH);
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
-		finalPanel.add(confirmButton, BorderLayout.SOUTH);		
+		finalPanel.add(confirm, BorderLayout.SOUTH);		
 		
 		this.currentDisplay.add(finalPanel);
 		this.currentDisplay.setVisible(true);		
@@ -389,31 +391,57 @@ public class QuestionMenu {
 	}
 	/* Class that handles the characterTitle  */
 	class TitleBar extends JPanel{
-			private JLabel title;
-			private GridBagLayout layout;
-			private GridBagConstraints gbc;
+		private JLabel title;
+		private GridBagLayout layout;
+		private GridBagConstraints gbc;
 
-			@Override
-			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
-				super.setLayout(mgr);
-			}
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
 			
-			public void setText(String text) {
-				this.title.setText(text);
-			}
+		public void setText(String text) {
+			this.title.setText(text);
+		}
 	
-			public TitleBar() {
-				layout = new GridBagLayout();
-				gbc = new GridBagConstraints();	
-		
-				this.setLayout(layout);
-		
-				title= new JLabel("Select a character and weapon to make a guess ");
-				gbc.gridx=0;
-				gbc.gridy=0;
-				this.add(title, gbc);
-			}
+		public TitleBar() {
+			layout = new GridBagLayout();
+			gbc = new GridBagConstraints();	
+	
+			this.setLayout(layout);
+	
+			title= new JLabel("Select a character and weapon to make a guess ");
+			gbc.gridx=0;
+			gbc.gridy=0;
+			this.add(title, gbc);
+			this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		}
+	}
+	
+	class ConfirmButton extends JPanel{
+		private JButton confirm;
+		private GridBagLayout layout;
+		private GridBagConstraints gbc;
+
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
+	
+		public ConfirmButton() {
+			layout = new GridBagLayout();
+			gbc = new GridBagConstraints();	
+			
+			confirm = new JButton("Confirm");
+			this.setLayout(layout);
+	
+			gbc.gridx=0;
+			gbc.gridy=0;
+			this.add(confirm, gbc);
+			this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		}	
 	}
 	
 	class ChoiceContainter extends JPanel{
@@ -469,7 +497,7 @@ public class QuestionMenu {
 		
 				this.setLayout(layout);
 		
-				title= new JLabel("Select a Character: ");
+				title= new JLabel("---Select a Character below--- ");
 				gbc.gridx=0;
 				gbc.gridy=0;
 				this.add(title, gbc);
@@ -665,7 +693,7 @@ public class QuestionMenu {
 		
 				this.setLayout(layout);
 		
-				title= new JLabel("Select a Weapon: ");
+				title= new JLabel("---Select a Weapon below--- ");
 				gbc.gridx=0;
 				gbc.gridy=0;
 				this.add(title, gbc);
