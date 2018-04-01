@@ -29,7 +29,7 @@ public class QuestionMenu {
 	/* Representing which weapon is getting 'guessed' */
 	boolean weaponSelected = false, isCandlestick = false, isDagger = false, isLeadPipe = false, isPistol = false, isRope = false;
 	
-	private ChoiceContainter currentContainer;
+	private ChoiceContainer currentContainer;
 	private JPanel finalPanel;
 	
 	private TitleBar dynamicGuess;
@@ -44,7 +44,7 @@ public class QuestionMenu {
 		finalPanel.setLayout(new BorderLayout());
 		
 		
-		currentContainer = new ChoiceContainter();	
+		currentContainer = new ChoiceContainer();
 		dynamicGuess = new TitleBar();
 		
 		JButton confirmButton = new JButton("Confirm");
@@ -224,7 +224,7 @@ public class QuestionMenu {
 		isPistol = false;
 		isRope = false;
 		
-		if (isPlum == true || isGreen == true || isMustard == true || isPeacock == true || isScarlet == true || isWhite == true) {
+		if (isPlum || isGreen || isMustard || isPeacock || isScarlet || isWhite) {
 			characterSelected = true;
 		}
 		
@@ -416,17 +416,16 @@ public class QuestionMenu {
 			}
 	}
 	
-	class ChoiceContainter extends JPanel{
+	class ChoiceContainer extends JPanel{
 		private CharacterPane character = new CharacterPane();
 		private WeaponPane weapon = new WeaponPane();
 	
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 		
-		public ChoiceContainter() {
+		public ChoiceContainer() {
 			this.setLayout(new GridLayout(2,1));
 			this.add(character);
 			this.add(weapon);		
@@ -441,7 +440,6 @@ public class QuestionMenu {
 	
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 	
