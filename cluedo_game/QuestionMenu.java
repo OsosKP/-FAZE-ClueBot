@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 
 public class QuestionMenu {
@@ -33,6 +34,7 @@ public class QuestionMenu {
 	private JPanel finalPanel;
 	
 	private TitleBar dynamicGuess;
+	private ConfirmButton confirm;
 	
 	public QuestionMenu(JFrame currentDisplay) {
 		
@@ -46,11 +48,11 @@ public class QuestionMenu {
 		
 		currentContainer = new ChoiceContainer();
 		dynamicGuess = new TitleBar();
+		confirm = new ConfirmButton();
 		
-		JButton confirmButton = new JButton("Confirm");
 		finalPanel.add(dynamicGuess, BorderLayout.NORTH);
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
-		finalPanel.add(confirmButton, BorderLayout.SOUTH);		
+		finalPanel.add(confirm, BorderLayout.SOUTH);		
 		
 		this.currentDisplay.add(finalPanel);
 		this.currentDisplay.setVisible(true);		
@@ -389,31 +391,57 @@ public class QuestionMenu {
 	}
 	/* Class that handles the characterTitle  */
 	class TitleBar extends JPanel{
-			private JLabel title;
-			private GridBagLayout layout;
-			private GridBagConstraints gbc;
+		private JLabel title;
+		private GridBagLayout layout;
+		private GridBagConstraints gbc;
 
-			@Override
-			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
-				super.setLayout(mgr);
-			}
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
 			
-			public void setText(String text) {
-				this.title.setText(text);
-			}
+		public void setText(String text) {
+			this.title.setText(text);
+		}
 	
-			public TitleBar() {
-				layout = new GridBagLayout();
-				gbc = new GridBagConstraints();	
-		
-				this.setLayout(layout);
-		
-				title= new JLabel("Select a character and weapon to make a guess ");
-				gbc.gridx=0;
-				gbc.gridy=0;
-				this.add(title, gbc);
-			}
+		public TitleBar() {
+			layout = new GridBagLayout();
+			gbc = new GridBagConstraints();	
+	
+			this.setLayout(layout);
+	
+			title= new JLabel("Select a character and weapon to make a guess ");
+			gbc.gridx=0;
+			gbc.gridy=0;
+			this.add(title, gbc);
+			this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		}
+	}
+	
+	class ConfirmButton extends JPanel{
+		private JButton confirm;
+		private GridBagLayout layout;
+		private GridBagConstraints gbc;
+
+		@Override
+		public void setLayout(LayoutManager mgr) {
+			// TODO Auto-generated method stub
+			super.setLayout(mgr);
+		}
+	
+		public ConfirmButton() {
+			layout = new GridBagLayout();
+			gbc = new GridBagConstraints();	
+			
+			confirm = new JButton("Confirm");
+			this.setLayout(layout);
+	
+			gbc.gridx=0;
+			gbc.gridy=0;
+			this.add(confirm, gbc);
+			this.setBorder(new EmptyBorder(10, 10, 10, 10));
+		}	
 	}
 	
 	class ChoiceContainer extends JPanel{
@@ -467,7 +495,7 @@ public class QuestionMenu {
 		
 				this.setLayout(layout);
 		
-				title= new JLabel("Select a Character: ");
+				title= new JLabel("---Select a Character below--- ");
 				gbc.gridx=0;
 				gbc.gridy=0;
 				this.add(title, gbc);
@@ -500,6 +528,7 @@ public class QuestionMenu {
 				private JLabel  currentImage = new JLabel();
 				private int objNum;
 				private String name;
+				private Boolean isGrayed = false;
 				
 				@Override
 				public void setLayout(LayoutManager mgr) {
@@ -507,38 +536,70 @@ public class QuestionMenu {
 					super.setLayout(mgr);
 				}
 				
-				public void loadImage(String name) {
+				public void loadImage(String name, Boolean colour) {
 					this.name = name;
 					BufferedImage image;
-			
-					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
-					try {
-						if (name.equals("green")) {
-							image = ImageIO.read(new File("src/characterCards/Green.png"));
-							currentImage.setIcon(new ImageIcon(image));
+					
+					if (colour) {
+						/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+						try {
+							if (name.equals("green")) {
+								image = ImageIO.read(new File("src/characterCards/Green.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("mustard")) {
+								image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("peacock")) {
+								image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("plum")) {
+								image = ImageIO.read(new File("src/characterCards/Plum.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("scarlet")) {
+								image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("white")) {
+								image = ImageIO.read(new File("src/characterCards/White.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+						} catch (IOException e) {
+							System.err.println(e);
 						}
-						else if (name.equals("mustard")) {
-							image = ImageIO.read(new File("src/characterCards/Mustard.png"));
-							currentImage.setIcon(new ImageIcon(image));
+					}
+					else {
+						try {
+							if (name.equals("green")) {
+								image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if(name.equals("mustard")) {
+								image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));									
+							}
+							else if (name.equals("peacock")) {
+								image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("plum")) {
+								image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("scarlet")) {
+								image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("white")) {
+								image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+						} catch (IOException a) {
+							System.err.println(a);
 						}
-						else if (name.equals("peacock")) {
-							image = ImageIO.read(new File("src/characterCards/Peacock.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("plum")) {
-							image = ImageIO.read(new File("src/characterCards/Plum.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("scarlet")) {
-							image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("white")) {
-							image = ImageIO.read(new File("src/characterCards/White.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-					} catch (IOException e) {
-						System.err.println(e);
 					}
 				}
 				/* Adds a action listener -- TODO: flush this out */
@@ -555,70 +616,29 @@ public class QuestionMenu {
 							for (int i = 0; i < 6; i++) {
 								/* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
 								if (characterPictures[i].objNum != objNum) {
-									try {
-										/* Over-writing the specific JLables with te B&W image */
-										if (characterPictures[i].name.equals("green")) {
-											image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if(characterPictures[i].name.equals("mustard")) {
-											image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));									
-										}
-										else if (characterPictures[i].name.equals("peacock")) {
-											image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("plum")) {
-											image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("scarlet")) {
-											image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("white")) {
-											image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-									} catch (IOException a) {
-										System.err.println(e);
-									}
-								}
+									/* Over-writing the specific JLables with the B&W image */
+									characterPictures[i].isGrayed = true;
+									characterPictures[i].loadImage(characterPictures[i].name, false);	
+								}	
 								else {
-									try {
-										/* Over-writing the specific JLables with te B&W image */
-										if (characterPictures[i].name.equals("green")) {
-											image = ImageIO.read(new File("src/characterCards/Green.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if(characterPictures[i].name.equals("mustard")) {
-											image = ImageIO.read(new File("src/characterCards/Mustard.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));									
-										}
-										else if (characterPictures[i].name.equals("peacock")) {
-											image = ImageIO.read(new File("src/characterCards/Peacock.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("plum")) {
-											image = ImageIO.read(new File("src/characterCards/Plum.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("scarlet")) {
-											image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (characterPictures[i].name.equals("white")) {
-											image = ImageIO.read(new File("src/characterCards/White.png"));
-											characterPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-									} catch (IOException a) {
-										System.err.println(e);
-									}								
+									characterPictures[i].isGrayed = false;
+									characterPictures[i].loadImage(characterPictures[i].name, true);
 								}
 							}
 						}
-						
+						/* Switches to the default image on hover */
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							loadImage(name, true);
+						}
+						/* Defaults the card to grey again if it has been grayed out already */
+						@Override
+						public void mouseExited(MouseEvent e) {
+							/* If the card has been grayed, ie not clicked by the user, we want to revert it back */
+							if (isGrayed) {
+								loadImage(name, false);
+							}
+						}
 					});				
 				}
 			
@@ -626,7 +646,7 @@ public class QuestionMenu {
 					this.setLayout(new BorderLayout());
 					this.objNum = indexinArray;
 					
-					this.loadImage(name);
+					this.loadImage(name, true);
 					this.addListener();
 					this.add(currentImage);
 				}
@@ -671,7 +691,7 @@ public class QuestionMenu {
 		
 				this.setLayout(layout);
 		
-				title= new JLabel("Select a Weapon: ");
+				title= new JLabel("---Select a Weapon below--- ");
 				gbc.gridx=0;
 				gbc.gridy=0;
 				this.add(title, gbc);
@@ -703,6 +723,7 @@ public class QuestionMenu {
 				private JLabel currentImage = new JLabel();
 				private int objNum;
 				private String name;
+				private Boolean isGrayed = false;
 			
 				@Override
 				public void setLayout(LayoutManager mgr) {
@@ -711,34 +732,62 @@ public class QuestionMenu {
 				}
 			
 				/* Loads the specified image into our current JLabel */
-				public void loadImage(String name) {
+				public void loadImage(String name, Boolean colour) {
 					BufferedImage image;
 					this.name = name;
 					
-					/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
-					try {
-						if (name.equals("candlestick")) {
-							image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
-							currentImage.setIcon(new ImageIcon(image));
+					if (colour) {
+						/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+						try {
+							if (name.equals("candlestick")) {
+								image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("dagger")) {
+								image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pipe")) {
+								image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pistol")) {
+								image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("rope")) {
+								image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+						} catch (IOException e) {
+							System.err.println(e);
 						}
-						else if (name.equals("dagger")) {
-							image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("pipe")) {
-							image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("pistol")) {
-							image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-						else if (name.equals("rope")) {
-							image = ImageIO.read(new File("src/weaponCards/Rope.png"));
-							currentImage.setIcon(new ImageIcon(image));
-						}
-					} catch (IOException e) {
-						System.err.println(e);
+					}
+					else {
+						try {
+							if (name.equals("candlestick")) {
+								image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("dagger")) {
+								image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pipe")) {
+								image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							else if (name.equals("pistol")) {
+								image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							else if (name.equals("rope")) {
+								image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							} catch (IOException d) {
+								System.err.println(d);
+							}					
 					}
 				}	
 				/* Just to segment the code out more TODO: flush this out to make the other JLabels in the array grey out + update the dynamicGuess */
@@ -753,60 +802,28 @@ public class QuestionMenu {
 							BufferedImage image;
 							for (int i = 0; i < 5; i++) {
 								if (weaponPictures[i].objNum != objNum) {
-									try {
-										if (weaponPictures[i].name.equals("candlestick")) {
-											image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (weaponPictures[i].name.equals("dagger")) {
-											image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (weaponPictures[i].name.equals("pipe")) {
-											image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-										else if (weaponPictures[i].name.equals("pistol")) {
-											image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-										else if (weaponPictures[i].name.equals("rope")) {
-											image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-									} catch (IOException d) {
-										System.err.println(d);
-									}
+										weaponPictures[i].isGrayed = true;
+										weaponPictures[i].loadImage(weaponPictures[i].name, false);
 								}
 								else {
-									try {
-										if (weaponPictures[i].name.equals("candlestick")) {
-											image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (weaponPictures[i].name.equals("dagger")) {
-											image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));
-										}
-										else if (weaponPictures[i].name.equals("pipe")) {
-											image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-										else if (weaponPictures[i].name.equals("pistol")) {
-											image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-										else if (weaponPictures[i].name.equals("rope")) {
-											image = ImageIO.read(new File("src/weaponCards/Rope.png"));
-											weaponPictures[i].currentImage.setIcon(new ImageIcon(image));										
-										}
-									} catch (IOException d) {
-										System.err.println(d);
-									}
+									weaponPictures[i].isGrayed = false;
+									weaponPictures[i].loadImage(weaponPictures[i].name, true);
 								}
 							}
 						}
-						
+						/* Switches to the default image on hover */
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							loadImage(name, true);
+						}
+						/* Defaults the card to grey again if it has been grayed out already */
+						@Override
+						public void mouseExited(MouseEvent e) {
+							/* If the card has been grayed, ie not clicked by the user, we want to revert it back */
+							if (isGrayed) {
+								loadImage(name, false);
+							}
+						}					
 					});
 				}
 			
@@ -814,11 +831,9 @@ public class QuestionMenu {
 					this.setLayout(new BorderLayout());
 					this.objNum = indexInAarray;
 				
-					this.loadImage(weaponName);
+					this.loadImage(weaponName, true);
 					this.addListener();
-					this.add(currentImage);
-					
-					
+					this.add(currentImage);	
 				}
 			}	
 		}
