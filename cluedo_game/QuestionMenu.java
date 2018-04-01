@@ -460,7 +460,7 @@ public class QuestionMenu {
 				public void actionPerformed(ActionEvent e) {
 					/* If the user has selected one of each type of card to guess */
 					if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
-						returnString = new String[2];
+						returnString = new String[3];
 						
 						/* Getting the character info selected */
 						if (isGreen) {
@@ -498,6 +498,9 @@ public class QuestionMenu {
 						else if (isRope) {
 							returnString[1] = "rope";
 						}
+						
+						/* Adding the character's name to the return string */
+						returnString[2] = currentPlayerGuessing;
 						
 						/* Removing the current JPanel from the screen, and replacing it with the regular game board */
 						initialUserDisplay.getContentPane().removeAll();
