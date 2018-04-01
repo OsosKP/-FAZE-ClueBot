@@ -5,20 +5,32 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+
+import com.sun.xml.internal.ws.server.sei.EndpointArgumentsBuilder;
+
+	/*
+	 * TODO: get this to actually be loaded inside the JFrame of the board
+	 */
 
 
 public class QuestionMenu {
@@ -36,12 +48,13 @@ public class QuestionMenu {
 	private TitleBar dynamicGuess;
 	private ConfirmButton confirm;
 	
-	public QuestionMenu(JFrame currentDisplay) {
-		
-		this.currentDisplay = new JFrame();
-		this.currentDisplay.setSize(800,700);
-		this.currentDisplay.setTitle("Temp Question Frame");
+	private String returnString[];
+	private String currentPlayerGuessing;
 	
+	public QuestionMenu(String currentPlayerName) {
+		this.currentPlayerGuessing = currentPlayerName;				
+	}
+	public JPanel returnPanel() {
 		finalPanel = new JPanel();
 		finalPanel.setLayout(new BorderLayout());
 		
@@ -52,10 +65,9 @@ public class QuestionMenu {
 		
 		finalPanel.add(dynamicGuess, BorderLayout.NORTH);
 		finalPanel.add(currentContainer, BorderLayout.CENTER);
-		finalPanel.add(confirm, BorderLayout.SOUTH);		
+		finalPanel.add(confirm, BorderLayout.SOUTH);
 		
-		this.currentDisplay.add(finalPanel);
-		this.currentDisplay.setVisible(true);		
+		return this.finalPanel;
 	}
 	
 	/**
@@ -193,7 +205,7 @@ public class QuestionMenu {
 				}
 				isScarlet = true;
 			}
-			else if (name.equals("white")) {
+			else if (name.equals("white"))  {
 				if (isCandlestick) {
 					dynamicGuess.setText("\"I think White is the killer, and she used the candlestick\"");
 				}
@@ -389,6 +401,14 @@ public class QuestionMenu {
 			}		
 		}
 	}
+	/**
+	 * returns the values that the user selected in the menu
+	 * @return String array containing the character and weapon they are guessing
+	 */
+	public String[] returnValues() {
+		return this.returnString;
+	}
+	
 	/* Class that handles the characterTitle  */
 	class TitleBar extends JPanel{
 		private JLabel title;
@@ -429,12 +449,81 @@ public class QuestionMenu {
 			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
+		
+		public void enableButton() {
+			if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
+				confirm.setEnabled(true);
+				System.out.println("I want to let the user do stuff!");
+			}
+			else {
+				confirm.setEnabled(false);
+				System.out.println("I dont want to let the user do stuff :( ");
+			}
+		}
+				
+		private void addListener() {
+			confirm.addActionListener(new ActionListener() {
+				
+				/* Pulling the info from what the user has selected so far, and will update the return variable that will be read into the back-end */
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					/* If the user has selected one of each type of card to guess */
+					if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
+						returnString = new String[2];
+						
+						/* Getting the character info selected */
+						if (isGreen) {
+							returnString[0] = "green";
+						}
+						else if (isMustard) {
+							returnString[0] = "mustard";
+						}
+						else if (isPeacock) {
+							returnString[0] = "peacock";
+						}
+						else if (isPlum) {
+							returnString[0] = "plum";
+						}
+						else if (isScarlet) {
+							returnString[0] = "scarlet";
+						}
+						else if (isWhite) {
+							returnString[0] = "white";
+						}
+						
+						/* Getting the weapon info selected */
+						if (isCandlestick) {
+							returnString[1] = "candlestick";
+						}
+						else if (isDagger) {
+							returnString[1] = "dagger";
+						}
+						else if (isLeadPipe) {
+							returnString[1] = "pipe";
+						}
+						else if (isPistol) {
+							returnString[1] = "pistol";
+						}
+						else if (isRope) {
+							returnString[1] = "rope";
+						}
+						
+					}
+					else {
+						System.err.println("Confirm button was triggered when it shouldnt have! -- QuestionMenu");
+					}
+				}
+				
+			});
+		}
+		
 	
 		public ConfirmButton() {
 			layout = new GridBagLayout();
 			gbc = new GridBagConstraints();	
 			
 			confirm = new JButton("Confirm");
+			enableButton();
 			this.setLayout(layout);
 	
 			gbc.gridx=0;
@@ -506,7 +595,7 @@ public class QuestionMenu {
 	
 		/* Will handle all the pictures of the players */
 		class CharacterPictures extends JPanel{
-			private IndividualPicture[] characterPictures = new IndividualPicture[6];
+			private IndividualPicture[] characterPictures = new IndividualPicture[5];
 			
 			@Override
 			public void setLayout(LayoutManager mgr) {
@@ -517,11 +606,19 @@ public class QuestionMenu {
 			public CharacterPictures() {
 				this.setLayout(new GridLayout(1,6));
 				
-				/* Creating all the pictures we need: TODO: when this is implemented,  */
+				/* Need to not show the character who is currently playing, otherwise the player would be able to guess himself as the killer :O */
 				String[] characterNames = {"green", "mustard", "peacock", "plum", "scarlet", "white"};
+				ArrayList<String> validNames = new ArrayList<String>();
+			
 				for (int i = 0; i < 6; i++) {
-					characterPictures[i] = new IndividualPicture(characterNames[i], i);
-					this.add(characterPictures[i]);
+					if (!characterNames[i].equals(currentPlayerGuessing.toLowerCase())) {
+						validNames.add(characterNames[i]);
+					}
+				}
+			
+				for (int i = 0; i < 5; i++) {
+					characterPictures[i] = new IndividualPicture(validNames.get(i), i);
+					this.add(characterPictures[i]);					
 				}
 			}
 			
@@ -613,9 +710,12 @@ public class QuestionMenu {
 							System.out.println("Label: " + objNum + " was clicked!");	
 							updateDynamicName(name);
 							
+							/* Checking to see if we can allow the user to exit the menu  */
+							confirm.enableButton();
+							
 							BufferedImage image;
 							/* Looping though the list and loading the black and white images on all the other character images */
-							for (int i = 0; i < 6; i++) {
+							for (int i = 0; i < 5; i++) {
 								/* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
 								if (characterPictures[i].objNum != objNum) {
 									/* Over-writing the specific JLables with the B&W image */
@@ -800,6 +900,8 @@ public class QuestionMenu {
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("Label: " + objNum + " was clicked!" + " and my name is " + name);	
 							updateDynamicWeapon(name);
+							/* Checking to see if we can let the user close this menu */
+							confirm.enableButton();
 							
 							BufferedImage image;
 							for (int i = 0; i < 5; i++) {

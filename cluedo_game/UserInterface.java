@@ -261,8 +261,15 @@ public class UserInterface extends JPanel {
                             case "question":
                                 // TODO: Question
                                 result = currentPlayer.getName() + " is asking a question.";
+                                
                                 /* Creating a question menu  */
-                                QuestionMenu initialQuestion = new QuestionMenu(display);
+                                QuestionMenu initialQuestion = new QuestionMenu(currentPlayer.getName());
+                                
+                                display.remove(userDisplay);
+                                display.add(initialQuestion.returnPanel());
+                                display.revalidate();
+                                display.repaint();
+                                
                                 break;
                             case "passage":
                                 //Moves players in ArrayList<Token> Room.playersInRoom, and moves player in boardpanel
