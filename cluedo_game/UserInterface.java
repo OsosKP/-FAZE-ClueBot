@@ -29,6 +29,8 @@ public class UserInterface extends JPanel {
     private OutputTextDisplay out = new OutputTextDisplay();
     private JPanel output = out.createOutputPanel();
 
+    private QuestionMenu initialQuestion = null;
+    
     // The board image portion of the UI
     JPanel boardImagePanel;
     BoardImage myImg;
@@ -97,6 +99,14 @@ public class UserInterface extends JPanel {
 
     public Token getCurrentPlayer() {
         return currentPlayer;
+    }
+    
+    /**
+     * Returns the QuestionMenu Object
+     * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet 
+     */
+    public QuestionMenu getQuestionGUI() {
+    	return this.initialQuestion;
     }
 
     /**
@@ -259,11 +269,9 @@ public class UserInterface extends JPanel {
                                 break;
                             // If player is making a question, enter the appropriate menu
                             case "question":
-                                // TODO: Question
-                                result = currentPlayer.getName() + " is asking a question.";
-                                
+                                                               
                                 /* Creating a question menu  */
-                                QuestionMenu initialQuestion = new QuestionMenu(currentPlayer.getName());
+                                initialQuestion = new QuestionMenu(currentPlayer.getName(), display, userDisplay);
                                 
                                 display.remove(userDisplay);
                                 display.add(initialQuestion.returnPanel());
@@ -363,7 +371,7 @@ public class UserInterface extends JPanel {
                     }
                     // If not, show error and do not cycle to next turn
                         // Error doesn't show if player viewed notes
-                    else if (!(result.equals("notes") || result.equals("cheat") || result.equals("help"))){
+                    else if (!(result.equals("notes") || result.equals("cheat") || result.equals("help") || result.equals("question"))){
                         // This will be an error message if move was unsuccessful
                     	JOptionPane.showMessageDialog(null, result);
                     }

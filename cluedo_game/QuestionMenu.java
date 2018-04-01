@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,22 +19,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
-import com.sun.xml.internal.ws.server.sei.EndpointArgumentsBuilder;
-
-	/*
-	 * TODO: get this to actually be loaded inside the JFrame of the board
-	 */
 
 
 public class QuestionMenu {
-	private JPanel initialState;
-	private JFrame currentDisplay;
+	/* Keeps track of the frame and JPanel it is held in, important because we need to remove this panel from it when the user is done guessing */
+	private JFrame initialUserDisplay;
+	private JPanel revertToMe;
 	
 	/* Representing which player is currently getting 'accused'  */
 	boolean characterSelected = false, isPlum = false, isGreen = false, isMustard = false, isPeacock = false, isScarlet = false, isWhite = false;
@@ -51,8 +42,10 @@ public class QuestionMenu {
 	private String returnString[];
 	private String currentPlayerGuessing;
 	
-	public QuestionMenu(String currentPlayerName) {
+	public QuestionMenu(String currentPlayerName, JFrame initialPanel, JPanel revert) {
 		this.currentPlayerGuessing = currentPlayerName;				
+		this.initialUserDisplay = initialPanel;
+		this.revertToMe = revert;
 	}
 	public JPanel returnPanel() {
 		finalPanel = new JPanel();
@@ -453,11 +446,9 @@ public class QuestionMenu {
 		public void enableButton() {
 			if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
 				confirm.setEnabled(true);
-				System.out.println("I want to let the user do stuff!");
 			}
 			else {
 				confirm.setEnabled(false);
-				System.out.println("I dont want to let the user do stuff :( ");
 			}
 		}
 				
@@ -508,6 +499,12 @@ public class QuestionMenu {
 							returnString[1] = "rope";
 						}
 						
+						/* Removing the current JPanel from the screen, and replacing it with the regular game board */
+						initialUserDisplay.getContentPane().removeAll();
+						initialUserDisplay.add(revertToMe);					
+												
+						initialUserDisplay.revalidate();
+						initialUserDisplay.repaint();						
 					}
 					else {
 						System.err.println("Confirm button was triggered when it shouldnt have! -- QuestionMenu");
@@ -524,8 +521,9 @@ public class QuestionMenu {
 			
 			confirm = new JButton("Confirm");
 			enableButton();
+			addListener();
 			this.setLayout(layout);
-	
+			
 			gbc.gridx=0;
 			gbc.gridy=0;
 			this.add(confirm, gbc);
@@ -704,8 +702,7 @@ public class QuestionMenu {
 					this.addMouseListener(new MouseAdapter() {
 						
 						@Override
-						public void mouseClicked(MouseEvent e) {
-							System.out.println("Label: " + objNum + " was clicked!");	
+						public void mouseClicked(MouseEvent e) {	
 							updateDynamicName(name);
 							
 							/* Checking to see if we can allow the user to exit the menu  */
@@ -895,8 +892,7 @@ public class QuestionMenu {
 					this.addMouseListener(new MouseAdapter() {
 						
 						@Override
-						public void mouseClicked(MouseEvent e) {
-							System.out.println("Label: " + objNum + " was clicked!" + " and my name is " + name);	
+						public void mouseClicked(MouseEvent e) {	
 							updateDynamicWeapon(name);
 							/* Checking to see if we can let the user close this menu */
 							confirm.enableButton();
