@@ -100,6 +100,33 @@ public class Deck {
         return fullPublicDeck;
     }
 
+    /*
+    Methods to retrieve a specific card when given a name
+     */
+    public Card getPlayerCardByName(String name) {
+        for (Card c : publicDeck.get(0)){
+            if (c.name.equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
+    }
+
+    public Card getRoomCardByName(String name) {
+        for (Card c : publicDeck.get(1)){
+            if (c.name.equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
+    }
+
+    public Card getWeaponCardByName(String name) {
+        for (Card c : publicDeck.get(2)){
+            if (c.name.equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
+    }
+
     public ArrayList<Card> getMurderEnvelope() {
         return murderEnvelope;
     }

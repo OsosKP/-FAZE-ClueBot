@@ -41,7 +41,7 @@ public class UserInterface extends JPanel {
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
-    // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
+    // Pointer to player whose turn it is
     private Token currentPlayer;
     private Tokens playerList;
 

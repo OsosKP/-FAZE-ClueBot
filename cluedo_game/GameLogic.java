@@ -398,13 +398,27 @@ public class GameLogic {
 	}
 
 	public static class Guessing {
-	    private static Token accusedPlayer;
-	    private static Weapon accusedWeapon;
+		private static Token accusingPlayer;
+		private static Token answeringPlayer;
+	    private static Card accusedPlayer;
+	    private static Card accusedWeapon;
 
-	    public static void getAccusedPlayerAndWeapon(int player, int weapon){
-	        accusedPlayer = playerList.getPlayerByIndex(player);
+	    public static void startGuessing() {
+	    	accusingPlayer = ui.getCurrentPlayer();
+	    	answeringPlayer = null;
+		}
 
+	    public static void declareAccusedPlayerAndWeapon(String player, String weapon) {
+//	    	QuestionMenu initial = ui.getQuestionGUI();
+//	    	String[] accused = initial.returnValues();
+	        accusedPlayer = deck.getPlayerCardByName(player);
+	        accusedWeapon = deck.getWeaponCardByName(weapon);
         }
+
+        public static void InitiateRoundOfQuestioning(String player, String weapon) {
+	    	answeringPlayer = ui.getCurrentPlayer().next();
+	    	declareAccusedPlayerAndWeapon(player, weapon);
+		}
     }
 
 

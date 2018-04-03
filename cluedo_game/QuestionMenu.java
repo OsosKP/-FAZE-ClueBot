@@ -46,6 +46,9 @@ public class QuestionMenu {
 		this.currentPlayerGuessing = currentPlayerName;				
 		this.initialUserDisplay = initialPanel;
 		this.revertToMe = revert;
+
+		// Initialize guessing in Game Logic with player who is guessing
+		GameLogic.Guessing.startGuessing();
 	}
 	public JPanel returnPanel() {
 		finalPanel = new JPanel();
@@ -397,6 +400,8 @@ public class QuestionMenu {
 	/**
 	 * returns the values that the user selected in the menu
 	 * @return String array containing the character and weapon they are guessing
+	 * 		0 - Player
+	 * 		1 - Weapon
 	 */
 	public String[] returnValues() {
 		return this.returnString;
@@ -410,7 +415,6 @@ public class QuestionMenu {
 
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 			
@@ -431,7 +435,7 @@ public class QuestionMenu {
 			this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		}
 	}
-	
+	// TODO: ConfirmButton
 	class ConfirmButton extends JPanel{
 		private JButton confirm;
 		private GridBagLayout layout;
@@ -439,7 +443,6 @@ public class QuestionMenu {
 
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 		
@@ -498,6 +501,17 @@ public class QuestionMenu {
 						else if (isRope) {
 							returnString[1] = "rope";
 						}
+
+						// TODO: GameLogic interplay goes here
+						GameLogic.Guessing.
+								InitiateRoundOfQuestioning(returnString[0], returnString[1]);
+
+
+
+
+
+
+
 						
 						/* Adding the character's name to the return string */
 						returnString[2] = currentPlayerGuessing;
@@ -510,7 +524,7 @@ public class QuestionMenu {
 						initialUserDisplay.repaint();						
 					}
 					else {
-						System.err.println("Confirm button was triggered when it shouldnt have! -- QuestionMenu");
+						System.err.println("Confirm button was triggered when it shouldn't have been! -- QuestionMenu");
 					}
 				}
 				
