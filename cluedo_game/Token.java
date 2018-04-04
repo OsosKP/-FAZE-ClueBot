@@ -216,7 +216,7 @@ public class Token {
 			playerDeckNotes.changeGuessStatus(c.reference, 'X');
 		}
 		// If there is a publicly viewable deck, add those cards to the notes
-		if(deck.getDeck() != null){
+		if(deck.getPublicDeck() != null){
 			for(Card c : deck.getFullPublicDeck())
 				getPlayerDeckNotes().changeGuessStatus(c.reference, 'A');
 		}

@@ -1,10 +1,6 @@
 package cluedo_game;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -46,6 +42,9 @@ public class QuestionMenu {
 		this.currentPlayerGuessing = currentPlayerName;				
 		this.initialUserDisplay = initialPanel;
 		this.revertToMe = revert;
+
+		// Initialize guessing in Game Logic with player who is guessing
+		GameLogic.Guessing.startGuessing();
 	}
 	public JPanel returnPanel() {
 		finalPanel = new JPanel();
@@ -397,6 +396,8 @@ public class QuestionMenu {
 	/**
 	 * returns the values that the user selected in the menu
 	 * @return String array containing the character and weapon they are guessing
+	 * 		0 - Player
+	 * 		1 - Weapon
 	 */
 	public String[] returnValues() {
 		return this.returnString;
@@ -410,7 +411,6 @@ public class QuestionMenu {
 
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 			
@@ -431,7 +431,7 @@ public class QuestionMenu {
 			this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		}
 	}
-	
+	// TODO: ConfirmButton
 	class ConfirmButton extends JPanel{
 		private JButton confirm;
 		private GridBagLayout layout;
@@ -439,7 +439,6 @@ public class QuestionMenu {
 
 		@Override
 		public void setLayout(LayoutManager mgr) {
-			// TODO Auto-generated method stub
 			super.setLayout(mgr);
 		}
 		
@@ -498,19 +497,32 @@ public class QuestionMenu {
 						else if (isRope) {
 							returnString[1] = "rope";
 						}
-						
+
+						// TODO: GameLogic interplay goes here
+						/*
+							InitiateRoundOfQuestion populates the guessed
+							character and weapon, and the first player to answer
+						 */
+						GameLogic.Guessing.
+								InitiateRoundOfQuestioning(returnString[0], returnString[1]);
+
+
 						/* Adding the character's name to the return string */
 						returnString[2] = currentPlayerGuessing;
 						
-						/* Removing the current JPanel from the screen, and replacing it with the regular game board */
+						/* Removing the current JPanel from the screen, and
+							replacing it with the regular game board */
 						initialUserDisplay.getContentPane().removeAll();
-						initialUserDisplay.add(revertToMe);					
+						// TODO: Will use this eventually, but first we go to the other question panel in UI
+//						initialUserDisplay.add(revertToMe);
+						initialUserDisplay.add(
+								QuestionRound.beginQuestionRound(returnString[0], returnString[1]));
 												
 						initialUserDisplay.revalidate();
 						initialUserDisplay.repaint();						
 					}
 					else {
-						System.err.println("Confirm button was triggered when it shouldnt have! -- QuestionMenu");
+						System.err.println("Confirm button was triggered when it shouldn't have been! -- QuestionMenu");
 					}
 				}
 				
@@ -575,7 +587,6 @@ public class QuestionMenu {
 
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -598,7 +609,6 @@ public class QuestionMenu {
 			
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -630,7 +640,6 @@ public class QuestionMenu {
 				
 				@Override
 				public void setLayout(LayoutManager mgr) {
-					// TODO Auto-generated method stub
 					super.setLayout(mgr);
 				}
 				
@@ -781,7 +790,6 @@ public class QuestionMenu {
 	
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -827,7 +835,6 @@ public class QuestionMenu {
 			
 				@Override
 				public void setLayout(LayoutManager mgr) {
-					// TODO Auto-generated method stub
 					super.setLayout(mgr);
 				}
 			
@@ -860,7 +867,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 						} catch (IOException e) {
-							System.err.println(e);
+							System.err.println(e.getMessage());
 						}
 					}
 					else {
@@ -938,6 +945,85 @@ public class QuestionMenu {
 				}
 			}	
 		}
+	}
+
+	public static class QuestionRound {
+		private static BufferedImage characterImage;
+		private static BufferedImage weaponImage;
+		private static JLabel characterBox;
+		private static JLabel weaponBox;
+		private static JLabel turnLabel;
+		private static Token player;
+
+		public static JPanel beginQuestionRound(String character, String weapon) {
+			try {
+				characterImage = ImageIO.read(new File("src/characterCards/" +
+						character.substring(0, 1).toUpperCase() + character.substring(1) + ".png"));
+
+				weaponImage = ImageIO.read(new File("src/weaponCards/" +
+						weapon.substring(0, 1).toUpperCase() + weapon.substring(1) + ".png"));
+			} catch (IOException e) { e.getMessage(); }
+
+			player = GameLogic.Guessing.getAnsweringPlayer();
+			turnLabel = new JLabel();
+			turnLabel.setText("Does " + player.getName() + " have one of these cards?");
+
+
+			characterBox = new JLabel();
+			weaponBox = new JLabel();
+
+			characterBox.setIcon(new ImageIcon(characterImage));
+			weaponBox.setIcon(new ImageIcon(weaponImage));
+
+			JPanel QuestionRoundPanel = new JPanel();
+			QuestionRoundPanel.setLayout(new GridBagLayout());
+
+			// Constraints for the label denoting who should be answering
+			GridBagConstraints turnLabelGBC = new GridBagConstraints();
+			turnLabelGBC.gridwidth = 2;
+			turnLabelGBC.gridheight = 1;
+
+			// Constraints for the character image box
+			GridBagConstraints charBoxGBC = new GridBagConstraints();
+			charBoxGBC.gridheight = 4;
+			charBoxGBC.gridwidth = 1;
+			// Padding around the image
+			charBoxGBC.insets = new Insets(1, 1, 1, 1);
+
+			// Constraints for the weapon image box
+			GridBagConstraints wpnBoxGBC = new GridBagConstraints();
+			wpnBoxGBC.gridheight = 4;
+			wpnBoxGBC.gridwidth = 1;
+			// Padding around the image
+			wpnBoxGBC.insets = new Insets(1, 1, 1, 1);
+
+
+			// TODO: Add ALs to buttons
+			// Button for player having neither card, and its constraints
+			JButton neither = new JButton();
+			neither.setText("I don't have either.");
+			GridBagConstraints neitherGBC = new GridBagConstraints();
+			neitherGBC.gridwidth = 1;
+			neitherGBC.gridheight = 1;
+
+			// Button for player confirm they own a card, and its constraints
+			JButton confirm = new JButton();
+			confirm.setText("Confirm");
+			GridBagConstraints confirmGBC = new GridBagConstraints();
+			confirmGBC.gridheight = 1;
+			confirmGBC.gridwidth = 1;
+
+			// Populate the panel with objects and their constraints
+			QuestionRoundPanel.add(turnLabel, turnLabelGBC);
+			QuestionRoundPanel.add(characterBox, charBoxGBC);
+			QuestionRoundPanel.add(weaponBox, wpnBoxGBC);
+			QuestionRoundPanel.add(neither, neitherGBC);
+			QuestionRoundPanel.add(confirm, confirmGBC);
+
+			return QuestionRoundPanel;
+		}
+
+
 	}
 }
 

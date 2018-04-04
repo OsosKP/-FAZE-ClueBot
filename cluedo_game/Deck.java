@@ -9,8 +9,10 @@ import java.util.Random;
  */
 
 public class Deck {
-    // Once all cards are dealt, any leftovers remain int he publicDeck
+    // Once all cards are dealt, any leftovers remain in the publicDeck
     private ArrayList<ArrayList<Card>> publicDeck = new ArrayList<>();
+    // Full deck of all cards for referencing
+    private ArrayList<ArrayList<Card>> fullDeck = new ArrayList<>();
     private ArrayList<Card> murderEnvelope = new ArrayList<>();
     private Card first;
 
@@ -40,13 +42,17 @@ public class Deck {
         publicDeck.add(new ArrayList<>());
         publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon"));
         publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon"));
-        publicDeck.get(2).add(new Card("Gun", 2, 2, "weapon"));
+        publicDeck.get(2).add(new Card("Pistol", 2, 2, "weapon"));
         publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon"));
         publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon"));
         publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon"));
 
-        this.first = publicDeck.get(0).get(0);
-
+        first = publicDeck.get(0).get(0);
+        // Populate full deck
+        for (int i=0; i<3; i++) {
+            fullDeck.add(new ArrayList<>());
+            fullDeck.get(i).addAll(publicDeck.get(i));
+        }
     }
 
     //
@@ -88,16 +94,45 @@ public class Deck {
         return simplified;
     }
 
-    public ArrayList<ArrayList<Card>> getDeck() {
+    public ArrayList<ArrayList<Card>> getPublicDeck() {
         return publicDeck;
     }
 
     public ArrayList<Card> getFullPublicDeck(){
-        ArrayList<Card> fullPublicDeck = new ArrayList<>();
+        ArrayList<Card> deck = new ArrayList<>();
         for(int i=0; i<3; i++){
-            fullPublicDeck.addAll(publicDeck.get(i));
+            deck.addAll(fullDeck.get(i));
         }
-        return fullPublicDeck;
+        return deck;
+    }
+
+    /*
+    Methods to retrieve a specific card when given a name
+     */
+    public Card getPlayerCardByName(String name) {
+        name = AcceptedUserInputs.simpleString(name);
+        for (Card c : fullDeck.get(0)){
+            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
+    }
+
+    public Card getRoomCardByName(String name) {
+        for (Card c : fullDeck.get(1)){
+            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
+    }
+
+    public Card getWeaponCardByName(String name) {
+        name = AcceptedUserInputs.simpleString(name);
+        for (Card c : fullDeck.get(2)){
+            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+                return c;
+        }
+        throw new CardNotFoundException();
     }
 
     public ArrayList<Card> getMurderEnvelope() {

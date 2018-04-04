@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -41,7 +43,7 @@ public class UserInterface extends JPanel {
     // The overall display panel that will control layout of the 3 panels
     private JPanel userDisplay = new JPanel();
 
-    // Pointer to player whose turn it is. When we add 'turns', the turn object will send info to this
+    // Pointer to player whose turn it is
     private Token currentPlayer;
     private Tokens playerList;
 
@@ -746,4 +748,9 @@ public class UserInterface extends JPanel {
         URL imageUrl = this.getClass().getResource("board1.jpg");
         return ImageIO.read(imageUrl);
     }
+
+
+
+
+
 }
