@@ -129,9 +129,6 @@ public class Deck {
     public Card getWeaponCardByName(String name) {
         name = AcceptedUserInputs.simpleString(name);
         for (Card c : fullDeck.get(2)){
-            // TODO: Debugging printout
-            System.out.println("Entered: " + name +
-                    " - Searched: " + AcceptedUserInputs.simpleString(c.name));
             if (AcceptedUserInputs.simpleString(c.name).equals(name))
                 return c;
         }
