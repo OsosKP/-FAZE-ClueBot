@@ -947,91 +947,63 @@ public class QuestionMenu {
 		}
 	}
 
-	public static class QuestionRound {
-		private static BufferedImage characterImage;
-		private static BufferedImage weaponImage;
-		private static JLabel characterBox;
-		private static JLabel weaponBox;
-		private static JLabel turnLabel;
-		private static Token player;
+//					characterImage = ImageIO.read(new File("src/characterCards/" +
+//						character.substring(0, 1).toUpperCase() + character.substring(1) + ".png"));
+//
+//				weaponImage = ImageIO.read(new File("src/weaponCards/" +
+//						weapon.substring(0, 1).toUpperCase() + weapon.substring(1) + ".png"));
 
-		public static JPanel beginQuestionRound(String character, String weapon) {
-			try {
-				characterImage = ImageIO.read(new File("src/characterCards/" +
-						character.substring(0, 1).toUpperCase() + character.substring(1) + ".png"));
+		public static class QuestionRound {
+			private static GuessedCards showCards;
+			private static Title questionTitle;
+			private static ButtonPane confirmButtons;
 
-				weaponImage = ImageIO.read(new File("src/weaponCards/" +
-						weapon.substring(0, 1).toUpperCase() + weapon.substring(1) + ".png"));
-			} catch (IOException e) { e.getMessage(); }
+			public static JPanel beginQuestionRound(String character, String weapon) {
+				JPanel returnMe = new JPanel();
+				
+				return returnMe;
+			}
 
-			player = GameLogic.Guessing.getAnsweringPlayer();
-			turnLabel = new JLabel();
-			turnLabel.setText("Does " + player.getName() + " have one of these cards?");
+			/* Class that handles the title */
+			class Title extends JPanel{
+				private JLabel title;
+				private GridBagLayout layout;
+				private GridBagConstraints gbc;
 
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					super.setLayout(mgr);
+				}
+	
+				public Title(String playerName) {
+					layout = new GridBagLayout();
+					gbc = new GridBagConstraints();	
+		
+					this.setLayout(layout);
+					title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+		
+					gbc.gridx=0;
+					gbc.gridy=0;
+					this.add(title, gbc);
+				}		
+			}
+		
+			/* classes to represent the images the player guessed earlier  */
+			class GuessedCards extends JPanel{
+			
 
-			characterBox = new JLabel();
-			weaponBox = new JLabel();
-
-			characterBox.setIcon(new ImageIcon(characterImage));
-			weaponBox.setIcon(new ImageIcon(weaponImage));
-
-			JPanel QuestionRoundPanel = new JPanel();
-			QuestionRoundPanel.setLayout(new GridBagLayout());
-
-			// Constraints for the label denoting who should be answering
-			GridBagConstraints turnLabelGBC = new GridBagConstraints();
-			turnLabelGBC.gridwidth = 2;
-			turnLabelGBC.gridheight = 1;
-
-			// Constraints for the character image box
-			GridBagConstraints charBoxGBC = new GridBagConstraints();
-			charBoxGBC.gridheight = 4;
-			charBoxGBC.gridwidth = 1;
-			// Padding around the image
-			charBoxGBC.insets = new Insets(1, 1, 1, 1);
-
-			// Constraints for the weapon image box
-			GridBagConstraints wpnBoxGBC = new GridBagConstraints();
-			wpnBoxGBC.gridheight = 4;
-			wpnBoxGBC.gridwidth = 1;
-			// Padding around the image
-			wpnBoxGBC.insets = new Insets(1, 1, 1, 1);
-
-
-			// TODO: Add ALs to buttons
-			// Button for player having neither card, and its constraints
-			JButton neither = new JButton();
-			neither.setText("I don't have either.");
-			GridBagConstraints neitherGBC = new GridBagConstraints();
-			neitherGBC.gridwidth = 1;
-			neitherGBC.gridheight = 1;
-
-			// Button for player confirm they own a card, and its constraints
-			JButton confirm = new JButton();
-			confirm.setText("Confirm");
-			GridBagConstraints confirmGBC = new GridBagConstraints();
-			confirmGBC.gridheight = 1;
-			confirmGBC.gridwidth = 1;
-
-			// Populate the panel with objects and their constraints
-			QuestionRoundPanel.add(turnLabel, turnLabelGBC);
-			QuestionRoundPanel.add(characterBox, charBoxGBC);
-			QuestionRoundPanel.add(weaponBox, wpnBoxGBC);
-			QuestionRoundPanel.add(neither, neitherGBC);
-			QuestionRoundPanel.add(confirm, confirmGBC);
-
-			return QuestionRoundPanel;
-		}
-
-
+				/* Class that is going to handle the individual pictures */
+				class IndividualPicture extends JPanel{
+				
+				}
+			
+			}
+			
+			/* class that is going to handle the button inputs */
+			class ButtonPane extends JPanel{
+				JButton confirmButton;
+				//how is this going to work?
+			}	
 	}
 }
-
-
-
-	
-
-
-
-
 
