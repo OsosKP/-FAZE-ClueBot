@@ -649,7 +649,7 @@ public class QuestionMenu {
 								image = ImageIO.read(new File("src/characterCards/Mustard.png"));
 								currentImage.setIcon(new ImageIcon(image));
 							}
-							else if (name.equals("peacock")) {
+							else if (name.equals("peacock")) {								
 								image = ImageIO.read(new File("src/characterCards/Peacock.png"));
 								currentImage.setIcon(new ImageIcon(image));
 							}
