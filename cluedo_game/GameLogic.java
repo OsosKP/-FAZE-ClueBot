@@ -403,21 +403,31 @@ public class GameLogic {
 	    private static Card accusedPlayer;
 	    private static Card accusedWeapon;
 
-	    public static void startGuessing() {
+		public static Token getAccusingPlayer() {
+			return accusingPlayer;
+		}
+
+		public static Token getAnsweringPlayer() {
+			return answeringPlayer;
+		}
+
+		public static Card getAccusedPlayer() {
+			return accusedPlayer;
+		}
+
+		public static Card getAccusedWeapon() {
+			return accusedWeapon;
+		}
+
+		public static void startGuessing() {
 	    	accusingPlayer = ui.getCurrentPlayer();
 	    	answeringPlayer = null;
 		}
 
-	    public static void declareAccusedPlayerAndWeapon(String player, String weapon) {
-//	    	QuestionMenu initial = ui.getQuestionGUI();
-//	    	String[] accused = initial.returnValues();
-	        accusedPlayer = deck.getPlayerCardByName(player);
-	        accusedWeapon = deck.getWeaponCardByName(weapon);
-        }
-
         public static void InitiateRoundOfQuestioning(String player, String weapon) {
 	    	answeringPlayer = ui.getCurrentPlayer().next();
-	    	declareAccusedPlayerAndWeapon(player, weapon);
+			accusedPlayer = deck.getPlayerCardByName(player);
+			accusedWeapon = deck.getWeaponCardByName(weapon);
 		}
     }
 
