@@ -42,7 +42,7 @@ public class Deck {
         publicDeck.add(new ArrayList<>());
         publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon"));
         publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon"));
-        publicDeck.get(2).add(new Card("Gun", 2, 2, "weapon"));
+        publicDeck.get(2).add(new Card("Pistol", 2, 2, "weapon"));
         publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon"));
         publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon"));
         publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon"));
@@ -129,6 +129,9 @@ public class Deck {
     public Card getWeaponCardByName(String name) {
         name = AcceptedUserInputs.simpleString(name);
         for (Card c : fullDeck.get(2)){
+            // TODO: Debugging printout
+            System.out.println("Entered: " + name +
+                    " - Searched: " + AcceptedUserInputs.simpleString(c.name));
             if (AcceptedUserInputs.simpleString(c.name).equals(name))
                 return c;
         }

@@ -503,22 +503,24 @@ public class QuestionMenu {
 						}
 
 						// TODO: GameLogic interplay goes here
+						/*
+							InitiateRoundOfQuestion populates the guessed
+							character and weapon, and the first player to answer
+						 */
 						GameLogic.Guessing.
 								InitiateRoundOfQuestioning(returnString[0], returnString[1]);
 
 
-
-
-
-
-
-						
 						/* Adding the character's name to the return string */
 						returnString[2] = currentPlayerGuessing;
 						
-						/* Removing the current JPanel from the screen, and replacing it with the regular game board */
+						/* Removing the current JPanel from the screen, and
+							replacing it with the regular game board */
 						initialUserDisplay.getContentPane().removeAll();
-						initialUserDisplay.add(revertToMe);					
+						// TODO: Will use this eventually, but first we go to the other question panel in UI
+//						initialUserDisplay.add(revertToMe);
+						initialUserDisplay.add(UserInterface.
+								QuestionRound.beginQuestionRound(returnString[0], returnString[1]));
 												
 						initialUserDisplay.revalidate();
 						initialUserDisplay.repaint();						
@@ -589,7 +591,6 @@ public class QuestionMenu {
 
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -612,7 +613,6 @@ public class QuestionMenu {
 			
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -644,7 +644,6 @@ public class QuestionMenu {
 				
 				@Override
 				public void setLayout(LayoutManager mgr) {
-					// TODO Auto-generated method stub
 					super.setLayout(mgr);
 				}
 				
@@ -795,7 +794,6 @@ public class QuestionMenu {
 	
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 	
@@ -841,7 +839,6 @@ public class QuestionMenu {
 			
 				@Override
 				public void setLayout(LayoutManager mgr) {
-					// TODO Auto-generated method stub
 					super.setLayout(mgr);
 				}
 			
@@ -874,7 +871,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 						} catch (IOException e) {
-							System.err.println(e);
+							System.err.println(e.getMessage());
 						}
 					}
 					else {
