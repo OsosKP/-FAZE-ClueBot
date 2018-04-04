@@ -5,6 +5,7 @@
 package cluedo_game;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,15 +22,21 @@ public class GameLogic {
 	static UserInterface ui;
 
 	public GameLogic() {
-		AcceptedUserInputs.setAcceptedUserInputs();
-		// TODO: Implementation for actual product - switch to this before turning in
-//		PlayerListCreator playersCreator = new PlayerListCreator();
-//		playerList = playersCreator.getPlayerList();
+			new StartMenu();
+	}
 
-		// TODO: Debugging setup
-		playerList = new Tokens();
-		playerList.setDebugPlayerList();
-		createGame();
+	public static void startGame(boolean debugOption) {
+		AcceptedUserInputs.setAcceptedUserInputs();
+		if (debugOption) {
+			playerList = new Tokens();
+			playerList.setDebugPlayerList();
+			createGame();
+		}
+
+		else {
+			PlayerListCreator playersCreator = new PlayerListCreator();
+			playerList = playersCreator.getPlayerList();
+		}
 	}
 
 	public static BoardBuilder getCurrentBoard() {
