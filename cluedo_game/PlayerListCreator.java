@@ -323,7 +323,6 @@ public class PlayerListCreator {
 
         @Override
         public void setLayout(LayoutManager mgr) {
-            // TODO Auto-generated method stub
             super.setLayout(mgr);
         }
 
@@ -498,7 +497,7 @@ public class PlayerListCreator {
             }
             else {
 //            	playerList.printList();
-            	GameLogic.createGame();
+                GameLogic.createGame();
             }
 
         }

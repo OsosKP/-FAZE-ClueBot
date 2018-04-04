@@ -1,11 +1,10 @@
 package cluedo_game;
 
+import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -25,7 +24,7 @@ public class UserInterface extends JPanel {
     // First it is built into 'in', then it is loaded into the 'input' JPanel
     private UserInputBox in = new UserInputBox();
     private JPanel input = in.createInputPanel();
-    private JButton startGameButton;
+    private static JButton startGameButton;
 
     // Text output portion of the display, generated in the same way as user input
     private OutputTextDisplay out = new OutputTextDisplay();
@@ -118,7 +117,7 @@ public class UserInterface extends JPanel {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
-        private JLabel promptLabel = new JLabel("     What would you like to do?");
+        private JLabel promptLabel = new JLabel("     Please press start when ready to play.");
         private JButton performActionButton;
         private JButton exitChoiceButton;
         private JButton viewNotesButton;
@@ -138,8 +137,7 @@ public class UserInterface extends JPanel {
             returnPressListener = new UserInputListener();
             // But at the beginning, pressing 'return' should start the game
             returnStartGameListener = new StartGameListener();
-            // TODO:
-            inputField.addActionListener(returnStartGameListener);
+            inputField.addActionListener(returnPressListener);
 
             returnPressExitListener = new ExitChoiceListener();
             returnPressViewNotesListener = new ViewNotesListener();
@@ -163,6 +161,7 @@ public class UserInterface extends JPanel {
             display.repaint();
         }
 
+        // TODO: Remove
         /**
          * A button that must be pressed to start the game
          *
@@ -748,9 +747,4 @@ public class UserInterface extends JPanel {
         URL imageUrl = this.getClass().getResource("board1.jpg");
         return ImageIO.read(imageUrl);
     }
-
-
-
-
-
 }

@@ -767,7 +767,7 @@ public class QuestionMenu {
 	/* Class to deal with the weapon selection */
 	class WeaponPane extends JPanel{
 		private WeaponTitle title = new WeaponTitle();
-		private WeaponPictures pitures = new WeaponPictures();
+		private WeaponPictures pictures = new WeaponPictures();
 		
 		@Override
 		public void setLayout(LayoutManager mgr) {
@@ -778,7 +778,7 @@ public class QuestionMenu {
 		public WeaponPane() {
 			this.setLayout(new BorderLayout());
 			this.add(title, BorderLayout.NORTH);
-			this.add(pitures, BorderLayout.CENTER);
+			this.add(pictures, BorderLayout.CENTER);
 		}
 		
 		/* Class is going to deal with the weapon title */
@@ -812,7 +812,6 @@ public class QuestionMenu {
 			
 			@Override
 			public void setLayout(LayoutManager mgr) {
-				// TODO Auto-generated method stub
 				super.setLayout(mgr);
 			}
 		
