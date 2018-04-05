@@ -251,7 +251,7 @@ public class UserInterface extends JPanel {
 
                 // If this method was called from a button
                 if (input.equals("")) {
-                    text = inputField.getText();
+                    text = AcceptedUserInputs.simpleString(inputField.getText());
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
 
                 }
@@ -375,7 +375,6 @@ public class UserInterface extends JPanel {
                                refreshBoard(movementPanel);
                             }
                             else {//If the player (In game logic) has already moved into a room
-                                //I think this is the right place
                                 switch (text) {
                                     case "up"://Since the player has already moved, current is the "previous" position
                                     case "u":
@@ -405,7 +404,7 @@ public class UserInterface extends JPanel {
                         // Use GameLogic to decrement dice and check turn status
                         GameLogic.checkEndOfTurn();
                     }
-                    // If not, show error and do not cycle to next turn
+                    // If not successful, show error and do not cycle to next turn
                         // Error doesn't show if player viewed notes
                     else if (!(result.equals("notes") || result.equals("cheat") || result.equals("help") || result.equals("question"))){
                         // This will be an error message if move was unsuccessful

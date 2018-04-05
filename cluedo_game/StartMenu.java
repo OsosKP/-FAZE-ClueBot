@@ -17,17 +17,30 @@ public class StartMenu extends JPanel {
     JLabel off;
     BufferedImage bgImage = null;
     BufferedImage titleImage = null;
-    BufferedImage buttonImage = null;
+    BufferedImage startButtonImage = null;
+    BufferedImage debugButtonImage = null;
+    BufferedImage helpButtonImage = null;
     BufferedImage soundOnImage = null;
     BufferedImage soundOffImage = null;
     boolean audioOn;
 
     public StartMenu() {
         audioOn = true;
-        // Load button icon image
-        URL buttonImageURL = this.getClass().getResource("button.jpg");
+        // Load button icon images
+        // Start
+        URL startButtonImageURL = this.getClass().getResource("startButton.jpg");
         try {
-            buttonImage = ImageIO.read(buttonImageURL);
+            startButtonImage = ImageIO.read(startButtonImageURL);
+        } catch (Exception e) { e.printStackTrace(); }
+        // Debug
+        URL debugButtonImageURL = this.getClass().getResource("debugButton.jpg");
+        try {
+            debugButtonImage = ImageIO.read(debugButtonImageURL);
+        } catch (Exception e) { e.printStackTrace(); }
+        // Help
+        URL helpButtonImageURL = this.getClass().getResource("helpButton.jpg");
+        try {
+            helpButtonImage = ImageIO.read(helpButtonImageURL);
         } catch (Exception e) { e.printStackTrace(); }
 
         createStartGameButtons();
@@ -79,20 +92,18 @@ public class StartMenu extends JPanel {
      * A button that must be pressed to start the game
      */
     private void createStartGameButtons() {
-        startGameButton = new JButton("Start Game", new ImageIcon(buttonImage));
+        startGameButton = new JButton("", new ImageIcon(startButtonImage));
         startGameButton.setHorizontalTextPosition(JButton.CENTER);
         startGameButton.setVerticalTextPosition(JButton.CENTER);
         startGameButton.setBorderPainted(false);
-        startGameButton.setFont(new Font("Arial", Font.ITALIC, 32));
         startGameButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         StartGameListener regular = new StartGameListener(false);
         startGameButton.addActionListener(regular);
 
-        debugStartGameButton = new JButton("Debug Mode", new ImageIcon(buttonImage));
+        debugStartGameButton = new JButton("", new ImageIcon(debugButtonImage));
         debugStartGameButton.setHorizontalTextPosition(JButton.CENTER);
         debugStartGameButton.setVerticalTextPosition(JButton.CENTER);
         debugStartGameButton.setBorderPainted(false);
-        debugStartGameButton.setFont(new Font("Arial", Font.ITALIC, 32));
         debugStartGameButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         StartGameListener debug = new StartGameListener(true);
         debugStartGameButton.addActionListener(debug);
@@ -110,11 +121,10 @@ public class StartMenu extends JPanel {
     }
 
     private JButton createHelpButton() {
-        JButton helpButton = new JButton("Help", new ImageIcon(buttonImage));
+        JButton helpButton = new JButton("", new ImageIcon(helpButtonImage));
         helpButton.setHorizontalTextPosition(JButton.CENTER);
         helpButton.setVerticalTextPosition(JButton.CENTER);
         helpButton.setBorderPainted(false);
-        helpButton.setFont(new Font("Arial", Font.ITALIC, 32));
         helpButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         helpButton.addActionListener(new HelpListener());
 
