@@ -381,7 +381,6 @@ class WhenTryingToSolveCommands extends JPanel{
 	
 	@Override
 	public void setLayout(LayoutManager mgr) {
-		// TODO Auto-generated method stub
 		super.setLayout(mgr);
 	}
 	

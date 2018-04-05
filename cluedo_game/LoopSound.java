@@ -48,14 +48,13 @@ public class LoopSound implements Runnable {
         line.open(format);
 
         line.start();
-        int nBytesRead = 0;
-        int nBytesWritten = 0;
-        byte[] abData = new byte[128000];
-        while (nBytesRead != -1) {
-            nBytesRead = stream.read(abData, 0, abData.length);
+        int size = 0;
+        byte[] bytes = new byte[131072];
+        while (size != -1) {
+            size = stream.read(bytes, 0, bytes.length);
 
-            if (nBytesRead >= 0)
-                nBytesWritten = line.write(abData, 0, nBytesRead);
+            if (size >= 0)
+                line.write(bytes, 0, size);
         }
 
         line.drain();
