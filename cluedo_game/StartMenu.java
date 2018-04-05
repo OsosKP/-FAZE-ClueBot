@@ -1,9 +1,6 @@
 package cluedo_game;
 
-import org.mozilla.javascript.ast.Loop;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,20 +12,23 @@ public class StartMenu extends JPanel {
     JFrame holder = new JFrame();
     JButton startGameButton;
     JButton debugStartGameButton;
+    JButton audioButton;
+    JLabel on;
+    JLabel off;
     BufferedImage bgImage = null;
     BufferedImage titleImage = null;
     BufferedImage buttonImage = null;
-    int buttonWidth;
-    int buttonHeight;
+    BufferedImage soundOnImage = null;
+    BufferedImage soundOffImage = null;
+    boolean audioOn;
 
     public StartMenu() {
+        audioOn = true;
         // Load button icon image
         URL buttonImageURL = this.getClass().getResource("button.jpg");
         try {
             buttonImage = ImageIO.read(buttonImageURL);
         } catch (Exception e) { e.printStackTrace(); }
-        buttonWidth = buttonImage.getWidth();
-        buttonHeight = buttonImage.getHeight();
 
         createStartGameButtons();
         JButton helpButton = createHelpButton();
@@ -53,6 +53,8 @@ public class StartMenu extends JPanel {
         // Center the title image
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+        createAudioButton();
+
         holder.setContentPane(background);
         Container contentPane = holder.getContentPane();
         contentPane.setLayout(new BoxLayout(holder.getContentPane(), BoxLayout.Y_AXIS));
@@ -62,6 +64,7 @@ public class StartMenu extends JPanel {
         holder.add(startGameButton);
         holder.add(debugStartGameButton);
         holder.add(helpButton);
+        holder.add(audioButton);
 
         this.setOpaque(false);
 
@@ -69,13 +72,7 @@ public class StartMenu extends JPanel {
         holder.setLocationRelativeTo(null);
 
         holder.setVisible(true);
-        try {
-            LoopSound startMusic = new LoopSound();
-            startMusic.run();
-        } catch (Exception e) {
-            System.out.println("Music failed to Load");
-            e.printStackTrace();
-        }
+        GameLogic.playMusic();
     }
 
     /**
@@ -143,6 +140,47 @@ public class StartMenu extends JPanel {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public void createAudioButton() {
+        // Load title image
+        URL onURL = this.getClass().getResource("soundOnButton.jpg");
+        URL offURL = this.getClass().getResource("soundOffButton.jpg");
+
+        try {
+            soundOnImage = ImageIO.read(onURL);
+            soundOffImage = ImageIO.read(offURL);
+        } catch (Exception e) { e.printStackTrace(); }
+        on = new JLabel(new ImageIcon(soundOnImage));
+        on.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        off = new JLabel(new ImageIcon(soundOffImage));
+        off.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+        audioButton = new JButton("", new ImageIcon(soundOnImage));
+        audioButton.setBorderPainted(false);
+        audioButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        audioButton.addActionListener(new AudioActionListener());
+    }
+
+    public class AudioActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (audioOn) {
+                audioOn = false;
+                audioButton.remove(on);
+                audioButton.add(off);
+                audioButton.revalidate();
+                LoopSound.turnMusicOff();
+            }
+            else {
+                audioOn = true;
+                audioButton.remove(off);
+                audioButton.add(on);
+                audioButton.revalidate();
+                LoopSound.turnMusicOn();
+            }
+
         }
     }
 }

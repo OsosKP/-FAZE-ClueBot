@@ -20,6 +20,7 @@ public class GameLogic {
 	static Tokens playerList;
 	static Deck deck;
 	static UserInterface ui;
+	static LoopSound startMusic;
 
 	public GameLogic() {
 			new StartMenu();
@@ -446,6 +447,16 @@ public class GameLogic {
 		}
     }
 
+	public static void playMusic() {
+		try {
+			startMusic = new LoopSound();
+			startMusic.play();
+//			startMusic.run();
+		} catch (Exception e) {
+			System.out.println("Music failed to Load");
+			e.printStackTrace();
+		}
+	}
 
 
 }

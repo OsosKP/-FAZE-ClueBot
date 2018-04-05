@@ -4,26 +4,38 @@ import javax.sound.sampled.*;
 import java.io.File;
 
 public class LoopSound implements Runnable {
-    private String fileLocation = "src/music/start.wav";
     private static boolean playSong = true;
+    static SourceDataLine line = null;
+    static Thread t;
 
     public LoopSound() {}
 
     public void play() {
-        Thread t = new Thread(this);
+        t = new Thread(this);
         t.start();
     }
 
     public static void turnMusicOff() {
+        line.stop();
+        t.interrupt();
         playSong = false;
+    }
+
+    public static void turnMusicOn() {
+        playSong = true;
+        GameLogic.playMusic();
     }
 
     @Override
     public void run() {
+        String fileLocation = "src/music/start.wav";
         try {
-            while (playSong)
+            while (playSong) {
                 playSound(fileLocation);
+                assert playSong;
+            }
         } catch (Exception e) { e.printStackTrace(); }
+
     }
 
     private void playSound(String fileName) throws Exception {
@@ -31,7 +43,6 @@ public class LoopSound implements Runnable {
         AudioInputStream stream = AudioSystem.getAudioInputStream(soundFile);
         AudioFormat format = stream.getFormat();
 
-        SourceDataLine line = null;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
         line = (SourceDataLine) AudioSystem.getLine(info);
         line.open(format);
