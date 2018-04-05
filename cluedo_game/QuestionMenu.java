@@ -1029,7 +1029,7 @@ public class QuestionMenu {
                     BufferedImage image;
                     try {
                         if (type.equals("weapon")) {
-                        	System.out.println("We are tying to pirnt: " + name);
+                        	System.out.println("We are tying to print: " + name);
                             image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
                             imageLabel.setIcon(new ImageIcon(image));
                         }
@@ -1059,7 +1059,7 @@ public class QuestionMenu {
         }
 
         /* class that is going to handle the button inputs */
-        /* players can only select one of the card options beore they hit confirm -- then they */
+        /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel{
             JButton confirmButton;
             JButton neither;

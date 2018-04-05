@@ -1,6 +1,9 @@
 package cluedo_game;
 
+import org.mozilla.javascript.ast.Loop;
+
 import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,6 +69,13 @@ public class StartMenu extends JPanel {
         holder.setLocationRelativeTo(null);
 
         holder.setVisible(true);
+        try {
+            LoopSound startMusic = new LoopSound();
+            startMusic.run();
+        } catch (Exception e) {
+            System.out.println("Music failed to Load");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -97,6 +107,7 @@ public class StartMenu extends JPanel {
 
         public void actionPerformed(ActionEvent event) {
             holder.dispose();
+            LoopSound.turnMusicOff();
             GameLogic.startGame(debug);
         }
     }
@@ -121,7 +132,7 @@ public class StartMenu extends JPanel {
                 @Override
                 public void run() {
                     this.setName("Help Thread");
-                    HelpPage userAid = new HelpPage();
+                    HelpPage userAid = new HelpPage(false);
                 }
             };
             helpThread.start();

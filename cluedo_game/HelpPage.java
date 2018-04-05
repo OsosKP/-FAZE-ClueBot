@@ -38,10 +38,11 @@ public class HelpPage {
 	private JPanel howToPlayInfoPanel = null;
 	private JPanel currentPlayerInfoPanel = null;
 	private JPanel containerJPanel = null;
+	private boolean gameStarted;
 	
 	//TODO when I am actually implementing this with the main JFrame, I can pass that object into this constructor, then I can mess with it all I want
-	public HelpPage() {
-	
+	public HelpPage(boolean inGame) {
+		gameStarted = inGame;
 		/* Test Code that will be removed when functionality is done */
 		displayTemp.setSize(800,700);
 		displayTemp.setTitle("Help Menu");
@@ -75,8 +76,7 @@ public class HelpPage {
 	    userInputtedCommandsPanel.add(guessCommands);
 	    userInputtedCommandsPanel.add(solveCommands);
 	    userInputtedCommandsPanel.add(miscCommands);
-	   
-	    
+
 	    buttons = new ListOfCommandsTitle();
 	    buttons.toggleUser();
 	    
@@ -112,7 +112,7 @@ public class HelpPage {
 	
 		public void setTitle() {
 			userCommands = new JButton("Accepted Commands");
-			howToPlay = new JButton("How to Play Cleudo");
+			howToPlay = new JButton("How to Play Cluedo");
 			playerList = new JButton("Player List");
 		}
 	
@@ -128,11 +128,14 @@ public class HelpPage {
 			/* Adding actionListeners to the buttons */
 			userCommands.addActionListener(acceptedAction);
 			howToPlay.addActionListener(howToAction);
+
+
 			playerList.addActionListener(playAction);
 			
 			this.add(userCommands);
 			this.add(howToPlay);
-			this.add(playerList);
+			if (gameStarted)
+				this.add(playerList);
 		}
 		
 		public void toggleList() {
@@ -172,7 +175,7 @@ public class HelpPage {
 				currentPlayerInfoPanel = null;
 			}
 			else {
-				System.err.println("Someathing broke HelpPage.java");
+				System.err.println("Something broke HelpPage.java");
 				System.exit(0);			
 			}
 			
@@ -218,7 +221,7 @@ public class HelpPage {
 				currentPlayerInfoPanel = null;
 			}
 			else {
-				System.err.println("Someathing broke HelpPage.java");
+				System.err.println("Something broke HelpPage.java");
 				System.exit(0);
 			}
 			

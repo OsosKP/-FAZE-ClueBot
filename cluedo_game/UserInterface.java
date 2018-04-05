@@ -274,7 +274,7 @@ public class UserInterface extends JPanel {
                 		@Override
                 		public void run() {
                 			this.setName("Help Thread");
-                			HelpPage userAid = new HelpPage();
+                			HelpPage userAid = new HelpPage(true);
                 		}
                 	};
                 	helpThread.start();
@@ -672,7 +672,6 @@ public class UserInterface extends JPanel {
                         default:
                             // This case should never happen
                             throw new Exception("Error Finding Square Type");
-
                     }
                 }
                 else {
@@ -704,12 +703,6 @@ public class UserInterface extends JPanel {
 
             possibleCommandsList.setLayout(new GridLayout(choices.size(), 1));
 
-//            for (Integer i : choices) {
-//                JLabel d = new JLabel("Exit " + i);
-//                possibleCommandsList.add(d);
-//                d.setForeground(Color.green);
-//                d.setHorizontalAlignment(JLabel.CENTER);
-//            }
             for (Integer i : choices) {
                 String s = "Exit " + i;
                 JButton btn = new JButton(s);
