@@ -438,8 +438,11 @@ public class GameLogic {
 		}
 
 		public static void unsuccessfulGuess() {
-//			ui.getInitialQuestion().revertToBoard();
-			ui.refreshGui();
+			ui.getOut().updateMoveHistory(ui.getCurrentPlayer().getName() + "'s questioning was unsuccessful!");
+			// The next two methods could be done better, but I figured I would just reuse code
+			Dice.setMovesLeft(0);
+			checkEndOfTurn();
+			ui.refreshGuiFromUnsuccessfulGuess();
 		}
     }
 

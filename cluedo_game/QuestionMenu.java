@@ -1030,6 +1030,7 @@ public class QuestionMenu {
 						try {
 							if (type.equals("weapon")) {
 								image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+
 							}
 							else if (type.equals("character")) {
 								image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
@@ -1056,6 +1057,13 @@ public class QuestionMenu {
 					}
 				}
 			}
+			
+			/* class that is going to handle the button inputs */
+			/* players can only select one of the card options beore they hit confirm -- then they */
+			static class ButtonPane extends JPanel{
+				JButton confirmButton;
+				JButton neither;
+				JButton showNotes;
 				
 		/* class that is going to handle the button inputs */
 		/* players can only select one of the card options before hitting the confirmButton  */
