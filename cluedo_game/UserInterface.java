@@ -112,7 +112,7 @@ public class UserInterface extends JPanel {
     }
     
     /**
-     * Returns the QuestionMenu Object -- Note thet the return type for the array: characterName who we guessed | weapon that was guessed | character who made the guess
+     * Returns the QuestionMenu Object -- Note that the return type for the array: characterName who we guessed | weapon that was guessed | character who made the guess
      * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet 
      */
     public QuestionMenu getQuestionGUI() {
@@ -272,7 +272,7 @@ public class UserInterface extends JPanel {
                 		@Override
                 		public void run() {
                 			this.setName("Help Thread");
-                			HelpPage userAid = new HelpPage(true);
+                			new HelpPage(true);
                 		}
                 	};
                 	helpThread.start();
