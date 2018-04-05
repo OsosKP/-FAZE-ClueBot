@@ -1046,7 +1046,6 @@ public class QuestionMenu {
 
                 @Override
                 public void setLayout(LayoutManager mgr) {
-                    // TODO Auto-generated method stub
                     super.setLayout(mgr);
                 }
 
