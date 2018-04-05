@@ -82,15 +82,18 @@ public class UserInterface extends JPanel {
         // Add formatted JPanel to the frame
         display.add(userDisplay);
 
+        // Center display
+        display.setLocationRelativeTo(null);
+
         // Make the UI visible
         display.setVisible(true);
     }
 
     // TODO: Kelsey
     public void refreshGuiFromUnsuccessfulGuess() {
-        out.updateMoveHistory(currentPlayer.getName() + "'s questioning was unsuccessful!");
-        playerList.advanceTurn(currentPlayer);
         initialQuestion.revertToRegularDisplay();
+        in.inputField.setText("");
+        in.inputField.requestFocus();
     }
 
     public void refreshDisplayForNextTurn(Token p) {
