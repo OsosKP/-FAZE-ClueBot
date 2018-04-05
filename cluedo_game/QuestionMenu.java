@@ -945,83 +945,91 @@ public class QuestionMenu {
 			}	
 		}
 	}
-		/* Class that will handle the players confirming the question that was proposed by another player */
-		public static class QuestionRound {
-			private static GuessedCards showCards;
-			private static Title questionTitle;
-			private static ButtonPane confirmButtons;
-
-			public QuestionRound() {
-				// TODO Auto-generated constructor stub
-			}
-			
-			public static JPanel beginQuestionRound(String character, String weapon) {
-				JPanel returnMe = new JPanel();
-				returnMe.setLayout(new BorderLayout());
-				
-				questionTitle = new Title();
-				showCards = new GuessedCards(character, weapon);
-				
-				return returnMe;
-			}
-
-			/* Class that handles the title */
-			static class Title extends JPanel{
-				private JLabel title;
-				private GridBagLayout layout;
-				private GridBagConstraints gbc;
-
-				@Override
-				public void setLayout(LayoutManager mgr) {
-					super.setLayout(mgr);
-				}
+	public void revertToRegularDisplay() {
+		initialUserDisplay.getContentPane().removeAll();
+		initialUserDisplay.getContentPane().add(revertToMe);
+		initialUserDisplay.revalidate();
+		initialUserDisplay.repaint();
+		initialUserDisplay.setVisible(true);
+	}
 	
-				public Title() {
-					layout = new GridBagLayout();
-					gbc = new GridBagConstraints();	
-		
-					this.setLayout(layout);
-					title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
-		
-					gbc.gridx=0;
-					gbc.gridy=0;
-					this.add(title, gbc);
-				}		
-			}
-		
-			/* classes to represent the images the player guessed earlier  */
-			static class GuessedCards extends JPanel{
-				private IndividualPicture characterImage;
-				private IndividualPicture weaponImage;
+	/* Class that will handle the players confirming the question that was proposed by another player */
+	public static class QuestionRound {
+		private static GuessedCards showCards;
+		private static Title questionTitle;
+		private static ButtonPane confirmButtons;
 
-				@Override
-				public void setLayout(LayoutManager mgr) {
-					// TODO Auto-generated method stub
-					super.setLayout(mgr);
-				}
+		public QuestionRound() {
+			// TODO Auto-generated constructor stub
+		}
+		
+		public static JPanel beginQuestionRound(String character, String weapon) {
+			JPanel returnMe = new JPanel();
+			returnMe.setLayout(new BorderLayout());
+			
+			questionTitle = new Title();
+			showCards = new GuessedCards(character, weapon);
+			
+			return returnMe;
+		}
+
+		/* Class that handles the title */
+		static class Title extends JPanel{
+			private JLabel title;
+			private GridBagLayout layout;
+			private GridBagConstraints gbc;
+
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				super.setLayout(mgr);
+			}
+	
+			public Title() {
+				layout = new GridBagLayout();
+				gbc = new GridBagConstraints();	
+		
+				this.setLayout(layout);
+				title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+		
+				gbc.gridx=0;
+				gbc.gridy=0;
+				this.add(title, gbc);
+			}		
+		}
+		
+		/* classes to represent the images the player guessed earlier  */
+		static class GuessedCards extends JPanel{
+			private IndividualPicture characterImage;
+			private IndividualPicture weaponImage;
+
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				// TODO Auto-generated method stub
+				super.setLayout(mgr);
+			}
 				
-				public GuessedCards(String characterName, String weaponName) {
-					this.setLayout(new GridLayout(1,2));
-					
-					/* Creating the cards */
-					characterImage = new IndividualPicture(characterName, "character");
-					weaponImage = new IndividualPicture(weaponName, "weapon");
-					
-					this.add(characterImage);
-					this.add(weaponImage);
-				}
+			public GuessedCards(String characterName, String weaponName) {
+				this.setLayout(new GridLayout(1,2));
+				
+				/* Creating the cards */
+				characterImage = new IndividualPicture(characterName, "character");
+				weaponImage = new IndividualPicture(weaponName, "weapon");
+				
+				this.add(characterImage);
+				this.add(weaponImage);
+			}
 				
 				/* Class that is going to handle the individual pictures */
 				class IndividualPicture extends JPanel{
 					private JLabel imageLabel;
 					private String type;
 					private String name;
+			
 					private void setImage(String name, String type) {
 						BufferedImage image = null;
 						try {
 							if (type.equals("weapon")) {
 								image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
-
 							}
 							else if (type.equals("character")) {
 								image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
@@ -1031,7 +1039,7 @@ public class QuestionMenu {
 						}
 
 						imageLabel.setIcon(new ImageIcon(image));
-					}
+					}	
 					
 					@Override
 					public void setLayout(LayoutManager mgr) {
@@ -1048,16 +1056,16 @@ public class QuestionMenu {
 					}
 				}
 			}
-			
-			/* class that is going to handle the button inputs */
-			/* players can only select one of the card options beore they hit confirm -- then they */
-			static class ButtonPane extends JPanel{
-				JButton confirmButton;
-				JButton neither;
-				JButton showNotes;
+				
+		/* class that is going to handle the button inputs */
+		/* players can only select one of the card options before hitting the confirmButton  */
+		static class ButtonPane extends JPanel{
+			JButton confirmButton;
+			JButton neither;
+			JButton showNotes;
 				
 				
-			}	
+		}	
 	}
 }
 
