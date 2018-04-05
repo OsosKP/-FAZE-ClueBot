@@ -1050,7 +1050,7 @@ public class QuestionMenu {
                     BufferedImage image;
                     try {
                         if (type.equals("weapon")) {
-                        	System.out.println("We are tying to pirnt: " + name);
+                        	System.out.println("We are tying to print: " + name);
                             image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
                             imageLabel.setIcon(new ImageIcon(image));
                         }
@@ -1335,7 +1335,6 @@ public class QuestionMenu {
             
             @Override
             public void setLayout(LayoutManager mgr) {
-            	// TODO Auto-generated method stub
             	super.setLayout(mgr);
             }
             
