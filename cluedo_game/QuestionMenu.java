@@ -854,7 +854,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pipe")) {
-								image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
+								image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pistol")) {
@@ -880,7 +880,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pipe")) {
-								image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
+								image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
 								currentImage.setIcon(new ImageIcon(image));										
 							}
 							else if (name.equals("pistol")) {
