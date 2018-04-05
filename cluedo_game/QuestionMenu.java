@@ -1064,18 +1064,11 @@ public class QuestionMenu {
 				JButton confirmButton;
 				JButton neither;
 				JButton showNotes;
-				
-		/* class that is going to handle the button inputs */
-		/* players can only select one of the card options before hitting the confirmButton  */
-		static class ButtonPane extends JPanel{
-			JButton confirmButton;
-			JButton neither;
-			JButton showNotes;
-				
-				
-		}	
+					
+			}
 	}
 }
+
 
 
 
