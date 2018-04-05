@@ -436,15 +436,33 @@ public class UserInterface extends JPanel {
 
             return exitChoiceButton;
         }
+
+        public ExitChoiceListener getNewExitChoiceListener(int i) {
+            return new ExitChoiceListener(i);
+        }
+
         class ExitChoiceListener implements ActionListener {
+            int exitNumber;
+
+            // If they press an exit button
+            public ExitChoiceListener(int num) {
+                this.exitNumber = num;
+            }
+            // If they enter their choice instead
+            public ExitChoiceListener() {
+                this.exitNumber = -1;
+            }
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                int choice = -1;
+                int choice = exitNumber;
                 // Check to ensure the entry was an integer
-                try {
-                    choice = Integer.valueOf(inputField.getText());
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter only an integer value");
+                if (choice == -1) {
+                    try {
+                        choice = Integer.valueOf(inputField.getText());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Please enter only an integer value");
+                    }
                 }
                 // Call method in GameLogic to see if entry was valid for the number of exits
                 GameLogic.PlayerEntry.checkRoomExit(currentPlayer, choice);
@@ -540,7 +558,6 @@ public class UserInterface extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-//            display.remove(questionMenu);
             display.add(userDisplay);
             display.revalidate();
         }
@@ -687,12 +704,20 @@ public class UserInterface extends JPanel {
 
             possibleCommandsList.setLayout(new GridLayout(choices.size(), 1));
 
+//            for (Integer i : choices) {
+//                JLabel d = new JLabel("Exit " + i);
+//                possibleCommandsList.add(d);
+//                d.setForeground(Color.green);
+//                d.setHorizontalAlignment(JLabel.CENTER);
+//            }
             for (Integer i : choices) {
-                JLabel d = new JLabel("Exit " + i);
-                possibleCommandsList.add(d);
-                d.setForeground(Color.green);
-                d.setHorizontalAlignment(JLabel.CENTER);
+                String s = "Exit " + i;
+                JButton btn = new JButton(s);
+                btn.addActionListener(in.getNewExitChoiceListener(i));
+                possibleCommandsList.add(btn);
+                btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
             }
+
 
             possibleCommandsList.revalidate();
 
