@@ -234,7 +234,6 @@ public class UserInterface extends JPanel {
             // Constructor for use with JButtons
             public UserInputListener(String input) {
                 this.input = input;
-                System.out.println("CHECK: " + input);
             }
             // Generic constructor for use with text entry
             public UserInputListener() {
@@ -252,8 +251,11 @@ public class UserInterface extends JPanel {
                 if (input.equals(""))
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
                 // If this method was called from user entry
-                else
+                else {
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, input);
+                    System.out.println("CHECK: " + input);
+
+                }
 
                 // If user did not enter an appropriate command, show a JOptionPane telling
                 // them to reenter the command then clear the input box.
