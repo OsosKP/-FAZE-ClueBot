@@ -1009,7 +1009,6 @@ public class QuestionMenu {
 			// Padding around the image
 			wpnBoxGBC.insets = new Insets(1, 1, 1, 1);
 
-
 			// TODO: Add ALs to buttons
 			// Button for player having neither card, and its constraints
 			JButton neither = new JButton();
@@ -1041,7 +1040,6 @@ public class QuestionMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (player.next().equals(GameLogic.Guessing.getAccusingPlayer())) {
-					System.out.println("CHECK 1");
 					GameLogic.Guessing.unsuccessfulGuess();
 				}
 

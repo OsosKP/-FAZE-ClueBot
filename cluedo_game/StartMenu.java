@@ -1,14 +1,10 @@
 package cluedo_game;
 
-import org.jetbrains.jps.model.java.impl.runConfiguration.JpsApplicationRunConfigurationPropertiesImpl;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
@@ -57,8 +53,6 @@ public class StartMenu extends JPanel {
         holder.setContentPane(background);
         Container contentPane = holder.getContentPane();
         contentPane.setLayout(new BoxLayout(holder.getContentPane(), BoxLayout.Y_AXIS));
-
-//        holder.getContentPane().setLayout(new BoxLayout(holder.getContentPane(), BoxLayout.Y_AXIS));
 
         holder.add(title);
 
@@ -140,57 +134,4 @@ public class StartMenu extends JPanel {
             }
         }
     }
-
-    class MyButton extends JComponent implements MouseListener {
-        public MyButton() {
-            super();
-            enableInputMethods(true);
-            addMouseListener(this);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(getWidth(), getHeight());
-        }
-        @Override
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
-        }
-        @Override
-        public Dimension getMaximumSize() {
-            return getPreferredSize();
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-    }
-
 }

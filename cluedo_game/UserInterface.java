@@ -219,6 +219,7 @@ public class UserInterface extends JPanel {
          *
          * @return the button, to place into a JPanel
          */
+        // TODO: Do I need to move this?
         private JButton createPerformActionButton() {
             JButton performAction = new JButton("Perform Action");
             ActionListener listener = new UserInputListener();
@@ -226,7 +227,20 @@ public class UserInterface extends JPanel {
 
             return performAction;
         }
-        class UserInputListener implements ActionListener {
+        public class UserInputListener implements ActionListener {
+            String input;
+            String result;
+
+            // Constructor for use with JButtons
+            public UserInputListener(String input) {
+                this.input = input;
+                System.out.println("CHECK: " + input);
+            }
+            // Generic constructor for use with text entry
+            public UserInputListener() {
+                this.input = "";
+            }
+
             public void actionPerformed(ActionEvent event) {
                 if (inputField.getText().equals("")){
                     inputField.setText("");
@@ -234,7 +248,12 @@ public class UserInterface extends JPanel {
                     return;
                 }
 
-                String result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
+                // If this method was called from a button
+                if (input.equals(""))
+                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
+                // If this method was called from user entry
+                else
+                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, input);
 
                 // If user did not enter an appropriate command, show a JOptionPane telling
                 // them to reenter the command then clear the input box.
@@ -280,15 +299,15 @@ public class UserInterface extends JPanel {
                                 break;
                             // If player is making a question, enter the appropriate menu
                             case "question":
-                                                               
+
                                 /* Creating a question menu  */
                                 initialQuestion = new QuestionMenu(currentPlayer.getName(), display, userDisplay);
-                                
+
                                 display.remove(userDisplay);
                                 display.add(initialQuestion.returnPanel());
                                 display.revalidate();
                                 display.repaint();
-                                
+
                                 break;
                             case "passage":
                                 //Moves players in ArrayList<Token> Room.playersInRoom, and moves player in boardpanel
@@ -494,6 +513,10 @@ public class UserInterface extends JPanel {
             input.revalidate();
             refreshDisplayForNextTurn(currentPlayer);
         }
+
+        public UserInputListener getNewUserInputListener(String s) {
+            return new UserInputListener(s);
+        }
     }
 
     // TODO: Question
@@ -625,18 +648,27 @@ public class UserInterface extends JPanel {
 
                     }
                 }
+//                else {
+//                    possibleCommandsList.setLayout(new GridLayout(3, 1));
+//                    ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
+//                    for (String s : options) {
+//                        JLabel d = new JLabel(s);
+//                        d.setForeground(Color.yellow);
+//                        d.setHorizontalAlignment(JLabel.CENTER);
+//                        possibleCommandsList.add(d);
+//                    }
+//                }
                 else {
-                    possibleCommandsList.setLayout(new GridLayout(3, 1));
+                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
-                        JLabel d = new JLabel(s);
-                        d.setForeground(Color.yellow);
-                        d.setHorizontalAlignment(JLabel.CENTER);
-                        possibleCommandsList.add(d);
+                        JButton btn = new JButton(s);
+                        btn.addActionListener(in.getNewUserInputListener(s));
+                        possibleCommandsList.add(btn);
                     }
                 }
             } catch (Exception e) {
-                e.getMessage();
+                e.printStackTrace();
             }
 
             possibleCommandsList.repaint();
@@ -723,27 +755,6 @@ public class UserInterface extends JPanel {
 
     public OutputTextDisplay getOut() {
         return out;
-    }
-
-    /**
-     * The graphical portion of the GUI
-     */
-    public JPanel boardImagePanel() {
-
-        BufferedImage bi = null;
-        BoardImage boardimage = new BoardImage();
-
-        try {
-            bi = attemptToLoadImageFromResourceFolder();
-        } catch (Exception resourceLoadException) {
-            resourceLoadException.printStackTrace();
-        }
-
-        return boardimage.returnPanel(bi);
-    }
-
-    public void setBoardImagePanel(JPanel panel) {
-        boardImagePanel = panel;
     }
 
     /**
