@@ -27,7 +27,7 @@ public class QuestionMenu {
 	/* Representing which player is currently getting 'accused'  */
 	boolean characterSelected = false, isPlum = false, isGreen = false, isMustard = false, isPeacock = false, isScarlet = false, isWhite = false;
 	/* Representing which weapon is getting 'guessed' */
-	boolean weaponSelected = false, isCandlestick = false, isDagger = false, isPipe = false, isPistol = false, isRope = false;
+	boolean weaponSelected = false, isCandlestick = false, isDagger = false, isLeadPipe = false, isPistol = false, isRope = false;
 	
 	private ChoiceContainer currentContainer;
 	private JPanel finalPanel;
@@ -37,8 +37,6 @@ public class QuestionMenu {
 	
 	private String returnString[];
 	private String currentPlayerGuessing;
-
-	QuestionRound questions = null;
 	
 	public QuestionMenu(String currentPlayerName, JFrame initialPanel, JPanel revert) {
 		this.currentPlayerGuessing = currentPlayerName;				
@@ -77,7 +75,7 @@ public class QuestionMenu {
 		isScarlet = false;
 		isWhite = false;
 		
-		if (isCandlestick || isDagger || isPipe || isPistol || isRope) {
+		if (isCandlestick || isDagger || isLeadPipe || isPistol || isRope) {
 			weaponSelected = true;
 		}
 		
@@ -116,7 +114,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think Plum is the killer, and he used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think Plum is the killer, and he used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -134,7 +132,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think Green is the killer, and he used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think Green is the killer, and he used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -152,7 +150,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think Mustard is the killer, and he used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think Mustard is the killer, and he used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -170,7 +168,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think Peacock is the killer, and she used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think Peacock is the killer, and she used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -188,7 +186,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -206,7 +204,7 @@ public class QuestionMenu {
 				else if (isDagger) {
 					dynamicGuess.setText("\"I think White is the killer, and she used the dagger\"");
 				}
-				else if (isPipe) {
+				else if (isLeadPipe) {
 					dynamicGuess.setText("\"I think White is the killer, and she used the lead pipe\"");
 				}
 				else if (isPistol) {
@@ -228,7 +226,7 @@ public class QuestionMenu {
 		/* Need to make sure we re-set any of booleans that MAY have been triggered by the user before -- we cant let them select more than one weapon */
 		isCandlestick = false;
 		isDagger = false;
-		isPipe = false;
+		isLeadPipe = false;
 		isPistol = false;
 		isRope = false;
 		
@@ -248,7 +246,7 @@ public class QuestionMenu {
 			}
 			else if (name.equals("pipe")) {
 				dynamicGuess.setText("\"I think ? is the killer, and s/he used the lead pipe\"");
-				isPipe = true;
+				isLeadPipe = true;
 			}
 			else if (name.equals("pistol")) {
 				dynamicGuess.setText("\"I think ? is the killer, and s/he used the pistol\"");
@@ -272,7 +270,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think Plum is the killer, and he used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think Plum is the killer, and he used the pistol\"");
@@ -294,7 +292,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think Green is the killer, and he used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think Green is the killer, and he used the pistol\"");
@@ -316,7 +314,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think Mustard is the killer, and he used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think Mustard is the killer, and he used the pistol\"");
@@ -338,7 +336,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think Peacock is the killer, and she used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think Peacock is the killer, and she used the pistol\"");
@@ -360,7 +358,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think Scarlet is the killer, and she used the pistol\"");
@@ -382,7 +380,7 @@ public class QuestionMenu {
 				}
 				else if (name.equals("pipe")) {
 					dynamicGuess.setText("\"I think White is the killer, and she used the lead pipe\"");
-					isPipe = true;
+					isLeadPipe = true;
 				}
 				else if (name.equals("pistol")) {
 					dynamicGuess.setText("\"I think White is the killer, and she used the pistol\"");
@@ -445,7 +443,7 @@ public class QuestionMenu {
 		}
 		
 		public void enableButton() {
-			if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isPipe || isPistol || isRope)) {
+			if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
 				confirm.setEnabled(true);
 			}
 			else {
@@ -460,7 +458,7 @@ public class QuestionMenu {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					/* If the user has selected one of each type of card to guess */
-					if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isPipe || isPistol || isRope)) {
+					if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
 						returnString = new String[3];
 						
 						/* Getting the character info selected */
@@ -490,7 +488,7 @@ public class QuestionMenu {
 						else if (isDagger) {
 							returnString[1] = "dagger";
 						}
-						else if (isPipe) {
+						else if (isLeadPipe) {
 							returnString[1] = "pipe";
 						}
 						else if (isPistol) {
@@ -517,9 +515,8 @@ public class QuestionMenu {
 						initialUserDisplay.getContentPane().removeAll();
 						// TODO: Will use this eventually, but first we go to the other question panel in UI
 //						initialUserDisplay.add(revertToMe);
-						questions = new QuestionRound();
 						initialUserDisplay.add(
-								questions.beginQuestionRound(returnString[0], returnString[1]));
+								QuestionRound.beginQuestionRound(returnString[0], returnString[1]));
 												
 						initialUserDisplay.revalidate();
 						initialUserDisplay.repaint();						
@@ -857,7 +854,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pipe")) {
-								image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+								image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pistol")) {
@@ -883,7 +880,7 @@ public class QuestionMenu {
 								currentImage.setIcon(new ImageIcon(image));
 							}
 							else if (name.equals("pipe")) {
-								image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+								image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
 								currentImage.setIcon(new ImageIcon(image));										
 							}
 							else if (name.equals("pistol")) {
@@ -948,35 +945,27 @@ public class QuestionMenu {
 			}	
 		}
 	}
+		/* Class that will handle the players confirming the question that was proposed by another player */
+		public static class QuestionRound {
+			private static GuessedCards showCards;
+			private static Title questionTitle;
+			private static ButtonPane confirmButtons;
 
-	public void revertToRegularDisplay() {
-		initialUserDisplay.getContentPane().removeAll();
-		initialUserDisplay.getContentPane().add(revertToMe);
-		initialUserDisplay.revalidate();
-		initialUserDisplay.repaint();
-		initialUserDisplay.setVisible(true);
-	}
-
-	public class QuestionRound extends JPanel {
-		private BufferedImage characterImage;
-		private BufferedImage weaponImage;
-		private JLabel characterBox;
-		private JLabel weaponBox;
-		private JLabel turnLabel;
-		private Token player;
-
-		public JPanel beginQuestionRound(String character, String weapon) {
-			try {
-				characterImage = ImageIO.read(new File("src/characterCards/" +
-						character.substring(0, 1).toUpperCase() + character.substring(1) + ".png"));
-
-				weaponImage = ImageIO.read(new File("src/weaponCards/" +
-						weapon.substring(0, 1).toUpperCase() + weapon.substring(1) + ".png"));
-			} catch (IOException e) {
-				System.out.println("Searched: " + character + " - " + weapon);
-				e.getMessage();
+			public QuestionRound() {
+				// TODO Auto-generated constructor stub
+			}
+			
+			public static JPanel beginQuestionRound(String character, String weapon) {
+				JPanel returnMe = new JPanel();
+				returnMe.setLayout(new BorderLayout());
+				
+				questionTitle = new Title();
+				showCards = new GuessedCards(character, weapon);
+				
+				return returnMe;
 			}
 
+<<<<<<< HEAD
 			player = GameLogic.Guessing.getAnsweringPlayer();
 			turnLabel = new JLabel();
 			turnLabel.setText("Does " + player.getName() + " have one of these cards?");
@@ -1041,16 +1030,101 @@ public class QuestionMenu {
 			public void actionPerformed(ActionEvent e) {
 				if (player.next().equals(GameLogic.Guessing.getAccusingPlayer())) {
 					GameLogic.Guessing.unsuccessfulGuess();
-				}
+=======
+			/* Class that handles the title */
+			static class Title extends JPanel{
+				private JLabel title;
+				private GridBagLayout layout;
+				private GridBagConstraints gbc;
 
-				else {
-					player = player.next();
-					turnLabel.setText("Does " + player.getName() + " have one of these cards?");
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					super.setLayout(mgr);
+>>>>>>> eec8ae4b27a51a3e8fbe4dbc29730ce9ce2955c3
+				}
+	
+				public Title() {
+					layout = new GridBagLayout();
+					gbc = new GridBagConstraints();	
+		
+					this.setLayout(layout);
+					title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+		
+					gbc.gridx=0;
+					gbc.gridy=0;
+					this.add(title, gbc);
+				}		
+			}
+		
+			/* classes to represent the images the player guessed earlier  */
+			static class GuessedCards extends JPanel{
+				private IndividualPicture characterImage;
+				private IndividualPicture weaponImage;
+
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					// TODO Auto-generated method stub
+					super.setLayout(mgr);
+				}
+				
+				public GuessedCards(String characterName, String weaponName) {
+					this.setLayout(new GridLayout(1,2));
+					
+					/* Creating the cards */
+					characterImage = new IndividualPicture(characterName, "character");
+					weaponImage = new IndividualPicture(weaponName, "weapon");
+					
+					this.add(characterImage);
+					this.add(weaponImage);
+				}
+				
+				/* Class that is going to handle the individual pictures */
+				class IndividualPicture extends JPanel{
+					private JLabel imageLabel;
+					private String type;
+					private String name;
+					private void setImage(String name, String type) {
+						BufferedImage image = null;
+						try {
+							if (type.equals("weapon")) {
+								image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+
+							}
+							else if (type.equals("character")) {
+								image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+							}						
+						} catch (Exception e) {
+							System.err.println(e);
+						}
+
+						imageLabel.setIcon(new ImageIcon(image));
+					}
+					
+					@Override
+					public void setLayout(LayoutManager mgr) {
+						// TODO Auto-generated method stub
+						super.setLayout(mgr);
+					}
+					
+					public IndividualPicture(String name, String type) {
+						this.setLayout(new BorderLayout());
+						setImage(name, type);
+						this.type = type;
+						this.name = name;
+						this.add(imageLabel, BorderLayout.CENTER);
+					}
 				}
 			}
-		};
-
-
+			
+			/* class that is going to handle the button inputs */
+			/* players can only select one of the card options beore they hit confirm -- then they */
+			static class ButtonPane extends JPanel{
+				JButton confirmButton;
+				JButton neither;
+				JButton showNotes;
+				
+				
+			}	
 	}
 }
 
