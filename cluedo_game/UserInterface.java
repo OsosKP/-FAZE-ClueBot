@@ -241,20 +241,25 @@ public class UserInterface extends JPanel {
             }
 
             public void actionPerformed(ActionEvent event) {
-                if (inputField.getText().equals("")){
+                if (inputField.getText().equals("") && input.equals("")){
                     inputField.setText("");
                     inputField.requestFocus();
                     return;
                 }
 
+                // String becomes either text entered or result of button
+                String text;
+
                 // If this method was called from a button
-                if (input.equals(""))
-                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, inputField.getText());
+                if (input.equals("")) {
+                    text = inputField.getText();
+                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
+
+                }
                 // If this method was called from user entry
                 else {
-                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, input);
-                    System.out.println("CHECK: " + input);
-
+                    text = input;
+                    result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
                 }
 
                 // If user did not enter an appropriate command, show a JOptionPane telling
@@ -330,14 +335,14 @@ public class UserInterface extends JPanel {
                         else {
                             out.updateMoveHistory(result);
                             if (currentPlayer.getInRoom() == null) {
-                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + text
                                         + "\t\tNew Location: " + currentPlayer.getSquareOn().getPositionAsString());
 
                                int[] currentCoordinates;
                                int[] destinationCoordinates = currentPlayer.getSquareOn().getPosition();//Since the player has already moved, destination is the "current" square
                                JPanel movementPanel = null;
 
-                               switch (inputField.getText()) {
+                               switch (text) {
                                    case "up"://Since the player has already moved, current is the "previous" position
                                    case "u":
                                        currentCoordinates = currentPlayer.getSquareOn().getBelow().getPosition();
@@ -372,7 +377,7 @@ public class UserInterface extends JPanel {
                             }
                             else {//If the player (In game logic) has already moved into a room
                                 //I think this is the right place
-                                switch (inputField.getText()) {
+                                switch (text) {
                                     case "up"://Since the player has already moved, current is the "previous" position
                                     case "u":
                                     case "down":
@@ -389,7 +394,7 @@ public class UserInterface extends JPanel {
                                 }
 
                                 // Print action and location to system out
-                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + inputField.getText()
+                                System.out.println("Player:\t" + currentPlayer.getName() + "\tAction: " + text
                                         + "\t\tNew Location: " + currentPlayer.getInRoom().getName());
                                 // Only update move history with player's room if they aren't making a question
                                     // Otherwise it'll say they're in the room multiple times.
@@ -614,6 +619,8 @@ public class UserInterface extends JPanel {
             // p == null is for testing (hopefully), won't be in the game
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
+            possibleCommandsList.repaint();
+            possibleCommandsList.revalidate();
 
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
@@ -630,16 +637,17 @@ public class UserInterface extends JPanel {
                 if (p == null)
                     throw new Exception("Player not found error");
                 if (p.getInRoom() == null) {
-                    possibleCommandsList.setLayout(new GridLayout(4, 1));
+                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
                     // If player is on a square, get the type of square and show their available
                     // commands based on what is available from that square.
                     switch (p.getLocationAsString()) {
+                        // TODO: This messes up the BoardImage if a player presses button to enter room
                         case "floor":
                             for (String s : AcceptedUserInputs.getFloorNavigation()) {
-                                JLabel d = new JLabel(s);
-                                d.setForeground(Color.yellow);
-                                d.setHorizontalAlignment(JLabel.CENTER);
-                                possibleCommandsList.add(d);
+                                JButton btn = new JButton(s);
+                                btn.addActionListener(in.getNewUserInputListener(s));
+                                possibleCommandsList.add(btn);
+                                btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                             }
                             break;
                         case "wall":
@@ -650,24 +658,17 @@ public class UserInterface extends JPanel {
 
                     }
                 }
-//                else {
-//                    possibleCommandsList.setLayout(new GridLayout(3, 1));
-//                    ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
-//                    for (String s : options) {
-//                        JLabel d = new JLabel(s);
-//                        d.setForeground(Color.yellow);
-//                        d.setHorizontalAlignment(JLabel.CENTER);
-//                        possibleCommandsList.add(d);
-//                    }
-//                }
                 else {
                     possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
+                    possibleCommandsList.removeAll();
                     ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
                     for (String s : options) {
                         JButton btn = new JButton(s);
                         btn.addActionListener(in.getNewUserInputListener(s));
                         possibleCommandsList.add(btn);
+                        btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                     }
+                    possibleCommandsList.revalidate();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
