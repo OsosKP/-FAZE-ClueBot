@@ -1,6 +1,5 @@
 package cluedo_game;
 
-import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,6 +84,10 @@ public class UserInterface extends JPanel {
 
         // Make the UI visible
         display.setVisible(true);
+    }
+
+    public void refreshGui() {
+        initialQuestion.revertToRegularDisplay();
     }
 
     public void refreshDisplayForNextTurn(Token p) {
@@ -184,6 +187,7 @@ public class UserInterface extends JPanel {
                 input.add(performActionButton, BorderLayout.EAST);
                 whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn. Moves Left: "
                         + GameLogic.getMovesLeft());
+                in.promptLabel.setText("     What would you like to do?");
                 out.updateAllowedCommandsBasedOnSquare(currentPlayer);
                 inputField.setText("");
                 input.revalidate();
@@ -746,5 +750,9 @@ public class UserInterface extends JPanel {
     public BufferedImage attemptToLoadImageFromResourceFolder() throws Exception {
         URL imageUrl = this.getClass().getResource("board1.jpg");
         return ImageIO.read(imageUrl);
+    }
+
+    public QuestionMenu getInitialQuestion() {
+        return initialQuestion;
     }
 }

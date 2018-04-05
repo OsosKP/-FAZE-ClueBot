@@ -436,6 +436,11 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 		}
+
+		public static void unsuccessfulGuess() {
+//			ui.getInitialQuestion().revertToBoard();
+			ui.refreshGui();
+		}
     }
 
 
