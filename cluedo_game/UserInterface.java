@@ -86,7 +86,10 @@ public class UserInterface extends JPanel {
         display.setVisible(true);
     }
 
-    public void refreshGui() {
+    // TODO: Kelsey
+    public void refreshGuiFromUnsuccessfulGuess() {
+        out.updateMoveHistory(currentPlayer.getName() + "'s questioning was unsuccessful!");
+        playerList.advanceTurn(currentPlayer);
         initialQuestion.revertToRegularDisplay();
     }
 

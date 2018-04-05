@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
@@ -16,8 +18,19 @@ public class StartMenu extends JPanel {
     JButton debugStartGameButton;
     BufferedImage bgImage = null;
     BufferedImage titleImage = null;
+    BufferedImage buttonImage = null;
+    int buttonWidth;
+    int buttonHeight;
 
     public StartMenu() {
+        // Load button icon image
+        URL buttonImageURL = this.getClass().getResource("button.jpg");
+        try {
+            buttonImage = ImageIO.read(buttonImageURL);
+        } catch (Exception e) { e.printStackTrace(); }
+        buttonWidth = buttonImage.getWidth();
+        buttonHeight = buttonImage.getHeight();
+
         createStartGameButtons();
         JButton helpButton = createHelpButton();
 
@@ -48,10 +61,7 @@ public class StartMenu extends JPanel {
 //        holder.getContentPane().setLayout(new BoxLayout(holder.getContentPane(), BoxLayout.Y_AXIS));
 
         holder.add(title);
-        // Create spacers
-        for (int i=0; i<4; i++) {
-            holder.add(new JLabel(" "));
-        }
+
         holder.add(startGameButton);
         holder.add(debugStartGameButton);
         holder.add(helpButton);
@@ -68,10 +78,21 @@ public class StartMenu extends JPanel {
      * A button that must be pressed to start the game
      */
     private void createStartGameButtons() {
-        startGameButton = new JButton("Start Game");
+        startGameButton = new JButton("Start Game", new ImageIcon(buttonImage));
+        startGameButton.setHorizontalTextPosition(JButton.CENTER);
+        startGameButton.setVerticalTextPosition(JButton.CENTER);
+        startGameButton.setBorderPainted(false);
+        startGameButton.setFont(new Font("Arial", Font.ITALIC, 32));
+        startGameButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         StartGameListener regular = new StartGameListener(false);
         startGameButton.addActionListener(regular);
-        debugStartGameButton = new JButton("Debug Mode");
+
+        debugStartGameButton = new JButton("Debug Mode", new ImageIcon(buttonImage));
+        debugStartGameButton.setHorizontalTextPosition(JButton.CENTER);
+        debugStartGameButton.setVerticalTextPosition(JButton.CENTER);
+        debugStartGameButton.setBorderPainted(false);
+        debugStartGameButton.setFont(new Font("Arial", Font.ITALIC, 32));
+        debugStartGameButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         StartGameListener debug = new StartGameListener(true);
         debugStartGameButton.addActionListener(debug);
     }
@@ -87,7 +108,12 @@ public class StartMenu extends JPanel {
     }
 
     private JButton createHelpButton() {
-        JButton helpButton = new JButton("Help");
+        JButton helpButton = new JButton("Help", new ImageIcon(buttonImage));
+        helpButton.setHorizontalTextPosition(JButton.CENTER);
+        helpButton.setVerticalTextPosition(JButton.CENTER);
+        helpButton.setBorderPainted(false);
+        helpButton.setFont(new Font("Arial", Font.ITALIC, 32));
+        helpButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         helpButton.addActionListener(new HelpListener());
 
         return helpButton;
@@ -114,4 +140,57 @@ public class StartMenu extends JPanel {
             }
         }
     }
+
+    class MyButton extends JComponent implements MouseListener {
+        public MyButton() {
+            super();
+            enableInputMethods(true);
+            addMouseListener(this);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(getWidth(), getHeight());
+        }
+        @Override
+        public Dimension getMinimumSize() {
+            return getPreferredSize();
+        }
+        @Override
+        public Dimension getMaximumSize() {
+            return getPreferredSize();
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
 }
