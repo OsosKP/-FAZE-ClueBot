@@ -1034,12 +1034,12 @@ public class QuestionMenu {
 							}
 							else if (type.equals("character")) {
 								image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
-							}						
+							}
+							
+							imageLabel.setIcon(new ImageIcon(image));
 						} catch (Exception e) {
 							System.err.println(e);
 						}
-
-						imageLabel.setIcon(new ImageIcon(image));
 					}	
 					
 					@Override
