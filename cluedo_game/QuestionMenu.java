@@ -1331,18 +1331,13 @@ public class QuestionMenu {
 
         /* class that is going to handle the button inputs */
         /* players can only select one of the card options before they hit confirm -- then they */
-<<<<<<< HEAD
-        static class ButtonPane extends JPanel{
-=======
         static class ButtonPane extends JPanel {
->>>>>>> 5559d03731d899c54f3d2549a1a5ded59e9e930c
             JButton confirmButton;
             JButton neitherButton;
             JButton showNotesButton;
             
             @Override
             public void setLayout(LayoutManager mgr) {
-            	// TODO Auto-generated method stub
             	super.setLayout(mgr);
             }
             

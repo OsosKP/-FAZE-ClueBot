@@ -416,7 +416,7 @@ class MiscCommands extends JPanel{
 	public void setTitles() {
 		miscTitle = new JLabel("Miscellaneous");
 		helpTitle = new JLabel("help - opens the current page, this does not count as your action for the turn");
-		notesTitle = new JLabel("notes - shows all the infomation that you have about the murder");
+		notesTitle = new JLabel("notes - shows all the information that you have about the murder");
 	}
 	
 	public MiscCommands() {
@@ -438,14 +438,46 @@ class HowToPlayInfo extends JPanel{
 	
 	@Override
 	public void setLayout(LayoutManager mgr) {
-		// TODO Auto-generated method stub
 		super.setLayout(mgr);
 	}
 	
 	public void setTitles() {
-		movementInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Move</div><br>You can move only horizontally or vertically, never diagonally, and can't enter a space or doorway you have already entered this turn.<br><br>You can move through a doorway to enter a room, but this ends your movement.<br><br>You can't move through a yellow space occupied by another player, but multiple players can be in the same room.<br><br>If you start your turn in a room with a secret passage, you can use the secret passage instead of rolling the die.<br><br>This will put your character in another room across the board, ending your movement.<br></html>");
-		guessingInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Guess</div><br>If you end your movement in a room, you get to make a guess. To do this, reference the guess commands to the left. For example, if you just entered the lounge, you might say, \"XX \" The named suspect and murder weapon are both moved into your current room.<br><br>The player to your left must disprove your suggestion by showing you one card from her hand that matches your suggestion. If that player can't do so, the player to her left must disprove your suggestion by showing you one card from his hand. This responsibility passes clockwise until someone shows you a card, or until all players have passed.<br><br>If someone shows you a card, you should cross it off on your detective notebook as a possibility. Any cards you hold should also be crossed off as possibilities. Don't let other players see your notebook.<br></html>");
-		solveInstructions = new JLabel("<html><div style= 'text-align: center;'>How To Accuse</div><br>If you think you have solved the case by eliminating all the false possibilities and have not just had your suggestion disproved this turn, you can end your turn by making an accusation, provided that you are in the celler. Announce that you are making an accusation, and state your final guess of the murderer, the murder weapon, and the murder location.<br><br>Once this is done, secretly look at the three cards in the murder envelope. If you are correct, lay the cards face-up on the table, proving to all players that you have won the game.<br><br>If you are wrong, you lose the game! Secretly replace the three cards back in the murder envelope without revealing them. Your turn is over, and you are now eliminated from the game.<br></html>");
+		movementInstructions = new JLabel("<html><div style= 'text-align: center;'>" +
+				"How To Move</div><br>You can move only horizontally or vertically, never diagonally, " +
+				"and can't enter a space or doorway you have already entered this turn.<br><br>" +
+				"You can move through a doorway to enter a room, but this ends your movement.<br><br>" +
+				"You can't move through a yellow space occupied by another player, " +
+					"but multiple players can be in the same room.<br><br>" +
+				"If you start your turn in a room with a secret passage, " +
+					"you can use the secret passage instead of rolling the die.<br><br>" +
+				"This will put your character in another room across the board, ending your movement.<br></html>");
+		guessingInstructions = new JLabel("<html><div style= 'text-align: center;'>" +
+				"How To Guess</div><br>If you end your movement in a room, you get to make a guess. " +
+				"To do this, reference the guess commands to the left. " +
+				"For example, if you just entered the lounge, you might say, \"XX \" " +
+				"The named suspect and murder weapon are both moved into your current room.<br><br>" +
+				"The player to your left must disprove your suggestion by showing you one card from her hand " +
+					"that matches your suggestion. " +
+				"If that player can't do so, the player to her left must disprove your suggestion " +
+					"by showing you one card from his hand. " +
+				"This responsibility passes clockwise until someone shows you a card, " +
+					"or until all players have passed.<br><br>" +
+				"If someone shows you a card, you should cross it off on your detective notebook as a possibility. " +
+				"Any cards you hold should also be crossed off as possibilities. " +
+				"Don't let other players see your notebook.<br></html>");
+		solveInstructions = new JLabel("<html><div style= 'text-align: center;'>" +
+				"How To Accuse</div><br>" +
+				"If you think you have solved the case by eliminating all the false possibilities " +
+					"and have not just had your suggestion disproved this turn, " +
+					"you can end your turn by making an accusation in the cellar. " +
+				"Announce that you are making an accusation, and state your final guess of the murderer, " +
+					"the murder weapon, and the murder location.<br><br>" +
+				"Once this is done, secretly look at the three cards in the murder envelope. " +
+				"If you are correct, lay the cards face-up on the table, " +
+					"proving to all players that you have won the game.<br><br>" +
+				"If you are wrong, you lose the game! " +
+				"Secretly replace the three cards back in the murder envelope without revealing them. " +
+				"Your turn is over, and you are now eliminated from the game.<br></html>");
 	}
 	
 	public HowToPlayInfo() {
@@ -470,10 +502,10 @@ class PlayerListCharacterNameInfo extends JPanel{
 	
 	public void setTitles() {
 			ArrayList<String> characterNames = new ArrayList<String>();
-			ArrayList<String> usernames = new ArrayList<String>();
+			ArrayList<String> userNames = new ArrayList<String>();
 			
 			characterNames = GameLogic.playerList.returnCharacterNames();
-			usernames = GameLogic.playerList.returnUsernames();
+			userNames = GameLogic.playerList.returnUsernames();
 			
 			String characterNameString;
 			String userNameString = "<html>";
@@ -481,20 +513,20 @@ class PlayerListCharacterNameInfo extends JPanel{
 			
 			for (int i = 0; i < characterNames.size(); i++) {
 				characterNameString = characterNames.get(i);
-				userNameString = userNameString + usernames.get(i) + " is playing: " + characterNames.get(i) +"<br>";
+				userNameString = userNameString + userNames.get(i) + " is playing: " + characterNames.get(i) +"<br>";
 				playerListArray.add(new JLabel(characterNameString));
 			}
 			userNameString = userNameString + "</html>";
-			playerTitle = new JLabel("All the Characters who were Created", SwingConstants.CENTER);
+			playerTitle = new JLabel("All the Characters who were created", SwingConstants.CENTER);
 	}
 	
 	public PlayerListCharacterNameInfo() {
 		this.setLayout(new GridLayout(playerListArray.size(),1));
 		this.setTitles(); 
 		this.add(playerTitle);
-		for (int i = 0; i < playerListArray.size(); i++) {
-			this.add(playerListArray.get(i));
-		}
+
+		for (JLabel l : playerListArray)
+			this.add(l);
 	}
 }
 
@@ -506,21 +538,20 @@ class PlayerListUsernameInfo extends JPanel{
 	
 	@Override
 	public void setLayout(LayoutManager mgr) {
-		// TODO Auto-generated method stub
 		super.setLayout(mgr);
 	}
 	
 	public void setTitles() {
-			ArrayList<String> usernames = new ArrayList<String>();
+			ArrayList<String> userNames = new ArrayList<String>();
 			ArrayList<String> characterNames = new ArrayList<String>();
 		
-			usernames = GameLogic.playerList.returnUsernames();
+			userNames = GameLogic.playerList.returnUsernames();
 			characterNames = GameLogic.playerList.returnCharacterNames();		
 			
 			String userNameString;
 			
-			for (int i = 0; i < usernames.size(); i++) {
-				userNameString = usernames.get(i) + " is playing: " + characterNames.get(i);
+			for (int i = 0; i < userNames.size(); i++) {
+				userNameString = userNames.get(i) + " is playing: " + characterNames.get(i);
 				playerListArray.add(new JLabel(userNameString));
 			}
 			playerTitle = new JLabel("Players' Character Selection", SwingConstants.CENTER);

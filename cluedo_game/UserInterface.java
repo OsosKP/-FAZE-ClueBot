@@ -219,7 +219,6 @@ public class UserInterface extends JPanel {
          *
          * @return the button, to place into a JPanel
          */
-        // TODO: Do I need to move this?
         private JButton createPerformActionButton() {
             JButton performAction = new JButton("Perform Action");
             ActionListener listener = new UserInputListener();
@@ -603,7 +602,7 @@ public class UserInterface extends JPanel {
              */
             possibleCommandsList = new JPanel();
             possibleCommandsList.setBackground(Color.GRAY);
-            possibleCommandsList.setLayout(new GridLayout(4, 1));
+            possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
             possibleCommandsList.setBorder(BorderFactory.createEtchedBorder(Color.BLACK, Color.BLACK));
             allowedCommandsDisplay.add(possibleCommandsList, BorderLayout.CENTER);
 
@@ -638,6 +637,8 @@ public class UserInterface extends JPanel {
             possibleCommandsList.removeAll();
             possibleCommandsList.repaint();
             possibleCommandsList.revalidate();
+            possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
+
 
             if (p == null)
                 locationReadout.setText("Not on the board. Testing?");
@@ -654,11 +655,10 @@ public class UserInterface extends JPanel {
                 if (p == null)
                     throw new Exception("Player not found error");
                 if (p.getInRoom() == null) {
-                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
+//                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
                     // If player is on a square, get the type of square and show their available
                     // commands based on what is available from that square.
                     switch (p.getLocationAsString()) {
-                        // TODO: This messes up the BoardImage if a player presses button to enter room
                         case "floor":
                             for (String s : AcceptedUserInputs.getFloorNavigation()) {
                                 JButton btn = new JButton(s);
@@ -701,7 +701,7 @@ public class UserInterface extends JPanel {
 
             ArrayList<Integer> choices = AcceptedUserInputs.getRoomExits(currentPlayer.getInRoom());
 
-            possibleCommandsList.setLayout(new GridLayout(choices.size(), 1));
+            possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
 
             for (Integer i : choices) {
                 String s = "Exit " + i;

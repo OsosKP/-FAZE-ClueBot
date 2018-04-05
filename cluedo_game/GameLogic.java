@@ -451,7 +451,6 @@ public class GameLogic {
 		try {
 			startMusic = new LoopSound();
 			startMusic.play();
-//			startMusic.run();
 		} catch (Exception e) {
 			System.out.println("Music failed to Load");
 			e.printStackTrace();
