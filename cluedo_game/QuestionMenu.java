@@ -856,7 +856,291 @@ public class QuestionMenu {
     }
 
 
+<<<<<<< HEAD
+=======
+	
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				super.setLayout(mgr);
+			}
+	
+			public WeaponTitle() {
+				layout = new GridBagLayout();
+				gbc = new GridBagConstraints();	
+		
+				this.setLayout(layout);
+		
+				title= new JLabel("---Select a Weapon below--- ");
+				gbc.gridx=0;
+				gbc.gridy=0;
+				this.add(title, gbc);
+			}
+		}
+		
+		/* Class is going to deal with the weapon pictures */
+		class WeaponPictures extends JPanel {
+			private IndividualPicture[] weaponPictures = new IndividualPicture[5];
+			
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				super.setLayout(mgr);
+			}
+		
+			public WeaponPictures() {
+				this.setLayout(new GridLayout(1,5));
+				String[] weaponNames = {"candlestick", "dagger", "pipe", "pistol", "rope"};
+				
+				for (int i = 0; i < 5; i++) {
+					weaponPictures[i] = new IndividualPicture(weaponNames[i], i);
+					this.add(weaponPictures[i]);
+				}
+			}
+			
+			/* Going to handle the individual pictures for weapons */
+			class IndividualPicture extends JPanel{
+				private JLabel currentImage = new JLabel();
+				private int objNum;
+				private String name;
+				private Boolean isGrayed = false;
+			
+				@Override
+				public void setLayout(LayoutManager mgr) {
+					super.setLayout(mgr);
+				}
+			
+				/* Loads the specified image into our current JLabel */
+				public void loadImage(String name, Boolean colour) {
+					BufferedImage image;
+					this.name = name;
+					
+					if (colour) {
+						/* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
+						try {
+							if (name.equals("candlestick")) {
+								image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("dagger")) {
+								image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pipe")) {
+								image = ImageIO.read(new File("src/weaponCards/LeadPipe.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pistol")) {
+								image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("rope")) {
+								image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+						} catch (IOException e) {
+							System.err.println(e.getMessage());
+						}
+					}
+					else {
+						try {
+							if (name.equals("candlestick")) {
+								image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("dagger")) {
+								image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));
+							}
+							else if (name.equals("pipe")) {
+								image = ImageIO.read(new File("src/weaponCards/LeadPipeB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							else if (name.equals("pistol")) {
+								image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							else if (name.equals("rope")) {
+								image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+								currentImage.setIcon(new ImageIcon(image));										
+							}
+							} catch (IOException d) {
+								System.err.println(d);
+							}					
+					}
+				}	
+				/* Just to segment the code out more TODO: flush this out to make the other JLabels in the array grey out + update the dynamicGuess */
+				private void addListener() {
+					this.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {	
+							updateDynamicWeapon(name);
+							/* Checking to see if we can let the user close this menu */
+							confirm.enableButton();
+							
+							BufferedImage image;
+							for (int i = 0; i < 5; i++) {
+								if (weaponPictures[i].objNum != objNum) {
+										weaponPictures[i].isGrayed = true;
+										weaponPictures[i].loadImage(weaponPictures[i].name, false);
+								}
+								else {
+									weaponPictures[i].isGrayed = false;
+									weaponPictures[i].loadImage(weaponPictures[i].name, true);
+								}
+							}
+						}
+						/* Switches to the default image on hover */
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							loadImage(name, true);
+						}
+						/* Defaults the card to grey again if it has been grayed out already */
+						@Override
+						public void mouseExited(MouseEvent e) {
+							/* If the card has been grayed, ie not clicked by the user, we want to revert it back */
+							if (isGrayed) {
+								loadImage(name, false);
+							}
+						}					
+					});
+				}
+			
+				public IndividualPicture(String weaponName, int indexInAarray) {
+					this.setLayout(new BorderLayout());
+					this.objNum = indexInAarray;
+				
+					this.loadImage(weaponName, true);
+					this.addListener();
+					this.add(currentImage);	
+				}
+			}	
+		}
+	}
+	public void revertToRegularDisplay() {
+		initialUserDisplay.getContentPane().removeAll();
+		initialUserDisplay.getContentPane().add(revertToMe);
+		initialUserDisplay.revalidate();
+		initialUserDisplay.repaint();
+		initialUserDisplay.setVisible(true);
+	}
+	
+	/* Class that will handle the players confirming the question that was proposed by another player */
+	public static class QuestionRound {
+		private static GuessedCards showCards;
+		private static Title questionTitle;
+		private static ButtonPane confirmButtons;
+
+		public QuestionRound() {
+			// TODO Auto-generated constructor stub
+		}
+		
+		public static JPanel beginQuestionRound(String character, String weapon) {
+			JPanel returnMe = new JPanel();
+			returnMe.setLayout(new BorderLayout());
+			
+			questionTitle = new Title();
+			showCards = new GuessedCards(character, weapon);
+			
+			return returnMe;
+		}
+
+		/* Class that handles the title */
+		static class Title extends JPanel{
+			private JLabel title;
+			private GridBagLayout layout;
+			private GridBagConstraints gbc;
+
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				super.setLayout(mgr);
+			}
+	
+			public Title() {
+				layout = new GridBagLayout();
+				gbc = new GridBagConstraints();	
+		
+				this.setLayout(layout);
+				title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+		
+				gbc.gridx=0;
+				gbc.gridy=0;
+				this.add(title, gbc);
+			}		
+		}
+		
+		/* classes to represent the images the player guessed earlier  */
+		static class GuessedCards extends JPanel{
+			private IndividualPicture characterImage;
+			private IndividualPicture weaponImage;
+
+			@Override
+			public void setLayout(LayoutManager mgr) {
+				// TODO Auto-generated method stub
+				super.setLayout(mgr);
+			}
+				
+			public GuessedCards(String characterName, String weaponName) {
+				this.setLayout(new GridLayout(1,2));
+				
+				/* Creating the cards */
+				characterImage = new IndividualPicture(characterName, "character");
+				weaponImage = new IndividualPicture(weaponName, "weapon");
+				
+				this.add(characterImage);
+				this.add(weaponImage);
+			}
+				
+				/* Class that is going to handle the individual pictures */
+				class IndividualPicture extends JPanel{
+					private JLabel imageLabel;
+					private String type;
+					private String name;
+			
+					private void setImage(String name, String type) {
+						BufferedImage image = null;
+						try {
+							if (type.equals("weapon")) {
+								image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+
+							}
+							else if (type.equals("character")) {
+								image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+							}						
+						} catch (Exception e) {
+							System.err.println(e);
+						}
+
+						imageLabel.setIcon(new ImageIcon(image));
+					}	
+					
+					@Override
+					public void setLayout(LayoutManager mgr) {
+						// TODO Auto-generated method stub
+						super.setLayout(mgr);
+					}
+					
+					public IndividualPicture(String name, String type) {
+						this.setLayout(new BorderLayout());
+						setImage(name, type);
+						this.type = type;
+						this.name = name;
+						this.add(imageLabel, BorderLayout.CENTER);
+					}
+				}
+			}
+			
+			/* class that is going to handle the button inputs */
+			/* players can only select one of the card options beore they hit confirm -- then they */
+			static class ButtonPane extends JPanel{
+				JButton confirmButton;
+				JButton neither;
+				JButton showNotes;
+					
+			}
+	}
+>>>>>>> a0f08fb053a14cbffa21974135d5beeabcb66d8b
 }
+
 
 
 
