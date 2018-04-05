@@ -253,7 +253,6 @@ public class UserInterface extends JPanel {
                 if (input.equals("")) {
                     text = AcceptedUserInputs.simpleString(inputField.getText());
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
-
                 }
                 // If this method was called from user entry
                 else {
@@ -635,13 +634,15 @@ public class UserInterface extends JPanel {
             // p == null is for testing (hopefully), won't be in the game
             allowedCommandsDisplay.remove(possibleCommandsList);
             possibleCommandsList.removeAll();
-            possibleCommandsList.repaint();
             possibleCommandsList.revalidate();
+            possibleCommandsList.repaint();
             possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
 
 
-            if (p == null)
+            if (p == null) {
                 locationReadout.setText("Not on the board. Testing?");
+                return;
+            }
             else if (p.getSquareOn() instanceof FloorSquare)
                 locationReadout.setText("<html>You are on a Floor square.<br/>Possible Commands:</html>");
                 // This will only be accessed after a player exits the room
@@ -651,49 +652,24 @@ public class UserInterface extends JPanel {
                 locationReadout.setText("<html>You are in the " + p.getInRoom().getName()
                         + "<br/>Possible Commands:</html>");
 
+            ArrayList<String> options;
+
             try {
-                if (p == null)
-                    throw new Exception("Player not found error");
-                if (p.getInRoom() == null) {
-                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
-                    possibleCommandsList.removeAll();
-                    // If player is on a square, get the type of square and show their available
-                    // commands based on what is available from that square.
-                    switch (p.getLocationAsString()) {
-                        case "floor":
-                            for (String s : AcceptedUserInputs.getFloorNavigation()) {
-                                JButton btn = new JButton(s);
-                                btn.addActionListener(in.getNewUserInputListener(s));
-                                possibleCommandsList.add(btn);
-                                btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
-                            }
-                            break;
-                        case "wall":
-                            throw new Exception("Player is on a wall square.");
-                        default:
-                            // This case should never happen
-                            throw new Exception("Error Finding Square Type");
-                    }
+                 options = (p.getInRoom() == null) ? AcceptedUserInputs.getFloorNavigation()
+                        : AcceptedUserInputs.getRoomNavigation();
+                for (String s : options) {
+                    s = s.substring(0, 1).toUpperCase().concat(s.substring(1));
+                    JButton btn = new JButton(s);
+                    btn.addActionListener(in.getNewUserInputListener(s));
+                    possibleCommandsList.add(btn);
+                    btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                 }
-                else {
-                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
-                    possibleCommandsList.removeAll();
-                    ArrayList<String> options = AcceptedUserInputs.getRoomNavigation();
-                    for (String s : options) {
-                        JButton btn = new JButton(s);
-                        btn.addActionListener(in.getNewUserInputListener(s));
-                        possibleCommandsList.add(btn);
-                        btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
-                    }
-//                    possibleCommandsList.revalidate();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
 
             possibleCommandsList.repaint();
             allowedCommandsDisplay.add(possibleCommandsList);
             allowedCommandsDisplay.revalidate();
+            allowedCommandsDisplay.repaint();
         }
 
         public void roomExitChoicesUpdater(){
