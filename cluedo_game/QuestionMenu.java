@@ -18,9 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import cluedo_game.WeaponPane.QuestionRound;
-
-
 public class QuestionMenu {
     /* Keeps track of the frame and JPanel it is held in, important because we need to remove this panel from it when the user is done guessing */
     private JFrame initialUserDisplay;
@@ -1116,7 +1113,9 @@ public class QuestionMenu {
 
     /* Class that will handle the players confirming the question that was proposed by another player */
     public static class QuestionRound {
-        private static GuessedCards showCards;
+        boolean chooseMustard = false, chooseGreen = false, chooseScarlet = false, chooseWhite = false, choosePecock = false, choosePlum = false;
+    	
+    	private static GuessedCards showCards;
         private static Title questionTitle;
         private static ButtonPane confirmButtons;
 
@@ -1125,7 +1124,26 @@ public class QuestionMenu {
         }
 
         public static JPanel beginQuestionRound(String character, String weapon) {
-            JPanel returnMe = new JPanel();
+            if (character.equals("mustard")) {
+            	
+            }
+            else if (character.equals("green")) {
+            	
+            }
+            else if (character.equals("scarlet")) {
+            	
+            }
+            else if (character.equals("white")) {
+            	
+            }
+            else if (character.equals("peacock")) {
+            	
+            }
+            else if (character.equals("chosoePlum")) {
+            	
+            }
+        	
+        	JPanel returnMe = new JPanel();
             returnMe.setLayout(new BorderLayout());
 
             questionTitle = new Title();
@@ -1159,7 +1177,7 @@ public class QuestionMenu {
         }
 
         /* classes to represent the images the player guessed earlier  */
-        static class GuessedCards extends JPanel{
+        static class GuessedCards extends JPanel {
             private IndividualPicture characterImage;
             private IndividualPicture weaponImage;
 
@@ -1170,9 +1188,7 @@ public class QuestionMenu {
             }
 
             public GuessedCards(String characterName, String weaponName) {
-            	System.out.println("We are tyring to load: " + characterName);
-            	System.out.println("We are trying to load: " + weaponName);
-                this.setLayout(new GridLayout(1,2));
+               this.setLayout(new GridLayout(1,2));
 
                 /* Creating the cards */
                 characterImage = new IndividualPicture(characterName, "character");
@@ -1183,7 +1199,7 @@ public class QuestionMenu {
             }
 
             /* Class that is going to handle the individual pictures */
-            class IndividualPicture extends JPanel{
+            class IndividualPicture extends JPanel {
                 private JLabel imageLabel = new JLabel();
                 private String type;
                 private String name;
@@ -1223,12 +1239,38 @@ public class QuestionMenu {
         }
 
         /* class that is going to handle the button inputs */
-        /* players can only select one of the card options beore they hit confirm -- then they */
-        static class ButtonPane extends JPanel{
+        /* players can only select one of the card options before they hit confirm -- then they */
+        static class ButtonPane extends JPanel {
             JButton confirmButton;
-            JButton neither;
-            JButton showNotes;
-
+            JButton neitherButton;
+            JButton showNotesButton;
+            
+            @Override
+            public void setLayout(LayoutManager mgr) {
+            	// TODO Auto-generated method stub
+            	super.setLayout(mgr);
+            }
+            
+            /* Create the confirmButton and set its actionListener */
+            private void setConfirmListener() {
+            	//I want to show the X card
+            	//X will change based on what card the user actually showed
+            	confirmButton = new JButton("");
+            }
+            
+            /* Create the neitherButton and set its actionListener */
+            private void setNeitherListener() {
+            	
+            }
+            
+            /* Creates the showNotesButton and sets its actionListener */
+            private void setShowNotesListener() {
+            	
+            }
+            
+            public ButtonPane() {
+				// TODO Auto-generated constructor stub
+			}
         }
     }
 }
