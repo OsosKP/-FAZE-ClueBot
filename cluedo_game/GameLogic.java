@@ -84,10 +84,6 @@ public class GameLogic {
 			return roomExitCheck;
 		}
 
-		public static void setRoomExitCheck(boolean roomExitCheck) {
-			roomExitCheck = roomExitCheck; //wtf is this
-		}
-
 		public static boolean wasTurnSuccessful() {
 			return (commandSuccessful && movementSuccessful);
 		}

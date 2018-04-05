@@ -631,6 +631,7 @@ public class UserInterface extends JPanel {
          * @param p the player whose turn it is
          */
         public void updateAllowedCommandsBasedOnSquare(Token p) {
+//            System.out.println("InRoom: " + p.getInRoom());
             // The text in the readout depends on what square/room the player is on
             // p == null is for testing (hopefully), won't be in the game
             allowedCommandsDisplay.remove(possibleCommandsList);
@@ -655,7 +656,8 @@ public class UserInterface extends JPanel {
                 if (p == null)
                     throw new Exception("Player not found error");
                 if (p.getInRoom() == null) {
-//                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
+                    possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
+                    possibleCommandsList.removeAll();
                     // If player is on a square, get the type of square and show their available
                     // commands based on what is available from that square.
                     switch (p.getLocationAsString()) {
@@ -684,7 +686,7 @@ public class UserInterface extends JPanel {
                         possibleCommandsList.add(btn);
                         btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                     }
-                    possibleCommandsList.revalidate();
+//                    possibleCommandsList.revalidate();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

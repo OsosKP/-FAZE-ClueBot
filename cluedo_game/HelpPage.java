@@ -450,7 +450,9 @@ class HowToPlayInfo extends JPanel{
 					"but multiple players can be in the same room.<br><br>" +
 				"If you start your turn in a room with a secret passage, " +
 					"you can use the secret passage instead of rolling the die.<br><br>" +
-				"This will put your character in another room across the board, ending your movement.<br></html>");
+				"This will put your character in another room across the board, ending your movement.<br><br>" +
+				"You can either enter the desired command, enter only the first letter of that command, " +
+					"or press the appropriate button to move.</html>");
 		guessingInstructions = new JLabel("<html><div style= 'text-align: center;'>" +
 				"How To Guess</div><br>If you end your movement in a room, you get to make a guess. " +
 				"To do this, reference the guess commands to the left. " +
