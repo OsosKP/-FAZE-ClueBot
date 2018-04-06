@@ -448,7 +448,7 @@ public class GameLogic {
 			ui.refreshGuiFromUnsuccessfulGuess();
 		}
     }
-    
+
     public static class Accusing extends Guessing {
 		public static void startGuessing() {
 			accusingPlayer = ui.getCurrentPlayer();

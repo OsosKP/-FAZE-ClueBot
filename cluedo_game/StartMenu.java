@@ -83,7 +83,7 @@ public class StartMenu extends JPanel {
 
         holder.pack();
         holder.setLocationRelativeTo(null);
-
+        holder.setResizable(false);
         holder.setVisible(true);
         GameLogic.playMusic();
     }
