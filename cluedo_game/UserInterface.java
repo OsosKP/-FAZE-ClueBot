@@ -30,7 +30,7 @@ public class UserInterface extends JPanel {
     private JPanel output = out.createOutputPanel();
 
     private QuestionMenu initialQuestion = null;
-    
+
     // The board image portion of the UI
     JPanel boardImagePanel;
     BoardImage myImg;
@@ -110,10 +110,10 @@ public class UserInterface extends JPanel {
     public Token getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
     /**
      * Returns the QuestionMenu Object -- Note that the return type for the array: characterName who we guessed | weapon that was guessed | character who made the guess
-     * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet 
+     * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet
      */
     public QuestionMenu getQuestionGUI() {
     	return this.initialQuestion;

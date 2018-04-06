@@ -51,7 +51,7 @@ public class AccuseMenu {
     // First half is color, second is B&W. Index with [i + len/2]?
     private JLabel[] characters = new JLabel[12];
     private JLabel[] weapons = new JLabel[10];
-    private JLabel[] rooms = new JLabel[18];
+    private JButton[] rooms = new JButton[18];
 
     public AccuseMenu(JFrame orig, JPanel board, Token player) {
         boardDisplay = orig;
@@ -125,13 +125,13 @@ public class AccuseMenu {
         for (int i=0; i<9; i++) {
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + rms[i] + ".jpeg"));
-            rooms[i] = new JLabel(new ImageIcon(rmTemp));
+            rooms[i] = new JButton(new ImageIcon(rmTemp));
             rmsPanel.add(rooms[i]);
 
             // Get B&W image
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + rms[i] + "b&w.jpeg"));
-            rooms[i + 9] = new JLabel(new ImageIcon(rmTemp));
+            rooms[i + 9] = new JButton(new ImageIcon(rmTemp));
 
             if (i<6) {
                 charTemp = ImageIO.read
@@ -253,7 +253,10 @@ public class AccuseMenu {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            for (int i=0; i<6; i++) {
+                if (i != index)
+                    characters[i].setIcon(new ImageIcon());
+            }
         }
     }
 
