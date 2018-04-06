@@ -16,9 +16,9 @@ public class LoopSound implements Runnable {
     }
 
     public static void turnMusicOff() {
-        line.stop();
-        t.interrupt();
-        playSong = false;
+        //	line.stop();
+		playSong = false;
+		t.interrupt();
     }
 
     public static void turnMusicOn() {

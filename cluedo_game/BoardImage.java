@@ -184,19 +184,19 @@ public class BoardImage {
 	}
 
 	public JPanel passageMove(Room roomfrom, Room roomto){
-		int[] init = roomfrom.getPlayerFloors().get(roomfrom.playersInRoom.size());
-		int[] fin = roomto.getPlayerFloors().get(roomto.playersInRoom.size());
+		int[] init = roomfrom.getPlayerFloors().get(roomfrom.getNextEmptySpot());
+		int[] fin = roomto.getPlayerFloors().get(roomto.getNextEmptySpot());
 		return swapsquares(init, fin);
 
 	}
 
 	public JPanel moveToRoom(int[] init, Room room){
-		int[] fin = room.getPlayerFloors().get(room.playersInRoom.size()-1);
+		int[] fin = room.getPlayerFloors().get(room.getNextEmptySpot());
 		return swapsquares(init, fin);
 	}
 
-	public JPanel movetoExit(int[] fin, Room room){
-		int[] init = room.getPlayerFloors().get(room.playersInRoom.size());
+	public JPanel movetoExit(Token player, int[] fin, Room room){
+		int[] init = room.getPlayerFloors().get(room.getPlayerSpotInRoom(player));
 		return swapsquares(init, fin);
 	}
 
@@ -464,4 +464,5 @@ public class BoardImage {
         }
         testMe.testMe(test);
     }
+
 }
