@@ -16,9 +16,14 @@ public class LoopSound implements Runnable {
     }
 
     public static void turnMusicOff() {
-        line.stop();
-        t.interrupt();
-        playSong = false;
+    	/* Actually closing the thread */
+        try {
+        	line.stop();
+        	playSong = false;
+        	t.join();
+        } catch (InterruptedException e) {
+			// TODO: handle exception
+		}
     }
 
     public static void turnMusicOn() {

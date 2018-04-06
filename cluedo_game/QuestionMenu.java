@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import cluedo_game.GameLogic.Guessing;
+
 public class QuestionMenu {
     /* Keeps track of the frame and JPanel it is held in, important because we need to remove this panel from it when the user is done guessing */
     private JFrame initialUserDisplay;
@@ -36,9 +38,11 @@ public class QuestionMenu {
 
     private String returnString[];
     private String currentPlayerGuessing;
+    private Token currentPlayerGuessingToken;
 
-    public QuestionMenu(String currentPlayerName, JFrame initialPanel, JPanel revert) {
-        this.currentPlayerGuessing = currentPlayerName;
+    public QuestionMenu(JFrame initialPanel, JPanel revert, Token playerGuessing) {
+        this.currentPlayerGuessing = playerGuessing.getName();
+        this.currentPlayerGuessingToken = playerGuessing;
         this.initialUserDisplay = initialPanel;
         this.revertToMe = revert;
 
@@ -503,10 +507,14 @@ public class QuestionMenu {
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
 						 */
+<<<<<<< HEAD
 						// TODO: Temp room arg
                         GameLogic.Guessing.
                                 initiateRoundOfQuestioning(returnString[0], returnString[1], GameLogic.getCurrentBoard().getBilliardRoom().getName());
 
+=======
+                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName());
+>>>>>>> 7a87e8eaea6c1961104f4a8e4f8290a1509bc1ee
 
                         /* Adding the character's name to the return string */
                         returnString[2] = currentPlayerGuessing;
@@ -515,9 +523,8 @@ public class QuestionMenu {
 							replacing it with the regular game board */
                         initialUserDisplay.getContentPane().removeAll();
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
-//						initialUserDisplay.add(revertToMe);
-                        initialUserDisplay.add(
-                                QuestionRound.beginQuestionRound(returnString[0], returnString[1]));
+                        
+                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName()));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -957,13 +964,19 @@ public class QuestionMenu {
     public static class QuestionRound {
     	    	
     	private static ChoicePane pane;
+    	
+    	/* Representing what the player presses */
+    	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
+    	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false;
 
-        public QuestionRound() {
+    	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
+    	
+    	public QuestionRound() {
             // TODO Auto-generated constructor stub
         }
         
         //TODO get room working
-        public static JPanel beginQuestionRound(String character, String weapon) {
+        public static JPanel beginQuestionRound(String character, String weapon, String room) {
        	
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new BorderLayout());
@@ -973,6 +986,31 @@ public class QuestionMenu {
             returnMe.add(pane, BorderLayout.NORTH);
             
             return returnMe;
+        }
+        
+        /**
+         * Will determine if the user has the ability to answer the guess
+         * @param character
+         * @param weapon
+         */
+        private static void isAbleToAnswer(String character, String weapon) {
+        	/* Grabbing the hand of the player who is guessing */
+        	ArrayList<Card> hand = Guessing.getAnsweringPlayer().getHand();
+        	
+        	for (int i = 0; i < hand.size(); i++) {
+        		
+        		/* Checking to see if the player if able to guess the player */
+        		if (hand.get(i).name.equals(Guessing.getAccusedPlayer().name)) {
+        			canShowCharacter = true;
+        		}
+        		else if (hand.get(i).name.equals(Guessing.getAccusedWeapon().name)) {
+        			canShowWeapon = true;
+        		}
+        		else if (hand.get(i).name.equals(Guessing.getAccusedRoom().name)) {
+        			canShowRoom = true;
+        		}
+        	}
+        	
         }
         
         static class ChoicePane extends JPanel {
@@ -985,7 +1023,30 @@ public class QuestionMenu {
         	}
         	
         	public ChoicePane(String characterName, String weaponName) {
-				this.setLayout(new GridLayout(2,1));
+				
+        		if (canShowCharacter && canShowRoom && canShowWeapon) {
+					
+				}
+        		else if (canShowCharacter && canShowRoom) {
+        			
+        		}
+        		else if (canShowCharacter && canShowWeapon) {
+        			
+        		}
+        		else if (canShowRoom && canShowWeapon) {
+        			
+        		}
+        		else if (canShowCharacter) {
+        			
+        		}
+        		else if (canShowRoom) {
+        			
+        		}
+        		else if (canShowWeapon) { 
+        			
+        		}
+        		
+        		this.setLayout(new GridLayout(2,1));
 				info = new Title();
 				cards = new GuessedCards(characterName, weaponName);
 				
@@ -1039,7 +1100,159 @@ public class QuestionMenu {
                 this.add(characterImage);
                 this.add(weaponImage);
             }
-
+            
+            
+            /* Class that is going to deal with displaying the weapons */
+            class WeaponPictures extends JPanel {
+            	private JLabel imageLabel = new JLabel();
+            	private Boolean canPossibleChoose;
+            	private String weaponName;
+            	
+            	public WeaponPictures(String weaponName, Boolean canChoose) {
+					this.canPossibleChoose = canChoose;
+					this.weaponName = weaponName;
+					
+					/* Setting the default image */
+					setImage();
+					/* Setting the actionListener */
+            	}
+            	
+            	/* Function that will set the weapon image  */
+            	private void setImage() {
+                 	BufferedImage image;	
+                 	try {
+                 		if (canPossibleChoose) {
+               			
+                		}
+                		else {
+                 			if (weaponName.equals("candlestick")) {
+                				image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseCandlestick = false;
+                 			}
+                			else if (weaponName.equals("dagger")) {
+                				image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseDagger = false;
+                			}
+                			else if (weaponName.equals("pipe")) {
+                				image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePipe = false;
+                			}
+                			else if (weaponName.equals("pistol")) {
+                				image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePistol = false;
+                			}
+                			else if (weaponName.equals("rope")) {
+                				image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));               			
+                				chooseRope = false;
+                			}
+                		}           		            
+                 	} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	}
+            	
+            	/**
+            	 * Sets a different 
+            	 */
+            	private void setColor(Boolean userClick) {
+            		try {
+            			BufferedImage image;
+            			
+            			if (weaponName.equals("candlestick")) {
+            				image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					chooseCandlestick = true;
+            				}
+            				
+            			}
+            			else if (weaponName.equals("dagger")) {
+            				image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {            					
+            					chooseDagger = true;
+            				}
+            			}
+            			else if (weaponName.equals("pipe")) {
+            				image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					choosePipe = true;
+            				}
+            			}
+            			else if (weaponName.equals("pistol")) {
+            				image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				            				
+            				if (userClick) {
+            					choosePistol = true;
+            				}
+            			}
+            			else if (weaponName.equals("rope")) {
+            				image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					chooseRope = true;
+            				}
+            			}
+            		} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	}
+            	
+            	private void setNoColor() {
+                  	BufferedImage image;
+                  	try {
+                  		if (weaponName.equals("candlestick")) {
+                			image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseCandlestick = false;
+                 		}
+                		else if (weaponName.equals("dagger")) {
+                			image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseDagger = false;
+                		}
+                		else if (weaponName.equals("pipe")) {
+                			image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePipe = false;
+                		}
+                		else if (weaponName.equals("pistol")) {
+                			image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePistol = false;
+                		}
+                		else if (name.equals("rope")) {
+                			image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseRope = false;
+                		}           		
+                  	} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	
+            }
+            
+            
+            /* Class that is going to deal with displaying the character pictures */
+            class CharacterPictures extends JPanel {
+            	
+            }
+            /* Class that is going to deal with displaying the room pictures */
+            class RoomPictures extends JPanel {
+            	
+            }
+            
             /* Class that is going to handle the individual pictures */
             class IndividualPicture extends JPanel {
                 private JLabel imageLabel = new JLabel();
@@ -1047,6 +1260,8 @@ public class QuestionMenu {
                 private String PicName;
                 private Boolean isGrayed = false;
 
+                
+                
                 private void setImage(String name, String type) {
                     BufferedImage image;
                     try {
@@ -1073,32 +1288,32 @@ public class QuestionMenu {
                 			if (name.equals("green")) {
                 				image = ImageIO.read(new File("src/characterCards/Green.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-         //       				chooseGreen = true;
+                				chooseGreen = true;
                 			}
                             else if (name.equals("mustard")) {
                                 image = ImageIO.read(new File("src/characterCards/Mustard.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-           //                     chooseMustard = true;
+                                chooseMustard = true;
                             }
                             else if (name.equals("peacock")) {
                                 image = ImageIO.read(new File("src/characterCards/Peacock.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-//                                choosePeacock = true;
+                                choosePeacock = true;
                             }
                             else if (name.equals("plum")) {
                                 image = ImageIO.read(new File("src/characterCards/Plum.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-  //                              choosePlum = true;
+                                choosePlum = true;
                             }
                             else if (name.equals("scarlet")) {
                                 image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-    //                            chooseScarlet = true;
+                                chooseScarlet = true;
                             }
                             else if (name.equals("white")) {
                                 image = ImageIO.read(new File("src/characterCards/White.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-      //                          chooseWhite = true;
+                                chooseWhite = true;
                             }
                 		}
                 		else {
@@ -1106,32 +1321,32 @@ public class QuestionMenu {
                  			if (name.equals("green")) {
                 				image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-        //        				chooseGreen = false;
+                				chooseGreen = false;
                  			}
                             else if (name.equals("mustard")) {
                                 image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-          //                      chooseMustard = false;
+                                chooseMustard = false;
                             }
                             else if (name.equals("peacock")) {
                                 image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-            //                    choosePeacock = false;
+                                choosePeacock = false;
                             }
                             else if (name.equals("plum")) {
                                 image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-             //                   choosePlum = false;
+                                choosePlum = false;
                             }
                             else if (name.equals("scarlet")) {
                                 image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-             //                   chooseScarlet = false;
+                                chooseScarlet = false;
                             }
                             else if (name.equals("white")) {
                                 image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
                                 imageLabel.setIcon(new ImageIcon(image));
-            //                    chooseWhite = false;
+                                chooseWhite = false;
                             }               			
                 		}
                 	} catch (Exception e) {
@@ -1148,55 +1363,31 @@ public class QuestionMenu {
                 			if (name.equals("candlestick")) {
                 				image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-              //  				chooseCandlestick = true;
+                				chooseCandlestick = true;
                 			}
                 			else if (name.equals("dagger")) {
                 				image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-                //				chooseDagger = true;
+                				chooseDagger = true;
                 			}
                 			else if (name.equals("pipe")) {
                 				image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-               // 				choosePipe = true;
+                				choosePipe = true;
                 			}
                 			else if (name.equals("pistol")) {
                 				image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-                //				choosePistol = true;
+                				choosePistol = true;
                 			}
                 			else if (name.equals("rope")) {
                 				image = ImageIO.read(new File("src/weaponCards/Rope.png"));
                 				imageLabel.setIcon(new ImageIcon(image));
-                	//			chooseRope = true;
+                				chooseRope = true;
                 			}               			
                 		}
                 		else {
-                 			if (name.equals("candlestick")) {
-                				image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                //				chooseCandlestick = false;
-                 			}
-                			else if (name.equals("dagger")) {
-                				image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                //				chooseDagger = false;
-                			}
-                			else if (name.equals("pipe")) {
-                				image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                //				choosePipe = false;
-                			}
-                			else if (name.equals("pistol")) {
-                				image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                //				choosePistol = false;
-                			}
-                			else if (name.equals("rope")) {
-                				image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));               			
-                //				chooseRope = false;
-                			}
+
                 		}	
                 	} catch (Exception e) {
 						// TODO: handle exception
@@ -1259,6 +1450,13 @@ public class QuestionMenu {
                
                 		@Override
                 		public void mouseClicked(MouseEvent e) {
+                			chooseGreen = false;
+                			chooseMustard = false;
+                			choosePeacock = false;
+                			choosePlum = false;
+                			chooseScarlet = false;
+                			chooseWhite = false;
+                			
                 			isGrayed = false;
                 			setWeaponPicture(PicName, true);
                 			characterImage.setNoColour();                			
@@ -1285,6 +1483,12 @@ public class QuestionMenu {
                 		@Override
                 		public void mouseClicked(MouseEvent e) {
                 			/* Re-setting any options that the user may have pressed earlier */
+                			chooseCandlestick = false;
+                			chooseDagger = false;
+                			choosePipe = false;
+                			choosePistol = false;
+                			chooseRope = false;
+                			
                 			isGrayed = false;
                 			setCharacterPicture(PicName, true);
                 			weaponImage.setNoColour();
@@ -1341,19 +1545,20 @@ public class QuestionMenu {
             
             /* Create the confirmButton and set its actionListener */
             private void setConfirmListener() {
-            	//I want to show the X card
-            	//X will change based on what card the user actually showed
-            	confirmButton = new JButton("");
+            	//TODO add some logic that, if the player doesnt have any of the cards, they cannot continue 
+            	confirmButton = new JButton("Submit");
+            	/*  */
+
             }
             
             /* Create the neitherButton and set its actionListener */
             private void setNeitherListener() {
-            	
+             	neitherButton = new JButton("I dont have either card");           	
             }
             
             /* Creates the showNotesButton and sets its actionListener */
             private void setShowNotesListener() {
-            	
+            	showNotesButton = new JButton("Notes");
             }
             
             public ButtonPane() {

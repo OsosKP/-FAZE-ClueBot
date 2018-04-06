@@ -305,7 +305,7 @@ public class UserInterface extends JPanel {
                             case "question":
 
                                 /* Creating a question menu  */
-                                initialQuestion = new QuestionMenu(currentPlayer.getName(), display, userDisplay);
+                                initialQuestion = new QuestionMenu(display, userDisplay, currentPlayer);
 
                                 display.remove(userDisplay);
                                 display.add(initialQuestion.returnPanel());
