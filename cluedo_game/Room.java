@@ -14,7 +14,7 @@ public class Room {
 	private final ArrayList<FloorSquare> exits;
 	private final ArrayList<EntrySquare> entrances;
 
-	ArrayList<Token> playersInRoom = new ArrayList<>();
+	Token[] playersInRoom = new Token[8];
 
 	/**
 	 * Other than the cellar, rooms with no secretPassage all have multiple entries.
@@ -67,7 +67,7 @@ public class Room {
 	public String getName() {return name;}
 	public Weapon getWeaponInRoom() {return weaponInRoom;}
 	public Room getSecretPassage() {return secretPassage;}
-	public ArrayList<Token> getPlayersInRoom() {return playersInRoom;}
+	public Token[] getPlayersInRoom() {return playersInRoom;}
 	public ArrayList<EntrySquare> getEntrances() {return entrances;}
 	public ArrayList<FloorSquare> getExits() {
 		return exits;
@@ -80,27 +80,59 @@ public class Room {
 	public void setName(String name) {this.name = name;}
 	public void setWeaponInRoom(Weapon weaponInRoom) {this.weaponInRoom = weaponInRoom;}
 	public void setSecretPassage(Room secretPassage) {this.secretPassage = secretPassage;}
-	public void setPlayersInRoom(ArrayList<Token> playersInRoom) {this.playersInRoom = playersInRoom;}
+	public void setPlayersInRoom(Token[] playersInRoom) {this.playersInRoom = playersInRoom;}
 
 	public String playerListInRoom(){//returns printable string of players in room
 		StringBuilder string = new StringBuilder();
-		for (int i=0;i<playersInRoom.size();i++){
-			string.append(playersInRoom.get(0).getName());
+		for (int i=0;i<playersInRoom.length;i++){
+			string.append(playersInRoom[i].getName());
 			string.append(" ");
 		}
 		return string.toString();
 	}
 
 	public void addPlayerToRoom(Token p){
-		this.playersInRoom.add(p);
-	}
-	public void removePlayerFromRoom(Token p){
-		if (playersInRoom.contains(p)){
-			this.playersInRoom.remove(p);
+		for (int i=0; i<playersInRoom.length; i++) {
+			if (playersInRoom[i] == null) {
+				playersInRoom[i]=p;
+			}
 		}
-		else
-			System.err.println("Player was not located in this room. Error?");
 	}
+	
+	public int getNextEmptySpot() {
+		for (int i = 0; i < playersInRoom.length; i++) {
+			System.out.print("Slot " + i + " is " + playersInRoom[i]);
+			if (playersInRoom[i]==null) {
+				return i;
+			}
+			else {
+				return -1;
+			}
+		}
+		return -1;
+	}
+	
+	public int getPlayerSpotInRoom(Token p) {
+		for (int i = 0; i < playersInRoom.length; i++) {
+			if (playersInRoom[i]==p) {
+				return i;
+			}
+			else {
+				return -1;
+			}
+		}
+		return -1;
+	}
+	
+	public void removePlayerFromRoom(Token p){
+		for (int i = 0; i < playersInRoom.length; i++) {
+			if (playersInRoom[i]==p) {
+				playersInRoom[i]=null;
+			}
+			else
+				System.err.println("Player was not located in this room. Error?");
+		}
+		}
 
 
 }

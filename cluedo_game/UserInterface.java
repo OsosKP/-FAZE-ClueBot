@@ -30,7 +30,7 @@ public class UserInterface extends JPanel {
     private JPanel output = out.createOutputPanel();
 
     private QuestionMenu initialQuestion = null;
-    
+
     // The board image portion of the UI
     JPanel boardImagePanel;
     BoardImage myImg;
@@ -110,10 +110,10 @@ public class UserInterface extends JPanel {
     public Token getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
     /**
      * Returns the QuestionMenu Object -- Note that the return type for the array: characterName who we guessed | weapon that was guessed | character who made the guess
-     * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet 
+     * @return the most recent questionMenu object that was created, will return null if the user has not asked a question yet
      */
     public QuestionMenu getQuestionGUI() {
     	return this.initialQuestion;
@@ -363,7 +363,7 @@ public class UserInterface extends JPanel {
                                    case "exit":
                                    case "e":
                                         currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
-                                        movementPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                        movementPanel = myImg.movetoExit(currentPlayer, currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                                         currentPlayer.setPreviousRoom(null);
                                         break;
                                    default:
@@ -468,7 +468,7 @@ public class UserInterface extends JPanel {
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
                     currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);
-                    JPanel complexExitPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                    JPanel complexExitPanel = myImg.movetoExit(currentPlayer, currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     refreshBoard(complexExitPanel);
                     currentPlayer.setPreviousRoom(null);//frees up a little memory
 

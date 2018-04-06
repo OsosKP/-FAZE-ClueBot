@@ -365,19 +365,19 @@ public class PlayerListCreator {
             Token peacock = null;
             Token plum = null;
             Token scarlet = null;
-            
+
             int numPlayersCreated = 0;
-            
+
             ArrayList<Token> tempTokenArray = new ArrayList<>();
-            
-            
+
+
             for (int i = 0; i < 6; i++) {
                 String[] returnArray = GUIPlayerList[i].getValue();
-                
+
                 /* If the user wants to actually play, the above token objects get populated */
                 if (!(returnArray[1].equals("Not Playing"))){
                 	numPlayersCreated++;
-                	                	
+
                     if (returnArray[1].equals("Colonel Mustard")) {
                         if (mustard == null) {
                             mustard = new Token(17, 0, "Mustard",GUIPlayerList[i].username, numPlayers++, GUIPlayerList[i].diceNumber, GUIPlayerList[i].objNum);
@@ -418,11 +418,11 @@ public class PlayerListCreator {
             }
             /* Pulling the player with the highest diceNumber */
             int largestNumberPosition = -1, largestRoll = -1;
-            
+
             Token highRoller = null;
             ArrayList<Token> beforeHighRoller = new ArrayList<>();
             ArrayList<Token> afterHighRoller = new ArrayList<>();
-            
+
             /* Pulling the position of the largest diceNumber from the array -- since that user will be the first to go */
             for (int i = 0; i < tempTokenArray.size(); i++) {
             	if (tempTokenArray.get(i).returnDiceNumber() > largestRoll) {
@@ -437,40 +437,23 @@ public class PlayerListCreator {
                 if (t.returnObjNum() > highRoller.returnObjNum())
                     afterHighRoller.add(t);
             }
-            // Old implementation, I think my above loop is better
-//            for (int i = 0; i < tempTokenArray.size(); i++) {
-//            	if (tempTokenArray.get(i).returnObjNum() > highRoller.returnObjNum())
-//            		afterHighRoller.add(tempTokenArray.get(i));
-//            }
-            
+
             /* Populating the beforeHighRoller Array */
             for (Token t : tempTokenArray){
                 if (t.returnObjNum() < highRoller.returnObjNum())
                     beforeHighRoller.add(t);
             }
-            // Old implementation, I think my above loop is better
-//            for (int i = 0; i < tempTokenArray.size(); i++) {
-//            	if (tempTokenArray.get(i).returnObjNum() < highRoller.returnObjNum())
-//            		beforeHighRoller.add(tempTokenArray.get(i));
-//            }
-            
+
             /* Now we want to correctly set all the other players to come after him/her */
             playerList.addPlayer(highRoller);
 
             for (Token t : afterHighRoller)
                 playerList.addPlayer(t);
-            // Old implementation, I think my above loop is better
-//            for (int i = 0; i < afterHighRoller.size(); i++)
-//            	playerList.addPlayer(afterHighRoller.get(i));
 
             /* Now we want to correctly set the order of the players who come before the current player */
             for (Token t : beforeHighRoller)
                 playerList.addPlayer(t);
 
-            // Old implementation, I think my above loop is better
-//            for (int i = 0; i < beforeHighRoller.size(); i++)
-//            	playerList.addPlayer(beforeHighRoller.get(i));
-          
             /* Removing all the JPanels and closing the JFrame */
             display.setVisible(false);
             display.getContentPane().removeAll();
@@ -487,18 +470,18 @@ public class PlayerListCreator {
             for (i = 0; i < deletedPlayers.size(); i++) {
             	deletedPlayers.remove(i);
             }
-           
+
             System.out.println("Number of players: " + numPlayers);
-            if (numPlayers < 2) {
-            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-            	
-            	test restartGame = new test();
-            	restartGame.resetgame();
-            }
-            else {
+//            if (numPlayers < 2) {
+//            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
+//
+//            	test restartGame = new test();
+//            	restartGame.resetgame();
+//            }
+//            else {
 //            	playerList.printList();
                 GameLogic.createGame();
-            }
+//            }
 
         }
     }

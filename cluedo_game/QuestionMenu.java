@@ -509,6 +509,7 @@ public class QuestionMenu {
 							character and weapon, and the first player to answer
 						 */
 
+
                         GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName());
 
 
@@ -1077,8 +1078,8 @@ public class QuestionMenu {
 	
         /* classes to represent the images the player guessed earlier  */
         static class GuessedCards extends JPanel {
-            private WeaponPictures weaponImage;
-            private CharacterPictures characterImage;
+            private IndividualPicture characterImage;
+            private IndividualPicture weaponImage;
 
             @Override
             public void setLayout(LayoutManager mgr) {
@@ -1090,16 +1091,18 @@ public class QuestionMenu {
                this.setLayout(new GridLayout(1,2));
 
                 /* Creating the cards */
-                characterImage = new CharacterPictures(characterName); 
-                weaponImage = new WeaponPictures(characterName);
+                characterImage = new IndividualPicture(characterName, "character");
+                weaponImage = new IndividualPicture(weaponName, "weapon");
 
                 this.add(characterImage);
                 this.add(weaponImage);
             }
             
+            
             /* Class that is going to deal with displaying the weapons */
             class WeaponPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
+//            	private Boolean canPossibleChoose;
             	private String weaponName;
             	private Boolean isGreyed;
             	
@@ -1111,18 +1114,43 @@ public class QuestionMenu {
 					/* Setting the actionListener */
             	}
             	
-            	public void setGrey(Boolean set) {
-            		isGreyed = set;
-            	}
-            	
             	/* Function that will set the weapon image  */
             	private void setImage() {
-            		if (canShowWeapon) {
-            			setColor(false);
-                	}
-                	else {
-                		setNoColor();
-                	}           		            	
+                 	BufferedImage image;	
+                 	try {
+                 		if (canShowWeapon) {
+               			
+                		}
+                		else {
+                 			if (weaponName.equals("candlestick")) {
+                				image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseCandlestick = false;
+                 			}
+                			else if (weaponName.equals("dagger")) {
+                				image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseDagger = false;
+                			}
+                			else if (weaponName.equals("pipe")) {
+                				image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePipe = false;
+                			}
+                			else if (weaponName.equals("pistol")) {
+                				image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePistol = false;
+                			}
+                			else if (weaponName.equals("rope")) {
+                				image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));               			
+                				chooseRope = false;
+                			}
+                		}           		            
+                 	} catch (Exception e) {
+						// TODO: handle exception
+					}
             	}
             	
             	/**
@@ -1239,193 +1267,315 @@ public class QuestionMenu {
                 		public void mouseClicked(MouseEvent e) {
 							/* We only want to allow the user to click on the button if they hvae  */
                 			if (canShowWeapon) {
+                				isGreyed  = false;
+                				setColor(true);
+                				
+                				//TODO: need to call the setNoColor() objects of the 
+
                 				/* Re-setting any options that the user may have pressed earlier */
                 				chooseCandlestick = false;
                 				chooseDagger = false;
                 				choosePipe = false;
                 				choosePistol = false;
-                				chooseRope = false;		
-                				
-                				isGreyed  = false;
-                				setColor(true);
-                				
-                				//TODO: need to call the setNoColor() objects of the other types
+                				chooseRope = false;
                 			}
+
                 		}					
 					});
             	}
+
             }
             
             
             /* Class that is going to deal with displaying the character pictures */
             class CharacterPictures extends JPanel {
-            	private JLabel imageLabel = new JLabel();
-            	private Boolean isGreyed;
-            	private String characterName;
+            	JLabel imageLabel = new JLabel();
             	
-            	public CharacterPictures(String name) {
-            		this.characterName = name;
-            		
-				}
-            	
-            	private void setImage() {
-            		if (canShowCharacter) {
-            			setColor(false);
-            		}
-            		else {
-            			setNoColor();
-            		}
-            	}
-            	
-            	public void setGrey(Boolean set) {
-            		isGreyed = set;
-            	}
-            	
-            	private void setColor(Boolean userClicked) {
-            		try {
-            			BufferedImage image;
-            			if (characterName.equals("green")) {
-            				image = ImageIO.read(new File("src/characterCards/Green.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            				
-            				if (userClicked) {
-            					chooseGreen = true;
-            				}
-            			}
-            			else if (characterName.equals("mustard")) {
-            				image = ImageIO.read(new File("src/characterCards/Mustard.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            				
-            			
-            				if (userClicked) {
-            					chooseMustard = true;
-            				}
-            			}
-            			else if (characterName.equals("peacock")) {
-            				image = ImageIO.read(new File("src/characterCards/Peacock.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            				
-            			
-            				if (userClicked) {
-            					choosePeacock = true;
-            				}
-            			}
-            			else if (characterName.equals("plum")) {
-            				image = ImageIO.read(new File("src/characterCards/Plum.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            				
-            				
-            				if (userClicked) {
-            					choosePlum = true;
-            				}
-            			}
-            			else if (characterName.equals("scarlet")) {
-            				image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            				
-            				if (userClicked) {
-            					chooseScarlet = true;
-            				}
-            			}
-            			else if (characterName.equals("white")) {
-            				image = ImageIO.read(new File("src/characterCards/White.png"));
-            				imageLabel.setIcon(new ImageIcon(image));
-            			
-            				if (userClicked) {
-            					chooseWhite = true;
-            				}
-            			}
-            		} catch (Exception e) {
-						// TODO: handle exception
-					}
-            	}
-            	
-            	private void setNoColor() {
-                 	try {
-                		BufferedImage image;
-                 		if (characterName.equals("green")) {
-                			image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
-                			imageLabel.setIcon(new ImageIcon(image));
-                			chooseGreen = false;
-                 		}
-                        else if (characterName.equals("mustard")) {
-                            image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
-                            imageLabel.setIcon(new ImageIcon(image));
-                            chooseMustard = false;
-                        }
-                        else if (characterName.equals("peacock")) {
-                            image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
-                            imageLabel.setIcon(new ImageIcon(image));
-                            choosePeacock = false;
-                        }
-                        else if (characterName.equals("plum")) {
-                            image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
-                            imageLabel.setIcon(new ImageIcon(image));
-                            choosePlum = false;
-                        }
-                        else if (characterName.equals("scarlet")) {
-                            image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
-                            imageLabel.setIcon(new ImageIcon(image));
-                            chooseScarlet = false;
-                        }
-                        else if (characterName.equals("white")) {
-                            image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
-                            imageLabel.setIcon(new ImageIcon(image));
-                            chooseWhite = false;
-                        }               			
-                	} catch (Exception e) {
-						// TODO: handle exception
-					}           		
-            	}
-            	
-               	private void setListener() {
-            		this.addMouseListener(new MouseAdapter() {
-						
-						@Override
-						public void mouseExited(MouseEvent e) {
-							/* If we can show the weapon */
-							if (canShowCharacter) {
-								if (isGreyed) {
-									setNoColor();
-								}
-							}
-						}
-						
-						@Override
-						public void mouseEntered(MouseEvent e) {
-							/* If we can show the weapon */
-							if (canShowCharacter) {
-								setColor(false);
-							}
-						}
-						
-						@Override
-                		public void mouseClicked(MouseEvent e) {
-							/* We only want to allow the user to click on the button if they hvae  */
-                			if (canShowCharacter) {
-                				/* Re-setting any options that the user may have pressed earlier */
-                				chooseGreen = false;
-                				chooseMustard = false;
-                				choosePeacock = false;
-                				chooseScarlet = false;
-                				chooseWhite = false;
-                				choosePlum = false;
-                				
-                				isGreyed  = false;
-                				setColor(true);
-                				
-                				//TODO: need to call the setNoColor() objects of the other types
-                			}
-                		}					
-					});
-            	}
             }
-            
             /* Class that is going to deal with displaying the room pictures */
             class RoomPictures extends JPanel {
             	
-            }    
-        }       
+            }
+            
+            /* Class that is going to handle the individual pictures */
+            class IndividualPicture extends JPanel {
+                private JLabel imageLabel = new JLabel();
+                private String PicType;
+                private String PicName;
+                private Boolean isGrayed = false;
+
+                
+                
+                private void setImage(String name, String type) {
+                    BufferedImage image;
+                    try {
+                        if (type.equals("weapon")) {
+                        	System.out.println("We are tying to print: " + name);
+                            image = ImageIO.read(new File("src/weaponCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                        }
+                        else if (type.equals("character")) {
+                            image = ImageIO.read(new File("src/characterCards/" + name.substring(0, 1).toUpperCase() + name.substring(1) + ".png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+   
+                }
+                /* Method to set the image of the current JLabel */
+                public void setCharacterPicture(String name, Boolean colour) {
+                	try {
+                		BufferedImage image;
+                		if (colour) {
+                			
+                			if (name.equals("green")) {
+                				image = ImageIO.read(new File("src/characterCards/Green.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseGreen = true;
+                			}
+                            else if (name.equals("mustard")) {
+                                image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseMustard = true;
+                            }
+                            else if (name.equals("peacock")) {
+                                image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                choosePeacock = true;
+                            }
+                            else if (name.equals("plum")) {
+                                image = ImageIO.read(new File("src/characterCards/Plum.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                choosePlum = true;
+                            }
+                            else if (name.equals("scarlet")) {
+                                image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseScarlet = true;
+                            }
+                            else if (name.equals("white")) {
+                                image = ImageIO.read(new File("src/characterCards/White.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseWhite = true;
+                            }
+                		}
+                		else {
+                			
+                 			if (name.equals("green")) {
+                				image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseGreen = false;
+                 			}
+                            else if (name.equals("mustard")) {
+                                image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseMustard = false;
+                            }
+                            else if (name.equals("peacock")) {
+                                image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                choosePeacock = false;
+                            }
+                            else if (name.equals("plum")) {
+                                image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                choosePlum = false;
+                            }
+                            else if (name.equals("scarlet")) {
+                                image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseScarlet = false;
+                            }
+                            else if (name.equals("white")) {
+                                image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
+                                imageLabel.setIcon(new ImageIcon(image));
+                                chooseWhite = false;
+                            }               			
+                		}
+                	} catch (Exception e) {
+						// TODO: handle exception
+					}
+                }
+                
+                /* Method to set the image of the current JLabel */
+                public void setWeaponPicture(String name, Boolean colour) {
+                	try {
+                		BufferedImage image;
+                	    
+                		if (colour) {
+                			if (name.equals("candlestick")) {
+                				image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseCandlestick = true;
+                			}
+                			else if (name.equals("dagger")) {
+                				image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseDagger = true;
+                			}
+                			else if (name.equals("pipe")) {
+                				image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePipe = true;
+                			}
+                			else if (name.equals("pistol")) {
+                				image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePistol = true;
+                			}
+                			else if (name.equals("rope")) {
+                				image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseRope = true;
+                			}               			
+                		}
+                		else {
+
+                		}	
+                	} catch (Exception e) {
+						// TODO: handle exception
+					}
+                }
+                
+                /**
+                 * Method that finds the current image loaded into the JLabel and re-sets it to B&W 
+                 */
+                public void setNoColour(){	
+                	this.isGrayed = true;
+                	/* Checking all the possible cases -- and re-setting them to B&W images */
+                	if (this.PicType.equals("weapon")) {
+                		
+                		if (PicName.equals("candlestick")) {
+                			this.setWeaponPicture("candlestick", false);
+                		}
+                		else if (PicName.equals("dagger")) {
+                			this.setWeaponPicture("dagger", false);
+                		}
+                		else if (PicName.equals("pipe")) {
+                			this.setWeaponPicture("pipe", false);
+                		}
+                		else if (PicName.equals("pistol")) {
+                			this.setWeaponPicture("pistol", false);
+                		}
+                		else if (PicName.equals("rope")) {
+                			this.setWeaponPicture("rope", false);
+                		}
+                	}
+                	else if (this.PicType.equals("character")) {
+                		
+                		if (PicName.equals("rope")) {
+                			this.setWeaponPicture("rope", false);
+                		}
+                		else if (PicName.equals("green")) {
+                			this.setCharacterPicture("green", false);
+                		}
+                		else if (PicName.equals("mustard")) {
+                			this.setCharacterPicture("mustard", false);
+                		}
+                		else if (PicName.equals("peacock")) {
+                			this.setCharacterPicture("peacock", false);
+                		}
+                		else if (PicName.equals("plum")) {
+                			this.setCharacterPicture("plum", false);
+                		}
+                		else if (PicName.equals("scarlet")) {
+                			this.setCharacterPicture("scarlet", false);
+                		}
+                		else if (PicName.equals("white")) {
+                			this.setCharacterPicture("white", false);
+                		}               		
+                	}
+                }
+                
+                /* Sets a listener for weapon */
+                private void setWeaponListener() {
+                	this.addMouseListener(new MouseAdapter() {
+               
+                		@Override
+                		public void mouseClicked(MouseEvent e) {
+                			chooseGreen = false;
+                			chooseMustard = false;
+                			choosePeacock = false;
+                			choosePlum = false;
+                			chooseScarlet = false;
+                			chooseWhite = false;
+                			
+                			isGrayed = false;
+                			setWeaponPicture(PicName, true);
+                			characterImage.setNoColour();                			
+                		}
+                		
+                		@Override
+                		public void mouseEntered(MouseEvent e) {
+                			setWeaponPicture(PicName, true);
+                		}
+                		
+                		@Override
+                		public void mouseExited(MouseEvent e) {
+                			if (isGrayed) {
+                				setWeaponPicture(PicName, false);
+                			}
+                		}
+               	
+                	});
+                }
+                
+                private void setCharacterListener() {
+                	this.addMouseListener(new MouseAdapter() {
+               
+                		@Override
+                		public void mouseClicked(MouseEvent e) {
+                			/* Re-setting any options that the user may have pressed earlier */
+                			chooseCandlestick = false;
+                			chooseDagger = false;
+                			choosePipe = false;
+                			choosePistol = false;
+                			chooseRope = false;
+                			
+                			isGrayed = false;
+                			setCharacterPicture(PicName, true);
+                			weaponImage.setNoColour();
+                		}
+                		
+                		@Override
+                		public void mouseEntered(MouseEvent e) {
+                			setCharacterPicture(PicName, true);
+                		}
+                		
+                		@Override
+                		public void mouseExited(MouseEvent e) {
+                			if (isGrayed) {
+                				setCharacterPicture(PicName, false);
+                			}
+                		}
+               	
+                	});
+                }
+
+                @Override
+                public void setLayout(LayoutManager mgr) {
+                    super.setLayout(mgr);
+                }
+
+                public IndividualPicture(String name, String type) {
+                    this.setLayout(new BorderLayout());
+                    setImage(name, type);
+                    
+                    if (type.equals("weapon")) {
+                    	this.setWeaponListener();
+                    }
+                    else if (type.equals("character")) {
+                    	this.setCharacterListener();
+                    }
+                    
+                    this.PicType = type;
+                    this.PicName= name;
+                    this.add(imageLabel, BorderLayout.CENTER);
+                }
+            }
+        }
+        /* class that is going to handle the button inputs */
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
             JButton confirmButton;
