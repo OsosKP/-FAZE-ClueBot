@@ -316,8 +316,8 @@ public class UserInterface extends JPanel {
                             case "passage":
                                 //Moves players in ArrayList<Token> Room.playersInRoom, and moves player in boardpanel
                                 currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
-                                JPanel newBoard = myImg.passageMove(currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
                                 currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);
+                                JPanel newBoard = myImg.passageMove(currentPlayer, currentPlayer.getPreviousRoom(), currentPlayer.getInRoom());
                                 currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                 refreshBoard(newBoard);
                                 break;
@@ -383,7 +383,8 @@ public class UserInterface extends JPanel {
                                     case "right":
                                     case "r":
                                         currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);//I don't know if this will work
-                                        JPanel entrancePanel = myImg.moveToRoom(currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
+//                                        System.out.println("The player list for room is now: "+);
+                                        JPanel entrancePanel = myImg.moveToRoom(currentPlayer, currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
                                         currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                         refreshBoard(entrancePanel);
                                         break;
