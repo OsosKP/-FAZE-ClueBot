@@ -256,7 +256,7 @@ public class UserInterface extends JPanel {
                 }
                 // If this method was called from user entry
                 else {
-                    text = input;
+                    text = input.toLowerCase();
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
                 }
 
@@ -284,7 +284,6 @@ public class UserInterface extends JPanel {
 						e.printStackTrace();
 					}
                 }
-                System.out.println(result);
                 if (result.equals("notes") || result.equals("cheat")){
                     switchToViewNotes(result);
                 }

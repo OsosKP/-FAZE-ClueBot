@@ -136,7 +136,9 @@ public class BoardImage {
 
 
                 //button.setActionCommand(""+xIndex+","+yIndex);
-				button.setActionCommand(""+xIndex+","+yIndex+" is a "+ GameLogic.currentBoard.getSquare(xIndex,yIndex).getClass());
+
+				//TODO: Josh uncomment this if you need it, I was decluttering the console printouts
+//				button.setActionCommand(""+xIndex+","+yIndex+" is a "+ GameLogic.currentBoard.getSquare(xIndex,yIndex).getClass());
                 button.addActionListener(new ActionListener(){
 
                 /* What happens when we press the button? */
