@@ -49,7 +49,6 @@ public class QuestionMenu {
         finalPanel = new JPanel();
         finalPanel.setLayout(new BorderLayout());
 
-
         currentContainer = new ChoiceContainer();
         dynamicGuess = new TitleBar();
         confirm = new ConfirmButton();
@@ -504,8 +503,9 @@ public class QuestionMenu {
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
 						 */
+						// TODO: Temp room arg
                         GameLogic.Guessing.
-                                InitiateRoundOfQuestioning(returnString[0], returnString[1]);
+                                initiateRoundOfQuestioning(returnString[0], returnString[1], GameLogic.getCurrentBoard().getBilliardRoom().getName());
 
 
                         /* Adding the character's name to the return string */
