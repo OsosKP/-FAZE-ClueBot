@@ -5,8 +5,6 @@
 package cluedo_game;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -460,7 +458,38 @@ public class GameLogic {
 			accusedRoom = deck.getRoomCardByName(room);
 		}
 
+		public static boolean checkAccusation(String[] guesses, Token accuser) {
+			int correctGuessCounter = 0;
+			for (Card c : deck.getMurderEnvelope()) {
+				for (int i=0; i<3; i++) {
+					if (guesses[i].equals(c.getName()))
+						correctGuessCounter++;
+				}
+			}
+			if (correctGuessCounter == 3)
+				return true;
+			else {
+				eliminatePlayer(null);
+				return false;
+			}
+		}
+
+		public static void eliminatePlayer(Token p) {
+			if (p==null)
+				System.out.println("Check");
+			else {
+				p.setInGame(false);
+				System.out.println(playerList.setNumberOfPlayers());
+			}
+		}
+
 	}
+
+
+
+
+
+
 
 	public static void playMusic() {
 		try {

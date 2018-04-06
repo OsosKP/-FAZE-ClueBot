@@ -49,9 +49,22 @@ public class AccuseMenu {
     private JPanel notePanel = new JPanel();        // Width = 400
 
     // First half is color, second is B&W. Index with [i + len/2]?
-    private JButton[] characters = new JButton[12];
-    private JButton[] weapons = new JButton[10];
-    private JButton[] rooms = new JButton[18];
+    private JButton[] characters = new JButton[6];
+    private JButton[] weapons = new JButton[6];
+    private JButton[] rooms = new JButton[9];
+    // Images for the JButtons
+    private ImageIcon[] charPics = new ImageIcon[12];
+    private ImageIcon[] wpnPics = new ImageIcon[12];
+    private ImageIcon[] rmPics = new ImageIcon[18];
+    // Strings to store the accused so we can call those cards when user confirms
+        //  0 : Character
+        //  1 : Weapon
+        //  2 : Room
+    private String[] accusedStrings = new String[3];
+    private boolean[] guessed = {false, false, false};
+    private boolean winner = false;
+
+    int accuseButtonPressResult;
 
     public AccuseMenu(JFrame orig, JPanel board, Token player) {
         boardDisplay = orig;
@@ -59,7 +72,7 @@ public class AccuseMenu {
         accusingPlayer = player;
 
         display = new JFrame("Cluedo");
-        display.setPreferredSize(new Dimension(1450, 850));
+        display.setPreferredSize(new Dimension(1415, 850));
 
         try {
             titlePanel = createTitleImage();
@@ -68,7 +81,7 @@ public class AccuseMenu {
             loadBackgroundImage();
         } catch (Exception e) { e.printStackTrace(); }
 
-        gui.setSize(1450, 850);
+        gui.setSize(1415, 850);
         gui.setOpaque(false);
         gui.setLayout(new GridBagLayout());
 
@@ -78,8 +91,8 @@ public class AccuseMenu {
         gbc.gridy = 0;
         gbc.gridwidth = 6;
 
-        leftPanel.setSize(1300, 850);
-        rightPanel.setSize(100, 850);
+        leftPanel.setSize(1000, 850);
+        rightPanel.setSize(415, 850);
         leftPanel.setLayout(new GridLayout(5, 1));
         leftPanel.add(titlePanel);
         leftPanel.add(charsPanel);
@@ -98,25 +111,30 @@ public class AccuseMenu {
         gui.add(leftPanel, gbc);
         gbc.gridx = 6;
         gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(0, 25, 0, 25);
+        gbc.insets = new Insets(0, 0, 0, 100);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gui.add(rightPanel, gbc);
         display.add(gui);
         display.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        display.setResizable(false);
         display.pack();
         display.setLocationRelativeTo(null);
         display.setVisible(true);
     }
 
+    public boolean getGuessed() {
+        return guessed[0] && guessed[1] && guessed[2];
+    }
+
     public void loadAllCardImages() throws Exception {
         String[] chars =    // Size 6
-                {"Green", "Mustard", "Peacock", "Plum", "Scarlet", "White"};
-        String[] wpns =     // Size 5
-                {"Candlestick", "Dagger", "Pipe", "Pistol", "Rope"};
+                {"White", "Green", "Mustard", "Scarlet", "Peacock", "Plum"};
+        String[] wpns =     // Size 6
+                {"Candlestick", "Dagger", "Pistol", "Pipe", "Rope", "Wrench"};
         String[] rms =      // Size 9
-                {"ballroom", "billiardroom", "conservatory", "diningroom",
-                "hall", "kitchen", "library", "lounge", "study"};
+                {"kitchen", "ballroom", "conservatory", "diningroom",
+                "billiardroom", "library", "lounge", "hall", "study"};
 
         BufferedImage charTemp;
         BufferedImage wpnTemp;
@@ -125,50 +143,56 @@ public class AccuseMenu {
         for (int i=0; i<9; i++) {
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + rms[i] + ".jpeg"));
-            rooms[i] = new JButton(new ImageIcon(rmTemp));
+            rmPics[i] = new ImageIcon(rmTemp);
+            rooms[i] = new JButton(rmPics[i]);
             rooms[i].setBorderPainted(false);
+            rooms[i].addActionListener(new ButtonAL(i, rooms, rmPics, rms[i], 2));
             rmsPanel.add(rooms[i]);
 
             // Get B&W image
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + rms[i] + "b&w.jpeg"));
-            rooms[i + 9] = new JButton(new ImageIcon(rmTemp));
+            rmPics[i + 9] = new ImageIcon(rmTemp);
 
             if (i<6) {
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + chars[i] + ".png"));
-                characters[i] = new JButton(new ImageIcon(charTemp));
+                charPics[i] = new ImageIcon(charTemp);
+                characters[i] = new JButton(charPics[i]);
                 characters[i].setBorderPainted(false);
+                characters[i].addActionListener(new ButtonAL(i, characters, charPics, chars[i].toLowerCase(), 0));
                 charsPanel.add(characters[i]);
 
                 // Get B&W image
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + chars[i] + "B&W.png"));
-                characters[i + 6] = new JButton(new ImageIcon(charTemp));
-            }
-            if (i<5) {
+                charPics[i + 6] = new ImageIcon(charTemp);
+
                 wpnTemp = ImageIO.read
                         (new File("src/weaponCards/" + wpns[i] + ".png"));
-                weapons[i] = new JButton(new ImageIcon(wpnTemp));
+                wpnPics[i] = new ImageIcon(wpnTemp);
+                weapons[i] = new JButton(wpnPics[i]);
                 weapons[i].setBorderPainted(false);
+                weapons[i].addActionListener(new ButtonAL(i, weapons, wpnPics, wpns[i].toLowerCase(), 1));
                 wpnsPanel.add(weapons[i]);
 
                 // Get B&W image
                 wpnTemp = ImageIO.read
                         (new File("src/weaponCards/" + wpns[i] + "B&W.png"));
-                weapons[i + 5] = new JButton(new ImageIcon(wpnTemp));
+                wpnPics[i + 6] = new ImageIcon(wpnTemp);
             }
         }
         rmsPanel.setOpaque(false);
-        rmsPanel.setSize(1200, 850);
+        rmsPanel.setSize(1000, 850);
         charsPanel.setOpaque(false);
-        charsPanel.setSize(1200, 850);
+        charsPanel.setSize(1000, 850);
         wpnsPanel.setOpaque(false);
-        wpnsPanel.setSize(1200, 850);
+        wpnsPanel.setSize(1000, 850);
     }
 
     public JPanel createTitleImage() {
         JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(1000, 145));
         JLabel title;
         URL titleImageURL = this.getClass().getResource("accuse.png");
         BufferedImage titleImage = null;
@@ -195,10 +219,13 @@ public class AccuseMenu {
         BufferedImage accuseButtonImage = ImageIO.read(accuseButtonURL);
 
         accuse = new JButton(new ImageIcon(accuseButtonImage));
-        accuse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        accuse.setAlignmentX(Component.LEFT_ALIGNMENT);
         accuse.addActionListener(new AccuseListener());
         accuse.setOpaque(false);
         accuse.setBorderPainted(false);
+
+        // Starts invisible, becomes visible when player has guess all three
+        accuse.setVisible(false);
 
         accuseButtonPanel.setLayout(new GridLayout(3, 1));
 
@@ -217,24 +244,44 @@ public class AccuseMenu {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "Check!");
+            if(getGuessed()) {
+                accuseButtonPressResult = JOptionPane.showConfirmDialog(null, "Do you think it was: \n" +
+                    accusedStrings[0].substring(0, 1).toUpperCase().concat(accusedStrings[0].substring(1))
+                    + " in the " +
+                    accusedStrings[2].substring(0, 1).toUpperCase().concat(accusedStrings[2].substring(1)) +
+                    " with the " +
+                    accusedStrings[1].substring(0, 1).toUpperCase().concat(accusedStrings[1].substring(1)) + "?",
+                    null, JOptionPane.YES_NO_OPTION);
+                if (accuseButtonPressResult == JOptionPane.YES_OPTION)
+                    displayAccusationResult(GameLogic.Accusing.checkAccusation(accusedStrings, accusingPlayer));
+            }
         }
     }
 
     public void createNotesPanel() {
-        notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
-        notePanel.setSize(150, 100);
-        JTextArea notes = new JTextArea("", 10, 17);
+        notePanel.setLayout(new BorderLayout());
+        notePanel.setPreferredSize(new Dimension(125, 100));
+        notePanel.setOpaque(false);
+
+        JTextArea notes = new JTextArea("", 10, 8);
         notes.setBackground(Color.BLACK);
         notes.setForeground(Color.WHITE);
+        notes.setAlignmentX(Component.LEFT_ALIGNMENT);
+        notes.setEnabled(false);
+
+        notes.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, Color.BLACK));
 
         notes.append("    " + accusingPlayer.getName() + "'s notes");
         notes.append("\n-------------------------\n");
         for (String s : accusingPlayer.getNotes())
             notes.append(s + "\n");
 
-//        JScrollPane scroller = new JScrollPane(notes);
-        notePanel.add(notes);
+        notePanel.add(notes, BorderLayout.WEST);
+
+        JPanel spacer = new JPanel();
+        spacer.setSize(75, 115);
+        spacer.setOpaque(false);
+        notePanel.add(spacer, BorderLayout.EAST);
 
         notePanel.validate();
     }
@@ -249,20 +296,51 @@ public class AccuseMenu {
         display.setContentPane(background);
     }
 
-    class CharacterAL implements ActionListener {
+    class ButtonAL implements ActionListener {
         int index;
+        JButton[] type;
+        ImageIcon[] pics;
+        String label;
+        int typeIndex;
 
-        public CharacterAL(int index) {
+        public ButtonAL(int index, JButton[] type, ImageIcon[] pics, String label, int typeIndex) {
             this.index = index;
+            this.type = type;
+            this.pics = pics;
+            this.label = label;
+            this.typeIndex = typeIndex;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (int i=0; i<6; i++) {
-                if (i != index)
-                    characters[i].setIcon(new ImageIcon());
+            // If this button is clicked, every other button should become black and white
+            for (int i = 0; i < type.length; i++) {
+                if (i != index) {
+                    type[i].setIcon(pics[i + type.length]);
+                    type[i].setBorderPainted(false);
+                }
+                else {
+                    type[i].setIcon(pics[i]);
+                    type[i].setBorderPainted(true);
+                }
             }
+            // Assign this button's string label to the appropriate accused string
+            accusedStrings[typeIndex] = label;
+            // Check this type as 'guessed'
+            if (!guessed[typeIndex])
+                guessed[typeIndex] = true;
+            // Make accuse button visible if it wasn't already
+                // and all three types have been guessed
+            if (getGuessed() && !accuse.isVisible())
+                accuse.setVisible(true);
         }
+    }
+
+    public void displayAccusationResult(boolean result) {
+        if (result)
+            JOptionPane.showMessageDialog(null, "Win");
+        else
+            JOptionPane.showMessageDialog(null, "Lose");
     }
 
 

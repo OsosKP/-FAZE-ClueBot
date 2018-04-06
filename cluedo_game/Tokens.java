@@ -117,6 +117,10 @@ public class Tokens {
         this.last.setNext(this.first);
         this.numberOfPlayers++;
     }
+    public boolean setNumberOfPlayers() {
+        numberOfPlayers--;
+        return (numberOfPlayers == 1);
+    }
     public String removePlayer(Token t){
         String name = t.getName();
         // If the token we're looking for is the first player, remove first

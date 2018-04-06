@@ -55,6 +55,14 @@ public class Deck {
         }
     }
 
+    // Constructor for debugging
+    public Deck(int i) {
+        murderEnvelope = new ArrayList<>();
+        murderEnvelope.add(new Card("White", 0, 0, "token"));
+        murderEnvelope.add(new Card("Study", 1, 8, "room"));
+        murderEnvelope.add(new Card("Pipe", 2, 3, "weapon"));
+    }
+
     //
     //  Accessors
     //
@@ -186,6 +194,7 @@ public class Deck {
         for(int i=0; i<3; i++){
             randIndex = rand.nextInt(6 + (3 * i%2));
             murderEnvelope.add(publicDeck.get(i).remove(randIndex));
+            System.out.println(murderEnvelope.get(i));
         }
     }
 
