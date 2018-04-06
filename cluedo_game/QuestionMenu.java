@@ -1020,6 +1020,7 @@ public class QuestionMenu {
         	
         	public ChoicePane(String characterName, String weaponName, String roomName) {
 				
+        		/* */
         		if (canShowCharacter && canShowRoom && canShowWeapon) {
 					
 				}
@@ -1088,6 +1089,7 @@ public class QuestionMenu {
             }
 
             public GuessedCards(String characterName, String weaponName, String roomName) {
+            	System.out.println("GuessedCards are getting created");
                this.setLayout(new GridLayout(1,3));
 
                 /* Creating the cards */
@@ -1107,11 +1109,14 @@ public class QuestionMenu {
             	private Boolean isGreyed;
             	
             	public WeaponPictures(String weaponName) {
+            		System.out.println("Weapon images are now getting created");
 					this.weaponName = weaponName;
 					
 					/* Setting the default image */
 					setImage();
 					/* Setting the actionListener */
+					setListener();
+					this.add(imageLabel);
             	}
             	
             	public void setGrey(Boolean set) {
@@ -1177,7 +1182,7 @@ public class QuestionMenu {
             				}
             			}
             		} catch (Exception e) {
-						// TODO: handle exception
+            			System.err.println(e);
 					}
             	}
             	
@@ -1213,7 +1218,7 @@ public class QuestionMenu {
                 			chooseRope = false;
                 		}           		
                   	} catch (Exception e) {
-						// TODO: handle exception
+                  		System.err.println(e);
 					}
             	}
             
@@ -1268,7 +1273,9 @@ public class QuestionMenu {
             	
             	public CharacterPictures(String name) {
             		this.characterName = name;
-            		
+            		setImage();
+            		setListener();
+            		this.add(imageLabel);
 				}
             	
             	private void setImage() {
@@ -1339,7 +1346,7 @@ public class QuestionMenu {
             				}
             			}
             		} catch (Exception e) {
-						// TODO: handle exception
+            			System.err.println(e);
 					}
             	}
             	
@@ -1377,7 +1384,7 @@ public class QuestionMenu {
                             chooseWhite = false;
                         }               			
                 	} catch (Exception e) {
-						// TODO: handle exception
+                		System.err.print(e);
 					}           		
             	}
             	
@@ -1436,6 +1443,7 @@ public class QuestionMenu {
             		this.roomName = name;
             		this.setImage();
             		this.setListener();
+            		this.add(imageLabel);
 				}
             	
             	private void setImage() {
@@ -1452,7 +1460,7 @@ public class QuestionMenu {
             			BufferedImage image;
         			
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/ballroom.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/ballroom.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1460,7 +1468,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/billiardroom.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/billiardroom.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {            					
@@ -1468,7 +1476,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/diningroom.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/diningroom.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1476,7 +1484,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/weaponCards/kitchen.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/kitchen.jpeg"));
         					imageLabel.setIcon(new ImageIcon(image));
         				            				
         					if (userClick) {
@@ -1484,7 +1492,7 @@ public class QuestionMenu {
         					}
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/weaponCards/lounge.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/lounge.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1492,7 +1500,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/weaponCards/conservatory.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/conservatory.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1500,7 +1508,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/weaponCards/hall.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/hall.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1508,7 +1516,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("library")) {
-            				image = ImageIO.read(new File("src/weaponCards/library.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/library.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1516,7 +1524,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("study")) {
-            				image = ImageIO.read(new File("src/weaponCards/study.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/study.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1524,7 +1532,7 @@ public class QuestionMenu {
             				}       				
             			}
             		} catch (Exception e) {
-            			// TODO: handle exception
+            			System.err.println(e);
             		}
             	}
             	
@@ -1532,52 +1540,52 @@ public class QuestionMenu {
             		try {
             			BufferedImage image;
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/ballroomb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/ballroomb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBallroom = false;
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/billiardroomb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/billiardroomb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBilliardroom = false;
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/weaponCards/diningroomb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/diningroomb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseDiningroom = false;
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/weaponCards/kitchenb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/kitchenb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
         				    chooseKitchen = false;        				
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/weaponCards/loungeb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/loungeb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseLounge = false;
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/weaponCards/conservatoryb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/conservatoryb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseConservatory = false;
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/weaponCards/hallb&w.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/hallb&w.jpeg"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseHall = false;
             			}
             			else if (roomName.equals("library")) {
-          					image = ImageIO.read(new File("src/weaponCards/libraryb&w.jpeg"));
+          					image = ImageIO.read(new File("src/roomCards/libraryb&w.jpeg"));
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseLibrary = false;
             			}
             			else if (roomName.equals("study")) {
-          					image = ImageIO.read(new File("src/weaponCards/studyb&w.jpeg"));
+          					image = ImageIO.read(new File("src/roomCards/studyb&w.jpeg"));
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseStudy = false;
             			}
             		} catch (Exception e) {
-					// TODO: handle exception
+            			System.err.print(e);
             		}          		
             	}
             	
