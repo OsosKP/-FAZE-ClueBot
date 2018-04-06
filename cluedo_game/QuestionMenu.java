@@ -1105,13 +1105,138 @@ public class QuestionMenu {
             	public WeaponPictures(String weaponName, Boolean canChoose) {
 					this.canPossibleChoose = canChoose;
 					this.weaponName = weaponName;
-				}
-            	
-            	/* Function that will  */
-            	private void setImage() {
-            		
+					
+					/* Setting the default image */
+					setImage();
+					/* Setting the actionListener */
             	}
+            	
+            	/* Function that will set the weapon image  */
+            	private void setImage() {
+                 	BufferedImage image;	
+                 	try {
+                 		if (canPossibleChoose) {
+               			
+                		}
+                		else {
+                 			if (weaponName.equals("candlestick")) {
+                				image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseCandlestick = false;
+                 			}
+                			else if (weaponName.equals("dagger")) {
+                				image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				chooseDagger = false;
+                			}
+                			else if (weaponName.equals("pipe")) {
+                				image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePipe = false;
+                			}
+                			else if (weaponName.equals("pistol")) {
+                				image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));
+                				choosePistol = false;
+                			}
+                			else if (weaponName.equals("rope")) {
+                				image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                				imageLabel.setIcon(new ImageIcon(image));               			
+                				chooseRope = false;
+                			}
+                		}           		            
+                 	} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	}
+            	
+            	/**
+            	 * Sets a different 
+            	 */
+            	private void setColor(Boolean userClick) {
+            		try {
+            			BufferedImage image;
+            			
+            			if (weaponName.equals("candlestick")) {
+            				image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					chooseCandlestick = true;
+            				}
+            				
+            			}
+            			else if (weaponName.equals("dagger")) {
+            				image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {            					
+            					chooseDagger = true;
+            				}
+            			}
+            			else if (weaponName.equals("pipe")) {
+            				image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					choosePipe = true;
+            				}
+            			}
+            			else if (weaponName.equals("pistol")) {
+            				image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				            				
+            				if (userClick) {
+            					choosePistol = true;
+            				}
+            			}
+            			else if (weaponName.equals("rope")) {
+            				image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				
+            				if (userClick) {
+            					chooseRope = true;
+            				}
+            			}
+            		} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	}
+            	
+            	private void setNoColor() {
+                  	BufferedImage image;
+                  	try {
+                  		if (weaponName.equals("candlestick")) {
+                			image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseCandlestick = false;
+                 		}
+                		else if (weaponName.equals("dagger")) {
+                			image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseDagger = false;
+                		}
+                		else if (weaponName.equals("pipe")) {
+                			image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePipe = false;
+                		}
+                		else if (weaponName.equals("pistol")) {
+                			image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePistol = false;
+                		}
+                		else if (name.equals("rope")) {
+                			image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseRope = false;
+                		}           		
+                  	} catch (Exception e) {
+						// TODO: handle exception
+					}
+            	
             }
+            
             
             /* Class that is going to deal with displaying the character pictures */
             class CharacterPictures extends JPanel {
@@ -1256,31 +1381,7 @@ public class QuestionMenu {
                 			}               			
                 		}
                 		else {
-                 			if (name.equals("candlestick")) {
-                				image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                				chooseCandlestick = false;
-                 			}
-                			else if (name.equals("dagger")) {
-                				image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                				chooseDagger = false;
-                			}
-                			else if (name.equals("pipe")) {
-                				image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                				choosePipe = false;
-                			}
-                			else if (name.equals("pistol")) {
-                				image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));
-                				choosePistol = false;
-                			}
-                			else if (name.equals("rope")) {
-                				image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
-                				imageLabel.setIcon(new ImageIcon(image));               			
-                				chooseRope = false;
-                			}
+
                 		}	
                 	} catch (Exception e) {
 						// TODO: handle exception
