@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -1099,11 +1100,11 @@ public class QuestionMenu {
             /* Class that is going to deal with displaying the weapons */
             class WeaponPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
-            	private Boolean canPossibleChoose;
+//            	private Boolean canPossibleChoose;
             	private String weaponName;
+            	private Boolean isGreyed;
             	
-            	public WeaponPictures(String weaponName, Boolean canChoose) {
-					this.canPossibleChoose = canChoose;
+            	public WeaponPictures(String weaponName) {
 					this.weaponName = weaponName;
 					
 					/* Setting the default image */
@@ -1115,7 +1116,7 @@ public class QuestionMenu {
             	private void setImage() {
                  	BufferedImage image;	
                  	try {
-                 		if (canPossibleChoose) {
+                 		if (canShowWeapon) {
                			
                 		}
                 		else {
@@ -1151,7 +1152,7 @@ public class QuestionMenu {
             	}
             	
             	/**
-            	 * Sets a different 
+            	 * Sets the current character card in color 
             	 */
             	private void setColor(Boolean userClick) {
             		try {
@@ -1203,6 +1204,9 @@ public class QuestionMenu {
 					}
             	}
             	
+            	/**
+            	 * Sets the current character card in black and white
+            	 */
             	private void setNoColor() {
                   	BufferedImage image;
                   	try {
@@ -1226,7 +1230,7 @@ public class QuestionMenu {
                 			imageLabel.setIcon(new ImageIcon(image));
                 			choosePistol = false;
                 		}
-                		else if (name.equals("rope")) {
+                		else if (weaponName.equals("rope")) {
                 			image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseRope = false;
@@ -1234,12 +1238,56 @@ public class QuestionMenu {
                   	} catch (Exception e) {
 						// TODO: handle exception
 					}
-            	
+            	}
+            
+            	private void setListener() {
+            		this.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseExited(MouseEvent e) {
+							/* If we can show the weapon */
+							if (canShowWeapon) {
+								if (isGreyed) {
+									setNoColor();
+								}
+							}
+						}
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							/* If we can show the weapon */
+							if (canShowWeapon) {
+								setColor(false);
+							}
+						}
+						
+						@Override
+                		public void mouseClicked(MouseEvent e) {
+							/* We only want to allow the user to click on the button if they hvae  */
+                			if (canShowWeapon) {
+                				isGreyed  = false;
+                				setColor(true);
+                				
+                				//TODO: need to call the setNoColor() objects of the 
+
+                				/* Re-setting any options that the user may have pressed earlier */
+                				chooseCandlestick = false;
+                				chooseDagger = false;
+                				choosePipe = false;
+                				choosePistol = false;
+                				chooseRope = false;
+                			}
+
+                		}					
+					});
+            	}
+
             }
             
             
             /* Class that is going to deal with displaying the character pictures */
             class CharacterPictures extends JPanel {
+            	JLabel imageLabel = new JLabel();
             	
             }
             /* Class that is going to deal with displaying the room pictures */
