@@ -91,34 +91,32 @@ public class Room {
 		return string.toString();
 	}
 
-	public void addPlayerToRoom(Token p){
+	public int addPlayerToRoom(Token p){
+		System.out.println("addPlayerToRoom called");
 		for (int i=0; i<playersInRoom.length; i++) {
 			if (playersInRoom[i] == null) {
 				playersInRoom[i]=p;
+				return 0;
 			}
 		}
+		return -1;
 	}
 	
 	public int getNextEmptySpot() {
 		for (int i = 0; i < playersInRoom.length; i++) {
-			System.out.print("Slot " + i + " is " + playersInRoom[i]);
 			if (playersInRoom[i]==null) {
 				return i;
-			}
-			else {
-				return -1;
 			}
 		}
 		return -1;
 	}
 	
 	public int getPlayerSpotInRoom(Token p) {
+		printPlayerList();
 		for (int i = 0; i < playersInRoom.length; i++) {
-			if (playersInRoom[i]==p) {
+			System.out.println("Comparing "+p.getName()+" with "+playersInRoom[i].getName());
+			if (playersInRoom[i].equals(p)) {
 				return i;
-			}
-			else {
-				return -1;
 			}
 		}
 		return -1;
@@ -133,6 +131,17 @@ public class Room {
 				System.err.println("Player was not located in this room. Error?");
 		}
 		}
+	
+	public void printPlayerList() {
+		for (int i = 0; i < playersInRoom.length; i++) {
+			if (playersInRoom[i]==null) {
+				System.out.print("null, ");
+			}
+			else {
+				System.out.print(playersInRoom[i].getName() + ", ");
+			}
+		}
+	}
 
 
 }

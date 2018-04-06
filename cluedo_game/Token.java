@@ -14,6 +14,7 @@ public class Token {
 	private String locationAsString;
 	private BoardSquare squareOn;
 	private BoardSquare previous;
+	private int previousPlayerFloor = -1;
 	private Room previousRoom = null;
 	private Room inRoom;
 	private ArrayList<Card> hand;
@@ -128,6 +129,7 @@ public class Token {
 	public String getPlayerName() {return playerName; }
 	public int getPlayerNumber() {return playerNumber;}
 	public int[] getPosition() {return position;}
+	public int getPreviousPlayerFloor() {return previousPlayerFloor;}
 	public int returnDiceNumber() { return this.diceRoll;}
 	public int returnObjNum() {return this.initialObjNum; }
 	public String getLocationAsString() {
@@ -168,6 +170,7 @@ public class Token {
 	public void setPlayerName(String name) {this.playerName = name; }
 	public void setPosition(int[] position) {this.position = position;}
 	public void setLocationAsString(String location) {this.locationAsString = location; }
+	public void setPreviousPlayerFloor(int position) {this.previousPlayerFloor=position;}
 	public void setSquareOn(BoardSquare squareOn) {
 		this.previous = this.squareOn;
 		this.squareOn = squareOn;

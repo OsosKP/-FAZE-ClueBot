@@ -183,21 +183,24 @@ public class BoardImage {
 		}
 	}
 
-	public JPanel passageMove(Room roomfrom, Room roomto){
-		int[] init = roomfrom.getPlayerFloors().get(roomfrom.getNextEmptySpot());
-		int[] fin = roomto.getPlayerFloors().get(roomto.getNextEmptySpot());
+	public JPanel passageMove(Token player, Room roomfrom, Room roomto){
+		System.out.println("Position in "+ roomfrom.getName() +": " + player.getPreviousPlayerFloor() + "Position in "+roomto.getName()+": "+ roomto.getPlayerSpotInRoom(player));
+		int[] init = roomfrom.getPlayerFloors().get(player.getPreviousPlayerFloor());
+		int[] fin = roomto.getPlayerFloors().get(roomto.getPlayerSpotInRoom(player));
+		player.setPreviousPlayerFloor(roomto.getPlayerSpotInRoom(player));
 		return swapsquares(init, fin);
 
 	}
 
-	public JPanel moveToRoom(int[] init, Room room){
-		System.out.println(room.getNextEmptySpot());
-		int[] fin = room.getPlayerFloors().get(room.getNextEmptySpot());
+	public JPanel moveToRoom(Token player, int[] init, Room room){
+		System.out.println("Setting "+ player.getName()+" prevFloorNum to " + room.getPlayerSpotInRoom(player));
+		player.setPreviousPlayerFloor(room.getPlayerSpotInRoom(player));
+		int[] fin = room.getPlayerFloors().get(room.getPlayerSpotInRoom(player));
 		return swapsquares(init, fin);
 	}
 
 	public JPanel movetoExit(Token player, int[] fin, Room room){
-		int[] init = room.getPlayerFloors().get(room.getPlayerSpotInRoom(player));
+		int[] init = room.getPlayerFloors().get(player.getPreviousPlayerFloor());
 		return swapsquares(init, fin);
 	}
 
