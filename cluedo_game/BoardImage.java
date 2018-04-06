@@ -191,6 +191,7 @@ public class BoardImage {
 	}
 
 	public JPanel moveToRoom(int[] init, Room room){
+		System.out.println(room.getNextEmptySpot());
 		int[] fin = room.getPlayerFloors().get(room.getNextEmptySpot());
 		return swapsquares(init, fin);
 	}

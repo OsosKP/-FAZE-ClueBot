@@ -101,6 +101,7 @@ public class Room {
 	
 	public int getNextEmptySpot() {
 		for (int i = 0; i < playersInRoom.length; i++) {
+			System.out.print("Slot " + i + " is " + playersInRoom[i]);
 			if (playersInRoom[i]==null) {
 				return i;
 			}
