@@ -363,7 +363,7 @@ public class UserInterface extends JPanel {
                                    case "exit":
                                    case "e":
                                         currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);//Removes player from room they were in
-                                        movementPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                                        movementPanel = myImg.movetoExit(currentPlayer, currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                                         currentPlayer.setPreviousRoom(null);
                                         break;
                                    default:
@@ -468,7 +468,7 @@ public class UserInterface extends JPanel {
                     int[] coords = currentPlayer.getSquareOn().getPosition();
                     System.out.println("Move to " + coords[0] +","+coords[1] + " to " + currentPlayer.getPreviousRoom().getName());
                     currentPlayer.getPreviousRoom().removePlayerFromRoom(currentPlayer);
-                    JPanel complexExitPanel = myImg.movetoExit(currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
+                    JPanel complexExitPanel = myImg.movetoExit(currentPlayer, currentPlayer.getSquareOn().getPosition(), currentPlayer.getPreviousRoom());
                     refreshBoard(complexExitPanel);
                     currentPlayer.setPreviousRoom(null);//frees up a little memory
 
