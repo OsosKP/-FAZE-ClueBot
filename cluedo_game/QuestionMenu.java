@@ -964,7 +964,8 @@ public class QuestionMenu {
     	/* Representing what the player presses */
     	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
     	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false;
-
+    	private static Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
+    	
     	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
     	
     	public QuestionRound() {
@@ -1079,6 +1080,7 @@ public class QuestionMenu {
         static class GuessedCards extends JPanel {
             private WeaponPictures weaponImage;
             private CharacterPictures characterImage;
+            private RoomPictures roomImage;
 
             @Override
             public void setLayout(LayoutManager mgr) {
@@ -1128,7 +1130,7 @@ public class QuestionMenu {
             	/**
             	 * Sets the current character card in color 
             	 */
-            	private void setColor(Boolean userClick) {
+            	public void setColor(Boolean userClick) {
             		try {
             			BufferedImage image;
             			
@@ -1181,7 +1183,7 @@ public class QuestionMenu {
             	/**
             	 * Sets the current character card in black and white
             	 */
-            	private void setNoColor() {
+            	public void setNoColor() {
                   	BufferedImage image;
                   	try {
                   		if (weaponName.equals("candlestick")) {
@@ -1248,8 +1250,8 @@ public class QuestionMenu {
                 				
                 				isGreyed  = false;
                 				setColor(true);
-                				
-                				//TODO: need to call the setNoColor() objects of the other types
+                				characterImage.setNoColor();
+                				roomImage.setNoColor();
                 			}
                 		}					
 					});
@@ -1281,7 +1283,7 @@ public class QuestionMenu {
             		isGreyed = set;
             	}
             	
-            	private void setColor(Boolean userClicked) {
+            	public void setColor(Boolean userClicked) {
             		try {
             			BufferedImage image;
             			if (characterName.equals("green")) {
@@ -1340,7 +1342,7 @@ public class QuestionMenu {
 					}
             	}
             	
-            	private void setNoColor() {
+            	public void setNoColor() {
                  	try {
                 		BufferedImage image;
                  		if (characterName.equals("green")) {
@@ -1414,7 +1416,8 @@ public class QuestionMenu {
                 				isGreyed  = false;
                 				setColor(true);
                 				
-                				//TODO: need to call the setNoColor() objects of the other types
+                				weaponImage.setNoColor();
+                				roomImage.setNoColor();
                 			}
                 		}					
 					});
@@ -1423,8 +1426,199 @@ public class QuestionMenu {
             
             /* Class that is going to deal with displaying the room pictures */
             class RoomPictures extends JPanel {
+            	private JLabel imageLabel = new JLabel();
+            	private Boolean isGreyed;
+            	private String roomName;
             	
-            }    
+            	
+            	public RoomPictures(String name) {
+            		this.roomName = name;
+            		this.setImage();
+            		this.setListener();
+				}
+            	
+            	private void setImage() {
+            		if (canShowRoom) {
+            			setColor(false);
+            		}
+            		else {
+            			setNoColor();
+            		}
+            	}
+            	
+            	public void setColor(Boolean userClick) {
+            		try {
+            			BufferedImage image;
+        			
+            			if (roomName.equals("ballroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/ballroom.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseBallroom = true;
+            				}
+            			}
+            			else if (roomName.equals("billiardroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/billiardroom.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {            					
+            					chooseBilliardroom = true;
+            				}
+            			}
+            			else if (roomName.equals("diningroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/diningroom.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseConservatory = true;
+            				}
+            			}
+            			else if (roomName.equals("kitchen")) {
+            				image = ImageIO.read(new File("src/weaponCards/kitchen.jpeg"));
+        					imageLabel.setIcon(new ImageIcon(image));
+        				            				
+        					if (userClick) {
+        					chooseDiningroom = true;
+        					}
+            			}
+            			else if (roomName.equals("lounge")) {
+            				image = ImageIO.read(new File("src/weaponCards/lounge.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseHall = true;
+            				}
+            			}
+            			else if (roomName.equals("conservatory")) {
+            				image = ImageIO.read(new File("src/weaponCards/conservatory.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseKitchen = true;
+            				}       				
+            			}
+            			else if (roomName.equals("hall")) {
+            				image = ImageIO.read(new File("src/weaponCards/hall.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseLibrary = true;
+            				}       				
+            			}
+            			else if (roomName.equals("library")) {
+            				image = ImageIO.read(new File("src/weaponCards/library.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseLounge = true;
+            				}       				
+            			}
+            			else if (roomName.equals("study")) {
+            				image = ImageIO.read(new File("src/weaponCards/study.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				
+            				if (userClick) {
+            					chooseStudy = true;
+            				}       				
+            			}
+            		} catch (Exception e) {
+            			// TODO: handle exception
+            		}
+            	}
+            	
+            	public void setNoColor() {
+            		try {
+            			BufferedImage image;
+            			if (roomName.equals("ballroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/ballroomb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBallroom = false;
+            			}
+            			else if (roomName.equals("billiardroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/billiardroomb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBilliardroom = false;
+            			}
+            			else if (roomName.equals("diningroom")) {
+            				image = ImageIO.read(new File("src/weaponCards/diningroomb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseDiningroom = false;
+            			}
+            			else if (roomName.equals("kitchen")) {
+            				image = ImageIO.read(new File("src/weaponCards/kitchenb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				    chooseKitchen = false;        				
+            			}
+            			else if (roomName.equals("lounge")) {
+            				image = ImageIO.read(new File("src/weaponCards/loungeb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseLounge = false;
+            			}
+            			else if (roomName.equals("conservatory")) {
+            				image = ImageIO.read(new File("src/weaponCards/conservatoryb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseConservatory = false;
+            			}
+            			else if (roomName.equals("hall")) {
+            				image = ImageIO.read(new File("src/weaponCards/hallb&w.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseHall = false;
+            			}
+            			else if (roomName.equals("library")) {
+          					image = ImageIO.read(new File("src/weaponCards/libraryb&w.jpeg"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseLibrary = false;
+            			}
+            			else if (roomName.equals("study")) {
+          					image = ImageIO.read(new File("src/weaponCards/studyb&w.jpeg"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseStudy = false;
+            			}
+            		} catch (Exception e) {
+					// TODO: handle exception
+            		}          		
+            	}
+            	
+            	private void setListener() {
+            		this.addMouseListener(new MouseAdapter() {	
+						@Override
+						public void mouseExited(MouseEvent e) {
+							/* If we can show the weapon */
+							if (canShowRoom) {
+								if (isGreyed) {
+									setNoColor();
+								}
+							}
+						}
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							/* If we can show the weapon */
+							if (canShowRoom) {
+								setColor(false);
+							}
+						}
+						
+						@Override
+                		public void mouseClicked(MouseEvent e) {
+							/* We only want to allow the user to click on the button if they hvae  */
+                			if (canShowRoom) {
+                				/* Re-setting any options that the user may have pressed earlier */
+
+                				isGreyed  = false;
+                				setColor(true);
+                				
+                				characterImage.setNoColor();
+                				weaponImage.setNoColor();
+                			}
+                		}					
+					});
+            	}
+            }   
+            
+            
+            
         }       
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
