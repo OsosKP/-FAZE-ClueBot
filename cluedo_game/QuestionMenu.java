@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class QuestionMenu {
@@ -81,29 +80,31 @@ public class QuestionMenu {
 
         /* Checking the case where the user tries to select the weapon first -- then the character */
         if (!weaponSelected) {
-            if (name.equals("plum")) {
-                dynamicGuess.setText("\"I think Plum is the killer, and he used ?\"");
-                isPlum = true;
-            }
-            else if (name.equals("green")) {
-                dynamicGuess.setText("\"I think Green is the killer, and he used ?\"");
-                isGreen = true;
-            }
-            else if (name.equals("mustard")) {
-                dynamicGuess.setText("\"I think Mustard is the killer, and he used ?\"");
-                isMustard = true;
-            }
-            else if (name.equals("peacock")) {
-                dynamicGuess.setText("\"I think Peacock is the killer, and she used ?\"");
-                isPeacock = true;
-            }
-            else if (name.equals("scarlet")) {
-                dynamicGuess.setText("\"I think Scarlet is the killer, and she used ?\"");
-                isScarlet = true;
-            }
-            else if (name.equals("white")) {
-                dynamicGuess.setText("\"I think White is the killer, and she used ?\"");
-                isWhite = true;
+            switch (name) {
+                case "plum":
+                    dynamicGuess.setText("\"I think Plum is the killer, and he used ?\"");
+                    isPlum = true;
+                    break;
+                case "green":
+                    dynamicGuess.setText("\"I think Green is the killer, and he used ?\"");
+                    isGreen = true;
+                    break;
+                case "mustard":
+                    dynamicGuess.setText("\"I think Mustard is the killer, and he used ?\"");
+                    isMustard = true;
+                    break;
+                case "peacock":
+                    dynamicGuess.setText("\"I think Peacock is the killer, and she used ?\"");
+                    isPeacock = true;
+                    break;
+                case "scarlet":
+                    dynamicGuess.setText("\"I think Scarlet is the killer, and she used ?\"");
+                    isScarlet = true;
+                    break;
+                case "white":
+                    dynamicGuess.setText("\"I think White is the killer, and she used ?\"");
+                    isWhite = true;
+                    break;
             }
         }
         else {

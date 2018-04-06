@@ -137,7 +137,7 @@ public class BoardImage {
 
                 //button.setActionCommand(""+xIndex+","+yIndex);
 
-				//TODO: Josh uncomment this if you need it, I was decluttering the console printouts
+				//TODO: Josh uncomment this if you need it, I was de-cluttering the console printouts
 //				button.setActionCommand(""+xIndex+","+yIndex+" is a "+ GameLogic.currentBoard.getSquare(xIndex,yIndex).getClass());
                 button.addActionListener(new ActionListener(){
 
