@@ -49,8 +49,8 @@ public class AccuseMenu {
     private JPanel notePanel = new JPanel();        // Width = 400
 
     // First half is color, second is B&W. Index with [i + len/2]?
-    private JLabel[] characters = new JLabel[12];
-    private JLabel[] weapons = new JLabel[10];
+    private JButton[] characters = new JButton[12];
+    private JButton[] weapons = new JButton[10];
     private JButton[] rooms = new JButton[18];
 
     public AccuseMenu(JFrame orig, JPanel board, Token player) {
@@ -126,6 +126,7 @@ public class AccuseMenu {
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + rms[i] + ".jpeg"));
             rooms[i] = new JButton(new ImageIcon(rmTemp));
+            rooms[i].setBorderPainted(false);
             rmsPanel.add(rooms[i]);
 
             // Get B&W image
@@ -136,22 +137,26 @@ public class AccuseMenu {
             if (i<6) {
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + chars[i] + ".png"));
-                charsPanel.add(new JLabel(new ImageIcon(charTemp)));
+                characters[i] = new JButton(new ImageIcon(charTemp));
+                characters[i].setBorderPainted(false);
+                charsPanel.add(characters[i]);
 
                 // Get B&W image
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + chars[i] + "B&W.png"));
-                characters[i + 6] = new JLabel(new ImageIcon(charTemp));
+                characters[i + 6] = new JButton(new ImageIcon(charTemp));
             }
             if (i<5) {
                 wpnTemp = ImageIO.read
                         (new File("src/weaponCards/" + wpns[i] + ".png"));
-                wpnsPanel.add(new JLabel(new ImageIcon(wpnTemp)));
+                weapons[i] = new JButton(new ImageIcon(wpnTemp));
+                weapons[i].setBorderPainted(false);
+                wpnsPanel.add(weapons[i]);
 
                 // Get B&W image
                 wpnTemp = ImageIO.read
                         (new File("src/weaponCards/" + wpns[i] + "B&W.png"));
-                weapons[i + 5] = new JLabel(new ImageIcon(wpnTemp));
+                weapons[i + 5] = new JButton(new ImageIcon(wpnTemp));
             }
         }
         rmsPanel.setOpaque(false);
