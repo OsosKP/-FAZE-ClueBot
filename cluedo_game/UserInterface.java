@@ -740,7 +740,6 @@ public class UserInterface extends JPanel {
             output.revalidate();
             userDisplay.repaint();
         }
-        // TODO: Fix 'done' button not going away
         public void endViewNotes(){
             output.remove(notesScroller);
             output.setLayout(new GridLayout(2, 1));
