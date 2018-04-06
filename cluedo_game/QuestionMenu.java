@@ -507,9 +507,8 @@ public class QuestionMenu {
 						/*
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
-						 */
-
-                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName());
+						 */                        
+                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], "library");
 
 
                         /* Adding the character's name to the return string */
@@ -520,7 +519,7 @@ public class QuestionMenu {
                         initialUserDisplay.getContentPane().removeAll();
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         
-                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName()));
+                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], "library"));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -978,7 +977,7 @@ public class QuestionMenu {
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new BorderLayout());
 
-            pane = new ChoicePane(character, weapon);
+            pane = new ChoicePane(character, weapon, room);
             
             returnMe.add(pane, BorderLayout.NORTH);
             
@@ -1019,7 +1018,7 @@ public class QuestionMenu {
         		super.setLayout(mgr);
         	}
         	
-        	public ChoicePane(String characterName, String weaponName) {
+        	public ChoicePane(String characterName, String weaponName, String roomName) {
 				
         		if (canShowCharacter && canShowRoom && canShowWeapon) {
 					
@@ -1045,7 +1044,7 @@ public class QuestionMenu {
         		
         		this.setLayout(new GridLayout(2,1));
 				info = new Title();
-				cards = new GuessedCards(characterName, weaponName);
+				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
 				this.add(cards);
@@ -1088,15 +1087,17 @@ public class QuestionMenu {
                 super.setLayout(mgr);
             }
 
-            public GuessedCards(String characterName, String weaponName) {
-               this.setLayout(new GridLayout(1,2));
+            public GuessedCards(String characterName, String weaponName, String roomName) {
+               this.setLayout(new GridLayout(1,3));
 
                 /* Creating the cards */
                 characterImage = new CharacterPictures(characterName); 
                 weaponImage = new WeaponPictures(characterName);
+                roomImage = new RoomPictures(roomName);
 
                 this.add(characterImage);
                 this.add(weaponImage);
+                this.add(roomImage);
             }
             
             /* Class that is going to deal with displaying the weapons */
