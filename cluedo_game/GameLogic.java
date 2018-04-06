@@ -402,10 +402,11 @@ public class GameLogic {
 	}
 
 	public static class Guessing {
-		private static Token accusingPlayer;
-		private static Token answeringPlayer;
-	    private static Card accusedPlayer;
-	    private static Card accusedWeapon;
+		protected static Token accusingPlayer;
+		protected static Token answeringPlayer;
+	    protected static Card accusedPlayer;
+	    protected static Card accusedWeapon;
+		protected static Card accusedRoom;
 
 		public static Token getAccusingPlayer() {
 			return accusingPlayer;
@@ -423,15 +424,20 @@ public class GameLogic {
 			return accusedWeapon;
 		}
 
+		public static Card getAccusedRoom() {
+			return accusedRoom;
+		}
+
 		public static void startGuessing() {
 	    	accusingPlayer = ui.getCurrentPlayer();
 	    	answeringPlayer = null;
 		}
 
-        public static void InitiateRoundOfQuestioning(String player, String weapon) {
+        public static void initiateRoundOfQuestioning(String player, String weapon, String room) {
 	    	answeringPlayer = ui.getCurrentPlayer().next();
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
+			accusedRoom = deck.getRoomCardByName(room);
 		}
 
 		public static void unsuccessfulGuess() {
@@ -442,6 +448,19 @@ public class GameLogic {
 			ui.refreshGuiFromUnsuccessfulGuess();
 		}
     }
+    
+    public static class Accusing extends Guessing {
+		public static void startGuessing() {
+			accusingPlayer = ui.getCurrentPlayer();
+		}
+
+		public static void initiateRoundOfQuestioning(String player, String weapon, String room) {
+			accusedPlayer = deck.getPlayerCardByName(player);
+			accusedWeapon = deck.getWeaponCardByName(weapon);
+			accusedRoom = deck.getRoomCardByName(room);
+		}
+
+	}
 
 	public static void playMusic() {
 		try {
