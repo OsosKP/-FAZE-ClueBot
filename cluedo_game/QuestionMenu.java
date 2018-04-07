@@ -1094,7 +1094,7 @@ public class QuestionMenu {
 
                 /* Creating the cards */
                 characterImage = new CharacterPictures(characterName); 
-                weaponImage = new WeaponPictures(characterName);
+                weaponImage = new WeaponPictures(weaponName);
                 roomImage = new RoomPictures(roomName);
 
                 this.add(characterImage);
@@ -1109,7 +1109,7 @@ public class QuestionMenu {
             	private Boolean isGreyed;
             	
             	public WeaponPictures(String weaponName) {
-            		System.out.println("Weapon images are now getting created");
+            		System.out.println("Weapon object is now gettin created");
 					this.weaponName = weaponName;
 					
 					/* Setting the default image */
@@ -1126,9 +1126,11 @@ public class QuestionMenu {
             	/* Function that will set the weapon image  */
             	private void setImage() {
             		if (canShowWeapon) {
+            			System.out.println("I want to get the color!");
             			setColor(false);
                 	}
                 	else {
+                		System.out.println("I dont want to set the color!");
                 		setNoColor();
                 	}           		            	
             	}
@@ -1624,10 +1626,7 @@ public class QuestionMenu {
                 		}					
 					});
             	}
-            }   
-            
-            
-            
+            }    
         }       
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
