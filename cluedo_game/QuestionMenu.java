@@ -959,6 +959,7 @@ public class QuestionMenu {
     public static class QuestionRound {
     	    	
     	private static ChoicePane pane;
+    	private static LowerPane lowerPane;
     	
     	/* Representing what the player presses */
     	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
@@ -975,14 +976,15 @@ public class QuestionMenu {
         public static JPanel beginQuestionRound(String character, String weapon, String room) {
        	
         	JPanel returnMe = new JPanel();
-            returnMe.setLayout(new BorderLayout());
+            returnMe.setLayout(new GridLayout(2,1));
 
             isAbleToAnswer();
             
             pane = new ChoicePane(character, weapon, room);
+            lowerPane = new LowerPane();
             
-            returnMe.add(pane, BorderLayout.NORTH);
-            
+            returnMe.add(pane);
+            returnMe.add(lowerPane);
             return returnMe;
         }
         
@@ -1049,7 +1051,7 @@ public class QuestionMenu {
         		}
         		
         		this.setLayout(new GridLayout(2,1));
-				info = new Title();
+				info = new Title("---One of the Players has gussed the cards below, do you wish to aid him?---");
 				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
@@ -1067,13 +1069,17 @@ public class QuestionMenu {
             public void setLayout(LayoutManager mgr) {
                 super.setLayout(mgr);
             }
+            
+            public void changeText(String text) {
+            	title.setText(text);
+            }
 
-            public Title() {
+            public Title(String text) {
                 layout = new GridBagLayout();
                 gbc = new GridBagConstraints();
 
                 this.setLayout(layout);
-                title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+                title= new JLabel(text);
 
                 gbc.gridx=0;
                 gbc.gridy=0;
@@ -1151,7 +1157,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseCandlestick = true;
-            					System.out.println("Candlestick choosen");
+            					lowerPane.changeTitle("I want to share the CandleStick card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             				
             			}
@@ -1161,7 +1168,8 @@ public class QuestionMenu {
             				
             				if (userClick) {            					
             					chooseDagger = true;
-            					System.out.println("Dagger chosen");
+            					lowerPane.changeTitle("I want to share the Dagger card with the player who made the guesss?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("pipe")) {
@@ -1170,7 +1178,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					choosePipe = true;
-            					System.out.println("Pipe chosen");
+            					lowerPane.changeTitle("I want to share the Pipe card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("pistol")) {
@@ -1179,7 +1188,8 @@ public class QuestionMenu {
             				            				
             				if (userClick) {
             					choosePistol = true;
-            					System.out.println("Pipe chosen");
+            					lowerPane.changeTitle("I want to share the Pistol card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("rope")) {
@@ -1188,7 +1198,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseRope = true;
-            					System.out.println("Rope chosen");
+            					lowerPane.changeTitle("I want to share the Rope card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             		} catch (Exception e) {
@@ -1346,7 +1357,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseGreen = true;
-            					System.out.println("Green chosen");
+            					lowerPane.changeTitle("I want to share the Green card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("mustard")) {
@@ -1356,7 +1368,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseMustard = true;
-            					System.out.println("Mustard chosen");
+            					lowerPane.changeTitle("I want to share the Mustard card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("peacock")) {
@@ -1366,7 +1379,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					choosePeacock = true;
-            					System.out.println("Peacock chosen");
+            					lowerPane.changeTitle("I want to share the Peacock card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("plum")) {
@@ -1376,7 +1390,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					choosePlum = true;
-            					System.out.println("plum chosen");
+            					lowerPane.changeTitle("I want to share the Plum card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("scarlet")) {
@@ -1385,7 +1400,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseScarlet = true;
-            					System.out.println("scarlet chosen");
+            					lowerPane.changeTitle("I want to share the Scarlet card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("white")) {
@@ -1394,7 +1410,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseWhite = true;
-            					System.out.println("White Chosen");
+            					lowerPane.changeTitle("I want to share the White card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             		} catch (Exception e) {
@@ -1562,7 +1579,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseBallroom = true;
-            					System.out.println("Ballroo, chosen");
+            					lowerPane.changeTitle("I want to share the Ballroom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("billiardroom")) {
@@ -1571,7 +1589,8 @@ public class QuestionMenu {
         				
             				if (userClick) {            					
             					chooseBilliardroom = true;
-            					System.out.println("BilliardRoom choosen");
+            					lowerPane.changeTitle("I want to share the BilliardRoom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("diningroom")) {
@@ -1580,7 +1599,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseConservatory = true;
-            					System.out.println("DiningRoom chosen");
+            					lowerPane.changeTitle("I want to share the DiningRoom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("kitchen")) {
@@ -1589,7 +1609,8 @@ public class QuestionMenu {
         				            				
         					if (userClick) {
         						chooseDiningroom = true;
-        						System.out.println("Kitehcn Chosen");
+        						lowerPane.changeTitle("I want to share the Kitchen card with the player who guessed?");
+        						lowerPane.toggleConfirm(true);
         					}
             			}
             			else if (roomName.equals("lounge")) {
@@ -1598,7 +1619,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseHall = true;
-            					System.out.println("Lounge chosen");
+            					lowerPane.changeTitle("I want to share the Lounge card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("conservatory")) {
@@ -1607,7 +1629,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseKitchen = true;
-            					System.out.println("Conservatory chosen");
+            					lowerPane.changeTitle("I want to share the Conservatory card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("hall")) {
@@ -1616,6 +1639,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseLibrary = true;
+            					lowerPane.changeTitle("I want to share the Hall card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("library")) {
@@ -1624,6 +1649,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseLounge = true;
+            					lowerPane.changeTitle("I want to share the Library card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("study")) {
@@ -1632,7 +1659,9 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseStudy = true;
-            				}       				
+            					lowerPane.changeTitle("I want to share the Study card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
+            				}   
             			}
             		} catch (Exception e) {
             			System.err.println(e);
@@ -1789,12 +1818,51 @@ public class QuestionMenu {
             	}
             }    
         }       
+        
+        static class LowerPane extends JPanel{
+        	private Title lowerPaneTitle;
+        	private ButtonPane confirmButton;
+        	/* Function that checks the of the user can actually answer the guess -- if they cant, we enable the JButon and change the text */
+        	private void checkInitialLoad() {
+        		
+        		/* Checking to see if the user is not able to choose any options */
+        		if (!canShowCharacter && !canShowRoom && !canShowWeapon) {
+        			lowerPaneTitle.changeText("---You do not have any of the cards the prior player has guessed---");
+        			confirmButton.setButtonEnable(true);
+        		} else {
+        			lowerPaneTitle.changeText("Select one of the available cards above to share with the guessing player: ");
+        			confirmButton.setButtonEnable(false);
+        		}
+        		
+        	}
+        	
+        	/* Need to change the title text based on what the user has selected */
+        	public void changeTitle(String changeMe) {
+        		lowerPaneTitle.changeText(changeMe);
+        		confirmButton.setEnabled(true);
+        	}
+        	
+        	public void toggleConfirm(Boolean set) {
+        		confirmButton.setButtonEnable(set);
+        	}
+        	
+        	public LowerPane() {
+				// TODO Auto-generated constructor stub
+        		lowerPaneTitle = new Title("");
+        		confirmButton = new ButtonPane();
+        		checkInitialLoad();
+
+        		setLayout(new GridLayout(2,1));
+        		this.add(lowerPaneTitle);
+        		this.add(confirmButton);
+        	}
+        }
+        
+        
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
             JButton confirmButton;
-            JButton neitherButton;
-            JButton showNotesButton;
-            
+ 
             @Override
             public void setLayout(LayoutManager mgr) {
             	super.setLayout(mgr);
@@ -1803,23 +1871,16 @@ public class QuestionMenu {
             /* Create the confirmButton and set its actionListener */
             private void setConfirmListener() {
             	//TODO add some logic that, if the player doesnt have any of the cards, they cannot continue 
-            	confirmButton = new JButton("Submit");
-            	/*  */
-
+            	confirmButton = new JButton("Confirm");
             }
             
-            /* Create the neitherButton and set its actionListener */
-            private void setNeitherListener() {
-             	neitherButton = new JButton("I dont have either card");           	
-            }
-            
-            /* Creates the showNotesButton and sets its actionListener */
-            private void setShowNotesListener() {
-            	showNotesButton = new JButton("Notes");
+            public void setButtonEnable(Boolean set) {
+            	confirmButton.setEnabled(set);
             }
             
             public ButtonPane() {
-				// TODO Auto-generated constructor stub
+				setConfirmListener();
+				this.add(confirmButton);
 			}
         }
     }
