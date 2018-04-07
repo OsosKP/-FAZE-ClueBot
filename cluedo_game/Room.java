@@ -84,10 +84,15 @@ public class Room {
 
 	public String playerListInRoom(){//returns printable string of players in room
 		StringBuilder string = new StringBuilder();
-		for (int i=0;i<playersInRoom.length;i++){
-			string.append(playersInRoom[i].getName());
+//		for (int i=0;i<playersInRoom.length;i++){
+//			string.append(playersInRoom[i].getName());
+//			string.append(" ");
+//		}
+		for (Token t : playersInRoom) {
+			string.append(t.getName());
 			string.append(" ");
 		}
+
 		return string.toString();
 	}
 

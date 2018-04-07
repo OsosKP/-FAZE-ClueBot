@@ -98,7 +98,6 @@ public class UserInterface extends JPanel {
         return userDisplay;
     }
 
-    // TODO: Kelsey
     public void refreshGuiFromUnsuccessfulGuess() {
         initialQuestion.revertToRegularDisplay();
         in.inputField.setText("");
@@ -155,7 +154,7 @@ public class UserInterface extends JPanel {
             returnPressListener = new UserInputListener();
             // But at the beginning, pressing 'return' should start the game
             returnStartGameListener = new StartGameListener();
-            inputField.addActionListener(returnPressListener);
+            inputField.addActionListener(returnStartGameListener);
 
             returnPressExitListener = new ExitChoiceListener();
             returnPressViewNotesListener = new ViewNotesListener();
@@ -175,20 +174,20 @@ public class UserInterface extends JPanel {
         	JButton playerImage = new JButton();
         	JButton roomImage = new JButton();
         	JButton weaponImage = new JButton();
-        	
+
         	playerImage.setBorder(null);
         	weaponImage.setBorder(null);
         	roomImage.setBorder(null);
-			
+
         	playerImage.setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
 			weaponImage.setIcon(new ImageIcon(currentPlayer.getHand().get(1).getImage()));
 			roomImage.setIcon(new ImageIcon(currentPlayer.getHand().get(2).getImage()));
-			
+
 			JPanel cardsPanel = new JPanel(new GridLayout(3,1));
         	cardsPanel.add(playerImage);
         	cardsPanel.add(weaponImage);
         	cardsPanel.add(roomImage);
-        	
+
         	JPanel bigPanel = new JPanel();
         	bigPanel.add(cardsPanel);
         	bigPanel.add(boardImagePanel);
@@ -196,13 +195,12 @@ public class UserInterface extends JPanel {
             userDisplay.remove(boardImagePanel);
             boardImagePanel = update;
             userDisplay.add(boardImagePanel);
-            userDisplay.add(bigPanel); //TODO: UNCOMMENT TO DISPLAY CARDS
+//            userDisplay.add(bigPanel); //TODO: UNCOMMENT TO DISPLAY CARDS
             display.invalidate();
             display.validate();
             display.repaint();
         }
 
-        // TODO: Remove
         /**
          * A button that must be pressed to start the game
          *
@@ -668,7 +666,6 @@ public class UserInterface extends JPanel {
             possibleCommandsList.repaint();
             possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
 
-
             if (p == null) {
                 locationReadout.setText("Not on the board. Testing?");
                 return;
@@ -695,6 +692,18 @@ public class UserInterface extends JPanel {
                     btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                 }
             } catch (Exception e) { e.printStackTrace(); }
+
+            // TODO: Debugging for AccuseMenu
+            JButton accuse = new JButton("Accuse");
+            AccuseMenu menu = new AccuseMenu(display, userDisplay, currentPlayer);
+            accuse.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    menu.switchToAccuseMenu();
+                }
+            });
+            possibleCommandsList.add(accuse);
+
 
             possibleCommandsList.repaint();
             allowedCommandsDisplay.add(possibleCommandsList);

@@ -343,7 +343,7 @@ public class BoardBuilder {
         ArrayList<int[]> loungeCoords = new ArrayList<>(Arrays.asList(new int[]{21,3}, new int[]{21,2}, new int[]{21,4}, new int[]{22,3}, new int[]{22,2}, new int[]{22,4}));
         ArrayList<int[]> hallCoords = new ArrayList<>(Arrays.asList(new int[]{21,11}, new int[]{21,12}, new int[]{22,11}, new int[]{22,12}, new int[]{20,11}, new int[]{20,12}));
         ArrayList<int[]> studyCoords = new ArrayList<>(Arrays.asList(new int[]{22,18}, new int[]{22,19}, new int[]{22,20}, new int[]{23,19}, new int[]{23,20}, new int[]{23,21}));
-
+        ArrayList<int[]> cellarCoords = new ArrayList<>(Arrays.asList(new int[]{13,12}));
 
         /* Creating Ballroom Object*/
         entrances.add((EntrySquare)board[5][8]);
@@ -405,7 +405,7 @@ public class BoardBuilder {
         Lounge = new Room("Lounge", (EntrySquare)board[19][6], (FloorSquare)board[18][6], loungeCoords);
 
     // Create Cellar
-        Cellar = new Room("Cellar", (EntrySquare)board[16][12], (FloorSquare)board[17][12]);
+        Cellar = new Room("Cellar", (EntrySquare)board[16][12], (FloorSquare)board[17][12], cellarCoords);
 
         Kitchen.setSecretPassage(Study);
         Study.setSecretPassage(Kitchen);

@@ -345,8 +345,11 @@ public class AccuseMenu {
     public void displayAccusationResult(boolean result) {
         if (result)
             JOptionPane.showMessageDialog(null, "Win");
-        else
+        else {
             JOptionPane.showMessageDialog(null, "Lose");
+            display.dispose();
+            boardDisplay.setVisible(true);
+        }
     }
 
 

@@ -8,6 +8,8 @@ public class testAccuseMenu {
         GameLogic.deck = deck;
         deck.fillMurderEnvelope();
         Token white = new Token(0, 9, "White", 0);
+        Token green = new Token(0, 14, "Green", 1);
+
         new AccuseMenu(new JFrame(), new JPanel(), white);
     }
 }
