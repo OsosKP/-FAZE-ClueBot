@@ -173,10 +173,11 @@ public class UserInterface extends JPanel {
         public void refreshBoard(JPanel update){
         	//Testing shit around n stuff
         	JButton playerImage = new JButton();
-        	playerImage.setBorder(null);
-        	JButton weaponImage = new JButton();
-        	weaponImage.setBorder(null);
         	JButton roomImage = new JButton();
+        	JButton weaponImage = new JButton();
+        	
+        	playerImage.setBorder(null);
+        	weaponImage.setBorder(null);
         	roomImage.setBorder(null);
 			
         	playerImage.setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
@@ -195,7 +196,7 @@ public class UserInterface extends JPanel {
             userDisplay.remove(boardImagePanel);
             boardImagePanel = update;
             userDisplay.add(boardImagePanel);
-         //   userDisplay.add(bigPanel);
+            userDisplay.add(bigPanel); //TODO: UNCOMMENT TO DISPLAY CARDS
             display.invalidate();
             display.validate();
             display.repaint();
