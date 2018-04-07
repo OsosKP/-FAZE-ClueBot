@@ -4,6 +4,7 @@
 
 package cluedo_game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Token {
@@ -28,7 +29,7 @@ public class Token {
 	private Token next;
 
 	//Constructor
-	public Token(int x, int y, String name, int playerNumber) {
+	public Token(int x, int y, String name, int playerNumber){
 		this.position[0] = x;
 		this.position[1] = y;
 
@@ -44,7 +45,7 @@ public class Token {
 		playerDeckNotes = new NoteCards();
 	}
 
-	public Token(int x, int y, String characterName, String userName, int playerNumber) {
+	public Token(int x, int y, String characterName, String userName, int playerNumber){
 		this.position[0] = x;
 		this.position[1] = y;
 
@@ -245,7 +246,7 @@ public class Token {
 		private class NoteCard extends Card {
 			char guessed;
 			public NoteCard(String name, int ref0, int ref1, String type){
-				super(name, ref0, ref1, type);
+				super(name, ref0, ref1, type, null);
 				this.guessed = ' ';
 			}
 			public void changeStatus(char mark){

@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
@@ -34,6 +36,7 @@ public class UserInterface extends JPanel {
     // The board image portion of the UI
     JPanel boardImagePanel;
     BoardImage myImg;
+    JLabel PlayerCards[] = new JLabel[3];
 
     // The questioning panel, which replaces the input panel
 //    private JPanel question = in.createQuestionPanel();
@@ -162,9 +165,31 @@ public class UserInterface extends JPanel {
         }
 
         public void refreshBoard(JPanel update){
+        	//Testing shit around n stuff
+        	JButton playerImage = new JButton();
+        	playerImage.setBorder(null);
+        	JButton weaponImage = new JButton();
+        	weaponImage.setBorder(null);
+        	JButton roomImage = new JButton();
+        	roomImage.setBorder(null);
+			
+        	playerImage.setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
+			weaponImage.setIcon(new ImageIcon(currentPlayer.getHand().get(1).getImage()));
+			roomImage.setIcon(new ImageIcon(currentPlayer.getHand().get(2).getImage()));
+			
+			JPanel cardsPanel = new JPanel(new GridLayout(3,1));
+        	cardsPanel.add(playerImage);
+        	cardsPanel.add(weaponImage);
+        	cardsPanel.add(roomImage);
+        	
+        	JPanel bigPanel = new JPanel();
+        	bigPanel.add(cardsPanel);
+        	bigPanel.add(boardImagePanel);
+
             userDisplay.remove(boardImagePanel);
             boardImagePanel = update;
             userDisplay.add(boardImagePanel);
+         //   userDisplay.add(bigPanel);
             display.invalidate();
             display.validate();
             display.repaint();
@@ -338,7 +363,6 @@ public class UserInterface extends JPanel {
                                int[] currentCoordinates;
                                int[] destinationCoordinates = currentPlayer.getSquareOn().getPosition();//Since the player has already moved, destination is the "current" square
                                JPanel movementPanel = null;
-
                                switch (text) {
                                    case "up"://Since the player has already moved, current is the "previous" position
                                    case "u":
@@ -382,8 +406,7 @@ public class UserInterface extends JPanel {
                                     case "l":
                                     case "right":
                                     case "r":
-                                        currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);//I don't know if this will work
-//                                        System.out.println("The player list for room is now: "+);
+                                    	currentPlayer.getInRoom().addPlayerToRoom(currentPlayer);//I don't know if this will work
                                         JPanel entrancePanel = myImg.moveToRoom(currentPlayer, currentPlayer.getPrevious().getPosition(), currentPlayer.getInRoom());
                                         currentPlayer.setPreviousRoom(currentPlayer.getInRoom());
                                         refreshBoard(entrancePanel);
