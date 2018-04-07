@@ -1669,47 +1669,47 @@ public class QuestionMenu {
             		try {
             			BufferedImage image;
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/roomCards/ballroomNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/ballroomNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBallroom = false;
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/roomCards/billiardroomNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/billiardroomNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBilliardroom = false;
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/roomCards/diningroomNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/diningroomNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseDiningroom = false;
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/roomCards/kitchenNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/kitchenNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
         				    chooseKitchen = false;        				
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/roomCards/loungeNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/loungeNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseLounge = false;
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/roomCards/conservatoryNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/conservatoryNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseConservatory = false;
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/roomCards/hallNA.jpeg"));
+            				image = ImageIO.read(new File("src/roomCards/hallNA.png"));
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseHall = false;
             			}
             			else if (roomName.equals("library")) {
-          					image = ImageIO.read(new File("src/roomCards/libraryNA.jpeg"));
+          					image = ImageIO.read(new File("src/roomCards/libraryNA.png"));
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseLibrary = false;
             			}
             			else if (roomName.equals("study")) {
-          					image = ImageIO.read(new File("src/roomCards/studyNA.jpeg"));
+          					image = ImageIO.read(new File("src/roomCards/studyNA.png"));
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseStudy = false;
             			}
