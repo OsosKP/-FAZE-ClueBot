@@ -1111,7 +1111,7 @@ public class QuestionMenu {
             class WeaponPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
             	private String weaponName;
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	
             	public WeaponPictures(String weaponName) {
             		
@@ -1151,6 +1151,7 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseCandlestick = true;
+            					System.out.println("Candlestick choosen");
             				}
             				
             			}
@@ -1160,6 +1161,7 @@ public class QuestionMenu {
             				
             				if (userClick) {            					
             					chooseDagger = true;
+            					System.out.println("Dagger chosen");
             				}
             			}
             			else if (weaponName.equals("pipe")) {
@@ -1168,6 +1170,7 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					choosePipe = true;
+            					System.out.println("Pipe chosen");
             				}
             			}
             			else if (weaponName.equals("pistol")) {
@@ -1176,6 +1179,7 @@ public class QuestionMenu {
             				            				
             				if (userClick) {
             					choosePistol = true;
+            					System.out.println("Pipe chosen");
             				}
             			}
             			else if (weaponName.equals("rope")) {
@@ -1184,6 +1188,7 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseRope = true;
+            					System.out.println("Rope chosen");
             				}
             			}
             		} catch (Exception e) {
@@ -1287,12 +1292,18 @@ public class QuestionMenu {
                 			if (canShowWeapon) {
                 				/* Re-setting any options that the user may have pressed earlier */
                 				
+                				
                 				isGreyed  = false;
                 				setColor(true);
-                				characterImage.setNoColor();
-                				characterImage.setGrey(true);
-                				roomImage.setNoColor();
-                				roomImage.setGrey(true);
+                				
+                				if (canShowCharacter) {
+                					characterImage.setNoColor();
+                					characterImage.setGrey(true);               					
+                				}
+                				else if (canShowRoom) {
+                					roomImage.setNoColor();
+                					roomImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
@@ -1303,7 +1314,7 @@ public class QuestionMenu {
             /* Class that is going to deal with displaying the character pictures */
             class CharacterPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	private String characterName;
             	
             	public CharacterPictures(String name) {
@@ -1335,6 +1346,7 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseGreen = true;
+            					System.out.println("Green chosen");
             				}
             			}
             			else if (characterName.equals("mustard")) {
@@ -1344,6 +1356,7 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseMustard = true;
+            					System.out.println("Mustard chosen");
             				}
             			}
             			else if (characterName.equals("peacock")) {
@@ -1353,6 +1366,7 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					choosePeacock = true;
+            					System.out.println("Peacock chosen");
             				}
             			}
             			else if (characterName.equals("plum")) {
@@ -1362,6 +1376,7 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					choosePlum = true;
+            					System.out.println("plum chosen");
             				}
             			}
             			else if (characterName.equals("scarlet")) {
@@ -1370,6 +1385,7 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseScarlet = true;
+            					System.out.println("scarlet chosen");
             				}
             			}
             			else if (characterName.equals("white")) {
@@ -1378,6 +1394,7 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseWhite = true;
+            					System.out.println("White Chosen");
             				}
             			}
             		} catch (Exception e) {
@@ -1494,10 +1511,14 @@ public class QuestionMenu {
                 				isGreyed  = false;
                 				setColor(true);
                 				
-                				weaponImage.setNoColor();
-                				weaponImage.setGrey(true);
-                				roomImage.setNoColor();
-                				roomImage.setGrey(true);
+                				if (canShowWeapon) {
+                					weaponImage.setNoColor();
+                					weaponImage.setGrey(true);
+                				}
+                				else if (canShowRoom) {
+                					roomImage.setNoColor();
+                					roomImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
@@ -1507,7 +1528,7 @@ public class QuestionMenu {
             /* Class that is going to deal with displaying the room pictures */
             class RoomPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	private String roomName;
             	
             	
@@ -1541,6 +1562,7 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseBallroom = true;
+            					System.out.println("Ballroo, chosen");
             				}
             			}
             			else if (roomName.equals("billiardroom")) {
@@ -1549,6 +1571,7 @@ public class QuestionMenu {
         				
             				if (userClick) {            					
             					chooseBilliardroom = true;
+            					System.out.println("BilliardRoom choosen");
             				}
             			}
             			else if (roomName.equals("diningroom")) {
@@ -1557,6 +1580,7 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseConservatory = true;
+            					System.out.println("DiningRoom chosen");
             				}
             			}
             			else if (roomName.equals("kitchen")) {
@@ -1564,7 +1588,8 @@ public class QuestionMenu {
         					imageLabel.setIcon(new ImageIcon(image));
         				            				
         					if (userClick) {
-        					chooseDiningroom = true;
+        						chooseDiningroom = true;
+        						System.out.println("Kitehcn Chosen");
         					}
             			}
             			else if (roomName.equals("lounge")) {
@@ -1573,6 +1598,7 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseHall = true;
+            					System.out.println("Lounge chosen");
             				}
             			}
             			else if (roomName.equals("conservatory")) {
@@ -1581,6 +1607,7 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseKitchen = true;
+            					System.out.println("Conservatory chosen");
             				}       				
             			}
             			else if (roomName.equals("hall")) {
@@ -1748,10 +1775,14 @@ public class QuestionMenu {
                 				isGreyed  = false;
                 				setColor(true);
                 				
-                				characterImage.setNoColor();
-                				characterImage.setGrey(true);
-                				weaponImage.setNoColor();
-                				weaponImage.setGrey(true);
+                				if (canShowCharacter) {
+                					characterImage.setNoColor();
+                					characterImage.setGrey(true);               					
+                				}
+                				else if (canShowWeapon) {
+                					weaponImage.setNoColor();
+                 					weaponImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
