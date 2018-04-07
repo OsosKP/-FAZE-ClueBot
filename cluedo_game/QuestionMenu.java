@@ -977,6 +977,8 @@ public class QuestionMenu {
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new BorderLayout());
 
+            isAbleToAnswer();
+            
             pane = new ChoicePane(character, weapon, room);
             
             returnMe.add(pane, BorderLayout.NORTH);
@@ -989,7 +991,7 @@ public class QuestionMenu {
          * @param character
          * @param weapon
          */
-        private static void isAbleToAnswer(String character, String weapon) {
+        private static void isAbleToAnswer() {
         	/* Grabbing the hand of the player who is guessing */
         	ArrayList<Card> hand = Guessing.getAnsweringPlayer().getHand();
         	
@@ -998,12 +1000,15 @@ public class QuestionMenu {
         		/* Checking to see if the player if able to guess the player */
         		if (hand.get(i).name.equals(Guessing.getAccusedPlayer().name)) {
         			canShowCharacter = true;
+        			System.out.println("We are able to show the character");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedWeapon().name)) {
         			canShowWeapon = true;
+        			System.out.println("We are able to show the weapon");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedRoom().name)) {
         			canShowRoom = true;
+        			System.out.println("We are able to show the room!");
         		}
         	}
         	
@@ -1109,7 +1114,7 @@ public class QuestionMenu {
             	private Boolean isGreyed;
             	
             	public WeaponPictures(String weaponName) {
-            		System.out.println("Weapon object is now gettin created");
+            		
 					this.weaponName = weaponName;
 					
 					/* Setting the default image */
@@ -1126,11 +1131,9 @@ public class QuestionMenu {
             	/* Function that will set the weapon image  */
             	private void setImage() {
             		if (canShowWeapon) {
-            			System.out.println("I want to get the color!");
             			setColor(false);
                 	}
                 	else {
-                		System.out.println("I dont want to set the color!");
                 		setNoColor();
                 	}           		            	
             	}
@@ -1250,16 +1253,13 @@ public class QuestionMenu {
 							/* We only want to allow the user to click on the button if they hvae  */
                 			if (canShowWeapon) {
                 				/* Re-setting any options that the user may have pressed earlier */
-                				chooseCandlestick = false;
-                				chooseDagger = false;
-                				choosePipe = false;
-                				choosePistol = false;
-                				chooseRope = false;		
                 				
                 				isGreyed  = false;
                 				setColor(true);
                 				characterImage.setNoColor();
+                				characterImage.setGrey(true);
                 				roomImage.setNoColor();
+                				roomImage.setGrey(true);
                 			}
                 		}					
 					});
@@ -1397,6 +1397,7 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
+								System.out.println("I am being exited");
 								if (isGreyed) {
 									setNoColor();
 								}
@@ -1407,6 +1408,7 @@ public class QuestionMenu {
 						public void mouseEntered(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
+								System.out.println("I ma being entered!");
 								setColor(false);
 							}
 						}
@@ -1414,20 +1416,17 @@ public class QuestionMenu {
 						@Override
                 		public void mouseClicked(MouseEvent e) {
 							/* We only want to allow the user to click on the button if they hvae  */
-                			if (canShowCharacter) {
-                				/* Re-setting any options that the user may have pressed earlier */
-                				chooseGreen = false;
-                				chooseMustard = false;
-                				choosePeacock = false;
-                				chooseScarlet = false;
-                				chooseWhite = false;
-                				choosePlum = false;
+                			System.out.println("I am being clicked but not in the loop!");
+							if (canShowCharacter) {
+								System.out.println("I am being clicked but I am in the loop");
                 				
                 				isGreyed  = false;
                 				setColor(true);
                 				
                 				weaponImage.setNoColor();
+                				weaponImage.setGrey(true);
                 				roomImage.setNoColor();
+                				roomImage.setGrey(true);
                 			}
                 		}					
 					});
@@ -1455,6 +1454,10 @@ public class QuestionMenu {
             		else {
             			setNoColor();
             		}
+            	}
+            	
+            	public void setGrey(Boolean set) {
+            		isGreyed = set;
             	}
             	
             	public void setColor(Boolean userClick) {
@@ -1621,7 +1624,9 @@ public class QuestionMenu {
                 				setColor(true);
                 				
                 				characterImage.setNoColor();
+                				characterImage.setGrey(true);
                 				weaponImage.setNoColor();
+                				weaponImage.setGrey(true);
                 			}
                 		}					
 					});
