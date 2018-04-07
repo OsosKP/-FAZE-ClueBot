@@ -345,8 +345,12 @@ public class GameLogic {
 					getUi().getCurrentPlayer().getName() + "'s turn. Location: "
 					+ getUi().getCurrentPlayer().safeGetLocation());
 		}
-		// Same as above - called from several places in UI so it's here
-		getUi().refreshDisplayForNextTurn(getUi().getCurrentPlayer());
+		if (getUi().getCurrentPlayer().getInRoom() != null &&
+				getUi().getCurrentPlayer().getInRoom().getName().equals("Cellar"))
+			GameLogic.Accusing.startAccusing(getUi().getCurrentPlayer());
+		else
+			// Same as above - called from several places in UI so it's here
+			getUi().refreshDisplayForNextTurn(getUi().getCurrentPlayer());
 	}
 
 	/*
@@ -447,15 +451,16 @@ public class GameLogic {
 		}
     }
 
-    public static class Accusing extends Guessing {
-		public static void startGuessing() {
-			accusingPlayer = ui.getCurrentPlayer();
-		}
+    public static class Accusing {
+		static Token accusingPlayer;
+		Card accusedPlayer;
+		Card accusedWeapon;
+		Card accusedRoom;
 
-		public static void initiateRoundOfQuestioning(String player, String weapon, String room) {
-			accusedPlayer = deck.getPlayerCardByName(player);
-			accusedWeapon = deck.getWeaponCardByName(weapon);
-			accusedRoom = deck.getRoomCardByName(room);
+		public static void startAccusing(Token t) {
+			accusingPlayer = t;
+			AccuseMenu menu = new AccuseMenu(ui.getDisplay(), ui.getUserDisplay(), t);
+			menu.switchToAccuseMenu();
 		}
 
 		public static boolean checkAccusation(String[] guesses, Token accuser) {
@@ -482,6 +487,16 @@ public class GameLogic {
 				System.out.println(playerList.setNumberOfPlayers());
 			}
 		}
+
+//		public static void startGuessing() {
+//			accusingPlayer = ui.getCurrentPlayer();
+//		}
+//
+//		public static void initiateRoundOfQuestioning(String player, String weapon, String room) {
+//			accusedPlayer = deck.getPlayerCardByName(player);
+//			accusedWeapon = deck.getWeaponCardByName(weapon);
+//			accusedRoom = deck.getRoomCardByName(room);
+//		}
 
 	}
 

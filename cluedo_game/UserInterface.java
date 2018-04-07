@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
@@ -90,6 +88,14 @@ public class UserInterface extends JPanel {
 
         // Make the UI visible
         display.setVisible(true);
+    }
+
+    public JFrame getDisplay() {
+        return display;
+    }
+
+    public JPanel getUserDisplay() {
+        return userDisplay;
     }
 
     // TODO: Kelsey

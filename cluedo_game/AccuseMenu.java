@@ -120,8 +120,14 @@ public class AccuseMenu {
         display.setResizable(false);
         display.pack();
         display.setLocationRelativeTo(null);
+//        display.setVisible(true);
+    }
+
+    public void switchToAccuseMenu() {
+        boardDisplay.setVisible(false);
         display.setVisible(true);
     }
+
 
     public boolean getGuessed() {
         return guessed[0] && guessed[1] && guessed[2];

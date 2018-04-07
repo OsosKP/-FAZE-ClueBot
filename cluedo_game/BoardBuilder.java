@@ -108,8 +108,8 @@ public class BoardBuilder {
         board[20][14] = new EntrySquare(20, 14, 3);
         // Add Study Entry
         board[21][17] = new EntrySquare(17, 21, 1);
-        // Add Cellar Entry. The Token enters the Cellar to attempt a guess
-        board[16][12] = new EntrySquare(16, 12, 1);
+        // Add Cellar Entry. The Token enters the Cellar to accuse
+        board[16][12] = new CellarEntrySquare(16, 12, 1);
     }
 
     /**
