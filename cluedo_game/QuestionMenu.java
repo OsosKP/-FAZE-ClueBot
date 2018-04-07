@@ -253,6 +253,7 @@ public class QuestionMenu {
         isLeadPipe = false;
         isPistol = false;
         isRope = false;
+        isWrench = false;
 
         if (isPlum || isGreen || isMustard || isPeacock || isScarlet || isWhite) {
             characterSelected = true;
@@ -512,7 +513,7 @@ public class QuestionMenu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     /* If the user has selected one of each type of card to guess */
-                    if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope)) {
+                    if ((isGreen || isMustard || isPeacock || isPlum || isScarlet || isWhite) && (isCandlestick || isDagger || isLeadPipe || isPistol || isRope || isWrench)) {
                         returnString = new String[3];
 
                         /* Getting the character info selected */
@@ -630,7 +631,7 @@ public class QuestionMenu {
 
         public CharacterPane() {
             this.setLayout(new BorderLayout());
-            this.add(title, BorderLayout.NORTH);
+            this.add(title, BorderLayout.NORTH); 
             this.add(pictures, BorderLayout.CENTER);
         }
 
@@ -660,7 +661,7 @@ public class QuestionMenu {
 
         /* Will handle all the pictures of the players */
         class CharacterPictures extends JPanel{
-            private IndividualPicture[] characterPictures = new IndividualPicture[5];
+            private IndividualPicture[] characterPictures = new IndividualPicture[6];
 
             @Override
             public void setLayout(LayoutManager mgr) {
@@ -672,16 +673,9 @@ public class QuestionMenu {
 
                 /* Need to not show the character who is currently playing, otherwise the player would be able to guess himself as the killer :O */
                 String[] characterNames = {"green", "mustard", "peacock", "plum", "scarlet", "white"};
-                ArrayList<String> validNames = new ArrayList<String>();
 
                 for (int i = 0; i < 6; i++) {
-                    if (!characterNames[i].equals(currentPlayerGuessing.toLowerCase())) {
-                        validNames.add(characterNames[i]);
-                    }
-                }
-
-                for (int i = 0; i < 5; i++) {
-                    characterPictures[i] = new IndividualPicture(validNames.get(i), i);
+                    characterPictures[i] = new IndividualPicture(characterNames[i], i);
                     this.add(characterPictures[i]);
                 }
             }
@@ -1027,7 +1021,7 @@ public class QuestionMenu {
     	
     	/* Representing what the player presses */
     	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
-    	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false;  
+    	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false, chooseWrench = false;  
     	private static Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
     	
     	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
@@ -1244,6 +1238,17 @@ public class QuestionMenu {
             					lowerPane.toggleConfirm(true);
             				}
             			}
+            			else if (weaponName.equals("wrench")) {
+                 			image = ImageIO.read(new File("src/weaponCards/Wrench.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseWrench = false;               			
+
+            			    if (userClick) {
+            					chooseWrench = true;
+            					lowerPane.changeTitle("I want to share the Wrench card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
+            				}
+            			}
             		} catch (Exception e) {
             			System.err.println(e);
 					}
@@ -1279,7 +1284,12 @@ public class QuestionMenu {
                 			image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseRope = false;
-                		}           		
+                		}
+                		else if (weaponName.equals("wrench")) {
+                 			image = ImageIO.read(new File("src/weaponCards/WrenchB&W.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseWrench = false;               			
+                		}
                   	} catch (Exception e) {
                   		System.err.println(e);
 					}
@@ -1312,7 +1322,12 @@ public class QuestionMenu {
                 			image = ImageIO.read(new File("src/weaponCards/RopeNA.png"));
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseRope = false;
-                		}           		
+                		}   
+                 		else if (weaponName.equals("wrench")) {
+                 			image = ImageIO.read(new File("src/weaponCards/WrenchNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseWrench = false;               			
+                		}                 		
                   	} catch (Exception e) {
                   		System.err.println(e);
 					}
