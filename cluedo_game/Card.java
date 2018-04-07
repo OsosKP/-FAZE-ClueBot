@@ -1,5 +1,7 @@
 package cluedo_game;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Card objects hold representations of all characters, rooms and weapons to
  *  form the 'deck'. These objects are SEPARATE from all game logic involving
@@ -37,13 +39,24 @@ public class Card {
         Because of this, we don't need a toSimpleString method for this variable
      */
     final String type;
+    final private BufferedImage CardImage;
 
+    public Card(String name, int ref0, int ref1, String type, BufferedImage image) {
+        this.name = name;
+        this.reference = new int[2];
+        this.reference[0] = ref0;
+        this.reference[1] = ref1;
+        this.type = type;
+        this.CardImage=image;
+    }
+    
     public Card(String name, int ref0, int ref1, String type) {
         this.name = name;
         this.reference = new int[2];
         this.reference[0] = ref0;
         this.reference[1] = ref1;
         this.type = type;
+        this.CardImage=null;
     }
 
     /**
@@ -67,24 +80,12 @@ public class Card {
      *  User toString for printing, getName for referencing!
      * @return CONVERTED AND FORMATTED string 'name'
      */
-    public String getName() {
-        return this.name.replaceAll("\\s+", "").toLowerCase();
-    }
-
-    public int[] getReference() {
-        return reference;
-    }
-    public String getReferenceAsString(){
-        return "[" + this.reference[0] + ", " + this.reference[1] + "]";
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public boolean isLast(){
-        return (this.reference[0] == 2 && this.reference[1] == 5);
-    }
+    public String getName() { return this.name.replaceAll("\\s+", "").toLowerCase(); }
+    public int[] getReference() { return reference; }
+    public String getReferenceAsString(){ return "[" + this.reference[0] + ", " + this.reference[1] + "]"; }
+    public String getType() { return type; }
+    public BufferedImage getImage() {return CardImage;}
+    public boolean isLast(){ return (this.reference[0] == 2 && this.reference[1] == 5); }
 
     public Card next(Deck deck){
         int[] newIndex = new int[2];

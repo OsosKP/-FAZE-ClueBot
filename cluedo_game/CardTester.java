@@ -1,7 +1,9 @@
 package cluedo_game;
 
+import java.io.IOException;
+
 public class CardTester {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Deck deck = new Deck();
 
         deck.fillMurderEnvelope();

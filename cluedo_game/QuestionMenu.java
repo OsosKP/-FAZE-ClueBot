@@ -959,6 +959,7 @@ public class QuestionMenu {
     public static class QuestionRound {
     	    	
     	private static ChoicePane pane;
+    	private static LowerPane lowerPane;
     	
     	/* Representing what the player presses */
     	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
@@ -975,12 +976,15 @@ public class QuestionMenu {
         public static JPanel beginQuestionRound(String character, String weapon, String room) {
        	
         	JPanel returnMe = new JPanel();
-            returnMe.setLayout(new BorderLayout());
+            returnMe.setLayout(new GridLayout(2,1));
 
+            isAbleToAnswer();
+            
             pane = new ChoicePane(character, weapon, room);
+            lowerPane = new LowerPane();
             
-            returnMe.add(pane, BorderLayout.NORTH);
-            
+            returnMe.add(pane);
+            returnMe.add(lowerPane);
             return returnMe;
         }
         
@@ -989,7 +993,7 @@ public class QuestionMenu {
          * @param character
          * @param weapon
          */
-        private static void isAbleToAnswer(String character, String weapon) {
+        private static void isAbleToAnswer() {
         	/* Grabbing the hand of the player who is guessing */
         	ArrayList<Card> hand = Guessing.getAnsweringPlayer().getHand();
         	
@@ -998,12 +1002,15 @@ public class QuestionMenu {
         		/* Checking to see if the player if able to guess the player */
         		if (hand.get(i).name.equals(Guessing.getAccusedPlayer().name)) {
         			canShowCharacter = true;
+        			System.out.println("We are able to show the character");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedWeapon().name)) {
         			canShowWeapon = true;
+        			System.out.println("We are able to show the weapon");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedRoom().name)) {
         			canShowRoom = true;
+        			System.out.println("We are able to show the room!");
         		}
         	}
         	
@@ -1044,7 +1051,7 @@ public class QuestionMenu {
         		}
         		
         		this.setLayout(new GridLayout(2,1));
-				info = new Title();
+				info = new Title("---One of the Players has gussed the cards below, do you wish to aid him?---");
 				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
@@ -1062,13 +1069,17 @@ public class QuestionMenu {
             public void setLayout(LayoutManager mgr) {
                 super.setLayout(mgr);
             }
+            
+            public void changeText(String text) {
+            	title.setText(text);
+            }
 
-            public Title() {
+            public Title(String text) {
                 layout = new GridBagLayout();
                 gbc = new GridBagConstraints();
 
                 this.setLayout(layout);
-                title= new JLabel("---One of the Players has gussed the cards below, do you wish to aid him?---");
+                title= new JLabel(text);
 
                 gbc.gridx=0;
                 gbc.gridy=0;
@@ -1094,7 +1105,7 @@ public class QuestionMenu {
 
                 /* Creating the cards */
                 characterImage = new CharacterPictures(characterName); 
-                weaponImage = new WeaponPictures(characterName);
+                weaponImage = new WeaponPictures(weaponName);
                 roomImage = new RoomPictures(roomName);
 
                 this.add(characterImage);
@@ -1106,10 +1117,10 @@ public class QuestionMenu {
             class WeaponPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
             	private String weaponName;
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	
             	public WeaponPictures(String weaponName) {
-            		System.out.println("Weapon images are now getting created");
+            		
 					this.weaponName = weaponName;
 					
 					/* Setting the default image */
@@ -1129,7 +1140,7 @@ public class QuestionMenu {
             			setColor(false);
                 	}
                 	else {
-                		setNoColor();
+                		setNAColor();
                 	}           		            	
             	}
             	
@@ -1146,6 +1157,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseCandlestick = true;
+            					lowerPane.changeTitle("I want to share the CandleStick card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             				
             			}
@@ -1155,6 +1168,8 @@ public class QuestionMenu {
             				
             				if (userClick) {            					
             					chooseDagger = true;
+            					lowerPane.changeTitle("I want to share the Dagger card with the player who made the guesss?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("pipe")) {
@@ -1163,6 +1178,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					choosePipe = true;
+            					lowerPane.changeTitle("I want to share the Pipe card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("pistol")) {
@@ -1171,6 +1188,8 @@ public class QuestionMenu {
             				            				
             				if (userClick) {
             					choosePistol = true;
+            					lowerPane.changeTitle("I want to share the Pistol card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (weaponName.equals("rope")) {
@@ -1179,6 +1198,8 @@ public class QuestionMenu {
             				
             				if (userClick) {
             					chooseRope = true;
+            					lowerPane.changeTitle("I want to share the Rope card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             		} catch (Exception e) {
@@ -1221,7 +1242,40 @@ public class QuestionMenu {
                   		System.err.println(e);
 					}
             	}
-            
+
+             	public void setNAColor() {
+                  	BufferedImage image;
+                  	try {
+                  		if (weaponName.equals("candlestick")) {
+                			image = ImageIO.read(new File("src/weaponCards/CandlestickNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseCandlestick = false;
+                 		}
+                		else if (weaponName.equals("dagger")) {
+                			image = ImageIO.read(new File("src/weaponCards/DaggerNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseDagger = false;
+                		}
+                		else if (weaponName.equals("pipe")) {
+                			image = ImageIO.read(new File("src/weaponCards/PipeNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePipe = false;
+                		}
+                		else if (weaponName.equals("pistol")) {
+                			image = ImageIO.read(new File("src/weaponCards/PistolNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePistol = false;
+                		}
+                		else if (weaponName.equals("rope")) {
+                			image = ImageIO.read(new File("src/weaponCards/RopeNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseRope = false;
+                		}           		
+                  	} catch (Exception e) {
+                  		System.err.println(e);
+					}
+            	}           	
+            	
             	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {
 						
@@ -1248,16 +1302,19 @@ public class QuestionMenu {
 							/* We only want to allow the user to click on the button if they hvae  */
                 			if (canShowWeapon) {
                 				/* Re-setting any options that the user may have pressed earlier */
-                				chooseCandlestick = false;
-                				chooseDagger = false;
-                				choosePipe = false;
-                				choosePistol = false;
-                				chooseRope = false;		
+                				
                 				
                 				isGreyed  = false;
                 				setColor(true);
-                				characterImage.setNoColor();
-                				roomImage.setNoColor();
+                				
+                				if (canShowCharacter) {
+                					characterImage.setNoColor();
+                					characterImage.setGrey(true);               					
+                				}
+                				else if (canShowRoom) {
+                					roomImage.setNoColor();
+                					roomImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
@@ -1268,7 +1325,7 @@ public class QuestionMenu {
             /* Class that is going to deal with displaying the character pictures */
             class CharacterPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	private String characterName;
             	
             	public CharacterPictures(String name) {
@@ -1283,7 +1340,7 @@ public class QuestionMenu {
             			setColor(false);
             		}
             		else {
-            			setNoColor();
+            			setNAColor();
             		}
             	}
             	
@@ -1300,6 +1357,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseGreen = true;
+            					lowerPane.changeTitle("I want to share the Green card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("mustard")) {
@@ -1309,6 +1368,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseMustard = true;
+            					lowerPane.changeTitle("I want to share the Mustard card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("peacock")) {
@@ -1318,6 +1379,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					choosePeacock = true;
+            					lowerPane.changeTitle("I want to share the Peacock card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("plum")) {
@@ -1327,6 +1390,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					choosePlum = true;
+            					lowerPane.changeTitle("I want to share the Plum card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("scarlet")) {
@@ -1335,6 +1400,8 @@ public class QuestionMenu {
             				
             				if (userClicked) {
             					chooseScarlet = true;
+            					lowerPane.changeTitle("I want to share the Scarlet card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (characterName.equals("white")) {
@@ -1343,6 +1410,8 @@ public class QuestionMenu {
             			
             				if (userClicked) {
             					chooseWhite = true;
+            					lowerPane.changeTitle("I want to share the White card with the player who made the guess?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             		} catch (Exception e) {
@@ -1387,6 +1456,45 @@ public class QuestionMenu {
                 		System.err.print(e);
 					}           		
             	}
+
+            	public void setNAColor() {
+                 	try {
+                		BufferedImage image;
+                 		if (characterName.equals("green")) {
+                			image = ImageIO.read(new File("src/characterCards/GreenNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseGreen = false;
+                 		}
+                        else if (characterName.equals("mustard")) {
+                            image = ImageIO.read(new File("src/characterCards/MustardNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseMustard = false;
+                        }
+                        else if (characterName.equals("peacock")) {
+                            image = ImageIO.read(new File("src/characterCards/PeacockNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            choosePeacock = false;
+                        }
+                        else if (characterName.equals("plum")) {
+                            image = ImageIO.read(new File("src/characterCards/PlumNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            choosePlum = false;
+                        }
+                        else if (characterName.equals("scarlet")) {
+                            image = ImageIO.read(new File("src/characterCards/ScarletNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseScarlet = false;
+                        }
+                        else if (characterName.equals("white")) {
+                            image = ImageIO.read(new File("src/characterCards/WhiteNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseWhite = false;
+                        }               			
+                	} catch (Exception e) {
+                		System.err.print(e);
+					}           		
+            	}
+            	
             	
                	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {
@@ -1395,6 +1503,7 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
+								System.out.println("I am being exited");
 								if (isGreyed) {
 									setNoColor();
 								}
@@ -1405,27 +1514,28 @@ public class QuestionMenu {
 						public void mouseEntered(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
+								System.out.println("I am being entered!");
 								setColor(false);
 							}
 						}
 						
 						@Override
                 		public void mouseClicked(MouseEvent e) {
-							/* We only want to allow the user to click on the button if they hvae  */
-                			if (canShowCharacter) {
-                				/* Re-setting any options that the user may have pressed earlier */
-                				chooseGreen = false;
-                				chooseMustard = false;
-                				choosePeacock = false;
-                				chooseScarlet = false;
-                				chooseWhite = false;
-                				choosePlum = false;
+							/* We only want to allow the user to click on the button if they have  */
+							if (canShowCharacter) {
+								System.out.println("The user actually pressed me!");
                 				
                 				isGreyed  = false;
                 				setColor(true);
                 				
-                				weaponImage.setNoColor();
-                				roomImage.setNoColor();
+                				if (canShowWeapon) {
+                					weaponImage.setNoColor();
+                					weaponImage.setGrey(true);
+                				}
+                				else if (canShowRoom) {
+                					roomImage.setNoColor();
+                					roomImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
@@ -1435,7 +1545,7 @@ public class QuestionMenu {
             /* Class that is going to deal with displaying the room pictures */
             class RoomPictures extends JPanel {
             	private JLabel imageLabel = new JLabel();
-            	private Boolean isGreyed;
+            	private Boolean isGreyed = false;
             	private String roomName;
             	
             	
@@ -1451,8 +1561,12 @@ public class QuestionMenu {
             			setColor(false);
             		}
             		else {
-            			setNoColor();
+            			setNAColor();
             		}
+            	}
+            	
+            	public void setGrey(Boolean set) {
+            		isGreyed = set;
             	}
             	
             	public void setColor(Boolean userClick) {
@@ -1465,6 +1579,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseBallroom = true;
+            					lowerPane.changeTitle("I want to share the Ballroom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("billiardroom")) {
@@ -1473,6 +1589,8 @@ public class QuestionMenu {
         				
             				if (userClick) {            					
             					chooseBilliardroom = true;
+            					lowerPane.changeTitle("I want to share the BilliardRoom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("diningroom")) {
@@ -1481,6 +1599,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseConservatory = true;
+            					lowerPane.changeTitle("I want to share the DiningRoom card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("kitchen")) {
@@ -1488,7 +1608,9 @@ public class QuestionMenu {
         					imageLabel.setIcon(new ImageIcon(image));
         				            				
         					if (userClick) {
-        					chooseDiningroom = true;
+        						chooseDiningroom = true;
+        						lowerPane.changeTitle("I want to share the Kitchen card with the player who guessed?");
+        						lowerPane.toggleConfirm(true);
         					}
             			}
             			else if (roomName.equals("lounge")) {
@@ -1497,6 +1619,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseHall = true;
+            					lowerPane.changeTitle("I want to share the Lounge card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}
             			}
             			else if (roomName.equals("conservatory")) {
@@ -1505,6 +1629,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseKitchen = true;
+            					lowerPane.changeTitle("I want to share the Conservatory card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("hall")) {
@@ -1513,6 +1639,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseLibrary = true;
+            					lowerPane.changeTitle("I want to share the Hall card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("library")) {
@@ -1521,6 +1649,8 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseLounge = true;
+            					lowerPane.changeTitle("I want to share the Library card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
             				}       				
             			}
             			else if (roomName.equals("study")) {
@@ -1529,7 +1659,9 @@ public class QuestionMenu {
         				
             				if (userClick) {
             					chooseStudy = true;
-            				}       				
+            					lowerPane.changeTitle("I want to share the Study card with the player who guessed?");
+            					lowerPane.toggleConfirm(true);
+            				}   
             			}
             		} catch (Exception e) {
             			System.err.println(e);
@@ -1588,6 +1720,60 @@ public class QuestionMenu {
             			System.err.print(e);
             		}          		
             	}
+
+            	public void setNAColor() {
+            		try {
+            			BufferedImage image;
+            			if (roomName.equals("ballroom")) {
+            				image = ImageIO.read(new File("src/roomCards/ballroomNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBallroom = false;
+            			}
+            			else if (roomName.equals("billiardroom")) {
+            				image = ImageIO.read(new File("src/roomCards/billiardroomNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBilliardroom = false;
+            			}
+            			else if (roomName.equals("diningroom")) {
+            				image = ImageIO.read(new File("src/roomCards/diningroomNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseDiningroom = false;
+            			}
+            			else if (roomName.equals("kitchen")) {
+            				image = ImageIO.read(new File("src/roomCards/kitchenNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				    chooseKitchen = false;        				
+            			}
+            			else if (roomName.equals("lounge")) {
+            				image = ImageIO.read(new File("src/roomCards/loungeNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseLounge = false;
+            			}
+            			else if (roomName.equals("conservatory")) {
+            				image = ImageIO.read(new File("src/roomCards/conservatoryNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseConservatory = false;
+            			}
+            			else if (roomName.equals("hall")) {
+            				image = ImageIO.read(new File("src/roomCards/hallNA.png"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseHall = false;
+            			}
+            			else if (roomName.equals("library")) {
+          					image = ImageIO.read(new File("src/roomCards/libraryNA.png"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseLibrary = false;
+            			}
+            			else if (roomName.equals("study")) {
+          					image = ImageIO.read(new File("src/roomCards/studyNA.png"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseStudy = false;
+            			}
+            		} catch (Exception e) {
+            			System.err.print(e);
+            		}          		
+            	}
+            	
             	
             	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {	
@@ -1618,23 +1804,65 @@ public class QuestionMenu {
                 				isGreyed  = false;
                 				setColor(true);
                 				
-                				characterImage.setNoColor();
-                				weaponImage.setNoColor();
+                				if (canShowCharacter) {
+                					characterImage.setNoColor();
+                					characterImage.setGrey(true);               					
+                				}
+                				else if (canShowWeapon) {
+                					weaponImage.setNoColor();
+                 					weaponImage.setGrey(true);               					
+                				}
                 			}
                 		}					
 					});
             	}
-            }   
-            
-            
-            
+            }    
         }       
+        
+        static class LowerPane extends JPanel{
+        	private Title lowerPaneTitle;
+        	private ButtonPane confirmButton;
+        	/* Function that checks the of the user can actually answer the guess -- if they cant, we enable the JButon and change the text */
+        	private void checkInitialLoad() {
+        		
+        		/* Checking to see if the user is not able to choose any options */
+        		if (!canShowCharacter && !canShowRoom && !canShowWeapon) {
+        			lowerPaneTitle.changeText("---You do not have any of the cards the prior player has guessed---");
+        			confirmButton.setButtonEnable(true);
+        		} else {
+        			lowerPaneTitle.changeText("Select one of the available cards above to share with the guessing player: ");
+        			confirmButton.setButtonEnable(false);
+        		}
+        		
+        	}
+        	
+        	/* Need to change the title text based on what the user has selected */
+        	public void changeTitle(String changeMe) {
+        		lowerPaneTitle.changeText(changeMe);
+        		confirmButton.setEnabled(true);
+        	}
+        	
+        	public void toggleConfirm(Boolean set) {
+        		confirmButton.setButtonEnable(set);
+        	}
+        	
+        	public LowerPane() {
+				// TODO Auto-generated constructor stub
+        		lowerPaneTitle = new Title("");
+        		confirmButton = new ButtonPane();
+        		checkInitialLoad();
+
+        		setLayout(new GridLayout(2,1));
+        		this.add(lowerPaneTitle);
+        		this.add(confirmButton);
+        	}
+        }
+        
+        
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
             JButton confirmButton;
-            JButton neitherButton;
-            JButton showNotesButton;
-            
+ 
             @Override
             public void setLayout(LayoutManager mgr) {
             	super.setLayout(mgr);
@@ -1643,23 +1871,16 @@ public class QuestionMenu {
             /* Create the confirmButton and set its actionListener */
             private void setConfirmListener() {
             	//TODO add some logic that, if the player doesnt have any of the cards, they cannot continue 
-            	confirmButton = new JButton("Submit");
-            	/*  */
-
+            	confirmButton = new JButton("Confirm");
             }
             
-            /* Create the neitherButton and set its actionListener */
-            private void setNeitherListener() {
-             	neitherButton = new JButton("I dont have either card");           	
-            }
-            
-            /* Creates the showNotesButton and sets its actionListener */
-            private void setShowNotesListener() {
-            	showNotesButton = new JButton("Notes");
+            public void setButtonEnable(Boolean set) {
+            	confirmButton.setEnabled(set);
             }
             
             public ButtonPane() {
-				// TODO Auto-generated constructor stub
+				setConfirmListener();
+				this.add(confirmButton);
 			}
         }
     }
