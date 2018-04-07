@@ -492,6 +492,10 @@ public class GameLogic {
 
 
 	public static void playMusic() {
+		if (!LoopSound.playSong) {
+			startMusic.restartMusic();
+		}
+
 		try {
 			startMusic = new LoopSound();
 			startMusic.play();
