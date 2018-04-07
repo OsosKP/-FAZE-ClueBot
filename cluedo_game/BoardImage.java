@@ -56,6 +56,56 @@ public class BoardImage {
 		holder.add(p);
 		return holder;
 	}
+	
+	public JPanel highlightMovement(int movement) {
+		//TODO: Implement
+		// Movement represents how many squares the player gets to move
+		// player coordinates i, j
+		
+		
+		//Gotta find the upper and lower bounds 
+		// if (i + movement > board size x){
+		// 		upper bound x = board size x;
+		// }
+		// else{
+		// 		upper bound x = i + movement;
+		// }
+		//
+		// if (j + movement > board size y){
+		// 		upper bound y = board size y;
+		// }
+		// else{
+		// 		upper bound y = j + movement ;
+		// }
+		// 
+		// if (i - movement < 0){
+		// 		lower bound = 0;
+		// }
+		// else{
+		// 		lower bound = i - movement;
+		// }
+		// if (j - movement < 0){
+		// 		lower bound = 0;
+		// }
+		// else{
+		// 		lower bound = j - movement;
+		// }
+		//
+		// for (int x=lower bound x;x<=upper bound x;x++){
+		// 		for (int y=lower bound y;y<=upper bound y;y++){
+		//			if (x+y-(i+j)>movement){
+		//				use this square
+		//			}
+		//			else{
+		//				don't use this square
+		//			}
+		//		}
+		// }
+	
+				
+		
+		return null;
+	}
 
 
 	public JPanel returnPanel() {
