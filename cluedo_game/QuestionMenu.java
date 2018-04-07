@@ -1134,7 +1134,7 @@ public class QuestionMenu {
             			setColor(false);
                 	}
                 	else {
-                		setNoColor();
+                		setNAColor();
                 	}           		            	
             	}
             	
@@ -1226,7 +1226,40 @@ public class QuestionMenu {
                   		System.err.println(e);
 					}
             	}
-            
+
+             	public void setNAColor() {
+                  	BufferedImage image;
+                  	try {
+                  		if (weaponName.equals("candlestick")) {
+                			image = ImageIO.read(new File("src/weaponCards/CandlestickNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseCandlestick = false;
+                 		}
+                		else if (weaponName.equals("dagger")) {
+                			image = ImageIO.read(new File("src/weaponCards/DaggerNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseDagger = false;
+                		}
+                		else if (weaponName.equals("pipe")) {
+                			image = ImageIO.read(new File("src/weaponCards/PipeNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePipe = false;
+                		}
+                		else if (weaponName.equals("pistol")) {
+                			image = ImageIO.read(new File("src/weaponCards/PistolNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			choosePistol = false;
+                		}
+                		else if (weaponName.equals("rope")) {
+                			image = ImageIO.read(new File("src/weaponCards/RopeNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));               			
+                			chooseRope = false;
+                		}           		
+                  	} catch (Exception e) {
+                  		System.err.println(e);
+					}
+            	}           	
+            	
             	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {
 						
@@ -1285,7 +1318,7 @@ public class QuestionMenu {
             			setColor(false);
             		}
             		else {
-            			setNoColor();
+            			setNAColor();
             		}
             	}
             	
@@ -1389,6 +1422,45 @@ public class QuestionMenu {
                 		System.err.print(e);
 					}           		
             	}
+
+            	public void setNAColor() {
+                 	try {
+                		BufferedImage image;
+                 		if (characterName.equals("green")) {
+                			image = ImageIO.read(new File("src/characterCards/GreenNA.png"));
+                			imageLabel.setIcon(new ImageIcon(image));
+                			chooseGreen = false;
+                 		}
+                        else if (characterName.equals("mustard")) {
+                            image = ImageIO.read(new File("src/characterCards/MustardNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseMustard = false;
+                        }
+                        else if (characterName.equals("peacock")) {
+                            image = ImageIO.read(new File("src/characterCards/PeacockNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            choosePeacock = false;
+                        }
+                        else if (characterName.equals("plum")) {
+                            image = ImageIO.read(new File("src/characterCards/PlumNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            choosePlum = false;
+                        }
+                        else if (characterName.equals("scarlet")) {
+                            image = ImageIO.read(new File("src/characterCards/ScarletNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseScarlet = false;
+                        }
+                        else if (characterName.equals("white")) {
+                            image = ImageIO.read(new File("src/characterCards/WhiteNA.png"));
+                            imageLabel.setIcon(new ImageIcon(image));
+                            chooseWhite = false;
+                        }               			
+                	} catch (Exception e) {
+                		System.err.print(e);
+					}           		
+            	}
+            	
             	
                	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {
@@ -1408,17 +1480,16 @@ public class QuestionMenu {
 						public void mouseEntered(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
-								System.out.println("I ma being entered!");
+								System.out.println("I am being entered!");
 								setColor(false);
 							}
 						}
 						
 						@Override
                 		public void mouseClicked(MouseEvent e) {
-							/* We only want to allow the user to click on the button if they hvae  */
-                			System.out.println("I am being clicked but not in the loop!");
+							/* We only want to allow the user to click on the button if they have  */
 							if (canShowCharacter) {
-								System.out.println("I am being clicked but I am in the loop");
+								System.out.println("The user actually pressed me!");
                 				
                 				isGreyed  = false;
                 				setColor(true);
@@ -1452,7 +1523,7 @@ public class QuestionMenu {
             			setColor(false);
             		}
             		else {
-            			setNoColor();
+            			setNAColor();
             		}
             	}
             	
@@ -1593,6 +1664,60 @@ public class QuestionMenu {
             			System.err.print(e);
             		}          		
             	}
+
+            	public void setNAColor() {
+            		try {
+            			BufferedImage image;
+            			if (roomName.equals("ballroom")) {
+            				image = ImageIO.read(new File("src/roomCards/ballroomNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBallroom = false;
+            			}
+            			else if (roomName.equals("billiardroom")) {
+            				image = ImageIO.read(new File("src/roomCards/billiardroomNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseBilliardroom = false;
+            			}
+            			else if (roomName.equals("diningroom")) {
+            				image = ImageIO.read(new File("src/roomCards/diningroomNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseDiningroom = false;
+            			}
+            			else if (roomName.equals("kitchen")) {
+            				image = ImageIO.read(new File("src/roomCards/kitchenNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+        				    chooseKitchen = false;        				
+            			}
+            			else if (roomName.equals("lounge")) {
+            				image = ImageIO.read(new File("src/roomCards/loungeNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseLounge = false;
+            			}
+            			else if (roomName.equals("conservatory")) {
+            				image = ImageIO.read(new File("src/roomCards/conservatoryNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseConservatory = false;
+            			}
+            			else if (roomName.equals("hall")) {
+            				image = ImageIO.read(new File("src/roomCards/hallNA.jpeg"));
+            				imageLabel.setIcon(new ImageIcon(image));
+            				chooseHall = false;
+            			}
+            			else if (roomName.equals("library")) {
+          					image = ImageIO.read(new File("src/roomCards/libraryNA.jpeg"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseLibrary = false;
+            			}
+            			else if (roomName.equals("study")) {
+          					image = ImageIO.read(new File("src/roomCards/studyNA.jpeg"));
+          					imageLabel.setIcon(new ImageIcon(image));
+          					chooseStudy = false;
+            			}
+            		} catch (Exception e) {
+            			System.err.print(e);
+            		}          		
+            	}
+            	
             	
             	private void setListener() {
             		this.addMouseListener(new MouseAdapter() {	
