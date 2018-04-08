@@ -561,7 +561,7 @@ public class QuestionMenu {
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
 						 */                        
-                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], "library");
+                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName());
 
 
                         /* Adding the character's name to the return string */
@@ -571,8 +571,8 @@ public class QuestionMenu {
 							replacing it with the regular game board */
                         initialUserDisplay.getContentPane().removeAll();
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
-                        
-                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], "library", currentPlayerGuessingToken, revertToMe, initialUserDisplay));
+                        QuestionRound firstRound = new QuestionRound();
+                        initialUserDisplay.add(firstRound.beginQuestionRound(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName(), currentPlayerGuessingToken, revertToMe, initialUserDisplay));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -1012,29 +1012,29 @@ public class QuestionMenu {
     }
 
     /* Class that will handle the players confirming the question that was proposed by another player */
-    public static class QuestionRound {
+    public class QuestionRound {
     	    	
-    	private static ChoicePane pane;
-    	private static LowerPane lowerPane;
-    	private static String returnString;
-    	private static Token playerAskingQuestion;
+    	private ChoicePane pane;
+    	private LowerPane lowerPane;
+    	private String returnString;
+    	private Token playerAskingQuestion;
     	
     	/* Representing what the player presses */
-    	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
-    	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false, chooseWrench = false;  
-    	private static Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
+    	private Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
+    	private Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false, chooseWrench = false;  
+    	private Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
     	
-    	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
+    	private Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
     	
-    	private static JPanel revertPane;
-    	private static JFrame currentDisplay;
+    	private JPanel revertPane;
+    	private JFrame currentDisplay;
     	
     	public QuestionRound() {
             // TODO Auto-generated constructor stub
         }
         
         //TODO get room working
-        public static JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
+        public JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
         	playerAskingQuestion = playerAsking;
         	revertPane = revertToMe;
         	currentDisplay = display;
@@ -1055,7 +1055,7 @@ public class QuestionMenu {
         /*
          * Will determine if the user has the ability to answer the guess
          */
-        private static void isAbleToAnswer() {
+        private void isAbleToAnswer() {
         	/* Grabbing the hand of the player who is guessing */
         	ArrayList<Card> hand = Guessing.getAnsweringPlayer().getHand();
         	
@@ -1078,7 +1078,7 @@ public class QuestionMenu {
         	
         }
         
-        static class ChoicePane extends JPanel {
+        class ChoicePane extends JPanel {
         	private Title info;
         	private GuessedCards cards;
         	
@@ -1099,7 +1099,7 @@ public class QuestionMenu {
         }
 
         /* Class that handles the title */
-        static class Title extends JPanel{
+        class Title extends JPanel{
             private JLabel title;
             private GridBagLayout layout;
             private GridBagConstraints gbc;
@@ -1127,7 +1127,7 @@ public class QuestionMenu {
         }
 	
         /* classes to represent the images the player guessed earlier  */
-        static class GuessedCards extends JPanel {
+        class GuessedCards extends JPanel {
             private WeaponPictures weaponImage;
             private CharacterPictures characterImage;
             private RoomPictures roomImage;
@@ -1882,7 +1882,7 @@ public class QuestionMenu {
             }    
         }       
         
-        static class LowerPane extends JPanel{
+        class LowerPane extends JPanel{
         	private Title lowerPaneTitle;
         	private ButtonPane confirmButton;
         	/* Function that checks the of the user can actually answer the guess -- if they cant, we enable the JButon and change the text */
@@ -1923,7 +1923,7 @@ public class QuestionMenu {
         
         
         /* players can only select one of the card options before they hit confirm -- then they */
-        static class ButtonPane extends JPanel {
+        class ButtonPane extends JPanel {
         	private  JButton confirmButton;
         	
         	String characterName;
@@ -2067,19 +2067,24 @@ public class QuestionMenu {
 						}else {
 							System.out.println("Am I getting called here?");
 							/* If none of the players are able to give the cards -- the  */
-							if (playerAskingQuestion.getName().equals(GameLogic.getUi().getCurrentPlayer().next())){
+							if (playerAskingQuestion.getName().equals(GameLogic.getUi().getCurrentPlayer().next().getName())){
 								GameLogic.Guessing.unsuccessfulGuess();
 							}
 							else {
 								System.out.println("Am i getting called here?");
-								GameLogic.Guessing.initiateRoundOfQuestioning(characterName, weaponName, roomName);
+								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
+								
+								
 		                        currentDisplay.getContentPane().removeAll();
 		                        
-		                        JPanel tempPane = QuestionRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.getUi().getCurrentPlayer().next(), revertPane, currentDisplay);
+		                        QuestionRound nextRound = new QuestionRound();
+
+								/* Get */
+								GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
 								
-		                        currentDisplay.add(tempPane);
+		                        currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
 								currentDisplay.revalidate();
-								currentDisplay.repaint();	
+								currentDisplay.repaint();
 							}	
 						}
 					}
