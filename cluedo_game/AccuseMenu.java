@@ -415,25 +415,18 @@ public class AccuseMenu {
         murderRoomImage = new JLabel(new ImageIcon(
                 GameLogic.getDeck().getMurderEnvelope().get(2).getImage()));
 
-        JLabel spacer = new JLabel(" ");
-        spacer.setOpaque(false);
-
         murderEnvelopeImages = new JPanel();
         murderEnvelopeImages.setSize(1169, 100);
-        murderEnvelopeImages.setLayout(new GridLayout(1, 7));
-        murderEnvelopeImages.add(spacer);
+        murderEnvelopeImages.setLayout(new GridLayout(1, 3));
         murderEnvelopeImages.add(murderCharacterImage);
         murderCharacterImage.setAlignmentX(Component.CENTER_ALIGNMENT);
         murderCharacterImage.setVisible(false);
-        murderEnvelopeImages.add(spacer);
         murderEnvelopeImages.add(murderWeaponImage);
         murderWeaponImage.setAlignmentX(Component.CENTER_ALIGNMENT);
         murderWeaponImage.setVisible(false);
-        murderEnvelopeImages.add(spacer);
         murderEnvelopeImages.add(murderRoomImage);
         murderRoomImage.setAlignmentX(Component.CENTER_ALIGNMENT);
         murderRoomImage.setVisible(false);
-        murderEnvelopeImages.add(spacer);
         murderEnvelopeImages.setOpaque(false);
         murderEnvelopeImages.setBackground(Color.BLACK);
     }

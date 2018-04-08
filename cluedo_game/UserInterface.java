@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -143,11 +145,13 @@ public class UserInterface extends JPanel {
         private UserInputListener returnPressListener;
         private ExitChoiceListener returnPressExitListener;
         private ViewNotesListener returnPressViewNotesListener;
+        private ArrowListener arrows;
 
         public JPanel createInputPanel() {
             JPanel input = new JPanel();
             input.setLayout(new BorderLayout());
             JButton startGameButton = createStartGameButton();
+            arrows = new ArrowListener();
 
             input.setBorder(BorderFactory.createEtchedBorder(Color.lightGray, Color.black));
 
@@ -222,6 +226,7 @@ public class UserInterface extends JPanel {
                 performActionButton = createPerformActionButton();
                 inputField.removeActionListener(returnStartGameListener);
                 inputField.addActionListener(returnPressListener);
+                inputField.addKeyListener(arrows);
                 input.add(performActionButton, BorderLayout.EAST);
                 whoseTurnLabel.setText("     It is now " + currentPlayer.getName() + "'s turn. Moves Left: "
                         + GameLogic.getMovesLeft());
@@ -445,6 +450,45 @@ public class UserInterface extends JPanel {
                 inputField.requestFocus();
             }
         }
+
+        //TODO: Arrows
+        public class ArrowListener implements KeyListener {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                String dir = null;
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP:
+                        dir = "u";
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        dir = "d";
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        dir = "l";
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        dir = "r";
+                        break;
+                }
+                System.out.println("CHECK : " + dir);
+                if (dir != null) {
+                    in.inputField.setText(dir);
+                    performActionButton.doClick();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        }
+
         public void switchToExitChoiceButton(){
             switchInputToExitPicker();
             out.roomExitChoicesUpdater();
@@ -557,6 +601,7 @@ public class UserInterface extends JPanel {
         public void switchToInput(ActionListener al, JButton button) {
             inputField.removeActionListener(al);
             inputField.addActionListener(returnPressListener);
+            inputField.addKeyListener(arrows);
             in.inputField.setText("");
             in.inputField.requestFocus();
             promptLabel.setText("     What would you like to do?");
