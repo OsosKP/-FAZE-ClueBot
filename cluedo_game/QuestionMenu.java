@@ -1045,10 +1045,8 @@ public class QuestionMenu {
             return returnMe;
         }
         
-        /**
+        /*
          * Will determine if the user has the ability to answer the guess
-         * @param character
-         * @param weapon
          */
         private static void isAbleToAnswer() {
         	/* Grabbing the hand of the player who is guessing */
