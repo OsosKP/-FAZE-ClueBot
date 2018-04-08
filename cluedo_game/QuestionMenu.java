@@ -572,7 +572,7 @@ public class QuestionMenu {
                         initialUserDisplay.getContentPane().removeAll();
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         
-                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], "library"));
+                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], "library", currentPlayerGuessingToken, revertToMe, initialUserDisplay));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -1026,13 +1026,18 @@ public class QuestionMenu {
     	
     	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
     	
+    	private static JPanel revertPane;
+    	private static JFrame currentDisplay;
+    	
     	public QuestionRound() {
             // TODO Auto-generated constructor stub
         }
         
         //TODO get room working
-        public static JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking) {
+        public static JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
         	playerAskingQuestion = playerAsking;
+        	revertPane = revertToMe;
+        	currentDisplay = display;
         	
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new GridLayout(2,1));
@@ -1935,51 +1940,130 @@ public class QuestionMenu {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
+						int[] referenceNumbers = new int[2];
+						/* Used to see if we actually return someathing  */
+						Boolean match = false;
+						
 						/* Checking to see if the user pressed one of the room cards */
 						if(chooseBallroom) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 1;
+							match = true;
 						}
 						else if (chooseBilliardroom) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 4;
+							match = true;
 						}
 						else if (chooseConservatory) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 2;
+							match = true;
 						}
 						else if (chooseDiningroom) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 3;
+							match = true;
 						}
 						else if (chooseHall) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 7;
+							match = true;
 						}
 						else if (chooseKitchen) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 0;
+							match = true;
 						}
 						else if (chooseLibrary) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 5;
+							match = true;
 						}
 						else if (chooseLounge) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 6;
+							match = true;
 						}
 						else if (chooseStudy) {
-							
+							referenceNumbers[0] = 1;
+							referenceNumbers[1] = 8;
+							match = true;
 						}
 						/* Checking to see if the user pressed any of the weapon cards */
 						else if (chooseCandlestick) {
-							
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 0;
+							match = true;
 						}
 						else if (chooseDagger) {
-							
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 1;
+							match = true;
 						}
 						else if (choosePipe) {
-							
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 3;
+							match = true;
 						}
 						else if (choosePistol) {
-							
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 2;
+							match = true;
 						}
 						else if (chooseRope) {
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 4;
+							match = true;
+						}
+						else if (chooseWrench) {
+							referenceNumbers[0] = 2;
+							referenceNumbers[1] = 5;
+							match = true;
+						}
+						/* Checking to see if the user pressed any of the character cards */
+						else if (chooseWhite) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 0;
+							match = true;
+						}
+						else if (chooseGreen) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 1;
+							match = true;
+						}
+						else if (chooseMustard) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 2;
+							match = true;
+						}
+						else if (chooseScarlet) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 3;
+							match = true;
+						}
+						else if (choosePeacock) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 4;
+							match = true;
+						}
+						else if (choosePlum) {
+							referenceNumbers[0] = 0;
+							referenceNumbers[1] = 5;
+							match = true;
+						}
+						
+						/* If the user actually has one of  */
+						if (match) {
+							System.err.println("Updating the notes correctly");
+							playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
+							currentDisplay.getContentPane().removeAll();
+							currentDisplay.add(revertPane);
+							currentDisplay.revalidate();
+							currentDisplay.repaint();			
+						}else {
 							
 						}
-						//else if (chooseWr)
 					}
 					
 				});
