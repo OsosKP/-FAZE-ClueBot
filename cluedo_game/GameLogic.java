@@ -486,6 +486,7 @@ public class GameLogic {
 				System.out.println("Player is null");
 			else {
 				p.removeFromGame();
+				UserInterface.myImg.removePlayer(p);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
