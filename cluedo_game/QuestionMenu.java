@@ -1018,6 +1018,7 @@ public class QuestionMenu {
     	private static ChoicePane pane;
     	private static LowerPane lowerPane;
     	private static String returnString;
+    	private static Token playerAskingQuestion;
     	
     	/* Representing what the player presses */
     	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
@@ -1031,8 +1032,9 @@ public class QuestionMenu {
         }
         
         //TODO get room working
-        public static JPanel beginQuestionRound(String character, String weapon, String room) {
-       	
+        public static JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking) {
+        	playerAskingQuestion = playerAsking;
+        	
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new GridLayout(2,1));
 
@@ -1340,7 +1342,9 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowWeapon) {
+								System.out.println("I am not wokring!");
 								if (isGreyed) {
+									System.out.println("I should be turning grey!");
 									setNoColor();
 								}
 							}
