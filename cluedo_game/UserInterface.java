@@ -865,4 +865,8 @@ public class UserInterface extends JPanel {
     public QuestionMenu getInitialQuestion() {
         return initialQuestion;
     }
+
+    public void removePlayer() {
+        in.refreshBoard(myImg.removePlayer(currentPlayer));
+    }
 }

@@ -490,6 +490,7 @@ public class GameLogic {
 			if (p==null)
 				System.out.println("Player is null");
 			else {
+				getUi().removePlayer();
 				ui.getOut().updateMoveHistory
 					(p.getName() + " has made an incorrect accusation and was eliminated!");
 				p.removeFromGame();
