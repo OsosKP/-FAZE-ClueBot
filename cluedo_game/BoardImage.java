@@ -63,7 +63,7 @@ public class BoardImage {
 		//TODO: Implement
 		// Movement represents how many squares the player gets to move
 		// player coordinates i, j
-		
+		int i = 
 		
 		//Gotta find the upper and lower bounds 
 		// if (i + movement > board size x){

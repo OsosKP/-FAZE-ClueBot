@@ -172,22 +172,23 @@ public class UserInterface extends JPanel {
 
         public void refreshBoard(JPanel update){
         	//Testing shit around n stuff
-        	JButton playerImage = new JButton();
-        	JButton roomImage = new JButton();
-        	JButton weaponImage = new JButton();
+        	JButton[] currentPlayerCards = new JButton[3];
+            currentPlayerCards[0] = new JButton();
+        	currentPlayerCards[1] = new JButton();
+        	currentPlayerCards[2] = new JButton();
 
-        	playerImage.setBorder(null);
-        	weaponImage.setBorder(null);
-        	roomImage.setBorder(null);
+			currentPlayerCards[0].setBorder(null);
+        	currentPlayerCards[1].setBorder(null);
+        	currentPlayerCards[2].setBorder(null);
 
-        	playerImage.setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
-			weaponImage.setIcon(new ImageIcon(currentPlayer.getHand().get(1).getImage()));
-			roomImage.setIcon(new ImageIcon(currentPlayer.getHand().get(2).getImage()));
+        	currentPlayerCards[0].setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
+			currentPlayerCards[1].setIcon(new ImageIcon(currentPlayer.getHand().get(1).getImage()));
+			currentPlayerCards[2].setIcon(new ImageIcon(currentPlayer.getHand().get(2).getImage()));
 
 			JPanel cardsPanel = new JPanel(new GridLayout(3,1));
-        	cardsPanel.add(playerImage);
-        	cardsPanel.add(weaponImage);
-        	cardsPanel.add(roomImage);
+        	cardsPanel.add(currentPlayerCards[0]);
+        	cardsPanel.add(currentPlayerCards[1]);
+        	cardsPanel.add(currentPlayerCards[2]);
 
         	JPanel bigPanel = new JPanel();
         	bigPanel.add(cardsPanel);
