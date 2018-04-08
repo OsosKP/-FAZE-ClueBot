@@ -565,7 +565,7 @@ public class AccuseMenu {
     }
 }
 /*
-    Keeping this version just in case (sorry George)
+    Keeping this version just in case (I know how you love that, George)
  */
 //    public void loadAllCardImages() throws Exception {
 //        String[] chars =

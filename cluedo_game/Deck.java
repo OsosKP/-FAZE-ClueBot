@@ -206,7 +206,8 @@ public class Deck {
         for(int i=0; i<3; i++){
             randIndex = rand.nextInt(6 + (3 * i%2));
             murderEnvelope.add(publicDeck.get(i).remove(randIndex));
-            System.out.println(murderEnvelope.get(i));
+            // Uncomment for debugging
+//            System.out.println(murderEnvelope.get(i));
         }
     }
 
