@@ -35,7 +35,7 @@ public class UserInterface extends JPanel {
 
     // The board image portion of the UI
     JPanel boardImagePanel;
-    BoardImage myImg;
+    static BoardImage myImg;
     JLabel PlayerCards[] = new JLabel[3];
 
     // The questioning panel, which replaces the input panel

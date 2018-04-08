@@ -294,6 +294,14 @@ public class BoardImage {
 		}
 		return returnMe;
 	}
+	
+	public JPanel removePlayer(Token player) {
+		return resetSquare(player.getPosition());
+	}
+	
+	public JPanel removePlayer(String player) {//Removes player by querying player from GameLogic.playerList
+		return resetSquare(GameLogic.getPlayerList().getPlayerByIndex(GameLogic.getPlayerList().getIndexOfPlayerByName(player)).getPosition());
+	}
 
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();
