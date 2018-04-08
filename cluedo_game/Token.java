@@ -223,12 +223,15 @@ public class Token {
 	public void populateNoteCards(Deck deck){
 		// Add each card in player's hand to note card
 		for(Card c : hand){
+			System.out.println(name + " has card " + c.getName());
 			playerDeckNotes.changeGuessStatus(c.reference, 'X');
 		}
 		// If there is a publicly viewable deck, add those cards to the notes
 		if(deck.getPublicDeck() != null){
-			for(Card c : deck.getFullPublicDeck())
+			for(Card c : deck.getFullPublicDeck()) {
+				System.out.println("Public: " + c.getName());
 				getPlayerDeckNotes().changeGuessStatus(c.reference, 'A');
+			}
 		}
 	}
 
