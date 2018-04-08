@@ -564,6 +564,7 @@ public class UserInterface extends JPanel {
         public void switchInputToExitPicker() {
             input.remove(promptLabel);
             inputField.removeActionListener(returnPressListener);
+            inputField.removeKeyListener(arrows);
             inputField.addActionListener(returnPressExitListener);
             promptLabel.setText("     Which exit would you like to take?");
             input.add(promptLabel, BorderLayout.CENTER);
@@ -588,6 +589,7 @@ public class UserInterface extends JPanel {
         private void switchInputToViewNotes(){
             input.remove(promptLabel);
             inputField.removeActionListener(returnPressListener);
+            inputField.removeKeyListener(arrows);
             inputField.addActionListener(returnPressViewNotesListener);
             promptLabel.setText("     You are viewing your notes.");
             input.add(promptLabel, BorderLayout.CENTER);
