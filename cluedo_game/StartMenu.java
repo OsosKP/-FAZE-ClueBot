@@ -26,6 +26,7 @@ public class StartMenu extends JPanel {
 
     public StartMenu() {
         audioOn = true;
+        GameLogic.music = true;
         // Load button icon images
         // Start
         URL startButtonImageURL = this.getClass().getResource("startButton.jpg");
@@ -85,7 +86,7 @@ public class StartMenu extends JPanel {
         holder.setLocationRelativeTo(null);
         holder.setResizable(false);
         holder.setVisible(true);
-        GameLogic.playMusic();
+        GameLogic.playMusic(true);
     }
 
     /**
@@ -116,6 +117,8 @@ public class StartMenu extends JPanel {
         public void actionPerformed(ActionEvent event) {
             holder.dispose();
             LoopSound.turnMusicOff();
+            if (audioOn)
+                GameLogic.music = true;
             GameLogic.startGame(debug);
             // If in debug mode, print the murder envelope
             if (debug) {

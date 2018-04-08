@@ -35,10 +35,11 @@ public class LoopSound implements Runnable {
         });
         t.start();
         playSong = false;
+        GameLogic.music = false;
     }
 
     public static void turnMusicOn() {
-        GameLogic.playMusic();
+        GameLogic.playMusic(true);
         playSong = true;
     }
 
@@ -54,7 +55,7 @@ public class LoopSound implements Runnable {
 
     }
 
-    private void playSound(String fileName) throws Exception {
+    protected void playSound(String fileName) throws Exception {
         File soundFile = new File(fileName);
         AudioInputStream stream = AudioSystem.getAudioInputStream(soundFile);
         AudioFormat format = stream.getFormat();
