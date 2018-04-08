@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Steps:
@@ -25,10 +26,18 @@ public class AccuseMenu {
     private final JPanel board;
     // New display and its holder
     private JFrame display;
+    private JLabel displayBackground;
     // Pictures for final accusation
-    private JLabel characterImage;
-    private JLabel weaponImage;
-    private JLabel roomImage;
+    private ImageIcon characterAccusedImage;
+    private ImageIcon weaponAccusedImage;
+    private ImageIcon roomAccusedImage;
+    private JLabel characterAccusedLabel;
+    private JLabel weaponAccusedLabel;
+    private JLabel roomAccusedLabel;
+    // Pictures for murder envelope
+    private JLabel murderCharacterImage;
+    private JLabel murderWeaponImage;
+    private JLabel murderRoomImage;
     // Player who is accusing
     private final Token accusingPlayer;
     // Confirm button for first screen, okay button for next
@@ -56,6 +65,8 @@ public class AccuseMenu {
     private ImageIcon[] charPics = new ImageIcon[12];
     private ImageIcon[] wpnPics = new ImageIcon[12];
     private ImageIcon[] rmPics = new ImageIcon[18];
+    // Strings to store the murder envelope images
+
     // Strings to store the accused so we can call those cards when user confirms
         //  0 : Character
         //  1 : Weapon
@@ -120,8 +131,14 @@ public class AccuseMenu {
         display.setResizable(false);
         display.pack();
         display.setLocationRelativeTo(null);
+//        display.setVisible(true);
+    }
+
+    public void switchToAccuseMenu() {
+        boardDisplay.setVisible(false);
         display.setVisible(true);
     }
+
 
     public boolean getGuessed() {
         return guessed[0] && guessed[1] && guessed[2];
@@ -146,7 +163,7 @@ public class AccuseMenu {
             rmPics[i] = new ImageIcon(rmTemp);
             rooms[i] = new JButton(rmPics[i]);
             rooms[i].setBorderPainted(false);
-            rooms[i].addActionListener(new ButtonAL(i, rooms, rmPics, rms[i], 2));
+            rooms[i].addActionListener(new ButtonAL(i, rooms, rmPics, rms[i], 2, rmPics[i]));
             rmsPanel.add(rooms[i]);
 
             // Get B&W image
@@ -160,7 +177,8 @@ public class AccuseMenu {
                 charPics[i] = new ImageIcon(charTemp);
                 characters[i] = new JButton(charPics[i]);
                 characters[i].setBorderPainted(false);
-                characters[i].addActionListener(new ButtonAL(i, characters, charPics, chars[i].toLowerCase(), 0));
+                characters[i].addActionListener(new ButtonAL(i, characters, charPics,
+                        chars[i].toLowerCase(), 0, charPics[i]));
                 charsPanel.add(characters[i]);
 
                 // Get B&W image
@@ -173,7 +191,7 @@ public class AccuseMenu {
                 wpnPics[i] = new ImageIcon(wpnTemp);
                 weapons[i] = new JButton(wpnPics[i]);
                 weapons[i].setBorderPainted(false);
-                weapons[i].addActionListener(new ButtonAL(i, weapons, wpnPics, wpns[i].toLowerCase(), 1));
+                weapons[i].addActionListener(new ButtonAL(i, weapons, wpnPics, wpns[i].toLowerCase(), 1, wpnPics[i]));
                 wpnsPanel.add(weapons[i]);
 
                 // Get B&W image
@@ -245,6 +263,11 @@ public class AccuseMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(getGuessed()) {
+                // Add images for viewing murder envelope
+                characterAccusedLabel = new JLabel(characterAccusedImage);
+                weaponAccusedLabel = new JLabel(weaponAccusedImage);
+                roomAccusedLabel = new JLabel(roomAccusedImage);
+
                 accuseButtonPressResult = JOptionPane.showConfirmDialog(null, "Do you think it was: \n" +
                     accusedStrings[0].substring(0, 1).toUpperCase().concat(accusedStrings[0].substring(1))
                     + " in the " +
@@ -253,7 +276,9 @@ public class AccuseMenu {
                     accusedStrings[1].substring(0, 1).toUpperCase().concat(accusedStrings[1].substring(1)) + "?",
                     null, JOptionPane.YES_NO_OPTION);
                 if (accuseButtonPressResult == JOptionPane.YES_OPTION)
-                    displayAccusationResult(GameLogic.Accusing.checkAccusation(accusedStrings, accusingPlayer));
+//                    displayAccusationResult(GameLogic.Accusing.checkAccusation
+//                            (accusedStrings, accusingPlayer, getThis()));
+                    winner = GameLogic.Accusing.checkAccusation(accusedStrings, accusingPlayer, getThis());
             }
         }
     }
@@ -291,9 +316,9 @@ public class AccuseMenu {
         // Load background image
         URL bgImageUrl = this.getClass().getResource("accusebg.jpg");
         bgImage = ImageIO.read(bgImageUrl);
-        JLabel background = new JLabel(new ImageIcon(bgImage));
+        displayBackground = new JLabel(new ImageIcon(bgImage));
 
-        display.setContentPane(background);
+        display.setContentPane(displayBackground);
     }
 
     class ButtonAL implements ActionListener {
@@ -302,13 +327,15 @@ public class AccuseMenu {
         ImageIcon[] pics;
         String label;
         int typeIndex;
+        ImageIcon image;
 
-        public ButtonAL(int index, JButton[] type, ImageIcon[] pics, String label, int typeIndex) {
+        public ButtonAL(int index, JButton[] type, ImageIcon[] pics, String label, int typeIndex, ImageIcon image) {
             this.index = index;
             this.type = type;
             this.pics = pics;
             this.label = label;
             this.typeIndex = typeIndex;
+            this.image = image;
         }
 
         @Override
@@ -323,6 +350,16 @@ public class AccuseMenu {
                     type[i].setIcon(pics[i]);
                     type[i].setBorderPainted(true);
                 }
+            }
+            switch (typeIndex) {
+                case 0: // Character
+                    characterAccusedImage = image;
+                    break;
+                case 1: // Weapon
+                    weaponAccusedImage = image;
+                case 2: // Room
+                    roomAccusedImage = image;
+
             }
             // Assign this button's string label to the appropriate accused string
             accusedStrings[typeIndex] = label;
@@ -339,9 +376,201 @@ public class AccuseMenu {
     public void displayAccusationResult(boolean result) {
         if (result)
             JOptionPane.showMessageDialog(null, "Win");
-        else
+        else {
             JOptionPane.showMessageDialog(null, "Lose");
+//            display.dispose();
+//            boardDisplay.setVisible(true);
+        }
     }
 
+    JFrame murderEnvelopeFrame;
+    JPanel murderEnvelopePanel;
+    JPanel murderEnvelopeImages;
+    JPanel murderEnvelopeViewButton;
+    JPanel murderEnvelopeResult;
 
+    public void viewMurderEnvelope(boolean winner) {
+        this.winner = winner;
+        murderEnvelopeFrame = new JFrame("Murder Envelope");
+        murderEnvelopeFrame.setPreferredSize(new Dimension(1169, 600));
+        murderEnvelopeFrame.setBackground(Color.BLACK);
+        buildMurderEnvelopeImagesPanel();
+        buildMurderEnvelopeButtonPanel();
+        buildMurderEnvelopResultPanel();
+
+        murderEnvelopePanel = new JPanel();
+        murderEnvelopePanel.setSize(1169, 600);
+        murderEnvelopePanel.setLayout(new GridLayout(3, 1));
+        murderEnvelopePanel.setBackground(Color.BLACK);
+
+        murderEnvelopePanel.add(murderEnvelopeImages);
+        murderEnvelopePanel.add(murderEnvelopeViewButton);
+        murderEnvelopePanel.add(murderEnvelopeResult);
+
+        murderEnvelopeFrame.add(murderEnvelopePanel);
+        murderEnvelopeFrame.pack();
+        murderEnvelopeFrame.validate();
+
+        display.setVisible(false);
+        murderEnvelopeFrame.setResizable(false);
+        murderEnvelopeFrame.setLocationRelativeTo(null);
+        murderEnvelopeFrame.setVisible(true);
+    }
+
+    public void buildMurderEnvelopeImagesPanel() {
+        murderCharacterImage = new JLabel(new ImageIcon(
+                GameLogic.getDeck().getMurderEnvelope().get(0).getImage()));
+        murderWeaponImage = new JLabel(new ImageIcon(
+                GameLogic.getDeck().getMurderEnvelope().get(1).getImage()));
+        murderRoomImage = new JLabel(new ImageIcon(
+                GameLogic.getDeck().getMurderEnvelope().get(2).getImage()));
+
+        JLabel spacer = new JLabel(" ");
+        spacer.setOpaque(false);
+
+        murderEnvelopeImages = new JPanel();
+        murderEnvelopeImages.setSize(1169, 100);
+        murderEnvelopeImages.setLayout(new GridLayout(1, 7));
+        murderEnvelopeImages.add(spacer);
+        murderEnvelopeImages.add(murderCharacterImage);
+        murderCharacterImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        murderCharacterImage.setVisible(false);
+        murderEnvelopeImages.add(spacer);
+        murderEnvelopeImages.add(murderWeaponImage);
+        murderWeaponImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        murderWeaponImage.setVisible(false);
+        murderEnvelopeImages.add(spacer);
+        murderEnvelopeImages.add(murderRoomImage);
+        murderRoomImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        murderRoomImage.setVisible(false);
+        murderEnvelopeImages.add(spacer);
+        murderEnvelopeImages.setOpaque(false);
+        murderEnvelopeImages.setBackground(Color.BLACK);
+    }
+
+    public void buildMurderEnvelopeButtonPanel() {
+        murderEnvelopeViewButton = new JPanel();
+        JButton viewButton = new JButton("Time to check the murder envelope...");
+        viewButton.setAlignmentY(JButton.CENTER);
+        viewButton.addActionListener(new displayMurderEnvelopeListener(viewButton));
+        viewButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+        murderEnvelopeViewButton.add(viewButton);
+        murderEnvelopeViewButton.setOpaque(false);
+        murderEnvelopeViewButton.setBackground(Color.BLACK);
+    }
+
+    public void buildMurderEnvelopResultPanel() {
+        String labelString;
+        if (winner)
+            labelString = "win";
+        else
+            labelString = "lose";
+
+        JLabel labelLabel;
+        URL labelURL = this.getClass().getResource("you" + labelString + ".jpg");
+        BufferedImage labelImage = null;
+        try {
+            labelImage = ImageIO.read(labelURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // #NuclearOption
+            System.exit(1);
+        }
+
+        labelLabel = new JLabel(new ImageIcon(labelImage));
+        labelLabel.setAlignmentX(JLabel.CENTER);
+        murderEnvelopeResult = new JPanel();
+        murderEnvelopeResult.add(labelLabel);
+        murderEnvelopeResult.setVisible(false);
+        murderEnvelopeResult.setOpaque(false);
+        murderEnvelopeResult.setBackground(Color.BLACK);
+    }
+
+    public AccuseMenu getThis() {
+        return this;
+    }
+
+    class displayMurderEnvelopeListener implements ActionListener {
+        JButton button;
+        public displayMurderEnvelopeListener(JButton button) {
+            this.button = button;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            button.setText("Opening the murder envelope...");
+            button.revalidate();
+            try {
+                murderCharacterImage.setVisible(true);
+                TimeUnit.SECONDS.sleep(1);
+                murderWeaponImage.setVisible(true);
+                TimeUnit.SECONDS.sleep(1);
+                murderRoomImage.setVisible(true);
+                TimeUnit.SECONDS.sleep(1);
+                murderEnvelopeResult.setVisible(true);
+                button.setText("Okay");
+                button.removeActionListener(this);
+                button.addActionListener((winner) ? new winListener() : new loseListener());
+//                button.addActionListener(new winListener());
+
+
+            } catch (Exception ex) { ex.printStackTrace(); }
+        }
+    }
+
+    // After we're done with this menu,we're either ending the game or going back to the board
+    class winListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFrame winFrame =
+                    constructResultFrame(GameLogic.getUi().getCurrentPlayer().getName());
+            display.dispose();
+            murderEnvelopeFrame.dispose();
+            winFrame.setVisible(true);
+        }
+    }
+
+    class loseListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            display.dispose();
+            murderEnvelopeFrame.dispose();
+            Token temp;
+            if (GameLogic.getPlayerList().getNumberOfPlayers() == 1) {
+                // If there is one player left, we find their name and pronounce
+                    // them the winner
+                temp = GameLogic.getPlayerList().getFirst();
+                while (!temp.getInGame())
+                    temp = temp.next();
+                JFrame loseFrame =
+                        constructResultFrame(temp.getName());
+                display.dispose();
+                murderEnvelopeFrame.dispose();
+                loseFrame.setVisible(true);
+            }
+            else
+                boardDisplay.setVisible(true);
+        }
+    }
+
+    public JFrame constructResultFrame(String name) {
+        JFrame frame = new JFrame();
+        JPanel win = new JPanel();
+        win.setLayout(new GridLayout(2, 1));
+        win.add(new JLabel("\n\t" + name
+                + " has won the game!\t\n"));
+        JButton winButton = new JButton("End Game");
+        winButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
+        win.add(winButton);
+        win.validate();
+        frame.add(win);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+
+        return frame;
+    }
 }

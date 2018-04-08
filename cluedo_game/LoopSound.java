@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.File;
 
 public class LoopSound implements Runnable {
-    private static boolean playSong = true;
+    static boolean playSong = true;
     static SourceDataLine line = null;
     static Thread t;
 
@@ -15,15 +15,31 @@ public class LoopSound implements Runnable {
         t.start();
     }
 
+    public void restartMusic() {
+        try {
+            t.join();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+//    public static void turnMusicOff() {
+//        //	line.stop();
+//		playSong = false;
+//		t.interrupt();
+//    }
+
     public static void turnMusicOff() {
-        //	line.stop();
-		playSong = false;
-		t.interrupt();
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                line.stop();
+            }
+        });
+        t.start();
+        playSong = false;
     }
 
     public static void turnMusicOn() {
-        playSong = true;
         GameLogic.playMusic();
+        playSong = true;
     }
 
     @Override

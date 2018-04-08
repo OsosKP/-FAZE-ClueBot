@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 public class BoardImage {
 	private final int WIDTH  = 552; //Width of the board, should be 552 pixels
 	private final int HEIGHT = 575; //Height of the board, should be 575 pixels
+	private final int BOARDHEIGHT = 25;
+	private final int BOARDWIDTH = 24;
 	private final int step = 23;//Incrementer for for loop to correctly move to next square,size of each square
 	BufferedImage bi;//Object for the board itself
 	private final Color PURPLE = new Color(75, 0, 130); // Poor Professor Plum should get his own color, too
@@ -26,8 +28,8 @@ public class BoardImage {
 	private ArrayList<Integer[]> weaponRoomLocations;
 
 	private JPanel imagePanel;
-	private JButton[][] defaultBoard = new JButton[25][24];
-	private JButton[][] editedBoard = new JButton[25][24];
+	private JButton[][] defaultBoard = new JButton[BOARDHEIGHT][BOARDWIDTH];
+	private JButton[][] editedBoard = new JButton[BOARDHEIGHT][BOARDWIDTH];
 
 	//This is super janky and will fix later
 	static int[] whiteindex = {0,9};
@@ -55,6 +57,56 @@ public class BoardImage {
 		JPanel holder = this.returnFinalJPanel();
 		holder.add(p);
 		return holder;
+	}
+	
+	public JPanel highlightMovement(int movement) {
+		//TODO: Implement
+		// Movement represents how many squares the player gets to move
+		// player coordinates i, j
+		
+		
+		//Gotta find the upper and lower bounds 
+		// if (i + movement > board size x){
+		// 		upper bound x = board size x;
+		// }
+		// else{
+		// 		upper bound x = i + movement;
+		// }
+		//
+		// if (j + movement > board size y){
+		// 		upper bound y = board size y;
+		// }
+		// else{
+		// 		upper bound y = j + movement ;
+		// }
+		// 
+		// if (i - movement < 0){
+		// 		lower bound = 0;
+		// }
+		// else{
+		// 		lower bound = i - movement;
+		// }
+		// if (j - movement < 0){
+		// 		lower bound = 0;
+		// }
+		// else{
+		// 		lower bound = j - movement;
+		// }
+		//
+		// for (int x=lower bound x;x<=upper bound x;x++){
+		// 		for (int y=lower bound y;y<=upper bound y;y++){
+		//			if (x+y-(i+j)>movement){
+		//				use this square
+		//			}
+		//			else{
+		//				don't use this square
+		//			}
+		//		}
+		// }
+	
+				
+		
+		return null;
 	}
 
 
@@ -138,7 +190,7 @@ public class BoardImage {
                 //button.setActionCommand(""+xIndex+","+yIndex);
 
 				//TODO: Josh uncomment this if you need it, I was de-cluttering the console printouts
-//				button.setActionCommand(""+xIndex+","+yIndex+" is a "+ GameLogic.currentBoard.getSquare(xIndex,yIndex).getClass());
+				button.setActionCommand(""+xIndex+","+yIndex);
                 button.addActionListener(new ActionListener(){
 
                 /* What happens when we press the button? */

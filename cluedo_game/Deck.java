@@ -24,7 +24,6 @@ public class Deck {
     Generic constructor for the primary publicDeck of all cards
      */
     public Deck() {
-  
 	        publicDeck.add(new ArrayList<>());
 	        try {
 				publicDeck.get(0).add(new Card("White", 0, 0, "token", ImageIO.read(new File("src/characterCards/White.png"))));

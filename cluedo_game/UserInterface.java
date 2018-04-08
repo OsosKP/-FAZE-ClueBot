@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
@@ -92,7 +90,14 @@ public class UserInterface extends JPanel {
         display.setVisible(true);
     }
 
-    // TODO: Kelsey
+    public JFrame getDisplay() {
+        return display;
+    }
+
+    public JPanel getUserDisplay() {
+        return userDisplay;
+    }
+
     public void refreshGuiFromUnsuccessfulGuess() {
         initialQuestion.revertToRegularDisplay();
         in.inputField.setText("");
@@ -102,6 +107,7 @@ public class UserInterface extends JPanel {
     public void refreshDisplayForNextTurn(Token p) {
         // Tell players whose turn it is
         in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn. Moves Left: " + GameLogic.getMovesLeft());
+        in.inputField.requestFocus();
         // Update what player is allowed to input
         out.updateAllowedCommandsBasedOnSquare(p);
     }
@@ -149,7 +155,7 @@ public class UserInterface extends JPanel {
             returnPressListener = new UserInputListener();
             // But at the beginning, pressing 'return' should start the game
             returnStartGameListener = new StartGameListener();
-            inputField.addActionListener(returnPressListener);
+            inputField.addActionListener(returnStartGameListener);
 
             returnPressExitListener = new ExitChoiceListener();
             returnPressViewNotesListener = new ViewNotesListener();
@@ -167,21 +173,22 @@ public class UserInterface extends JPanel {
         public void refreshBoard(JPanel update){
         	//Testing shit around n stuff
         	JButton playerImage = new JButton();
-        	playerImage.setBorder(null);
-        	JButton weaponImage = new JButton();
-        	weaponImage.setBorder(null);
         	JButton roomImage = new JButton();
+        	JButton weaponImage = new JButton();
+
+        	playerImage.setBorder(null);
+        	weaponImage.setBorder(null);
         	roomImage.setBorder(null);
-			
+
         	playerImage.setIcon(new ImageIcon(currentPlayer.getHand().get(0).getImage()));
 			weaponImage.setIcon(new ImageIcon(currentPlayer.getHand().get(1).getImage()));
 			roomImage.setIcon(new ImageIcon(currentPlayer.getHand().get(2).getImage()));
-			
+
 			JPanel cardsPanel = new JPanel(new GridLayout(3,1));
         	cardsPanel.add(playerImage);
         	cardsPanel.add(weaponImage);
         	cardsPanel.add(roomImage);
-        	
+
         	JPanel bigPanel = new JPanel();
         	bigPanel.add(cardsPanel);
         	bigPanel.add(boardImagePanel);
@@ -189,13 +196,12 @@ public class UserInterface extends JPanel {
             userDisplay.remove(boardImagePanel);
             boardImagePanel = update;
             userDisplay.add(boardImagePanel);
-         //   userDisplay.add(bigPanel);
+//            userDisplay.add(bigPanel); //TODO: UNCOMMENT TO DISPLAY CARDS
             display.invalidate();
             display.validate();
             display.repaint();
         }
 
-        // TODO: Remove
         /**
          * A button that must be pressed to start the game
          *
@@ -661,7 +667,6 @@ public class UserInterface extends JPanel {
             possibleCommandsList.repaint();
             possibleCommandsList.setLayout(new BoxLayout(possibleCommandsList, BoxLayout.Y_AXIS));
 
-
             if (p == null) {
                 locationReadout.setText("Not on the board. Testing?");
                 return;
@@ -688,6 +693,18 @@ public class UserInterface extends JPanel {
                     btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
                 }
             } catch (Exception e) { e.printStackTrace(); }
+
+            // TODO: Debugging for AccuseMenu
+//            JButton accuse = new JButton("Accuse");
+//            AccuseMenu menu = new AccuseMenu(display, userDisplay, currentPlayer);
+//            accuse.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    menu.switchToAccuseMenu();
+//                }
+//            });
+//            possibleCommandsList.add(accuse);
+
 
             possibleCommandsList.repaint();
             allowedCommandsDisplay.add(possibleCommandsList);
