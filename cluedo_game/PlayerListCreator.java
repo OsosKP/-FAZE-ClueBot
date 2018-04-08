@@ -472,16 +472,16 @@ public class PlayerListCreator {
             }
 
             System.out.println("Number of players: " + numPlayers);
-//            if (numPlayers < 2) {
-//            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
-//
-//            	test restartGame = new test();
-//            	restartGame.resetgame();
-//            }
-//            else {
-//            	playerList.printList();
+            if (numPlayers < 2) {
+            	JOptionPane.showMessageDialog(null, "In order to play the game, there must be at least 2 players");
+
+            	System.exit(0);
+            }
+            else {
+            	playerList.printList();
                 GameLogic.createGame();
-//            }
+                GameLogic.getUi().pressStartGameButton();
+            }
 
         }
     }

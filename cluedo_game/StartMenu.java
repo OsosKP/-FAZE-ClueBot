@@ -121,8 +121,8 @@ public class StartMenu extends JPanel {
             if (debug) {
                 for (Card c : GameLogic.getDeck().getMurderEnvelope())
                     System.out.println(c.getName());
+                GameLogic.getUi().pressStartGameButton();
             }
-            GameLogic.getUi().pressStartGameButton();
         }
     }
 

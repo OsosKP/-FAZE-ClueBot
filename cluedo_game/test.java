@@ -5,21 +5,16 @@
 package cluedo_game;
 
 public class test {
+	static GameLogic game;
 	public test() {
 		//nothing
-	}
-	/* Forces the game to reset by creating a new obj -- only happens when the user does not correctly input the players */
-	public void  resetgame() {
-		System.out.println("Am I getting here?");
-		GameLogic resetGame = new GameLogic();
-
 	}
 
 	public static void main(String[] args) {
 //		BoardBuilder bb = new BoardBuilder();
 //		BoardImageTest board = new BoardImageTest(bb);
 
-		GameLogic game = new GameLogic();
+		game = new GameLogic();
 	}
 
 	/**
