@@ -117,6 +117,12 @@ public class StartMenu extends JPanel {
             holder.dispose();
             LoopSound.turnMusicOff();
             GameLogic.startGame(debug);
+            // If in debug mode, print the murder envelope
+            if (debug) {
+                for (Card c : GameLogic.getDeck().getMurderEnvelope())
+                    System.out.println(c.getName());
+            }
+            GameLogic.getUi().pressStartGameButton();
         }
     }
 

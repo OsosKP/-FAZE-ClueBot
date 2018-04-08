@@ -208,10 +208,11 @@ public class UserInterface extends JPanel {
         }
 
         /**
-         * A button that must be pressed to start the game
+         * Start button that must be pressed to start the game
          *
          * @return the button, to place into a JPanel
          */
+        // I'm going to have this be automatically pressed when the game starts
         private JButton createStartGameButton() {
             startGameButton = new JButton("Start Game");
             ActionListener listener = new StartGameListener();
@@ -237,6 +238,7 @@ public class UserInterface extends JPanel {
                 output.revalidate();
             }
         }
+
         private JButton createViewNotesButton(){
             viewNotesButton = new JButton("Done");
             ActionListener listener = new ViewNotesListener();
@@ -451,7 +453,9 @@ public class UserInterface extends JPanel {
             }
         }
 
-        //TODO: Arrows
+        /*
+            KeyListener that allows movement from arrow keys
+         */
         public class ArrowListener implements KeyListener {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -476,7 +480,6 @@ public class UserInterface extends JPanel {
                         dir = "r";
                         break;
                 }
-                System.out.println("CHECK : " + dir);
                 if (dir != null) {
                     in.inputField.setText(dir);
                     performActionButton.doClick();
@@ -616,6 +619,11 @@ public class UserInterface extends JPanel {
         public UserInputListener getNewUserInputListener(String s) {
             return new UserInputListener(s);
         }
+    }
+    // Called by start menu to automatically start the game and bypass the second "Press Start"
+    public void pressStartGameButton() {
+        startGameButton.doClick();
+        in.inputField.requestFocus();
     }
 
     // TODO: Question
