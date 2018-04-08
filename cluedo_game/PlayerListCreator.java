@@ -171,8 +171,6 @@ public class PlayerListCreator {
 
                         String[] output = getValue();
                         username = output[0];
-                        
-                        characterName = selectedPlayers.get(objNum);
 
                         value.setText("You have selected: " + selectedPlayers.get(objNum)) ;
                         
@@ -375,7 +373,7 @@ public class PlayerListCreator {
                 String[] returnArray = GUIPlayerList[i].getValue();
 
                 /* If the user wants to actually play, the above token objects get populated */
-                if (!(returnArray[1].equals("Not Playing"))){
+                if (returnArray[1] != null && !(returnArray[1].equals("Not Playing"))){
                 	numPlayersCreated++;
 
                     if (returnArray[1].equals("Colonel Mustard")) {
