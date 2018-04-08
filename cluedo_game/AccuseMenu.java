@@ -131,7 +131,7 @@ public class AccuseMenu {
         display.setResizable(false);
         display.pack();
         display.setLocationRelativeTo(null);
-//        display.setVisible(true);
+        display.setVisible(true);
     }
 
     public void switchToAccuseMenu() {
@@ -145,36 +145,31 @@ public class AccuseMenu {
     }
 
     public void loadAllCardImages() throws Exception {
-        String[] chars =    // Size 6
-                {"White", "Green", "Mustard", "Scarlet", "Peacock", "Plum"};
-        String[] wpns =     // Size 6
-                {"Candlestick", "Dagger", "Pistol", "Pipe", "Rope", "Wrench"};
-        String[] rms =      // Size 9
-                {"kitchen", "ballroom", "conservatory", "diningroom",
-                "billiardroom", "library", "lounge", "hall", "study"};
+        String[] chars =
+                {"Green", "Mustard", "Peacock", "Plum", "Scarlet", "White"};
+        String[] wpns =
+                {"Candlestick", "Dagger", "Pipe", "Pistol", "Rope", "Wrench"};
+        String[] rms =
+                {"ballroom", "billiardroom", "conservatory", "diningroom",
+                        "hall", "kitchen", "library", "lounge", "study"};
 
         BufferedImage charTemp;
         BufferedImage wpnTemp;
         BufferedImage rmTemp;
 
         for (int i=0; i<9; i++) {
-            rmTemp = ImageIO.read
-                    (new File("src/roomCards/" + rms[i] + ".jpeg"));
-            rmPics[i] = new ImageIcon(rmTemp);
+            rmPics[i] = CardImages.getRoomsByIndex(i);
             rooms[i] = new JButton(rmPics[i]);
             rooms[i].setBorderPainted(false);
             rooms[i].addActionListener(new ButtonAL(i, rooms, rmPics, rms[i], 2, rmPics[i]));
             rmsPanel.add(rooms[i]);
 
             // Get B&W image
-            rmTemp = ImageIO.read
-                    (new File("src/roomCards/" + rms[i] + "b&w.jpeg"));
-            rmPics[i + 9] = new ImageIcon(rmTemp);
+            rmPics[i + 9] = CardImages.getRoomsByIndex((i+9));
 
             if (i<6) {
-                charTemp = ImageIO.read
-                        (new File("src/characterCards/" + chars[i] + ".png"));
-                charPics[i] = new ImageIcon(charTemp);
+                // Characters
+                charPics[i] = CardImages.getCharacterByIndex(i);
                 characters[i] = new JButton(charPics[i]);
                 characters[i].setBorderPainted(false);
                 characters[i].addActionListener(new ButtonAL(i, characters, charPics,
@@ -182,22 +177,17 @@ public class AccuseMenu {
                 charsPanel.add(characters[i]);
 
                 // Get B&W image
-                charTemp = ImageIO.read
-                        (new File("src/characterCards/" + chars[i] + "B&W.png"));
-                charPics[i + 6] = new ImageIcon(charTemp);
+                charPics[i + 6] = CardImages.getCharacterByIndex((i + 6));
 
-                wpnTemp = ImageIO.read
-                        (new File("src/weaponCards/" + wpns[i] + ".png"));
-                wpnPics[i] = new ImageIcon(wpnTemp);
+                // Weapons
+                wpnPics[i] = CardImages.getWeaponsByIndex(i);
                 weapons[i] = new JButton(wpnPics[i]);
                 weapons[i].setBorderPainted(false);
                 weapons[i].addActionListener(new ButtonAL(i, weapons, wpnPics, wpns[i].toLowerCase(), 1, wpnPics[i]));
                 wpnsPanel.add(weapons[i]);
 
                 // Get B&W image
-                wpnTemp = ImageIO.read
-                        (new File("src/weaponCards/" + wpns[i] + "B&W.png"));
-                wpnPics[i + 6] = new ImageIcon(wpnTemp);
+                wpnPics[i + 6] = CardImages.getWeaponsByIndex((i + 6));
             }
         }
         rmsPanel.setOpaque(false);
@@ -574,3 +564,70 @@ public class AccuseMenu {
         return frame;
     }
 }
+/*
+    Keeping this version just in case (sorry George)
+ */
+//    public void loadAllCardImages() throws Exception {
+//        String[] chars =
+//                {"Green", "Mustard", "Peacock", "Plum", "Scarlet", "White"};
+//        String[] wpns =
+//                {"Candlestick", "Dagger", "Pipe", "Pistol", "Rope", "Wrench"};
+//        String[] rms =
+//                {"ballroom", "billiardroom", "conservatory", "diningroom",
+//                        "hall", "kitchen", "library", "lounge", "study"};
+//
+//        BufferedImage charTemp;
+//        BufferedImage wpnTemp;
+//        BufferedImage rmTemp;
+//
+//        for (int i=0; i<9; i++) {
+//            rmTemp = ImageIO.read
+//                    (new File("src/roomCards/" + rms[i] + ".jpeg"));
+//            rmPics[i] = new ImageIcon(rmTemp);
+//            rooms[i] = new JButton(rmPics[i]);
+//            rooms[i].setBorderPainted(false);
+//            rooms[i].addActionListener(new ButtonAL(i, rooms, rmPics, rms[i], 2, rmPics[i]));
+//            rmsPanel.add(rooms[i]);
+//
+//            // Get B&W image
+//            rmTemp = ImageIO.read
+//                    (new File("src/roomCards/" + rms[i] + "b&w.jpeg"));
+//            rmPics[i + 9] = new ImageIcon(rmTemp);
+//
+//            if (i<6) {
+//                charTemp = ImageIO.read
+//                        (new File("src/characterCards/" + chars[i] + ".png"));
+//                charPics[i] = new ImageIcon(charTemp);
+//                characters[i] = new JButton(charPics[i]);
+//                characters[i].setBorderPainted(false);
+//                characters[i].addActionListener(new ButtonAL(i, characters, charPics,
+//                        chars[i].toLowerCase(), 0, charPics[i]));
+//                charsPanel.add(characters[i]);
+//
+//                // Get B&W image
+//                charTemp = ImageIO.read
+//                        (new File("src/characterCards/" + chars[i] + "B&W.png"));
+//                charPics[i + 6] = new ImageIcon(charTemp);
+//
+//                wpnTemp = ImageIO.read
+//                        (new File("src/weaponCards/" + wpns[i] + ".png"));
+//                wpnPics[i] = new ImageIcon(wpnTemp);
+//                weapons[i] = new JButton(wpnPics[i]);
+//                weapons[i].setBorderPainted(false);
+//                weapons[i].addActionListener(new ButtonAL(i, weapons, wpnPics, wpns[i].toLowerCase(), 1, wpnPics[i]));
+//                wpnsPanel.add(weapons[i]);
+//
+//                // Get B&W image
+//                wpnTemp = ImageIO.read
+//                        (new File("src/weaponCards/" + wpns[i] + "B&W.png"));
+//                wpnPics[i + 6] = new ImageIcon(wpnTemp);
+//            }
+//        }
+//        rmsPanel.setOpaque(false);
+//        rmsPanel.setSize(1000, 850);
+//        charsPanel.setOpaque(false);
+//        charsPanel.setSize(1000, 850);
+//        wpnsPanel.setOpaque(false);
+//        wpnsPanel.setSize(1000, 850);
+//    }
+

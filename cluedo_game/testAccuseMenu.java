@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class testAccuseMenu {
     public static void main(String[] args) {
+        new CardImages();
         Deck deck = new Deck();
         GameLogic.deck = deck;
         deck.fillMurderEnvelope();

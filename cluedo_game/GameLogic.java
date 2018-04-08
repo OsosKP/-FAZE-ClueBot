@@ -59,6 +59,7 @@ public class GameLogic {
 		deck.dealHands(playerList);
 		populatePlayerNoteCards();
 		ui = new UserInterface(playerList);
+		new CardImages();
 	}
 
 	public static class PlayerEntry {

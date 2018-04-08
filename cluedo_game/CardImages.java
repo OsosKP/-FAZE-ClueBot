@@ -10,6 +10,7 @@ public class CardImages {
     private static ImageIcon[] characters;
     private static ImageIcon[] weapons;
     private static ImageIcon[] rooms;
+
     // Lookup strings
     private static String[] characterStrings =
             {"Green", "Mustard", "Peacock", "Plum", "Scarlet", "White"};
@@ -20,6 +21,9 @@ public class CardImages {
                     "hall", "kitchen", "library", "lounge", "study"};
 
     public CardImages() {
+        characters = new ImageIcon[12];
+        weapons = new ImageIcon[12];
+        rooms = new ImageIcon[18];
         try {
             loadImages();
         } catch (Exception e) { e.printStackTrace(); }
@@ -34,7 +38,8 @@ public class CardImages {
             // First, load color images
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + roomStrings[i] + ".jpeg"));
-            rooms[i] = new ImageIcon(rmTemp);
+            rooms[i] =
+                    new ImageIcon(rmTemp);
             if (i < 6) {
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + characterStrings[i] + ".png"));
@@ -47,7 +52,7 @@ public class CardImages {
             int j = i + 6;
             rmTemp = ImageIO.read
                     (new File("src/roomCards/" + roomStrings[i] + "b&w.jpeg"));
-            rooms[i + j + 3] = new ImageIcon(rmTemp);
+            rooms[j + 3] = new ImageIcon(rmTemp);
             if (i < 6) {
                 charTemp = ImageIO.read
                         (new File("src/characterCards/" + characterStrings[i] + "B&W.png"));
@@ -57,6 +62,30 @@ public class CardImages {
                 weapons[j] = new ImageIcon(wpnTemp);
             }
         }
+    }
+
+    public static ImageIcon[] getCharacters() {
+        return characters;
+    }
+
+    public static ImageIcon[] getWeapons() {
+        return weapons;
+    }
+
+    public static ImageIcon[] getRooms() {
+        return rooms;
+    }
+
+    public static ImageIcon getCharacterByIndex(int i) {
+        return characters[i];
+    }
+
+    public static ImageIcon getWeaponsByIndex(int i) {
+        return weapons[i];
+    }
+
+    public static ImageIcon getRoomsByIndex(int i) {
+        return rooms[i];
     }
 
     public static ImageIcon getGreen() {
