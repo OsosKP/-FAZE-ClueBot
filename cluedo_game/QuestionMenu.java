@@ -1045,7 +1045,7 @@ public class QuestionMenu {
             isAbleToAnswer();
             
             pane = new ChoicePane(character, weapon, room);
-            lowerPane = new LowerPane();
+            lowerPane = new LowerPane(character, weapon, room);
             
             returnMe.add(pane);
             returnMe.add(lowerPane);
@@ -1909,10 +1909,10 @@ public class QuestionMenu {
         		confirmButton.setButtonEnable(set);
         	}
         	
-        	public LowerPane() {
+        	public LowerPane(String characterName, String weaponName, String roomName) {
 				// TODO Auto-generated constructor stub
         		lowerPaneTitle = new Title("");
-        		confirmButton = new ButtonPane();
+        		confirmButton = new ButtonPane(characterName, weaponName, roomName);
         		checkInitialLoad();
 
         		setLayout(new GridLayout(2,1));
@@ -1924,8 +1924,13 @@ public class QuestionMenu {
         
         /* players can only select one of the card options before they hit confirm -- then they */
         static class ButtonPane extends JPanel {
-            JButton confirmButton;
- 
+        	private  JButton confirmButton;
+        	
+        	String characterName;
+        	String roomName;
+        	String weaponName;
+   
+        	
             @Override
             public void setLayout(LayoutManager mgr) {
             	super.setLayout(mgr);
@@ -2060,10 +2065,24 @@ public class QuestionMenu {
 							currentDisplay.revalidate();
 							currentDisplay.repaint();			
 						}else {
-							
+							System.out.println("Am I getting called here?");
+							/* If none of the players are able to give the cards -- the  */
+							if (playerAskingQuestion.getName().equals(GameLogic.getUi().getCurrentPlayer().next())){
+								GameLogic.Guessing.unsuccessfulGuess();
+							}
+							else {
+								System.out.println("Am i getting called here?");
+								GameLogic.Guessing.initiateRoundOfQuestioning(characterName, weaponName, roomName);
+		                        currentDisplay.getContentPane().removeAll();
+		                        
+		                        JPanel tempPane = QuestionRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.getUi().getCurrentPlayer().next(), revertPane, currentDisplay);
+								
+		                        currentDisplay.add(tempPane);
+								currentDisplay.revalidate();
+								currentDisplay.repaint();	
+							}	
 						}
 					}
-					
 				});
             	
             }
@@ -2072,8 +2091,12 @@ public class QuestionMenu {
             	confirmButton.setEnabled(set);
             }
             
-            public ButtonPane() {
-				confirmButton = new JButton("Confirm");
+            public ButtonPane(String character, String weapon, String room) {
+            	characterName = character;
+            	weaponName = weapon;
+            	roomName = room;
+            	
+            	confirmButton = new JButton("Confirm");
             	setConfirmListener();
 				this.add(confirmButton);
 			}
