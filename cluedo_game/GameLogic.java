@@ -484,7 +484,6 @@ public class GameLogic {
 			if (p==null)
 				System.out.println("Player is null");
 			else {
-//				p.setInGame(false);
 				p.removeFromGame();
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);

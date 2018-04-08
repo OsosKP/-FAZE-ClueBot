@@ -48,22 +48,12 @@ public class BoardImage {
 	 * @param bi bufferedImage that will be loaded into the JPanel
 	 * @return a JPanel that holds the buffered image
 	 */
-	public JPanel returnPanel(BufferedImage bi) {
-		this.bi = bi;
-
-		JPanel p = this.returnEmptyGridLayout();
-		p = this.populateGrid(p);
-
-		JPanel holder = this.returnFinalJPanel();
-		holder.add(p);
-		return holder;
-	}
 	
 	public JPanel highlightMovement(int movement) {
 		//TODO: Implement
 		// Movement represents how many squares the player gets to move
 		// player coordinates i, j
-		
+//		int i = 
 		
 		//Gotta find the upper and lower bounds 
 		// if (i + movement > board size x){
@@ -104,8 +94,6 @@ public class BoardImage {
 		//		}
 		// }
 	
-				
-		
 		return null;
 	}
 

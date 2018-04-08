@@ -117,9 +117,7 @@ public class Room {
 	}
 	
 	public int getPlayerSpotInRoom(Token p) {
-		printPlayerList();
 		for (int i = 0; i < playersInRoom.length; i++) {
-			System.out.println("Comparing "+p.getName()+" with "+playersInRoom[i].getName());
 			if (playersInRoom[i].equals(p)) {
 				return i;
 			}
