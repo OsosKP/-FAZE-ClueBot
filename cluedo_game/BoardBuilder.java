@@ -343,7 +343,8 @@ public class BoardBuilder {
         ArrayList<int[]> loungeCoords = new ArrayList<>(Arrays.asList(new int[]{21,3}, new int[]{21,2}, new int[]{21,4}, new int[]{22,3}, new int[]{22,2}, new int[]{22,4}));
         ArrayList<int[]> hallCoords = new ArrayList<>(Arrays.asList(new int[]{21,11}, new int[]{21,12}, new int[]{22,11}, new int[]{22,12}, new int[]{20,11}, new int[]{20,12}));
         ArrayList<int[]> studyCoords = new ArrayList<>(Arrays.asList(new int[]{22,18}, new int[]{22,19}, new int[]{22,20}, new int[]{23,19}, new int[]{23,20}, new int[]{23,21}));
-        ArrayList<int[]> cellarCoords = new ArrayList<>(Arrays.asList(new int[]{13,12}));
+        // TODO: JOSH this is just a dumb temporary fix
+        ArrayList<int[]> cellarCoords = new ArrayList<>(Arrays.asList(new int[]{13,12}, new int[]{14,12}, new int[]{15,12}, new int[]{11,12},new int[]{12,12}, new int[]{10,12}));
 
         /* Creating Ballroom Object*/
         entrances.add((EntrySquare)board[5][8]);

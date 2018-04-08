@@ -117,9 +117,8 @@ public class Tokens {
         this.last.setNext(this.first);
         this.numberOfPlayers++;
     }
-    public boolean setNumberOfPlayers() {
+    public void decrementNumberOfPlayers() {
         numberOfPlayers--;
-        return (numberOfPlayers == 1);
     }
     public String removePlayer(Token t){
         String name = t.getName();

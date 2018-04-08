@@ -47,6 +47,7 @@ public class GameLogic {
 	public static UserInterface getUi() {
 		return ui;
 	}
+	public static Deck getDeck() { return deck; }
 
 	/**
 	 * This method waits for PlayerListCreator to tell it to run
@@ -345,10 +346,10 @@ public class GameLogic {
 					getUi().getCurrentPlayer().getName() + "'s turn. Location: "
 					+ getUi().getCurrentPlayer().safeGetLocation());
 		}
-		if (getUi().getCurrentPlayer().getInRoom() != null &&
-				getUi().getCurrentPlayer().getInRoom().getName().equals("Cellar"))
-			GameLogic.Accusing.startAccusing(getUi().getCurrentPlayer());
-		else
+//		if (getUi().getCurrentPlayer().getInRoom() != null &&
+//				getUi().getCurrentPlayer().getInRoom().getName().equals("Cellar"))
+//			GameLogic.Accusing.startAccusing(getUi().getCurrentPlayer());
+//		else
 			// Same as above - called from several places in UI so it's here
 			getUi().refreshDisplayForNextTurn(getUi().getCurrentPlayer());
 	}
@@ -453,9 +454,6 @@ public class GameLogic {
 
     public static class Accusing {
 		static Token accusingPlayer;
-		Card accusedPlayer;
-		Card accusedWeapon;
-		Card accusedRoom;
 
 		public static void startAccusing(Token t) {
 			accusingPlayer = t;
@@ -463,7 +461,7 @@ public class GameLogic {
 			menu.switchToAccuseMenu();
 		}
 
-		public static boolean checkAccusation(String[] guesses, Token accuser) {
+		public static boolean checkAccusation(String[] guesses, Token accuser, AccuseMenu menu) {
 			int correctGuessCounter = 0;
 			for (Card c : deck.getMurderEnvelope()) {
 				for (int i=0; i<3; i++) {
@@ -471,40 +469,31 @@ public class GameLogic {
 						correctGuessCounter++;
 				}
 			}
-			if (correctGuessCounter == 3)
+			if (correctGuessCounter == 3) {
+				menu.viewMurderEnvelope(true);
 				return true;
+			}
 			else {
-				eliminatePlayer(null);
+				eliminatePlayer(accuser);
+				menu.viewMurderEnvelope(false);
 				return false;
 			}
 		}
 
 		public static void eliminatePlayer(Token p) {
 			if (p==null)
-				System.out.println("Check");
+				System.out.println("Player is null");
 			else {
-				p.setInGame(false);
-				System.out.println(playerList.setNumberOfPlayers());
+//				p.setInGame(false);
+				p.removeFromGame();
+				playerList.decrementNumberOfPlayers();
+				Dice.setMovesLeft(0);
+				checkEndOfTurn();
+				ui.getOut().updateMoveHistory
+						(p.getName() + " has made an incorrect accusation and was eliminated!");
 			}
 		}
-
-//		public static void startGuessing() {
-//			accusingPlayer = ui.getCurrentPlayer();
-//		}
-//
-//		public static void initiateRoundOfQuestioning(String player, String weapon, String room) {
-//			accusedPlayer = deck.getPlayerCardByName(player);
-//			accusedWeapon = deck.getWeaponCardByName(weapon);
-//			accusedRoom = deck.getRoomCardByName(room);
-//		}
-
 	}
-
-
-
-
-
-
 
 	public static void playMusic() {
 		if (!LoopSound.playSong) {
@@ -519,6 +508,4 @@ public class GameLogic {
 			e.printStackTrace();
 		}
 	}
-
-
 }

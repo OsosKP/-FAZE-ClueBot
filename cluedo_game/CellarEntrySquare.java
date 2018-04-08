@@ -7,7 +7,7 @@ public class CellarEntrySquare extends EntrySquare {
 
     public void setPlayerOn(Token player) {
         player.enterRoom(this.getRoomAssigned());
-//        GameLogic.Accusing.startAccusing(player);
+        GameLogic.Accusing.startAccusing(player);
     }
 
 

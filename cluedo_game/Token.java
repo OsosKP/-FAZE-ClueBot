@@ -185,6 +185,12 @@ public class Token {
 	public void setInGame(boolean b){
 		this.inGame = b;
 	}
+	public void removeFromGame() {
+		this.setInGame(false);
+		this.setPosition(new int[]{-1,-1});
+		this.inRoom = null;
+		this.setLocationAsString("Eliminated");
+	}
 
 	//
 	// Player hand methods

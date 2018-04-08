@@ -107,6 +107,7 @@ public class UserInterface extends JPanel {
     public void refreshDisplayForNextTurn(Token p) {
         // Tell players whose turn it is
         in.whoseTurnLabel.setText("     It is now " + p.getName() + "'s turn. Moves Left: " + GameLogic.getMovesLeft());
+        in.inputField.requestFocus();
         // Update what player is allowed to input
         out.updateAllowedCommandsBasedOnSquare(p);
     }
@@ -694,15 +695,15 @@ public class UserInterface extends JPanel {
             } catch (Exception e) { e.printStackTrace(); }
 
             // TODO: Debugging for AccuseMenu
-            JButton accuse = new JButton("Accuse");
-            AccuseMenu menu = new AccuseMenu(display, userDisplay, currentPlayer);
-            accuse.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    menu.switchToAccuseMenu();
-                }
-            });
-            possibleCommandsList.add(accuse);
+//            JButton accuse = new JButton("Accuse");
+//            AccuseMenu menu = new AccuseMenu(display, userDisplay, currentPlayer);
+//            accuse.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    menu.switchToAccuseMenu();
+//                }
+//            });
+//            possibleCommandsList.add(accuse);
 
 
             possibleCommandsList.repaint();
