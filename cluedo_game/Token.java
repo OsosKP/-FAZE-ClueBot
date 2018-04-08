@@ -258,6 +258,7 @@ public class Token {
 			public void changeStatus(char mark){
 				this.guessed = mark;
 			}
+			public String getStatus() { return String.valueOf(guessed); }
 		}
 		/*
 			Constructor of NoteCards is the same as for Deck
@@ -296,10 +297,22 @@ public class Token {
 		}
 
 		/*
-			When guess, call this method to update the appropriate noteCard
+		Reference values for the next two methods:
+			0 = Player
+			2 = Room
+			3 = Weapon
 		 */
-		protected void changeGuessStatus(int[] reference, char mark){
+		/*
+			When guessed, call this method to update the appropriate noteCard
+		 */
+		protected void changeGuessStatus(int[] reference, char mark) {
 			noteSheet.get(reference[0]).get(reference[1]).changeStatus(mark);
+		}
+		/*
+		Finds a given card and returns its guessed status
+		 */
+		protected String getGuessStatus(int [] reference) {
+			return noteSheet.get(reference[0]).get(reference[1]).getStatus();
 		}
 
 		protected ArrayList<ArrayList<NoteCard>> getNoteSheet() {
