@@ -136,6 +136,8 @@ public class BoardImage {
         p.setOpaque(false);
         return p;
 	}
+	
+	
 	/**
 	 * method that populates a JPanel with an array of buttons, which are colored with the image of the BufferedImage defined earlier
 	 * @param p the JPanel to be populated
@@ -269,6 +271,29 @@ public class BoardImage {
 		return returnMe;
 	}
 
+	public JPanel resetSquare(int[] square){
+		/* Creating new JPanel -- set = to an empty layout */
+		//System.out.println("Init: ["+init[0]+","+init[1]+"] Fin: ["+fin[0] + "," + fin[1] + "]");
+		JPanel newPanel = returnEmptyGridLayout();
+		JPanel returnMe = returnFinalJPanel();
+			
+		if (square!=null){//Safety, can be called null
+			/* Returning the old JButton to its original colour */
+			this.editedBoard[square[0]][square[1]] = this.defaultBoard[square[0]][square[1]];
+
+			/* Need to recreate the JPanel based on the new *, int finX */
+			for (int rows = 0; rows < 25; rows++) {
+				for (int cols = 0; cols < 24; cols++) {
+					/* This *should* correctly re-add the JButtons to the JPanel */
+					JButton temp = this.editedBoard[rows][cols];
+					temp.setBorder(null);
+					newPanel.add(temp);
+				}
+			}
+			returnMe.add(newPanel);
+		}
+		return returnMe;
+	}
 
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();
