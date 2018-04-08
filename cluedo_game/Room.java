@@ -132,10 +132,8 @@ public class Room {
 			if (playersInRoom[i]==p) {
 				playersInRoom[i]=null;
 			}
-			else
-				System.err.println("Player was not located in this room. Error?");
 		}
-		}
+	}
 	
 	public void printPlayerList() {
 		for (int i = 0; i < playersInRoom.length; i++) {
