@@ -111,6 +111,8 @@ public class Token {
 		this.inRoom = room;
 		this.previousRoom = room;
 
+		this.setPosition(new int[]{-1, -1});
+
 		this.setLocationAsString("room");
 	}
 	public void exitRoom(int exitIndex){
@@ -327,9 +329,11 @@ public class Token {
 		this.previous = this.squareOn;
 		setSquareOn(square);
 		System.out.println(square.getPositionAsString());
-		this.setPosition(squareOn.getPosition());
-		this.setLocationAsString(squareOn.toString());
-		squareOn.setPlayerOn(this);
+		if (inRoom == null) {
+			this.setPosition(squareOn.getPosition());
+			this.setLocationAsString(squareOn.toString());
+			squareOn.setPlayerOn(this);
+		}
 
 
 	}
