@@ -331,8 +331,5 @@ public class Token {
 		this.setLocationAsString(squareOn.toString());
 		squareOn.setPlayerOn(this);
 
-
-		JPanel movementPanel = image.moveToRoom(this, this.getPrevious().getPosition(), this.getInRoom());
-		ui.getIn().refreshBoard(movementPanel);
 	}
 }
