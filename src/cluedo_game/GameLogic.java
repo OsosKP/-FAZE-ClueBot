@@ -468,14 +468,20 @@ public class GameLogic {
 				Token playerToMove = playerList.getPlayerByIndex(playerList.getIndexOfPlayerByName(accusedPlayer.getName()));
 				System.out.println("Testing " + playerToMove.getPreviousRoom().getName() + " " + playerToMove.getInRoom().getName());
 				BoardImage image=ui.getBoardImage();
-				if(playerToMove.getPreviousRoom()!=null) {
+				int[] coords = playerToMove.getPrevious().getPosition();
+				System.out.println(playerToMove.getIsInRoom());
+				if(playerToMove.getIsInRoom()) {
 					playerToMove.getInRoom().addPlayerToRoom(playerToMove);
 					JPanel movementPanel = image.passageMove(playerToMove, playerToMove.getPreviousRoom(), playerToMove.getInRoom());
+					playerToMove.setPreviousRoom(playerToMove.getInRoom());	
 					ui.getIn().refreshBoard(movementPanel);
 				}
 				else {
 					playerToMove.getInRoom().addPlayerToRoom(playerToMove);
+					System.out.println(playerToMove.getPrevious().getPositionAsString()+" "+ playerToMove.getInRoom().getName());
 					JPanel movementPanel = image.moveToRoom(playerToMove, playerToMove.getPrevious().getPosition(), playerToMove.getInRoom());
+					playerToMove.setPreviousRoom(playerToMove.getInRoom());
+					ui.getIn().refreshBoard(movementPanel);
 					}
 			}
 		}
