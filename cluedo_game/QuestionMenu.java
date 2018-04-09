@@ -919,7 +919,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
-                            	System.out.println("Am I loading here?");
+//                            	System.out.println("Am I loading here?");
                             	image = ImageIO.read(new File("src/weaponCards/Wrench.png"));
                                 currentImage.setIcon(new ImageIcon(image));
                             }
@@ -950,7 +950,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
-                            	System.out.println("I am getting blacked out here? ");
+//                            	System.out.println("I am getting blacked out here? ");
                                  image = ImageIO.read(new File("src/weaponCards/WrenchB&W.png"));
                                 currentImage.setIcon(new ImageIcon(image));                           	
                             }
@@ -1842,7 +1842,7 @@ public class QuestionMenu {
           					chooseStudy = false;
             			}
             		} catch (Exception e) {
-            			System.err.print(e);
+            			e.printStackTrace();
             		}          		
             	}
             	
@@ -2067,14 +2067,16 @@ public class QuestionMenu {
 						
 						/* If the user actually has one of  */
 						if (match) {
-							System.err.println("Updating the notes correctly");
+//							System.err.println("Updating the notes correctly");
 							playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
 							currentDisplay.getContentPane().removeAll();
 							currentDisplay.add(revertPane);
+							GameLogic.Dice.setMovesLeft(0);
+							GameLogic.checkEndOfTurn();
 							currentDisplay.revalidate();
 							currentDisplay.repaint();			
 						}else {
-							System.out.println("Am I getting called here?");
+//							System.out.println("Am I getting called here?");
 							/* If none of the players are able to give the cards -- the  */
 							if (playerAskingQuestion.getName().equals(GameLogic.getUi().getCurrentPlayer().next().getName())){
 								GameLogic.Guessing.unsuccessfulGuess();
