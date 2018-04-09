@@ -459,18 +459,17 @@ public class GameLogic {
 			JOptionPane.showMessageDialog
 					(null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
 			// TODO: Josh uncomment me when you fix BoardImage movement code
-			System.out.println(playerList.getIndexOfPlayerByName(accusedPlayer.getName()));
-			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >=  0) {
-				playerList.getPlayerByIndex
-						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
-						(ui.getCurrentPlayer().getInRoom(), ui.getBoardImage(), ui);
-
-				Token playerToMove = playerList.getPlayerByIndex(playerList.getIndexOfPlayerByName(accusedPlayer.getName()));
-				System.out.println("Testing " + playerToMove.getPreviousRoom().getName() + " " + playerToMove.getInRoom().getName());
-				BoardImage image=ui.getBoardImage();
-				JPanel movementPanel = image.passageMove(ui.getCurrentPlayer(), ui.getCurrentPlayer().getPreviousRoom(), ui.getCurrentPlayer().getInRoom());
-				ui.getIn().refreshBoard(movementPanel);
-			}
+//			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >=  0) {
+//				playerList.getPlayerByIndex
+//						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
+//						(ui.getCurrentPlayer().getInRoom(), ui.getBoardImage(), ui);
+//
+//				Token playerToMove = playerList.getPlayerByIndex(playerList.getIndexOfPlayerByName(accusedPlayer.getName()));
+//				System.out.println("Testing " + playerToMove.getPreviousRoom().getName() + " " + playerToMove.getInRoom().getName());
+//				BoardImage image=ui.getBoardImage();
+//				JPanel movementPanel = image.passageMove(ui.getCurrentPlayer(), ui.getCurrentPlayer().getPreviousRoom(), ui.getCurrentPlayer().getInRoom());
+//				ui.getIn().refreshBoard(movementPanel);
+//			}
 		}
 
 		public static void unsuccessfulGuess() {
