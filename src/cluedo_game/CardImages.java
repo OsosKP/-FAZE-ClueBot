@@ -25,13 +25,13 @@ public class CardImages {
                     "hall", "kitchen", "library", "lounge", "study"};
 
     public CardImages() {
-        characters = new ImageIcon[12];
-        weapons = new ImageIcon[12];
-        rooms = new ImageIcon[18];
+        characters = new ImageIcon[18];
+        weapons = new ImageIcon[18];
+        rooms = new ImageIcon[27];
         
-        characterBuffer = new BufferedImage[12];
-        weaponsBuffer = new BufferedImage[12];
-        roomsBuffer = new BufferedImage[18];
+        characterBuffer = new BufferedImage[18];
+        weaponsBuffer = new BufferedImage[18];
+        roomsBuffer = new BufferedImage[27];
         try {
             loadImages();
         } catch (Exception e) { e.printStackTrace(); }
@@ -77,8 +77,8 @@ public class CardImages {
             
             j = i + 12;
             rmTemp = ImageIO.read(CardImages.class.getResource("/roomCards/" + roomStrings[i] + "NA.png"));
-            rooms[j + 3] = new ImageIcon(rmTemp);
-            roomsBuffer[j+ 3] = rmTemp;
+            rooms[j + 6] = new ImageIcon(rmTemp);
+            roomsBuffer[j+ 6] = rmTemp;
             
             if (i < 6) {
                 charTemp = ImageIO.read(CardImages.class.getResource("/characterCards/" + characterStrings[i] + "NA.png"));
