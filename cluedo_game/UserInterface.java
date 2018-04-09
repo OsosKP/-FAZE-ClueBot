@@ -326,7 +326,7 @@ public class UserInterface extends JPanel {
 						e.printStackTrace();
 					}
                 }
-                if (result.equals("notes") || result.equals("cheat")){
+                if (result.equals("notes") || result.equals("cheat") || result.equals("log")){
                     switchToViewNotes(result);
                 }
                 else {
@@ -834,6 +834,9 @@ public class UserInterface extends JPanel {
                 notes.append("CHEATER!!!\n");
                 for (Card c : GameLogic.deck.getMurderEnvelope())
                     notes.append(c.toString() + "\n");
+            }
+            else if(entry.equals("log")) {
+                for (String s : GameLogic.)
             }
 
             notesScroller = new JScrollPane(notes);
