@@ -844,6 +844,7 @@ public class UserInterface extends JPanel {
             }
 
             notesScroller = new JScrollPane(notes);
+            notes.setLineWrap(true);
             output.removeAll();
             output.setLayout(new GridLayout(1,1));
             output.add(notesScroller);
