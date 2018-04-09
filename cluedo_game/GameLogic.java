@@ -458,12 +458,12 @@ public class GameLogic {
 
 			JOptionPane.showMessageDialog
 					(null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
-
-			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
-				playerList.getPlayerByIndex
-						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
-						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
-			}
+			// TODO: Josh uncomment me when you fix BoardImage movement code
+//			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
+//				playerList.getPlayerByIndex
+//						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
+//						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+//			}
 		}
 
 		public static void unsuccessfulGuess() {
