@@ -494,7 +494,9 @@ public class GameLogic {
 				ui.getOut().updateMoveHistory
 					(p.getName() + " has made an incorrect accusation and was eliminated!");
 				p.removeFromGame();
-				UserInterface.myImg.removePlayer(p);
+
+				//TODO: Josh: This breaks everything so I commented it out
+//				UserInterface.myImg.removePlayer(p);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
