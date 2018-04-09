@@ -307,12 +307,6 @@ public class UserInterface extends JPanel {
                     result = GameLogic.PlayerEntry.ActionPerformer(currentPlayer, text);
                 }
 
-                // If user did not enter an appropriate command, show a JOptionPane telling
-                // them to reenter the command then clear the input box.
-                if (!GameLogic.PlayerEntry.getCommandSuccessful()) {
-                    JOptionPane.showMessageDialog(null, result);
-                }
-
                 /* If the user wants to get helpful hints */
                 if (result.equals("help")) {
                 	Thread helpThread = new Thread() {

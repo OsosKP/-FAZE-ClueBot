@@ -2062,6 +2062,8 @@ public class QuestionMenu {
                             currentDisplay.add(revertPane);
                             GameLogic.Dice.setMovesLeft(0);
                             GameLogic.checkEndOfTurn();
+                            finalPanel.invalidate();
+                            finalPanel.setVisible(false);
                             currentDisplay.revalidate();
                             currentDisplay.repaint();
                         }
