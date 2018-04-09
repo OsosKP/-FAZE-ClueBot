@@ -456,6 +456,9 @@ public class GameLogic {
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
 
+			JOptionPane.showMessageDialog
+					(null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
+
 			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
 				playerList.getPlayerByIndex
 						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
