@@ -2089,7 +2089,7 @@ public class QuestionMenu {
 						}else {
 //							System.out.println("Am I getting called here?");
 							/* If none of the players are able to give the cards -- the  */
-							if (playerAskingQuestion == GameLogic.Guessing.getAccusingPlayer()) {
+							if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
 								GameLogic.Guessing.unsuccessfulGuess();
 							}
 							else {
