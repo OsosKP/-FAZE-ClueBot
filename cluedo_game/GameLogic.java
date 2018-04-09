@@ -191,12 +191,6 @@ public class GameLogic {
 		 * @return result of movement or an error if invalid
 		 */
 		public static String FloorMovementHandler(Token player, String move) {
-
-		    //TODO: For debugging only
-            if(AcceptedUserInputs.simpleString(move).equals("question"))
-                return "question";
-
-
 			BoardSquare square = player.getSquareOn();
 			String moveResult = "That move is not allowed.";
 			// Check user input in lower case and without whitespaces
@@ -447,6 +441,7 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
+			System.out.println("ROOM: " + accusedRoom.getName());
 		}
 
 		public static void unsuccessfulGuess() {

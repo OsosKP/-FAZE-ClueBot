@@ -135,7 +135,8 @@ public class Deck {
     public Card getPlayerCardByName(String name) {
         name = AcceptedUserInputs.simpleString(name);
         for (Card c : fullDeck.get(0)) {
-            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+            if (AcceptedUserInputs.simpleString(c.name).equals
+                    (AcceptedUserInputs.simpleString(name)))
                 return c;
         }
         return null;
@@ -143,7 +144,8 @@ public class Deck {
 
     public Card getRoomCardByName(String name) {
         for (Card c : fullDeck.get(1)) {
-            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+            if (AcceptedUserInputs.simpleString(c.name).equals
+                    (AcceptedUserInputs.simpleString(name)))
                 return c;
         }
         return null;
@@ -152,7 +154,8 @@ public class Deck {
     public Card getWeaponCardByName(String name) {
         name = AcceptedUserInputs.simpleString(name);
         for (Card c : fullDeck.get(2)) {
-            if (AcceptedUserInputs.simpleString(c.name).equals(name))
+            if (AcceptedUserInputs.simpleString(c.name).equals
+                    (AcceptedUserInputs.simpleString(name)))
                 return c;
         }
         return null;

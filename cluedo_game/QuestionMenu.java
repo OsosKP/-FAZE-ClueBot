@@ -575,7 +575,9 @@ public class QuestionMenu {
                         initialUserDisplay.getContentPane().removeAll();
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         QuestionRound firstRound = new QuestionRound();
-                        initialUserDisplay.add(firstRound.beginQuestionRound(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName(), currentPlayerGuessingToken, revertToMe, initialUserDisplay));
+                        initialUserDisplay.add(firstRound.beginQuestionRound(returnString[0], returnString[1],
+                                AcceptedUserInputs.simpleString(currentPlayerGuessingToken.getInRoom().getName()),
+                                currentPlayerGuessingToken, revertToMe, initialUserDisplay));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -802,9 +804,9 @@ public class QuestionMenu {
                     });
                 }
 
-                public IndividualPicture(String name, int indexinArray) {
+                public IndividualPicture(String name, int indexInArray) {
                     this.setLayout(new BorderLayout());
-                    this.objNum = indexinArray;
+                    this.objNum = indexInArray;
 
                     this.loadImage(name, true);
                     this.addListener();
@@ -1041,7 +1043,7 @@ public class QuestionMenu {
         	playerAskingQuestion = playerAsking;
         	revertPane = revertToMe;
         	currentDisplay = display;
-        	
+
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new GridLayout(2,1));
 
@@ -1067,15 +1069,19 @@ public class QuestionMenu {
         		/* Checking to see if the player if able to guess the player */
         		if (hand.get(i).name.equals(Guessing.getAccusedPlayer().name)) {
         			canShowCharacter = true;
-        			System.out.println("We are able to show the character");
+//        			System.out.println("We are able to show the character");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedWeapon().name)) {
         			canShowWeapon = true;
-        			System.out.println("We are able to show the weapon");
+//        			System.out.println("We are able to show the weapon");
         		}
-        		else if (hand.get(i).name.equals(Guessing.getAccusedRoom().name)) {
+        		else if (hand.get(i).
+                        name.equals
+                        (Guessing.
+                                getAccusedRoom().
+                                name)) {
         			canShowRoom = true;
-        			System.out.println("We are able to show the room!");
+//        			System.out.println("We are able to show the room!");
         		}
         	}
         	
@@ -1143,7 +1149,7 @@ public class QuestionMenu {
             }
 
             public GuessedCards(String characterName, String weaponName, String roomName) {
-            	System.out.println("GuessedCards are getting created");
+//            	System.out.println("GuessedCards are getting created");
                this.setLayout(new GridLayout(1,3));
 
                 /* Creating the cards */
@@ -1347,9 +1353,9 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowWeapon) {
-								System.out.println("I am not wokring!");
+//								System.out.println("I am not working!");
 								if (isGreyed) {
-									System.out.println("I should be turning grey!");
+//									System.out.println("I should be turning grey!");
 									setNoColor();
 								}
 							}
@@ -1569,7 +1575,7 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
-								System.out.println("I am being exited");
+//								System.out.println("I am being exited");
 								if (isGreyed) {
 									setNoColor();
 								}
@@ -1580,7 +1586,7 @@ public class QuestionMenu {
 						public void mouseEntered(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
-								System.out.println("I am being entered!");
+//								System.out.println("I am being entered!");
 								setColor(false);
 							}
 						}
@@ -1589,7 +1595,7 @@ public class QuestionMenu {
                 		public void mouseClicked(MouseEvent e) {
 							/* We only want to allow the user to click on the button if they have  */
 							if (canShowCharacter) {
-								System.out.println("The user actually pressed me!");
+//								System.out.println("The user actually pressed me!");
                 				
                 				isGreyed  = false;
                 				setColor(true);
@@ -1947,7 +1953,7 @@ public class QuestionMenu {
 					public void actionPerformed(ActionEvent e) {
 						
 						int[] referenceNumbers = new int[2];
-						/* Used to see if we actually return someathing  */
+						/* Used to see if we actually return something  */
 						Boolean match = false;
 						
 						/* Checking to see if the user pressed one of the room cards */
@@ -2074,8 +2080,8 @@ public class QuestionMenu {
 								GameLogic.Guessing.unsuccessfulGuess();
 							}
 							else {
-								System.out.println("Am i getting called here?");
-								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
+//								System.out.println("Am i getting called here?");
+//								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
 								
 								
 		                        currentDisplay.getContentPane().removeAll();
