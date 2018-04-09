@@ -226,8 +226,9 @@ public class BoardImage {
 	}
 
 	public JPanel passageMove(Token player, Room roomfrom, Room roomto){
-		System.out.println(player.getName() + " " +roomfrom.getName() + " " + roomto.getName()); 
+		System.out.println(player.getName() + " " +player.getPreviousRoom().getName() + " " + player.getInRoom().getName()); 
 		int[] init = roomfrom.getPlayerFloors().get(player.getPreviousPlayerFloor());
+		System.out.println(init[0]+ " , " + init[1]);
 		int[] fin = roomto.getPlayerFloors().get(roomto.getPlayerSpotInRoom(player));
 		player.setPreviousPlayerFloor(roomto.getPlayerSpotInRoom(player));
 		return swapsquares(init, fin);

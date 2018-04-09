@@ -468,7 +468,8 @@ public class GameLogic {
 				Token playerToMove = playerList.getPlayerByIndex(playerList.getIndexOfPlayerByName(accusedPlayer.getName()));
 				System.out.println("Testing " + playerToMove.getPreviousRoom().getName() + " " + playerToMove.getInRoom().getName());
 				BoardImage image=ui.getBoardImage();
-				JPanel movementPanel = image.passageMove(ui.getCurrentPlayer(), ui.getCurrentPlayer().getPreviousRoom(), ui.getCurrentPlayer().getInRoom());
+				playerToMove.getInRoom().addPlayerToRoom(playerToMove);
+				JPanel movementPanel = image.passageMove(playerToMove, playerToMove.getPreviousRoom(), playerToMove.getInRoom());
 				ui.getIn().refreshBoard(movementPanel);
 			}
 		}
@@ -520,8 +521,7 @@ public class GameLogic {
 				p.removeFromGame();
 
 				//TODO: Josh: This breaks everything so I commented it out
-				int[] cellarsquare = {17,12};
-				//System.out.println(cellarsquare[0] +" " + cellarsquare[1]);
+			
 				//JPanel removed = UserInterface.myImg.resetSquare(cellarsquare);
 				//ui.getIn().refreshBoard(removed);
 				playerList.decrementNumberOfPlayers();
