@@ -477,7 +477,6 @@ public class PlayerListCreator {
             }
             else {
             	playerList.printList();
-            	UserInterface.myImg.initPlayers();
                 GameLogic.createGame();
                 GameLogic.getUi().pressStartGameButton();
             }
