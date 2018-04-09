@@ -463,6 +463,7 @@ public class GameLogic {
 				playerList.getPlayerByIndex
 						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
 						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+				
 				System.out.println("Testing " + ui.getCurrentPlayer().getPreviousRoom().getName() + " " + ui.getCurrentPlayer().getInRoom().getName());
 				BoardImage image=ui.getBoardImage();
 				JPanel movementPanel = image.passageMove(ui.getCurrentPlayer(), ui.getCurrentPlayer().getPreviousRoom(), ui.getCurrentPlayer().getInRoom());
@@ -517,7 +518,8 @@ public class GameLogic {
 				p.removeFromGame();
 
 				//TODO: Josh: This breaks everything so I commented it out
-//				UserInterface.myImg.removePlayer(p);
+//				BoardImage removed = UserInterface.myImg.removePlayer(p);
+//				UserInterface.getIn().refreshBoard(removed);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
