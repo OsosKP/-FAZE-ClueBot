@@ -24,7 +24,7 @@ public class GameLogic {
 	static GameMusic gameMusic;
 	static boolean music;
 	
-	static ArrayList<String> guesses = new ArrayList<String>();
+	static ArrayList<String> guesses = new ArrayList<>();
 
 	public GameLogic() {
 	    new StartMenu();
@@ -149,7 +149,6 @@ public class GameLogic {
 				return "notes";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("log")) {
-				System.out.println("LOG");
 				return "log";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
