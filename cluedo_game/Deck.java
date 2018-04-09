@@ -26,7 +26,7 @@ public class Deck {
     public Deck() {
         publicDeck.add(new ArrayList<>());
         try {
-            publicDeck.get(0).add(new Card("White", 0, 0, "token", ImageIO.read(new File("src/characterCards/White.png"))));
+            publicDeck.get(0).add(new Card("White", 0, 0, "token", ImageIO.read(Deck.class.getResource("/characterImages/White.png"))));
             publicDeck.get(0).add(new Card("Green", 0, 1, "token", ImageIO.read(new File("src/characterCards/Green.png"))));
             publicDeck.get(0).add(new Card("Mustard", 0, 2, "token", ImageIO.read(new File("src/characterCards/Mustard.png"))));
             publicDeck.get(0).add(new Card("Scarlet", 0, 3, "token", ImageIO.read(new File("src/characterCards/Scarlet.png"))));
