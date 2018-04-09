@@ -251,7 +251,7 @@ public class PlayerListCreator {
                         		 username = "Player " + objNum;
                         		 userDice.setText("Dice Rolled: " + diceNumber);
                         	 }
-                        	 else if (characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
+                        	 else if (characterName == null || characterName.equals("Not Playing")) { //here we need to check if the user wanted not to play
                         		 username = "NA";
                         		 userDice.setText("Dice Rolled: NA");
                         	 }
@@ -477,7 +477,8 @@ public class PlayerListCreator {
             }
             else {
             	playerList.printList();
-            	UserInterface.myImg.initPlayers();
+            	// TODO: Josh: This breaks everything
+//            	UserInterface.myImg.initPlayers();
                 GameLogic.createGame();
                 GameLogic.getUi().pressStartGameButton();
             }

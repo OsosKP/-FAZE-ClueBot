@@ -19,9 +19,11 @@ public class GameLogic {
 	static Deck deck;
 	static UserInterface ui;
 	static LoopSound startMusic;
+	static GameMusic gameMusic;
+	static boolean music;
 
 	public GameLogic() {
-			new StartMenu();
+	    new StartMenu();
 	}
 
 	public static void startGame(boolean debugOption) {
@@ -31,11 +33,14 @@ public class GameLogic {
 			playerList.setDebugPlayerList();
 			createGame();
 		}
-
 		else {
 			PlayerListCreator playersCreator = new PlayerListCreator();
 			playerList = playersCreator.getPlayerList();
 		}
+        if(music) {
+		    // Sending false to tell it we aren't in the start menu
+		    playMusic(false);
+        }
 	}
 
 	public static BoardBuilder getCurrentBoard() {
@@ -186,12 +191,6 @@ public class GameLogic {
 		 * @return result of movement or an error if invalid
 		 */
 		public static String FloorMovementHandler(Token player, String move) {
-
-		    //TODO: For debugging only
-            if(AcceptedUserInputs.simpleString(move).equals("question"))
-                return "question";
-
-
 			BoardSquare square = player.getSquareOn();
 			String moveResult = "That move is not allowed.";
 			// Check user input in lower case and without whitespaces
@@ -485,28 +484,42 @@ public class GameLogic {
 			if (p==null)
 				System.out.println("Player is null");
 			else {
+				getUi().removePlayer();
+				ui.getOut().updateMoveHistory
+					(p.getName() + " has made an incorrect accusation and was eliminated!");
 				p.removeFromGame();
-				UserInterface.myImg.removePlayer(p);
+
+				//TODO: Josh: This breaks everything so I commented it out
+//				UserInterface.myImg.removePlayer(p);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
-				ui.getOut().updateMoveHistory
-						(p.getName() + " has made an incorrect accusation and was eliminated!");
 			}
 		}
 	}
 
-	public static void playMusic() {
-		if (!LoopSound.playSong) {
-			startMusic.restartMusic();
-		}
-
-		try {
-			startMusic = new LoopSound();
-			startMusic.play();
-		} catch (Exception e) {
-			System.out.println("Music failed to Load");
-			e.printStackTrace();
-		}
+	public static void playMusic(boolean startMenu) {
+		if (startMenu) {
+            if (!LoopSound.playSong) {
+                startMusic.restartMusic();
+            }
+            try {
+                startMusic = new LoopSound();
+                startMusic.play();
+                music = true;
+            } catch (Exception e) {
+                System.out.println("Music failed to Load");
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                startMusic = new GameMusic();
+                startMusic.play();
+            } catch (Exception e) {
+                System.out.println("Music failed to Load");
+                e.printStackTrace();
+            }
+        }
 	}
 }

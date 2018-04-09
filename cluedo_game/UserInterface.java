@@ -326,9 +326,8 @@ public class UserInterface extends JPanel {
                 if (result.equals("notes") || result.equals("cheat")){
                     switchToViewNotes(result);
                 }
-                // TODO: Get rid of || result.equals("question") when done debugging!
                 else {
-                    if (currentPlayer.getLocationAsString().equals("room") || result.equals("question")) {
+                    if (currentPlayer.getLocationAsString().equals("room")) {
                         switch (result) {
                             // If player has chosen to exit a room, bring up the appropriate prompt if necessary
                             case "exitChoice":
@@ -626,7 +625,6 @@ public class UserInterface extends JPanel {
         in.inputField.requestFocus();
     }
 
-    // TODO: Question
     /**
      * Panels and methods for asking a question
      */
@@ -864,5 +862,9 @@ public class UserInterface extends JPanel {
 
     public QuestionMenu getInitialQuestion() {
         return initialQuestion;
+    }
+
+    public void removePlayer() {
+        in.refreshBoard(myImg.removePlayer(currentPlayer));
     }
 }
