@@ -441,7 +441,6 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
-			System.out.println("ROOM: " + accusedRoom.getName());
 		}
 
 		public static void unsuccessfulGuess() {

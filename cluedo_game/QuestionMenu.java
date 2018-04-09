@@ -824,7 +824,6 @@ public class QuestionMenu {
 
         @Override
         public void setLayout(LayoutManager mgr) {
-            // TODO Auto-generated method stub
             super.setLayout(mgr);
         }
 
@@ -1144,7 +1143,6 @@ public class QuestionMenu {
 
             @Override
             public void setLayout(LayoutManager mgr) {
-                // TODO Auto-generated method stub
                 super.setLayout(mgr);
             }
 
@@ -1736,7 +1734,7 @@ public class QuestionMenu {
             				}   
             			}
             		} catch (Exception e) {
-            			System.err.println(e);
+            			e.printStackTrace();
             		}
             	}
             	
@@ -1869,7 +1867,7 @@ public class QuestionMenu {
 						
 						@Override
                 		public void mouseClicked(MouseEvent e) {
-							/* We only want to allow the user to click on the button if they hvae  */
+							/* We only want to allow the user to click on the button if they have  */
                 			if (canShowRoom) {
                 				/* Re-setting any options that the user may have pressed earlier */
 
@@ -1919,7 +1917,6 @@ public class QuestionMenu {
         	}
         	
         	public LowerPane(String characterName, String weaponName, String roomName) {
-				// TODO Auto-generated constructor stub
         		lowerPaneTitle = new Title("");
         		confirmButton = new ButtonPane(characterName, weaponName, roomName);
         		checkInitialLoad();
@@ -1929,7 +1926,6 @@ public class QuestionMenu {
         		this.add(confirmButton);
         	}
         }
-        
         
         /* players can only select one of the card options before they hit confirm -- then they */
         class ButtonPane extends JPanel {
@@ -2078,7 +2074,7 @@ public class QuestionMenu {
 						}else {
 //							System.out.println("Am I getting called here?");
 							/* If none of the players are able to give the cards -- the  */
-							if (playerAskingQuestion.getName().equals(GameLogic.getUi().getCurrentPlayer().next().getName())){
+							if (playerAskingQuestion == GameLogic.Guessing.getAccusingPlayer()) {
 								GameLogic.Guessing.unsuccessfulGuess();
 							}
 							else {
