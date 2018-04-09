@@ -585,7 +585,7 @@ public class QuestionMenu {
                         initialUserDisplay.getContentPane().removeAll();
                        
                         returnTitle = currentPlayerGuessing + " " + " guesses that: " + dynamicGuess.returnString();
-                        System.out.println(returnTitle);
+                        GameLogic.addToGuessArray(returnTitle);
                         
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         QuestionRound firstRound = new QuestionRound();
@@ -2070,9 +2070,17 @@ public class QuestionMenu {
                             currentDisplay.repaint();
                         } else {
 //							System.out.println("Am I getting called here?");
+<<<<<<< HEAD
                             /* If none of the players are able to give the cards -- the  */
 
 
+=======
+							/* If none of the players are able to give the cards -- the  */
+							if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
+								GameLogic.Guessing.unsuccessfulGuess();
+							}
+							else {
+>>>>>>> 79fb62e3190fe887e82135e79abaf23e50dc833d
 //								System.out.println("Am i getting called here?");
 //								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
 

@@ -349,7 +349,6 @@ public class UserInterface extends JPanel {
 
                                 /* Creating a question menu  */
                                 initialQuestion = new QuestionMenu(display, userDisplay, currentPlayer);
-                                GameLogic.addToGuessArray(initialQuestion.returnGuess());
                                 
                                 display.remove(userDisplay);
                                 display.add(initialQuestion.returnPanel());
