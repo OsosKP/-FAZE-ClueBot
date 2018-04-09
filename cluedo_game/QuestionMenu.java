@@ -1524,7 +1524,7 @@ public class QuestionMenu {
                             chooseWhite = false;
                         }               			
                 	} catch (Exception e) {
-                		System.err.print(e);
+                		e.printStackTrace();
 					}           		
             	}
 

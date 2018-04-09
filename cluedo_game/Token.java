@@ -320,4 +320,12 @@ public class Token {
 			return noteSheet;
 		}
 	}
+
+	public void sudoSetSquareOn(BoardBuilder board, int[] coords) {
+		this.previous = this.squareOn;
+		this.squareOn = board.getSquare(coords);
+		this.setPosition(squareOn.getPosition());
+		this.setLocationAsString(squareOn.toString());
+		squareOn.setPlayerOn(this);
+	}
 }
