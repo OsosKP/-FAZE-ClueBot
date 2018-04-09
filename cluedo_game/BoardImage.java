@@ -298,10 +298,11 @@ public class BoardImage {
 	public JPanel removePlayer(Token player) {
 		return resetSquare(player.getPosition());
 	}
-	
-	public JPanel removePlayer(String player) {//Removes player by querying player from GameLogic.playerList
-		return resetSquare(GameLogic.getPlayerList().getPlayerByIndex(GameLogic.getPlayerList().getIndexOfPlayerByName(player)).getPosition());
-	}
+
+	//TODO: Implement this, might need it
+//	public JPanel removePlayer(String player) {//Removes player by querying player from GameLogic.playerList
+//		return resetSquare(player.getPlay);
+//	}
 
 	public JPanel refreshMe() {
 		JPanel newPanel = returnEmptyGridLayout();
