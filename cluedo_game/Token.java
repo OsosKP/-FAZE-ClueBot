@@ -105,11 +105,20 @@ public class Token {
 	}
 
 	public void enterRoom(Room room){
+		if(inRoom != null)
+			System.out.println("CHECK: " + inRoom.getName() + " --- " + room.getName());
+		else
+			System.out.println("CHECK: " + squareOn.getPositionAsString() + " --- " + room.getName());
+
 		this.previous = squareOn;
 		this.squareOn = null;
 
 		this.inRoom = room;
-		this.previousRoom = room;
+		if (this.previousRoom == null) {
+			this.previousRoom = room;
+		}
+		else
+			System.out.println("PREVIOUS: " + previousRoom.getName());
 
 		this.setPosition(new int[]{-1, -1});
 
@@ -117,6 +126,8 @@ public class Token {
 	}
 	public void exitRoom(int exitIndex){
 		this.previous = null;
+		this.previousRoom = inRoom;
+
 		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
 	}
@@ -324,21 +335,15 @@ public class Token {
 		}
 	}
 
-	public void sudoSetSquareOn(BoardSquare square, BoardImage image, UserInterface ui) {
+	public void sudoSetSquareOn(Room room, BoardImage image, UserInterface ui) {
 		if (this.inRoom != null) {
 			this.exitRoom(0);
 		}
 
-		int[] previousCoords = this.getPosition();
 		this.previous = this.squareOn;
-		setSquareOn(square);
-		System.out.println(square.getPositionAsString());
-		if (inRoom == null) {
-			this.setPosition(squareOn.getPosition());
-			this.setLocationAsString(squareOn.toString());
-			squareOn.setPlayerOn(this);
-		}
 
+//		setSquareOn(square);
 
+		enterRoom(room);
 	}
 }
