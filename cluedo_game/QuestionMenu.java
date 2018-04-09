@@ -11,11 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import cluedo_game.GameLogic.Guessing;
@@ -1113,7 +1109,7 @@ public class QuestionMenu {
         	public ChoicePane(String characterName, String weaponName, String roomName) {
 
         		this.setLayout(new GridLayout(2,1));
-				info = new Title("---One of the Players has gussed the cards below, do you wish to aid him?---");
+				info = new Title("---One of the Players has guessed the cards below, do you wish to aid them?---");
 				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
@@ -1959,157 +1955,141 @@ public class QuestionMenu {
             /* Create the confirmButton and set its actionListener */
             private void setConfirmListener() {
             	confirmButton.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						int[] referenceNumbers = new int[2];
-						/* Used to see if we actually return something  */
-						Boolean match = false;
-						
-						/* Checking to see if the user pressed one of the room cards */
-						if(chooseBallroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (chooseBilliardroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (chooseConservatory) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseDiningroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (chooseHall) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 7;
-							match = true;
-						}
-						else if (chooseKitchen) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseLibrary) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						else if (chooseLounge) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 6;
-							match = true;
-						}
-						else if (chooseStudy) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 8;
-							match = true;
-						}
-						/* Checking to see if the user pressed any of the weapon cards */
-						else if (chooseCandlestick) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseDagger) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (choosePipe) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (choosePistol) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseRope) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (chooseWrench) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						/* Checking to see if the user pressed any of the character cards */
-						else if (chooseWhite) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseGreen) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (chooseMustard) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseScarlet) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (choosePeacock) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (choosePlum) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						
-						/* If the user actually has one of  */
-						if (match) {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        int[] referenceNumbers = new int[2];
+                        /* Used to see if we actually return something  */
+                        Boolean match = false;
+
+                        /* Checking to see if the user pressed one of the room cards */
+                        if (chooseBallroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (chooseBilliardroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (chooseConservatory) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseDiningroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (chooseHall) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 7;
+                            match = true;
+                        } else if (chooseKitchen) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseLibrary) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        } else if (chooseLounge) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 6;
+                            match = true;
+                        } else if (chooseStudy) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 8;
+                            match = true;
+                        }
+                        /* Checking to see if the user pressed any of the weapon cards */
+                        else if (chooseCandlestick) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseDagger) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (choosePipe) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (choosePistol) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseRope) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (chooseWrench) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        }
+                        /* Checking to see if the user pressed any of the character cards */
+                        else if (chooseWhite) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseGreen) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (chooseMustard) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseScarlet) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (choosePeacock) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (choosePlum) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        }
+
+                        /* If the user actually has one of  */
+                        if (match) {
 //							System.err.println("Updating the notes correctly");
-							playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
-							currentDisplay.getContentPane().removeAll();
-							currentDisplay.add(revertPane);
-							GameLogic.Dice.setMovesLeft(0);
-							GameLogic.checkEndOfTurn();
-							currentDisplay.revalidate();
-							currentDisplay.repaint();			
-						}else {
+                            playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
+                            currentDisplay.getContentPane().removeAll();
+                            currentDisplay.add(revertPane);
+                            GameLogic.Dice.setMovesLeft(0);
+                            GameLogic.checkEndOfTurn();
+                            currentDisplay.revalidate();
+                            currentDisplay.repaint();
+                        }
+                        else {
 //							System.out.println("Am I getting called here?");
-							/* If none of the players are able to give the cards -- the  */
-							if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
-								GameLogic.Guessing.unsuccessfulGuess();
-							}
-							else {
+                            /* If none of the players are able to give the cards -- the  */
+
 //								System.out.println("Am i getting called here?");
 //								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
-								
-								
-		                        currentDisplay.getContentPane().removeAll();
-		                        
-		                        QuestionRound nextRound = new QuestionRound();
 
-								/* Getting the next player */
-								GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
-								
-		                        currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
-								currentDisplay.revalidate();
-								currentDisplay.repaint();
-							}	
-						}
-					}
+
+                                currentDisplay.getContentPane().removeAll();
+
+                                /* Getting the next player */
+                                GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
+
+                                if (GameLogic.Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
+                                    GameLogic.Guessing.unsuccessfulGuess();
+
+                                JOptionPane.showMessageDialog
+                                        (null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
+                                QuestionRound nextRound = new QuestionRound();
+
+                                currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
+                                currentDisplay.revalidate();
+                                currentDisplay.repaint();
+                            }
+                    }
 				});
             	
             }

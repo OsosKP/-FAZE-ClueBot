@@ -83,6 +83,7 @@ public class UserInterface extends JPanel {
         boardImagePanel = myImg.refreshMe();
 
         userDisplay.add(boardImagePanel);
+        
 
         // Add formatted JPanel to the frame
         display.add(userDisplay);
@@ -203,8 +204,10 @@ public class UserInterface extends JPanel {
         	bigPanel.add(cardsPanel);
         	bigPanel.add(boardImagePanel);
 
+        	
             userDisplay.remove(boardImagePanel);
             boardImagePanel = update;
+            
             userDisplay.add(boardImagePanel);
 //            userDisplay.add(bigPanel); //TODO: UNCOMMENT TO DISPLAY CARDS
             display.invalidate();
@@ -413,6 +416,8 @@ public class UserInterface extends JPanel {
                                        break;
                                }
                                refreshBoard(movementPanel);
+                               //This next line of code removes the player when you move him
+                               //refreshBoard(myImg.removePlayer(currentPlayer));
                             }
                             else {//If the player (In game logic) has already moved into a room
                                 switch (text) {

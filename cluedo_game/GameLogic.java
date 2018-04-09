@@ -24,7 +24,7 @@ public class GameLogic {
 	static GameMusic gameMusic;
 	static boolean music;
 	
-	static ArrayList<String> guesses = new ArrayList<String>();
+	static ArrayList<String> guesses = new ArrayList<>();
 
 	public GameLogic() {
 	    new StartMenu();
@@ -149,7 +149,6 @@ public class GameLogic {
 				return "notes";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("log")) {
-				System.out.println("LOG");
 				return "log";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
@@ -456,6 +455,9 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
+
+			JOptionPane.showMessageDialog
+					(null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
 
 			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
 				playerList.getPlayerByIndex
