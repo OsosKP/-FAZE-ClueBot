@@ -11,6 +11,11 @@ public class QuestionLog {
 	
 	/* TODO: actually flush this out, because rn it is going to look real bad */
 	public QuestionLog() {
+		
+		if (GameLogic.returnGuessArray() == null) {
+			return;
+		}
+		
 		JPanel panel = new JPanel();
 		ArrayList<String> tempArray = GameLogic.returnGuessArray();
 		int arraySize = tempArray.size();
