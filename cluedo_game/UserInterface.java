@@ -100,6 +100,10 @@ public class UserInterface extends JPanel {
         return userDisplay;
     }
 
+    public BoardImage getBoardImage() {
+        return myImg;
+    }
+
     public void refreshGuiFromUnsuccessfulGuess() {
         initialQuestion.revertToRegularDisplay();
         in.inputField.setText("");
@@ -133,7 +137,7 @@ public class UserInterface extends JPanel {
     /**
      * The user input portion of the GUI
      */
-    private class UserInputBox {
+    protected class UserInputBox {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
@@ -175,7 +179,6 @@ public class UserInterface extends JPanel {
         }
 
         public void refreshBoard(JPanel update){
-        	//Testing shit around n stuff
         	JButton[] currentPlayerCards = new JButton[3];
             currentPlayerCards[0] = new JButton();
         	currentPlayerCards[1] = new JButton();
@@ -620,6 +623,11 @@ public class UserInterface extends JPanel {
         }
     }
     // Called by start menu to automatically start the game and bypass the second "Press Start"
+
+    public UserInputBox getIn() {
+        return in;
+    }
+
     public void pressStartGameButton() {
         startGameButton.doClick();
         in.inputField.requestFocus();

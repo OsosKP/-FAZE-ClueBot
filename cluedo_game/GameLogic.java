@@ -441,6 +441,11 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
+
+			playerList.getPlayerByIndex
+					(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
+					(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+
 		}
 
 		public static void unsuccessfulGuess() {
