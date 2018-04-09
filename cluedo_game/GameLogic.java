@@ -5,6 +5,8 @@
 package cluedo_game;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,9 +21,13 @@ public class GameLogic {
 	static Deck deck;
 	static UserInterface ui;
 	static LoopSound startMusic;
+	static GameMusic gameMusic;
+	static boolean music;
+	
+	static ArrayList<String> guesses = new ArrayList<>();
 
 	public GameLogic() {
-			new StartMenu();
+	    new StartMenu();
 	}
 
 	public static void startGame(boolean debugOption) {
@@ -31,11 +37,22 @@ public class GameLogic {
 			playerList.setDebugPlayerList();
 			createGame();
 		}
-
 		else {
 			PlayerListCreator playersCreator = new PlayerListCreator();
 			playerList = playersCreator.getPlayerList();
 		}
+        if(music) {
+		    // Sending false to tell it we aren't in the start menu
+		    playMusic(false);
+        }
+	}
+	
+	public static void addToGuessArray(String addMe) {
+		guesses.add(addMe);
+	}
+	
+	public static ArrayList<String> returnGuessArray(){
+		return guesses;
 	}
 
 	public static BoardBuilder getCurrentBoard() {
@@ -124,13 +141,15 @@ public class GameLogic {
 				movementSuccessful = true;
 				return result;
 			}
-
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("quit")) {
 				return quitGameHandler();
 			}
 			// Don't set movement successful if player is just viewing notes
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("notes")) {
 				return "notes";
+			}
+			if(entry.replaceAll("\\s+","").toLowerCase().equals("log")) {
+				return "log";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
 				return "cheat";
@@ -186,12 +205,6 @@ public class GameLogic {
 		 * @return result of movement or an error if invalid
 		 */
 		public static String FloorMovementHandler(Token player, String move) {
-
-		    //TODO: For debugging only
-            if(AcceptedUserInputs.simpleString(move).equals("question"))
-                return "question";
-
-
 			BoardSquare square = player.getSquareOn();
 			String moveResult = "That move is not allowed.";
 			// Check user input in lower case and without whitespaces
@@ -442,6 +455,12 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
+
+			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
+				playerList.getPlayerByIndex
+						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
+						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+			}
 		}
 
 		public static void unsuccessfulGuess() {
@@ -485,28 +504,42 @@ public class GameLogic {
 			if (p==null)
 				System.out.println("Player is null");
 			else {
+				getUi().removePlayer();
+				ui.getOut().updateMoveHistory
+					(p.getName() + " has made an incorrect accusation and was eliminated!");
 				p.removeFromGame();
-				UserInterface.myImg.removePlayer(p);
+
+				//TODO: Josh: This breaks everything so I commented it out
+//				UserInterface.myImg.removePlayer(p);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
-				ui.getOut().updateMoveHistory
-						(p.getName() + " has made an incorrect accusation and was eliminated!");
 			}
 		}
 	}
 
-	public static void playMusic() {
-		if (!LoopSound.playSong) {
-			startMusic.restartMusic();
-		}
-
-		try {
-			startMusic = new LoopSound();
-			startMusic.play();
-		} catch (Exception e) {
-			System.out.println("Music failed to Load");
-			e.printStackTrace();
-		}
+	public static void playMusic(boolean startMenu) {
+		if (startMenu) {
+            if (!LoopSound.playSong) {
+                startMusic.restartMusic();
+            }
+            try {
+                startMusic = new LoopSound();
+                startMusic.play();
+                music = true;
+            } catch (Exception e) {
+                System.out.println("Music failed to Load");
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                startMusic = new GameMusic();
+                startMusic.play();
+            } catch (Exception e) {
+                System.out.println("Music failed to Load");
+                e.printStackTrace();
+            }
+        }
 	}
 }

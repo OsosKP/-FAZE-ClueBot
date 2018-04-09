@@ -4,6 +4,7 @@
 
 package cluedo_game;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -319,5 +320,19 @@ public class Token {
 		protected ArrayList<ArrayList<NoteCard>> getNoteSheet() {
 			return noteSheet;
 		}
+	}
+
+	public void sudoSetSquareOn(BoardSquare square, BoardImage image, UserInterface ui) {
+		int[] previousCoords = this.getPosition();
+		this.previous = this.squareOn;
+		this.squareOn = square;
+		int[] currentCoords = this.squareOn.getPosition();
+		this.setPosition(squareOn.getPosition());
+		this.setLocationAsString(squareOn.toString());
+		squareOn.setPlayerOn(this);
+
+
+//		JPanel movementPanel = image.move(previousCoords, currentCoords);
+//		ui.getIn().refreshBoard(movementPanel);
 	}
 }

@@ -28,8 +28,6 @@ public class AcceptedUserInputs {
         floorNavigation.add("down");
         floorNavigation.add("left");
         floorNavigation.add("right");
-        // TODO: Get rid of this when done debugging
-        floorNavigation.add("question");
 
         /*
         When having just entered a room, the user may leave, take the secret passage or exit.
@@ -71,6 +69,7 @@ public class AcceptedUserInputs {
         auxiliaryCommands.add("?");
         auxiliaryCommands.add("notes");
         auxiliaryCommands.add("cheat");
+        auxiliaryCommands.add("log");
     }
 
     /**
@@ -115,7 +114,7 @@ public class AcceptedUserInputs {
         // No shortcuts on these - you have to enter the full word
         if (in.equals("done") || in.equals("quit") ||
                 in.equals("notes") || in.equals("cheat") ||
-                in.equals("help") || in.equals("?"))
+                in.equals("help") || in.equals("?") || in.equals("log"))
             return true;
 
         switch(p.getLocationAsString()){

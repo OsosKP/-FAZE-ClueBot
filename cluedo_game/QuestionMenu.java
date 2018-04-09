@@ -39,6 +39,8 @@ public class QuestionMenu {
     private String returnString[];
     private String currentPlayerGuessing;
     private Token currentPlayerGuessingToken;
+    /* Returning the Dynamic Title */
+    private String returnTitle;
 
     public QuestionMenu(JFrame initialPanel, JPanel revert, Token playerGuessing) {
         this.currentPlayerGuessing = playerGuessing.getName();
@@ -64,6 +66,10 @@ public class QuestionMenu {
         return this.finalPanel;
     }
 
+    public String returnGuess() {
+    	return this.returnTitle;
+    }
+    
     /**
      * updates the name section of the guessing JLabel
      * @param name = the name of the character we are accusing
@@ -470,6 +476,10 @@ public class QuestionMenu {
         public void setText(String text) {
             this.title.setText(text);
         }
+        
+        public String returnString() {
+        	return title.getText();
+        }
 
         public TitleBar() {
             layout = new GridBagLayout();
@@ -561,7 +571,10 @@ public class QuestionMenu {
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
 						 */                        
-                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], "library");
+                        GameLogic.Guessing.initiateRoundOfQuestioning
+                                (returnString[0],
+                                        returnString[1],
+                                        currentPlayerGuessingToken.getInRoom().getName());
 
 
                         /* Adding the character's name to the return string */
@@ -570,9 +583,15 @@ public class QuestionMenu {
 						/* Removing the current JPanel from the screen, and
 							replacing it with the regular game board */
                         initialUserDisplay.getContentPane().removeAll();
-                        // TODO: Will use this eventually, but first we go to the other question panel in UI
+                       
+                        returnTitle = currentPlayerGuessing + " " + " guesses that: " + dynamicGuess.returnString();
+                        GameLogic.addToGuessArray(returnTitle);
                         
-                        initialUserDisplay.add(QuestionRound.beginQuestionRound(returnString[0], returnString[1], "library", currentPlayerGuessingToken, revertToMe, initialUserDisplay));
+                        // TODO: Will use this eventually, but first we go to the other question panel in UI
+                        QuestionRound firstRound = new QuestionRound();
+                        initialUserDisplay.add(firstRound.beginQuestionRound(returnString[0], returnString[1],
+                                AcceptedUserInputs.simpleString(currentPlayerGuessingToken.getInRoom().getName()),
+                                currentPlayerGuessingToken, revertToMe, initialUserDisplay));
 
                         initialUserDisplay.revalidate();
                         initialUserDisplay.repaint();
@@ -749,6 +768,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("white")) {
+                            	System.out.println("Am I getting triggered?");
                                 image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
                                 currentImage.setIcon(new ImageIcon(image));
                             }
@@ -770,7 +790,7 @@ public class QuestionMenu {
 
                             BufferedImage image;
                             /* Looping though the list and loading the black and white images on all the other character images */
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i < 6; i++) {
                                 /* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
                                 if (characterPictures[i].objNum != objNum) {
                                     /* Over-writing the specific JLables with the B&W image */
@@ -799,9 +819,9 @@ public class QuestionMenu {
                     });
                 }
 
-                public IndividualPicture(String name, int indexinArray) {
+                public IndividualPicture(String name, int indexInArray) {
                     this.setLayout(new BorderLayout());
-                    this.objNum = indexinArray;
+                    this.objNum = indexInArray;
 
                     this.loadImage(name, true);
                     this.addListener();
@@ -819,7 +839,6 @@ public class QuestionMenu {
 
         @Override
         public void setLayout(LayoutManager mgr) {
-            // TODO Auto-generated method stub
             super.setLayout(mgr);
         }
 
@@ -914,7 +933,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
-                            	System.out.println("Am I loading here?");
+//                            	System.out.println("Am I loading here?");
                             	image = ImageIO.read(new File("src/weaponCards/Wrench.png"));
                                 currentImage.setIcon(new ImageIcon(image));
                             }
@@ -945,7 +964,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
-                            	System.out.println("I am getting blacked out here? ");
+//                            	System.out.println("I am getting blacked out here? ");
                                  image = ImageIO.read(new File("src/weaponCards/WrenchB&W.png"));
                                 currentImage.setIcon(new ImageIcon(image));                           	
                             }
@@ -1012,40 +1031,40 @@ public class QuestionMenu {
     }
 
     /* Class that will handle the players confirming the question that was proposed by another player */
-    public static class QuestionRound {
+    public class QuestionRound {
     	    	
-    	private static ChoicePane pane;
-    	private static LowerPane lowerPane;
-    	private static String returnString;
-    	private static Token playerAskingQuestion;
+    	private ChoicePane pane;
+    	private LowerPane lowerPane;
+    	private String returnString;
+    	private Token playerAskingQuestion;
     	
     	/* Representing what the player presses */
-    	private static Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
-    	private static Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false, chooseWrench = false;  
-    	private static Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
+    	private Boolean chooseGreen = false, choosePlum = false, chooseWhite = false, chooseScarlet = false, chooseMustard = false, choosePeacock = false;
+    	private Boolean choosePistol = false, chooseDagger = false, choosePipe = false, chooseCandlestick = false, chooseRope = false, chooseWrench = false;  
+    	private Boolean chooseBallroom = false, chooseBilliardroom = false, chooseConservatory  = false, chooseDiningroom = false, chooseHall = false, chooseKitchen = false, chooseLibrary = false, chooseLounge = false, chooseStudy = false;
     	
-    	private static Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
+    	private Boolean canShowCharacter = false, canShowRoom = false, canShowWeapon = false;
     	
-    	private static JPanel revertPane;
-    	private static JFrame currentDisplay;
+    	private JPanel revertPane;
+    	private JFrame currentDisplay;
     	
     	public QuestionRound() {
             // TODO Auto-generated constructor stub
         }
         
         //TODO get room working
-        public static JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
+        public JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
         	playerAskingQuestion = playerAsking;
         	revertPane = revertToMe;
         	currentDisplay = display;
-        	
+
         	JPanel returnMe = new JPanel();
             returnMe.setLayout(new GridLayout(2,1));
 
             isAbleToAnswer();
             
             pane = new ChoicePane(character, weapon, room);
-            lowerPane = new LowerPane();
+            lowerPane = new LowerPane(character, weapon, room);
             
             returnMe.add(pane);
             returnMe.add(lowerPane);
@@ -1055,7 +1074,7 @@ public class QuestionMenu {
         /*
          * Will determine if the user has the ability to answer the guess
          */
-        private static void isAbleToAnswer() {
+        private void isAbleToAnswer() {
         	/* Grabbing the hand of the player who is guessing */
         	ArrayList<Card> hand = Guessing.getAnsweringPlayer().getHand();
         	
@@ -1064,21 +1083,25 @@ public class QuestionMenu {
         		/* Checking to see if the player if able to guess the player */
         		if (hand.get(i).name.equals(Guessing.getAccusedPlayer().name)) {
         			canShowCharacter = true;
-        			System.out.println("We are able to show the character");
+//        			System.out.println("We are able to show the character");
         		}
         		else if (hand.get(i).name.equals(Guessing.getAccusedWeapon().name)) {
         			canShowWeapon = true;
-        			System.out.println("We are able to show the weapon");
+//        			System.out.println("We are able to show the weapon");
         		}
-        		else if (hand.get(i).name.equals(Guessing.getAccusedRoom().name)) {
+        		else if (hand.get(i).
+                        name.equals
+                        (Guessing.
+                                getAccusedRoom().
+                                name)) {
         			canShowRoom = true;
-        			System.out.println("We are able to show the room!");
+//        			System.out.println("We are able to show the room!");
         		}
         	}
         	
         }
         
-        static class ChoicePane extends JPanel {
+        class ChoicePane extends JPanel {
         	private Title info;
         	private GuessedCards cards;
         	
@@ -1090,7 +1113,7 @@ public class QuestionMenu {
         	public ChoicePane(String characterName, String weaponName, String roomName) {
 
         		this.setLayout(new GridLayout(2,1));
-				info = new Title("---One of the Players has gussed the cards below, do you wish to aid him?---");
+				info = new Title("---One of the Players has guessed the cards below, do you wish to aid him?---");
 				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
@@ -1099,7 +1122,7 @@ public class QuestionMenu {
         }
 
         /* Class that handles the title */
-        static class Title extends JPanel{
+        class Title extends JPanel{
             private JLabel title;
             private GridBagLayout layout;
             private GridBagConstraints gbc;
@@ -1127,7 +1150,7 @@ public class QuestionMenu {
         }
 	
         /* classes to represent the images the player guessed earlier  */
-        static class GuessedCards extends JPanel {
+        class GuessedCards extends JPanel {
             private WeaponPictures weaponImage;
             private CharacterPictures characterImage;
             private RoomPictures roomImage;
@@ -1135,12 +1158,11 @@ public class QuestionMenu {
 
             @Override
             public void setLayout(LayoutManager mgr) {
-                // TODO Auto-generated method stub
                 super.setLayout(mgr);
             }
 
             public GuessedCards(String characterName, String weaponName, String roomName) {
-            	System.out.println("GuessedCards are getting created");
+//            	System.out.println("GuessedCards are getting created");
                this.setLayout(new GridLayout(1,3));
 
                 /* Creating the cards */
@@ -1344,9 +1366,9 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowWeapon) {
-								System.out.println("I am not wokring!");
+//								System.out.println("I am not working!");
 								if (isGreyed) {
-									System.out.println("I should be turning grey!");
+//									System.out.println("I should be turning grey!");
 									setNoColor();
 								}
 							}
@@ -1516,7 +1538,7 @@ public class QuestionMenu {
                             chooseWhite = false;
                         }               			
                 	} catch (Exception e) {
-                		System.err.print(e);
+                		e.printStackTrace();
 					}           		
             	}
 
@@ -1566,7 +1588,7 @@ public class QuestionMenu {
 						public void mouseExited(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
-								System.out.println("I am being exited");
+//								System.out.println("I am being exited");
 								if (isGreyed) {
 									setNoColor();
 								}
@@ -1577,7 +1599,7 @@ public class QuestionMenu {
 						public void mouseEntered(MouseEvent e) {
 							/* If we can show the weapon */
 							if (canShowCharacter) {
-								System.out.println("I am being entered!");
+//								System.out.println("I am being entered!");
 								setColor(false);
 							}
 						}
@@ -1586,7 +1608,7 @@ public class QuestionMenu {
                 		public void mouseClicked(MouseEvent e) {
 							/* We only want to allow the user to click on the button if they have  */
 							if (canShowCharacter) {
-								System.out.println("The user actually pressed me!");
+//								System.out.println("The user actually pressed me!");
                 				
                 				isGreyed  = false;
                 				setColor(true);
@@ -1727,7 +1749,7 @@ public class QuestionMenu {
             				}   
             			}
             		} catch (Exception e) {
-            			System.err.println(e);
+            			e.printStackTrace();
             		}
             	}
             	
@@ -1833,7 +1855,7 @@ public class QuestionMenu {
           					chooseStudy = false;
             			}
             		} catch (Exception e) {
-            			System.err.print(e);
+            			e.printStackTrace();
             		}          		
             	}
             	
@@ -1860,7 +1882,7 @@ public class QuestionMenu {
 						
 						@Override
                 		public void mouseClicked(MouseEvent e) {
-							/* We only want to allow the user to click on the button if they hvae  */
+							/* We only want to allow the user to click on the button if they have  */
                 			if (canShowRoom) {
                 				/* Re-setting any options that the user may have pressed earlier */
 
@@ -1882,7 +1904,7 @@ public class QuestionMenu {
             }    
         }       
         
-        static class LowerPane extends JPanel{
+        class LowerPane extends JPanel{
         	private Title lowerPaneTitle;
         	private ButtonPane confirmButton;
         	/* Function that checks the of the user can actually answer the guess -- if they cant, we enable the JButon and change the text */
@@ -1909,10 +1931,9 @@ public class QuestionMenu {
         		confirmButton.setButtonEnable(set);
         	}
         	
-        	public LowerPane() {
-				// TODO Auto-generated constructor stub
+        	public LowerPane(String characterName, String weaponName, String roomName) {
         		lowerPaneTitle = new Title("");
-        		confirmButton = new ButtonPane();
+        		confirmButton = new ButtonPane(characterName, weaponName, roomName);
         		checkInitialLoad();
 
         		setLayout(new GridLayout(2,1));
@@ -1921,11 +1942,15 @@ public class QuestionMenu {
         	}
         }
         
-        
         /* players can only select one of the card options before they hit confirm -- then they */
-        static class ButtonPane extends JPanel {
-            JButton confirmButton;
- 
+        class ButtonPane extends JPanel {
+        	private  JButton confirmButton;
+        	
+        	String characterName;
+        	String roomName;
+        	String weaponName;
+   
+        	
             @Override
             public void setLayout(LayoutManager mgr) {
             	super.setLayout(mgr);
@@ -1934,136 +1959,144 @@ public class QuestionMenu {
             /* Create the confirmButton and set its actionListener */
             private void setConfirmListener() {
             	confirmButton.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						int[] referenceNumbers = new int[2];
-						/* Used to see if we actually return someathing  */
-						Boolean match = false;
-						
-						/* Checking to see if the user pressed one of the room cards */
-						if(chooseBallroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (chooseBilliardroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (chooseConservatory) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseDiningroom) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (chooseHall) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 7;
-							match = true;
-						}
-						else if (chooseKitchen) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseLibrary) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						else if (chooseLounge) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 6;
-							match = true;
-						}
-						else if (chooseStudy) {
-							referenceNumbers[0] = 1;
-							referenceNumbers[1] = 8;
-							match = true;
-						}
-						/* Checking to see if the user pressed any of the weapon cards */
-						else if (chooseCandlestick) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseDagger) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (choosePipe) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (choosePistol) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseRope) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (chooseWrench) {
-							referenceNumbers[0] = 2;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						/* Checking to see if the user pressed any of the character cards */
-						else if (chooseWhite) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 0;
-							match = true;
-						}
-						else if (chooseGreen) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 1;
-							match = true;
-						}
-						else if (chooseMustard) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 2;
-							match = true;
-						}
-						else if (chooseScarlet) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 3;
-							match = true;
-						}
-						else if (choosePeacock) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 4;
-							match = true;
-						}
-						else if (choosePlum) {
-							referenceNumbers[0] = 0;
-							referenceNumbers[1] = 5;
-							match = true;
-						}
-						
-						/* If the user actually has one of  */
-						if (match) {
-							System.err.println("Updating the notes correctly");
-							playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
-							currentDisplay.getContentPane().removeAll();
-							currentDisplay.add(revertPane);
-							currentDisplay.revalidate();
-							currentDisplay.repaint();			
-						}else {
-							
-						}
-					}
-					
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        int[] referenceNumbers = new int[2];
+                        /* Used to see if we actually return something  */
+                        Boolean match = false;
+
+                        /* Checking to see if the user pressed one of the room cards */
+                        if (chooseBallroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (chooseBilliardroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (chooseConservatory) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseDiningroom) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (chooseHall) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 7;
+                            match = true;
+                        } else if (chooseKitchen) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseLibrary) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        } else if (chooseLounge) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 6;
+                            match = true;
+                        } else if (chooseStudy) {
+                            referenceNumbers[0] = 1;
+                            referenceNumbers[1] = 8;
+                            match = true;
+                        }
+                        /* Checking to see if the user pressed any of the weapon cards */
+                        else if (chooseCandlestick) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseDagger) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (choosePipe) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (choosePistol) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseRope) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (chooseWrench) {
+                            referenceNumbers[0] = 2;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        }
+                        /* Checking to see if the user pressed any of the character cards */
+                        else if (chooseWhite) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 0;
+                            match = true;
+                        } else if (chooseGreen) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 1;
+                            match = true;
+                        } else if (chooseMustard) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 2;
+                            match = true;
+                        } else if (chooseScarlet) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 3;
+                            match = true;
+                        } else if (choosePeacock) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 4;
+                            match = true;
+                        } else if (choosePlum) {
+                            referenceNumbers[0] = 0;
+                            referenceNumbers[1] = 5;
+                            match = true;
+                        }
+
+                        /* If the user actually has one of  */
+                        if (match) {
+//							System.err.println("Updating the notes correctly");
+                            playerAskingQuestion.getPlayerDeckNotes().changeGuessStatus(referenceNumbers, '✔');
+                            currentDisplay.getContentPane().removeAll();
+                            currentDisplay.add(revertPane);
+                            GameLogic.Dice.setMovesLeft(0);
+                            GameLogic.checkEndOfTurn();
+                            currentDisplay.revalidate();
+                            currentDisplay.repaint();
+                        } else {
+//							System.out.println("Am I getting called here?");
+                            /* If none of the players are able to give the cards -- the  */
+
+
+                            /* If none of the players are able to give the cards -- the  */
+                            if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
+                                GameLogic.Guessing.unsuccessfulGuess();
+                            } else {
+//								System.out.println("Am i getting called here?");
+//								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
+
+
+                                currentDisplay.getContentPane().removeAll();
+
+                                /* Getting the next player */
+                                GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
+
+                                if (GameLogic.Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
+                                    GameLogic.Guessing.unsuccessfulGuess();
+
+                                QuestionRound nextRound = new QuestionRound();
+
+                                currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
+                                currentDisplay.revalidate();
+                                currentDisplay.repaint();
+                            }
+                        }
+                    }
 				});
             	
             }
@@ -2072,8 +2105,12 @@ public class QuestionMenu {
             	confirmButton.setEnabled(set);
             }
             
-            public ButtonPane() {
-				confirmButton = new JButton("Confirm");
+            public ButtonPane(String character, String weapon, String room) {
+            	characterName = character;
+            	weaponName = weapon;
+            	roomName = room;
+            	
+            	confirmButton = new JButton("Confirm");
             	setConfirmListener();
 				this.add(confirmButton);
 			}
