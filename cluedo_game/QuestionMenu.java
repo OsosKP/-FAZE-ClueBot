@@ -2086,7 +2086,7 @@ public class QuestionMenu {
 		                        
 		                        QuestionRound nextRound = new QuestionRound();
 
-								/* Get */
+								/* Getting the next player */
 								GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
 								
 		                        currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
