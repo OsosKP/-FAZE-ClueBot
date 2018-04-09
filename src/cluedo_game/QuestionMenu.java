@@ -714,27 +714,27 @@ public class QuestionMenu {
                         /* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
                         try {
                             if (name.equals("green")) {
-                                image = ImageIO.read(new File("src/characterCards/Green.png"));
+                                image = CardImages.getBufferedGreen();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("mustard")) {
-                                image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+                                image = CardImages.getBufferedMustard();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("peacock")) {
-                                image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+                                image = CardImages.getBufferedPeacock();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("plum")) {
-                                image = ImageIO.read(new File("src/characterCards/Plum.png"));
+                                image = CardImages.getBufferedPlum();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("scarlet")) {
-                                image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+                                image = CardImages.getBufferedScarlet();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("white")) {
-                                image = ImageIO.read(new File("src/characterCards/White.png"));
+                                image = CardImages.getBufferedWhite();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                         } catch (IOException e) {
@@ -744,28 +744,27 @@ public class QuestionMenu {
                     else {
                         try {
                             if (name.equals("green")) {
-                                image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
+                                image = CardImages.getBufferedGreenbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if(name.equals("mustard")) {
-                                image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
+                                image = CardImages.getBufferedMustardbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("peacock")) {
-                                image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
+                                image = CardImages.getBufferedPeacockbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("plum")) {
-                                image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
+                                image = CardImages.getBufferedPlumbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("scarlet")) {
-                                image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
+                                image = CardImages.getBufferedScarletbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("white")) {
-                            	System.out.println("Am I getting triggered?");
-                                image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
+                                image = CardImages.getBufferedWhitebw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                         } catch (IOException a) {
@@ -909,28 +908,28 @@ public class QuestionMenu {
                         /* java program is loaded in root dir of the system, meaning we need to navigate into the /src/ part of the code */
                         try {
                             if (name.equals("candlestick")) {
-                                image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+                                image = CardImages.getBufferedCandlestick();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("dagger")) {
-                                image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+                                image = CardImages.getBufferedDagger();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("pipe")) {
-                                image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+                                image = CardImages.getBufferedPipe();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("pistol")) {
-                                image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+                                image = CardImages.getBufferedPistol();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("rope")) {
-                                image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+                                image = CardImages.getBufferedRope();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
 //                            	System.out.println("Am I loading here?");
-                            	image = ImageIO.read(new File("src/weaponCards/Wrench.png"));
+                            	image = CardImages.getBufferedWrench();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                         } catch (IOException e) {
@@ -940,28 +939,27 @@ public class QuestionMenu {
                     else {
                         try {
                             if (name.equals("candlestick")) {
-                                image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                                image = CardImages.getBufferedCandlestickbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("dagger")) {
-                                image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                                image = CardImages.getBufferedDaggerbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("pipe")) {
-                                image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                                image = CardImages.getBufferedPipebw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("pistol")) {
-                                image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                                image = CardImages.getBufferedPistolbw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("rope")) {
-                                image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                                image = CardImages.getBufferedRopebw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("wrench")) {
-//                            	System.out.println("I am getting blacked out here? ");
-                                 image = ImageIO.read(new File("src/weaponCards/WrenchB&W.png"));
+                                 image = CardImages.getBufferedWrenchbw();
                                 currentImage.setIcon(new ImageIcon(image));                           	
                             }
                         } catch (IOException d) {
@@ -1210,7 +1208,7 @@ public class QuestionMenu {
             			BufferedImage image;
             			
             			if (weaponName.equals("candlestick")) {
-            				image = ImageIO.read(new File("src/weaponCards/Candlestick.png"));
+            				image = CardImages.getBufferedCandlestick();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClick) {
@@ -1221,7 +1219,7 @@ public class QuestionMenu {
             				
             			}
             			else if (weaponName.equals("dagger")) {
-            				image = ImageIO.read(new File("src/weaponCards/Dagger.png"));
+            				image = CardImages.getBufferedDagger();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClick) {            					
@@ -1231,7 +1229,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (weaponName.equals("pipe")) {
-            				image = ImageIO.read(new File("src/weaponCards/Pipe.png"));
+            				image = CardImages.getPipe();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClick) {
@@ -1241,7 +1239,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (weaponName.equals("pistol")) {
-            				image = ImageIO.read(new File("src/weaponCards/Pistol.png"));
+            				image = CardImages.getBufferedPistol();
             				imageLabel.setIcon(new ImageIcon(image));
             				            				
             				if (userClick) {
@@ -1251,7 +1249,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (weaponName.equals("rope")) {
-            				image = ImageIO.read(new File("src/weaponCards/Rope.png"));
+            				image = CardImages.getBufferedRope();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClick) {
@@ -1261,7 +1259,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (weaponName.equals("wrench")) {
-                 			image = ImageIO.read(new File("src/weaponCards/Wrench.png"));
+                 			image = CardImages.getBufferedWrench();
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseWrench = false;               			
 

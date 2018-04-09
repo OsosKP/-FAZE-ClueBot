@@ -26,31 +26,31 @@ public class Deck {
     public Deck() {
         publicDeck.add(new ArrayList<>());
         try {
-            publicDeck.get(0).add(new Card("White", 0, 0, "token", CardImages.getWhite());
-            publicDeck.get(0).add(new Card("Green", 0, 1, "token", CardImages.getGreen());
-            publicDeck.get(0).add(new Card("Mustard", 0, 2, "token", CardImages.getMustard();
-            publicDeck.get(0).add(new Card("Scarlet", 0, 3, "token", CardImages.getScarlet();
-            publicDeck.get(0).add(new Card("Peacock", 0, 4, "token", CardImages.getPeacock();
-            publicDeck.get(0).add(new Card("Plum", 0, 5, "token", CardImages.getPlum();
+            publicDeck.get(0).add(new Card("White", 0, 0, "token", CardImages.getBufferedWhite());
+            publicDeck.get(0).add(new Card("Green", 0, 1, "token", CardImages.getBufferedGreen());
+            publicDeck.get(0).add(new Card("Mustard", 0, 2, "token", CardImages.getBufferedMustard());
+            publicDeck.get(0).add(new Card("Scarlet", 0, 3, "token", CardImages.getBufferedScarlet());
+            publicDeck.get(0).add(new Card("Peacock", 0, 4, "token", CardImages.getBufferedPeacock());
+            publicDeck.get(0).add(new Card("Plum", 0, 5, "token", CardImages.getBufferedPlum());
 
             publicDeck.add(new ArrayList<>());
-            publicDeck.get(1).add(new Card("Kitchen", 1, 0, "room", CardImages.getKitchen();
-            publicDeck.get(1).add(new Card("Ball Room", 1, 1, "room", CardImages.getBallroom();
-            publicDeck.get(1).add(new Card("Conservatory", 1, 2, "room", CardImages.getConservatory();
-            publicDeck.get(1).add(new Card("Dining Room", 1, 3, "room", CardImages.getDiningroom();
-            publicDeck.get(1).add(new Card("Billiard Room", 1, 4, "room", CardImages.getBilliardroom();
-            publicDeck.get(1).add(new Card("Library", 1, 5, "room", CardImages.getLibrary();
-            publicDeck.get(1).add(new Card("Lounge", 1, 6, "room", CardImages.getLounge();
-            publicDeck.get(1).add(new Card("Hall", 1, 7, "room", CardImages.getHall();
-            publicDeck.get(1).add(new Card("Study", 1, 8, "room", CardImages.getStudy();
+            publicDeck.get(1).add(new Card("Kitchen", 1, 0, "room", CardImages.getBufferedKitchen());
+            publicDeck.get(1).add(new Card("Ball Room", 1, 1, "room", CardImages.getBufferedBallroom());
+            publicDeck.get(1).add(new Card("Conservatory", 1, 2, "room", CardImages.getBufferedConservatory());
+            publicDeck.get(1).add(new Card("Dining Room", 1, 3, "room", CardImages.getBufferedDiningroom());
+            publicDeck.get(1).add(new Card("Billiard Room", 1, 4, "room", CardImages.getBufferedBilliardroom());
+            publicDeck.get(1).add(new Card("Library", 1, 5, "room", CardImages.getBufferedLibrary());
+            publicDeck.get(1).add(new Card("Lounge", 1, 6, "room", CardImages.getBufferedLounge());
+            publicDeck.get(1).add(new Card("Hall", 1, 7, "room", CardImages.getBufferedHall());
+            publicDeck.get(1).add(new Card("Study", 1, 8, "room", CardImages.getBufferedStudy());
             
             publicDeck.add(new ArrayList<>());
-            publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon", CardImages.getCandlestick();
-            publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon", CardImages.getDagger();
-            publicDeck.get(2).add(new Card("Pistol", 2, 2, "weapon", CardImages.getPistol();
-            publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon", CardImages.getPipe();
-            publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon", CardImages.getRope();
-            publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon", CardImages.getWrench();
+            publicDeck.get(2).add(new Card("Candlestick", 2, 0, "weapon", CardImages.getBufferedCandlestick());
+            publicDeck.get(2).add(new Card("Dagger", 2, 1, "weapon", CardImages.getBufferedDagger());
+            publicDeck.get(2).add(new Card("Pistol", 2, 2, "weapon", CardImages.getBufferedPistol());
+            publicDeck.get(2).add(new Card("Pipe", 2, 3, "weapon", CardImages.getBufferedPipe());
+            publicDeck.get(2).add(new Card("Rope", 2, 4, "weapon", CardImages.getBufferedRope());
+            publicDeck.get(2).add(new Card("Wrench", 2, 5, "weapon", CardImages.getBufferedWrench());
 
             first = publicDeck.get(0).get(0);
             // Populate full deck
