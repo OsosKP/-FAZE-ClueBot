@@ -561,7 +561,10 @@ public class QuestionMenu {
 							InitiateRoundOfQuestion populates the guessed
 							character and weapon, and the first player to answer
 						 */                        
-                        GameLogic.Guessing.initiateRoundOfQuestioning(returnString[0], returnString[1], currentPlayerGuessingToken.getInRoom().getName());
+                        GameLogic.Guessing.initiateRoundOfQuestioning
+                                (returnString[0],
+                                        returnString[1],
+                                        currentPlayerGuessingToken.getInRoom().getName());
 
 
                         /* Adding the character's name to the return string */

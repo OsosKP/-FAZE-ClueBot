@@ -138,7 +138,7 @@ public class Deck {
             if (AcceptedUserInputs.simpleString(c.name).equals(name))
                 return c;
         }
-        throw new CardNotFoundException();
+        return null;
     }
 
     public Card getRoomCardByName(String name) {
@@ -146,7 +146,7 @@ public class Deck {
             if (AcceptedUserInputs.simpleString(c.name).equals(name))
                 return c;
         }
-        throw new CardNotFoundException();
+        return null;
     }
 
     public Card getWeaponCardByName(String name) {
@@ -155,7 +155,7 @@ public class Deck {
             if (AcceptedUserInputs.simpleString(c.name).equals(name))
                 return c;
         }
-        throw new CardNotFoundException();
+        return null;
     }
 
     public ArrayList<Card> getMurderEnvelope() {
