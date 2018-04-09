@@ -737,7 +737,7 @@ public class QuestionMenu {
                                 image = CardImages.getBufferedWhite();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             System.err.println(e);
                         }
                     }
@@ -767,7 +767,7 @@ public class QuestionMenu {
                                 image = CardImages.getBufferedWhitebw();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
-                        } catch (IOException a) {
+                        } catch (Exception a) {
                             System.err.println(a);
                         }
                     }
@@ -932,7 +932,7 @@ public class QuestionMenu {
                             	image = CardImages.getBufferedWrench();
                                 currentImage.setIcon(new ImageIcon(image));
                             }
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             System.err.println(e.getMessage());
                         }
                     }
@@ -962,8 +962,8 @@ public class QuestionMenu {
                                  image = CardImages.getBufferedWrenchbw();
                                 currentImage.setIcon(new ImageIcon(image));                           	
                             }
-                        } catch (IOException d) {
-                            System.err.println(d);
+                        } catch (Exception d) {
+                            d.printStackTrace();
                         }
                     }
                 }
@@ -1229,7 +1229,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (weaponName.equals("pipe")) {
-            				image = CardImages.getPipe();
+            				image = CardImages.getBufferedPipe();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClick) {
@@ -1270,7 +1270,7 @@ public class QuestionMenu {
             				}
             			}
             		} catch (Exception e) {
-            			System.err.println(e);
+            			e.printStackTrace();
 					}
             	}
             	

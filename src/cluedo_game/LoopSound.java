@@ -2,6 +2,7 @@ package cluedo_game;
 
 import javax.sound.sampled.*;
 import java.io.File;
+import java.net.URL;
 
 public class LoopSound implements Runnable {
     static boolean playSong = true;
@@ -45,7 +46,7 @@ public class LoopSound implements Runnable {
 
     @Override
     public void run() {
-        String fileLocation = "src/music/start.wav";
+        String fileLocation = "/music/start.wav";
         try {
             while (playSong) {
                 playSound(fileLocation);
@@ -56,8 +57,9 @@ public class LoopSound implements Runnable {
     }
 
     protected void playSound(String fileName) throws Exception {
-        File soundFile = new File(fileName);
-        AudioInputStream stream = AudioSystem.getAudioInputStream(soundFile);
+        URL streamURL = this.getClass().getResource(fileName);
+        AudioInputStream stream = AudioSystem.getAudioInputStream(streamURL);
+
         AudioFormat format = stream.getFormat();
 
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);

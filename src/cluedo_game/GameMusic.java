@@ -11,7 +11,7 @@ public class GameMusic extends LoopSound implements Runnable {
     }
 
     public void run() {
-        String fileLocation = "src/music/gamemusic.wav";
+        String fileLocation = "/music/gamemusic.wav";
         try {
                 super.playSound(fileLocation);
         } catch (Exception e) { e.printStackTrace(); }

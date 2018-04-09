@@ -31,7 +31,7 @@ public class CardImages {
         
         characterBuffer = new BufferedImage[12];
         weaponsBuffer = new BufferedImage[12];
-        roomsBuffer = new BufferedImage[12];
+        roomsBuffer = new BufferedImage[18];
         try {
             loadImages();
         } catch (Exception e) { e.printStackTrace(); }
@@ -93,7 +93,7 @@ public class CardImages {
         }
     }
     
-    //TODO: Kelsey add the NA cards to this -- otherwise they just wont load
+    //TODO: Kelsey add the NA cards to this -- otherwise they just won't load
 
     public static ImageIcon[] getCharacters() {
         return characters;

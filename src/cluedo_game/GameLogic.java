@@ -31,6 +31,7 @@ public class GameLogic {
 	}
 
 	public static void startGame(boolean debugOption) {
+		new CardImages();
 		AcceptedUserInputs.setAcceptedUserInputs();
 		if (debugOption) {
 			playerList = new Tokens();
@@ -76,7 +77,6 @@ public class GameLogic {
 		deck.dealHands(playerList);
 		populatePlayerNoteCards();
 		ui = new UserInterface(playerList);
-		new CardImages();
 	}
 
 	public static class PlayerEntry {
