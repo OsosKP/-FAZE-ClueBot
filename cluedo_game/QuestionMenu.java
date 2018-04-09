@@ -11,11 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import cluedo_game.GameLogic.Guessing;
@@ -1113,7 +1109,7 @@ public class QuestionMenu {
         	public ChoicePane(String characterName, String weaponName, String roomName) {
 
         		this.setLayout(new GridLayout(2,1));
-				info = new Title("---One of the Players has guessed the cards below, do you wish to aid him?---");
+				info = new Title("---One of the Players has guessed the cards below, do you wish to aid them?---");
 				cards = new GuessedCards(characterName, weaponName, roomName);
 				
 				this.add(info);
@@ -2068,15 +2064,11 @@ public class QuestionMenu {
                             GameLogic.checkEndOfTurn();
                             currentDisplay.revalidate();
                             currentDisplay.repaint();
-                        } else {
+                        }
+                        else {
 //							System.out.println("Am I getting called here?");
                             /* If none of the players are able to give the cards -- the  */
 
-
-                            /* If none of the players are able to give the cards -- the  */
-                            if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
-                                GameLogic.Guessing.unsuccessfulGuess();
-                            } else {
 //								System.out.println("Am i getting called here?");
 //								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
 
@@ -2089,13 +2081,14 @@ public class QuestionMenu {
                                 if (GameLogic.Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
                                     GameLogic.Guessing.unsuccessfulGuess();
 
+                                JOptionPane.showMessageDialog
+                                        (null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
                                 QuestionRound nextRound = new QuestionRound();
 
                                 currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
                                 currentDisplay.revalidate();
                                 currentDisplay.repaint();
                             }
-                        }
                     }
 				});
             	
