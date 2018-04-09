@@ -46,7 +46,6 @@ public class BoardImage {
 
 	/**
 	 * returns a panel that can be added to a JFrame
-	 * @param bi bufferedImage that will be loaded into the JPanel
 	 * @return a JPanel that holds the buffered image
 	 */
 	

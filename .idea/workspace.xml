@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4e404fd-c2db-451d-94d5-6ff70d4ffd87" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/cluedo_game/CardImages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluedo_game/CardImages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluedo_game/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluedo_game/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cluedo_game/BoardImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluedo_game/BoardImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cluedo_game/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluedo_game/Token.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionMenu.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="QuestionMenu.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="1228" column="29" lean-forward="true" selection-start-line="1228" selection-start-column="29" selection-end-line="1228" selection-end-column="29" />
+            <state relative-caret-position="3425">
+              <caret line="1826" selection-start-line="1826" selection-end-line="1826" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2345#2346#0" expanded="true" />
@@ -77,6 +79,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="BoardImage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cluedo_game/BoardImage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="229" selection-start-line="229" selection-end-line="229" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="LoopSound.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cluedo_game/LoopSound.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -104,29 +115,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StartMenu.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cluedo_game/StartMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="121" selection-start-line="121" selection-end-line="121" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameLogic.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameLogic.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cluedo_game/GameLogic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="33" column="25" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tokens.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cluedo_game/Tokens.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="49" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="161">
+              <caret line="471" selection-start-line="471" selection-end-line="471" />
             </state>
           </provider>
         </entry>
@@ -134,8 +127,8 @@
       <file leaf-file-name="Token.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cluedo_game/Token.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="284" selection-start-line="284" selection-end-line="284" />
+            <state relative-caret-position="156">
+              <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -157,11 +150,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/cluedo_game/Deck.java" />
-        <option value="$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java" />
         <option value="$PROJECT_DIR$/src/cluedo_game/LoopSound.java" />
         <option value="$PROJECT_DIR$/src/cluedo_game/GameMusic.java" />
         <option value="$PROJECT_DIR$/src/cluedo_game/CardImages.java" />
         <option value="$PROJECT_DIR$/src/cluedo_game/GameLogic.java" />
+        <option value="$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java" />
+        <option value="$PROJECT_DIR$/src/cluedo_game/BoardImage.java" />
+        <option value="$PROJECT_DIR$/src/cluedo_game/Token.java" />
       </list>
     </option>
   </component>
@@ -308,12 +303,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523293546521</updated>
-      <workItem from="1523293553301" duration="1924000" />
+      <workItem from="1523293553301" duration="2963000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1924000" />
+    <option name="totallyTimeSpent" value="2963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="22" width="1254" height="868" extended-state="0" />
@@ -355,49 +350,12 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="1228" column="29" lean-forward="true" selection-start-line="1228" selection-start-column="29" selection-end-line="1228" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2345#2346#0" expanded="true" />
-            <element signature="e#2381#2382#0" expanded="true" />
-            <element signature="e#20679#20680#0" expanded="true" />
-            <element signature="e#20719#20720#0" expanded="true" />
-            <element signature="e#20982#20983#0" expanded="true" />
-            <element signature="e#21026#21027#0" expanded="true" />
-            <element signature="e#21070#21071#0" expanded="true" />
-            <element signature="e#21118#21119#0" expanded="true" />
-            <element signature="e#21166#21167#0" expanded="true" />
-            <element signature="e#21209#21210#0" expanded="true" />
-            <element signature="e#21890#21891#0" expanded="true" />
-            <element signature="e#21934#21935#0" expanded="true" />
-            <element signature="e#27207#27208#0" expanded="true" />
-            <element signature="e#27251#27252#0" expanded="true" />
-            <element signature="e#27771#27772#0" expanded="true" />
-            <element signature="e#27815#27816#0" expanded="true" />
-            <element signature="e#28307#28308#0" expanded="true" />
-            <element signature="e#28359#28360#0" expanded="true" />
-            <element signature="e#28995#28996#0" expanded="true" />
-            <element signature="e#29047#29048#0" expanded="true" />
-            <element signature="e#30005#30006#0" expanded="true" />
-            <element signature="e#30065#30066#0" expanded="true" />
-            <element signature="e#35387#35388#0" expanded="true" />
-            <element signature="e#35464#35465#0" expanded="true" />
-            <element signature="e#36632#36633#0" expanded="true" />
-            <element signature="e#36676#36677#0" expanded="true" />
-            <element signature="e#37169#37170#0" expanded="true" />
-            <element signature="e#37221#37222#0" expanded="true" />
-            <element signature="e#37850#37851#0" expanded="true" />
-            <element signature="e#37902#37903#0" expanded="true" />
-            <element signature="e#38698#38699#0" expanded="true" />
-            <element signature="e#38758#38759#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cluedo_game/Tokens.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="169">
@@ -447,13 +405,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cluedo_game/Token.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="284" selection-start-line="284" selection-end-line="284" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cluedo_game/StartMenu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -463,8 +414,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cluedo_game/GameLogic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="33" column="25" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
+        <state relative-caret-position="161">
+          <caret line="471" selection-start-line="471" selection-end-line="471" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cluedo_game/BoardImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="229" selection-start-line="229" selection-end-line="229" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cluedo_game/Token.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cluedo_game/QuestionMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3425">
+          <caret line="1826" selection-start-line="1826" selection-end-line="1826" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2345#2346#0" expanded="true" />
+            <element signature="e#2381#2382#0" expanded="true" />
+            <element signature="e#20679#20680#0" expanded="true" />
+            <element signature="e#20719#20720#0" expanded="true" />
+            <element signature="e#20982#20983#0" expanded="true" />
+            <element signature="e#21026#21027#0" expanded="true" />
+            <element signature="e#21070#21071#0" expanded="true" />
+            <element signature="e#21118#21119#0" expanded="true" />
+            <element signature="e#21166#21167#0" expanded="true" />
+            <element signature="e#21209#21210#0" expanded="true" />
+            <element signature="e#21890#21891#0" expanded="true" />
+            <element signature="e#21934#21935#0" expanded="true" />
+            <element signature="e#27207#27208#0" expanded="true" />
+            <element signature="e#27251#27252#0" expanded="true" />
+            <element signature="e#27771#27772#0" expanded="true" />
+            <element signature="e#27815#27816#0" expanded="true" />
+            <element signature="e#28307#28308#0" expanded="true" />
+            <element signature="e#28359#28360#0" expanded="true" />
+            <element signature="e#28995#28996#0" expanded="true" />
+            <element signature="e#29047#29048#0" expanded="true" />
+            <element signature="e#30005#30006#0" expanded="true" />
+            <element signature="e#30065#30066#0" expanded="true" />
+            <element signature="e#35387#35388#0" expanded="true" />
+            <element signature="e#35464#35465#0" expanded="true" />
+            <element signature="e#36632#36633#0" expanded="true" />
+            <element signature="e#36676#36677#0" expanded="true" />
+            <element signature="e#37169#37170#0" expanded="true" />
+            <element signature="e#37221#37222#0" expanded="true" />
+            <element signature="e#37850#37851#0" expanded="true" />
+            <element signature="e#37902#37903#0" expanded="true" />
+            <element signature="e#38698#38699#0" expanded="true" />
+            <element signature="e#38758#38759#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

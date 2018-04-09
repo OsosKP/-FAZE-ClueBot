@@ -16,7 +16,7 @@ public class Token {
 	private String locationAsString;
 	private BoardSquare squareOn;
 	private BoardSquare previous;
-	private int previousPlayerFloor = -1;
+	private int previousPlayerFloor = 0;
 	private Room previousRoom = null;
 	private Room inRoom;
 	private ArrayList<Card> hand;
@@ -119,8 +119,6 @@ public class Token {
 		}
 		else
 			System.out.println("PREVIOUS: " + previousRoom.getName());
-
-		this.setPosition(new int[]{-1, -1});
 
 		this.setLocationAsString("room");
 	}
