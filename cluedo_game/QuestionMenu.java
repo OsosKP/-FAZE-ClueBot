@@ -2080,9 +2080,10 @@ public class QuestionMenu {
 
                                 if (GameLogic.Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
                                     GameLogic.Guessing.unsuccessfulGuess();
+                                else
+                                    JOptionPane.showMessageDialog
+                                            (null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
 
-                                JOptionPane.showMessageDialog
-                                        (null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
                                 QuestionRound nextRound = new QuestionRound();
 
                                 currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));

@@ -325,6 +325,10 @@ public class Token {
 	}
 
 	public void sudoSetSquareOn(BoardSquare square, BoardImage image, UserInterface ui) {
+		if (this.inRoom != null) {
+			this.exitRoom(0);
+		}
+
 		int[] previousCoords = this.getPosition();
 		this.previous = this.squareOn;
 		setSquareOn(square);
