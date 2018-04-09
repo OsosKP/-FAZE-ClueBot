@@ -115,8 +115,8 @@ public class CardImages {
         return characters[1];
     }
     
-    public static BufferedImage getBufferedImage() {
-    	return characterBuffer[0];
+    public static BufferedImage getBufferedMustard() {
+    	return characterBuffer[1];
     }
 
     public static ImageIcon getPeacock() {
