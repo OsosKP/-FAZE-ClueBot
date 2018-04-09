@@ -754,6 +754,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("white")) {
+                            	System.out.println("Am I getting triggered?");
                                 image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
                                 currentImage.setIcon(new ImageIcon(image));
                             }
@@ -775,7 +776,7 @@ public class QuestionMenu {
 
                             BufferedImage image;
                             /* Looping though the list and loading the black and white images on all the other character images */
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i < 6; i++) {
                                 /* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
                                 if (characterPictures[i].objNum != objNum) {
                                     /* Over-writing the specific JLables with the B&W image */
