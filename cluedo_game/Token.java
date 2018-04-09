@@ -326,10 +326,13 @@ public class Token {
 		int[] previousCoords = this.getPosition();
 		this.previous = this.squareOn;
 		this.squareOn = square;
-		int[] currentCoords = this.squareOn.getPosition();
+		System.out.println(square.getPositionAsString());
 		this.setPosition(squareOn.getPosition());
 		this.setLocationAsString(squareOn.toString());
 		squareOn.setPlayerOn(this);
+
+
+		System.out.println("HELLO");
 
 	}
 }
