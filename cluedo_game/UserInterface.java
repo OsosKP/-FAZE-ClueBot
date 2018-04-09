@@ -1,5 +1,7 @@
 package cluedo_game;
 
+import b.e.d.a.V;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -837,7 +839,9 @@ public class UserInterface extends JPanel {
                     notes.append(c.toString() + "\n");
             }
             else if(entry.equals("log")) {
-                for (String s : GameLogic.)
+                for (String s : GameLogic.returnGuessArray()) {
+                    notes.append(s + "\n");
+                }
             }
 
             notesScroller = new JScrollPane(notes);
