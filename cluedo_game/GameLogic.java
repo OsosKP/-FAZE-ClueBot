@@ -5,6 +5,8 @@
 package cluedo_game;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -21,6 +23,8 @@ public class GameLogic {
 	static LoopSound startMusic;
 	static GameMusic gameMusic;
 	static boolean music;
+	
+	static ArrayList<String> guesses = new ArrayList<String>();
 
 	public GameLogic() {
 	    new StartMenu();
@@ -41,6 +45,14 @@ public class GameLogic {
 		    // Sending false to tell it we aren't in the start menu
 		    playMusic(false);
         }
+	}
+	
+	public static void addToGuessArray(String addMe) {
+		guesses.add(addMe);
+	}
+	
+	public static ArrayList<String> returnArray(){
+		return guesses;
 	}
 
 	public static BoardBuilder getCurrentBoard() {
