@@ -325,14 +325,12 @@ public class Token {
 	public void sudoSetSquareOn(BoardSquare square, BoardImage image, UserInterface ui) {
 		int[] previousCoords = this.getPosition();
 		this.previous = this.squareOn;
-		this.squareOn = square;
+		setSquareOn(square);
 		System.out.println(square.getPositionAsString());
 		this.setPosition(squareOn.getPosition());
 		this.setLocationAsString(squareOn.toString());
 		squareOn.setPlayerOn(this);
 
-
-		System.out.println("HELLO");
 
 	}
 }
