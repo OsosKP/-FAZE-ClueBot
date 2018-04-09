@@ -74,6 +74,22 @@ public class CardImages {
                 weaponsBuffer[j] = wpnTemp;
               
             }
+            
+            j = i + 12;
+            rmTemp = ImageIO.read(CardImages.class.getResource("/roomCards/" + roomStrings[i] + "NA.png"));
+            rooms[j + 3] = new ImageIcon(rmTemp);
+            roomsBuffer[j+ 3] = rmTemp;
+            
+            if (i < 6) {
+                charTemp = ImageIO.read(CardImages.class.getResource("/characterCards/" + characterStrings[i] + "NA.png"));
+                characters[j] = new ImageIcon(charTemp);
+                characterBuffer[j] = charTemp;
+                
+                wpnTemp = ImageIO.read(CardImages.class.getResource("/weaponCards/" + weaponStrings[i] + "NA.png"));
+                weapons[j] = new ImageIcon(wpnTemp);
+                weaponsBuffer[j] = wpnTemp;
+              
+            }
         }
     }
     
@@ -115,8 +131,8 @@ public class CardImages {
         return characters[1];
     }
     
-    public static BufferedImage getBufferedImage() {
-    	return characterBuffer[0];
+    public static BufferedImage getBufferedMustard() {
+    	return characterBuffer[1];
     }
 
     public static ImageIcon getPeacock() {
@@ -438,4 +454,84 @@ public class CardImages {
     public static BufferedImage getBufferedStudybw() {
     	return roomsBuffer[17];
     }
+    
+    
+	public static BufferedImage getNACandlestick() {
+		return weaponsBuffer[12];
+	}
+
+	public static BufferedImage getNADagger() {
+		return weaponsBuffer[13];
+	}
+
+	public static BufferedImage getNAPipe() {
+		return weaponsBuffer[14];
+	}
+
+	public static BufferedImage getNAPistol() {
+		return weaponsBuffer[15];
+	}
+
+	public static BufferedImage getNARope() {
+		return weaponsBuffer[16];
+	}
+
+	public static BufferedImage getNAWrench() {
+		return weaponsBuffer[17];
+	}
+
+	public static BufferedImage getBufferedNAGreen() {
+		return characterBuffer[12];
+	}
+	public static BufferedImage getBufferedNAMustard() {
+		return characterBuffer[13];
+	}
+	public static BufferedImage getBufferedNAPeacock() {
+		return characterBuffer[14];
+	}
+	public static BufferedImage getBufferedNAPlum() {
+		return characterBuffer[15];
+	}
+	public static BufferedImage getBufferedNAScarlet() {
+		return characterBuffer[16];
+	}
+	public static BufferedImage getBufferedNAWhite() {
+		return characterBuffer[17];
+	}
+
+	public static BufferedImage getBufferedNABallroom() {
+		return roomsBuffer[18];
+	}
+
+	public static BufferedImage getBufferedNABilliardroom() {
+		return roomsBuffer[19];
+	}
+	
+	public static BufferedImage getBufferedNAConservatory() {
+		return roomsBuffer[20];
+	}
+	
+	public static BufferedImage getBufferedNADiningroom() {
+		return roomsBuffer[21];
+	}
+	
+	public static BufferedImage getBufferedNAHall() {
+		return roomsBuffer[22];
+	}
+	
+	public static BufferedImage getBufferedNAKitchen() {
+		return roomsBuffer[23];
+	}
+	
+	public static BufferedImage getBufferedNALibrary() {
+		return roomsBuffer[24];
+	}
+	
+	public static BufferedImage getBufferedNALounge() {
+		return roomsBuffer[25];
+	}
+	
+	public static BufferedImage getBufferedNAStudy() {
+		return roomsBuffer[26];
+	}
 }

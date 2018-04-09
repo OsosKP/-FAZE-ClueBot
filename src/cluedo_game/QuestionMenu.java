@@ -1281,32 +1281,32 @@ public class QuestionMenu {
                   	BufferedImage image;
                   	try {
                   		if (weaponName.equals("candlestick")) {
-                			image = ImageIO.read(new File("src/weaponCards/CandlestickB&W.png"));
+                			image = CardImages.getBufferedCandlestickbw();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseCandlestick = false;
                  		}
                 		else if (weaponName.equals("dagger")) {
-                			image = ImageIO.read(new File("src/weaponCards/DaggerB&W.png"));
+                			image = CardImages.getBufferedDaggerbw();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseDagger = false;
                 		}
                 		else if (weaponName.equals("pipe")) {
-                			image = ImageIO.read(new File("src/weaponCards/PipeB&W.png"));
+                			image = CardImages.getBufferedPipebw();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			choosePipe = false;
                 		}
                 		else if (weaponName.equals("pistol")) {
-                			image = ImageIO.read(new File("src/weaponCards/PistolB&W.png"));
+                			image = CardImages.getBufferedPistolbw();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			choosePistol = false;
                 		}
                 		else if (weaponName.equals("rope")) {
-                			image = ImageIO.read(new File("src/weaponCards/RopeB&W.png"));
+                			image = CardImages.getBufferedRopebw();
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseRope = false;
                 		}
                 		else if (weaponName.equals("wrench")) {
-                 			image = ImageIO.read(new File("src/weaponCards/WrenchB&W.png"));
+                 			image = CardImages.getBufferedWrenchbw();
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseWrench = false;               			
                 		}
@@ -1319,32 +1319,32 @@ public class QuestionMenu {
                   	BufferedImage image;
                   	try {
                   		if (weaponName.equals("candlestick")) {
-                			image = ImageIO.read(new File("src/weaponCards/CandlestickNA.png"));
+                			image = CardImages.getNACandlestick();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseCandlestick = false;
                  		}
                 		else if (weaponName.equals("dagger")) {
-                			image = ImageIO.read(new File("src/weaponCards/DaggerNA.png"));
+                			image = CardImages.getNADagger();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseDagger = false;
                 		}
                 		else if (weaponName.equals("pipe")) {
-                			image = ImageIO.read(new File("src/weaponCards/PipeNA.png"));
+                			image = CardImages.getNAPipe();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			choosePipe = false;
                 		}
                 		else if (weaponName.equals("pistol")) {
-                			image = ImageIO.read(new File("src/weaponCards/PistolNA.png"));
+                			image = CardImages.getNAPistol();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			choosePistol = false;
                 		}
                 		else if (weaponName.equals("rope")) {
-                			image = ImageIO.read(new File("src/weaponCards/RopeNA.png"));
+                			image = CardImages.getNARope();
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseRope = false;
                 		}   
                  		else if (weaponName.equals("wrench")) {
-                 			image = ImageIO.read(new File("src/weaponCards/WrenchNA.png"));
+                 			image = CardImages.getNAWrench();
                 			imageLabel.setIcon(new ImageIcon(image));               			
                 			chooseWrench = false;               			
                 		}                 		
@@ -1431,7 +1431,7 @@ public class QuestionMenu {
             		try {
             			BufferedImage image;
             			if (characterName.equals("green")) {
-            				image = ImageIO.read(new File("src/characterCards/Green.png"));
+            				image = CardImages.getBufferedGreen();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClicked) {
@@ -1441,7 +1441,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (characterName.equals("mustard")) {
-            				image = ImageIO.read(new File("src/characterCards/Mustard.png"));
+            				image = CardImages.getBufferedMustard();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             			
@@ -1452,7 +1452,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (characterName.equals("peacock")) {
-            				image = ImageIO.read(new File("src/characterCards/Peacock.png"));
+            				image = CardImages.getBufferedPeacock();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             			
@@ -1463,7 +1463,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (characterName.equals("plum")) {
-            				image = ImageIO.read(new File("src/characterCards/Plum.png"));
+            				image = CardImages.getBufferedPlum();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				
@@ -1474,7 +1474,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (characterName.equals("scarlet")) {
-            				image = ImageIO.read(new File("src/characterCards/Scarlet.png"));
+            				image = CardImages.getBufferedScarlet();
             				imageLabel.setIcon(new ImageIcon(image));
             				
             				if (userClicked) {
@@ -1484,7 +1484,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (characterName.equals("white")) {
-            				image = ImageIO.read(new File("src/characterCards/White.png"));
+            				image = CardImages.getBufferedWhite();
             				imageLabel.setIcon(new ImageIcon(image));
             			
             				if (userClicked) {
@@ -1502,32 +1502,32 @@ public class QuestionMenu {
                  	try {
                 		BufferedImage image;
                  		if (characterName.equals("green")) {
-                			image = ImageIO.read(new File("src/characterCards/GreenB&W.png"));
+                			image = CardImages.getBufferedGreenbw();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseGreen = false;
                  		}
                         else if (characterName.equals("mustard")) {
-                            image = ImageIO.read(new File("src/characterCards/MustardB&W.png"));
+                            image = CardImages.getBufferedMustardbw();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseMustard = false;
                         }
                         else if (characterName.equals("peacock")) {
-                            image = ImageIO.read(new File("src/characterCards/PeacockB&W.png"));
+                            image = CardImages.getBufferedMustard();
                             imageLabel.setIcon(new ImageIcon(image));
                             choosePeacock = false;
                         }
                         else if (characterName.equals("plum")) {
-                            image = ImageIO.read(new File("src/characterCards/PlumB&W.png"));
+                            image = CardImages.getBufferedPlumbw();
                             imageLabel.setIcon(new ImageIcon(image));
                             choosePlum = false;
                         }
                         else if (characterName.equals("scarlet")) {
-                            image = ImageIO.read(new File("src/characterCards/ScarletB&W.png"));
+                            image = CardImages.getBufferedScarletbw();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseScarlet = false;
                         }
                         else if (characterName.equals("white")) {
-                            image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
+                            image = CardImages.getBufferedWhitebw();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseWhite = false;
                         }               			
@@ -1540,32 +1540,32 @@ public class QuestionMenu {
                  	try {
                 		BufferedImage image;
                  		if (characterName.equals("green")) {
-                			image = ImageIO.read(new File("src/characterCards/GreenNA.png"));
+                			image = CardImages.getBufferedNAGreen();
                 			imageLabel.setIcon(new ImageIcon(image));
                 			chooseGreen = false;
                  		}
                         else if (characterName.equals("mustard")) {
-                            image = ImageIO.read(new File("src/characterCards/MustardNA.png"));
+                            image = CardImages.getBufferedNAMustard();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseMustard = false;
                         }
                         else if (characterName.equals("peacock")) {
-                            image = ImageIO.read(new File("src/characterCards/PeacockNA.png"));
+                            image= CardImages.getBufferedNAPeacock();
                             imageLabel.setIcon(new ImageIcon(image));
                             choosePeacock = false;
                         }
                         else if (characterName.equals("plum")) {
-                            image = ImageIO.read(new File("src/characterCards/PlumNA.png"));
+                            image = CardImages.getBufferedNAPlum();
                             imageLabel.setIcon(new ImageIcon(image));
                             choosePlum = false;
                         }
                         else if (characterName.equals("scarlet")) {
-                            image = ImageIO.read(new File("src/characterCards/ScarletNA.png"));
+                            image = CardImages.getBufferedNAScarlet();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseScarlet = false;
                         }
                         else if (characterName.equals("white")) {
-                            image = ImageIO.read(new File("src/characterCards/WhiteNA.png"));
+                            image = CardImages.getBufferedNAWhite();
                             imageLabel.setIcon(new ImageIcon(image));
                             chooseWhite = false;
                         }               			
@@ -1653,7 +1653,7 @@ public class QuestionMenu {
             			BufferedImage image;
         			
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/roomCards/ballroom.jpeg"));
+            				image = CardImages.getBufferedBallroom();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1663,7 +1663,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/roomCards/billiardroom.jpeg"));
+            				image = CardImages.getBufferedBilliardroom();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {            					
@@ -1673,7 +1673,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/roomCards/diningroom.jpeg"));
+            				image = CardImages.getBufferedDiningroom();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1683,7 +1683,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/roomCards/kitchen.jpeg"));
+            				image = CardImages.getBufferedKitchen();
         					imageLabel.setIcon(new ImageIcon(image));
         				            				
         					if (userClick) {
@@ -1693,7 +1693,7 @@ public class QuestionMenu {
         					}
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/roomCards/lounge.jpeg"));
+            				image = CardImages.getBufferedLounge();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1703,7 +1703,7 @@ public class QuestionMenu {
             				}
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/roomCards/conservatory.jpeg"));
+            				image = CardImages.getBufferedConservatory();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1713,7 +1713,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/roomCards/hall.jpeg"));
+            				image = CardImages.getBufferedHall();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1723,7 +1723,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("library")) {
-            				image = ImageIO.read(new File("src/roomCards/library.jpeg"));
+            				image = CardImages.getBufferedLibrary();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1733,7 +1733,7 @@ public class QuestionMenu {
             				}       				
             			}
             			else if (roomName.equals("study")) {
-            				image = ImageIO.read(new File("src/roomCards/study.jpeg"));
+            				image = CardImages.getBufferedStudy();
             				imageLabel.setIcon(new ImageIcon(image));
         				
             				if (userClick) {
@@ -1751,47 +1751,47 @@ public class QuestionMenu {
             		try {
             			BufferedImage image;
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/roomCards/ballroomb&w.jpeg"));
+            				image = CardImages.getBufferedBallroombw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBallroom = false;
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/roomCards/billiardroomb&w.jpeg"));
+            				image = CardImages.getBufferedBiilliardRoombw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBilliardroom = false;
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/roomCards/diningroomb&w.jpeg"));
+            				image = CardImages.getBufferedDiningroombw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseDiningroom = false;
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/roomCards/kitchenb&w.jpeg"));
+            				image = CardImages.getBufferedKitchenbw();
             				imageLabel.setIcon(new ImageIcon(image));
         				    chooseKitchen = false;        				
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/roomCards/loungeb&w.jpeg"));
+            				image = CardImages.getBufferedLoungebw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseLounge = false;
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/roomCards/conservatoryb&w.jpeg"));
+            				image = CardImages.getBufferedConservatorybw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseConservatory = false;
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/roomCards/hallb&w.jpeg"));
+            				image = CardImages.getBufferedHallbw();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseHall = false;
             			}
             			else if (roomName.equals("library")) {
-          					image = ImageIO.read(new File("src/roomCards/libraryb&w.jpeg"));
+          					image = CardImages.getBufferedLibrarybw();
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseLibrary = false;
             			}
             			else if (roomName.equals("study")) {
-          					image = ImageIO.read(new File("src/roomCards/studyb&w.jpeg"));
+          					image = CardImages.getBufferedStudybw();
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseStudy = false;
             			}
@@ -1804,47 +1804,47 @@ public class QuestionMenu {
             		try {
             			BufferedImage image;
             			if (roomName.equals("ballroom")) {
-            				image = ImageIO.read(new File("src/roomCards/ballroomNA.png"));
+            				image = CardImages.getBufferedNABallroom();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBallroom = false;
             			}
             			else if (roomName.equals("billiardroom")) {
-            				image = ImageIO.read(new File("src/roomCards/billiardroomNA.png"));
+            				image = CardImages.getBufferedNABilliardroom();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseBilliardroom = false;
             			}
             			else if (roomName.equals("diningroom")) {
-            				image = ImageIO.read(new File("src/roomCards/diningroomNA.png"));
+            				image = CardImages.getBufferedNADiningroom();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseDiningroom = false;
             			}
             			else if (roomName.equals("kitchen")) {
-            				image = ImageIO.read(new File("src/roomCards/kitchenNA.png"));
+            				image = CardImages.getBufferedNAKitchen();
             				imageLabel.setIcon(new ImageIcon(image));
         				    chooseKitchen = false;        				
             			}
             			else if (roomName.equals("lounge")) {
-            				image = ImageIO.read(new File("src/roomCards/loungeNA.png"));
+            				image = CardImages.getBufferedNALounge();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseLounge = false;
             			}
             			else if (roomName.equals("conservatory")) {
-            				image = ImageIO.read(new File("src/roomCards/conservatoryNA.png"));
+            				image = CardImages.getBufferedNAConservatory();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseConservatory = false;
             			}
             			else if (roomName.equals("hall")) {
-            				image = ImageIO.read(new File("src/roomCards/hallNA.png"));
+            				image = CardImages.getBufferedNAHall();
             				imageLabel.setIcon(new ImageIcon(image));
             				chooseHall = false;
             			}
             			else if (roomName.equals("library")) {
-          					image = ImageIO.read(new File("src/roomCards/libraryNA.png"));
+          					image = CardImages.getBufferedNALibrary();
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseLibrary = false;
             			}
             			else if (roomName.equals("study")) {
-          					image = ImageIO.read(new File("src/roomCards/studyNA.png"));
+          					image = CardImages.getBufferedNAStudy();
           					imageLabel.setIcon(new ImageIcon(image));
           					chooseStudy = false;
             			}
