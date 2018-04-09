@@ -277,6 +277,7 @@ public class BoardImage {
 		//System.out.println("Init: ["+init[0]+","+init[1]+"] Fin: ["+fin[0] + "," + fin[1] + "]");
 		JPanel newPanel = returnEmptyGridLayout();
 		JPanel returnMe = returnFinalJPanel();
+		System.out.println(square[0] + " " + square[1]);
 			
 		if (square!=null){//Safety, can be called null
 			/* Returning the old JButton to its original colour */
@@ -298,6 +299,11 @@ public class BoardImage {
 	
 	public JPanel removePlayer(Token player) {
 		return resetSquare(player.getPosition());
+	}
+	
+	public JPanel removeFromCellar() {
+		int[] init = {13,12};
+		return resetSquare(init);
 	}
 
 	//TODO: Implement this, might need it
