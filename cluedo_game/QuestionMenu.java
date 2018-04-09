@@ -2070,34 +2070,31 @@ public class QuestionMenu {
                             currentDisplay.repaint();
                         } else {
 //							System.out.println("Am I getting called here?");
-<<<<<<< HEAD
                             /* If none of the players are able to give the cards -- the  */
 
 
-=======
-							/* If none of the players are able to give the cards -- the  */
-							if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
-								GameLogic.Guessing.unsuccessfulGuess();
-							}
-							else {
->>>>>>> 79fb62e3190fe887e82135e79abaf23e50dc833d
+                            /* If none of the players are able to give the cards -- the  */
+                            if (playerAskingQuestion.getName().equals(GameLogic.Guessing.getAccusingPlayer().getName())) {
+                                GameLogic.Guessing.unsuccessfulGuess();
+                            } else {
 //								System.out.println("Am i getting called here?");
 //								System.out.println("This is the current player who is confirming: " + Guessing.getAnsweringPlayer().getName());
 
 
-                            currentDisplay.getContentPane().removeAll();
+                                currentDisplay.getContentPane().removeAll();
 
-                            /* Getting the next player */
-                            GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
+                                /* Getting the next player */
+                                GameLogic.Guessing.answeringPlayer = GameLogic.Guessing.answeringPlayer.next();
 
-                            if (Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
-                                GameLogic.Guessing.unsuccessfulGuess();
+                                if (GameLogic.Guessing.answeringPlayer == GameLogic.Guessing.getAccusingPlayer())
+                                    GameLogic.Guessing.unsuccessfulGuess();
 
-                            QuestionRound nextRound = new QuestionRound();
+                                QuestionRound nextRound = new QuestionRound();
 
-                            currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
-                            currentDisplay.revalidate();
-                            currentDisplay.repaint();
+                                currentDisplay.getContentPane().add(nextRound.beginQuestionRound(characterName, weaponName, roomName, GameLogic.Guessing.getAnsweringPlayer(), revertPane, currentDisplay));
+                                currentDisplay.revalidate();
+                                currentDisplay.repaint();
+                            }
                         }
                     }
 				});
