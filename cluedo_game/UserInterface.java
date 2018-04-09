@@ -1,5 +1,7 @@
 package cluedo_game;
 
+import b.e.d.a.V;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -100,6 +102,10 @@ public class UserInterface extends JPanel {
         return userDisplay;
     }
 
+    public BoardImage getBoardImage() {
+        return myImg;
+    }
+
     public void refreshGuiFromUnsuccessfulGuess() {
         initialQuestion.revertToRegularDisplay();
         in.inputField.setText("");
@@ -133,7 +139,7 @@ public class UserInterface extends JPanel {
     /**
      * The user input portion of the GUI
      */
-    private class UserInputBox {
+    protected class UserInputBox {
         final int FIELD_WIDTH = 10;
         private JTextField inputField = new JTextField(FIELD_WIDTH);
         private JLabel whoseTurnLabel = new JLabel("     Welcome to Cluedo");
@@ -175,7 +181,6 @@ public class UserInterface extends JPanel {
         }
 
         public void refreshBoard(JPanel update){
-        	//Testing shit around n stuff
         	JButton[] currentPlayerCards = new JButton[3];
             currentPlayerCards[0] = new JButton();
         	currentPlayerCards[1] = new JButton();
@@ -323,7 +328,7 @@ public class UserInterface extends JPanel {
 						e.printStackTrace();
 					}
                 }
-                if (result.equals("notes") || result.equals("cheat")){
+                if (result.equals("notes") || result.equals("cheat") || result.equals("log")){
                     switchToViewNotes(result);
                 }
                 else {
@@ -620,6 +625,11 @@ public class UserInterface extends JPanel {
         }
     }
     // Called by start menu to automatically start the game and bypass the second "Press Start"
+
+    public UserInputBox getIn() {
+        return in;
+    }
+
     public void pressStartGameButton() {
         startGameButton.doClick();
         in.inputField.requestFocus();
@@ -826,6 +836,11 @@ public class UserInterface extends JPanel {
                 notes.append("CHEATER!!!\n");
                 for (Card c : GameLogic.deck.getMurderEnvelope())
                     notes.append(c.toString() + "\n");
+            }
+            else if(entry.equals("log")) {
+                for (String s : GameLogic.returnGuessArray()) {
+                    notes.append(s + "\n");
+                }
             }
 
             notesScroller = new JScrollPane(notes);

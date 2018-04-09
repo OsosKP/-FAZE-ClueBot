@@ -141,13 +141,16 @@ public class GameLogic {
 				movementSuccessful = true;
 				return result;
 			}
-
 			if (entry.replaceAll("\\s+","").toLowerCase().equals("quit")) {
 				return quitGameHandler();
 			}
 			// Don't set movement successful if player is just viewing notes
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("notes")) {
 				return "notes";
+			}
+			if(entry.replaceAll("\\s+","").toLowerCase().equals("log")) {
+				System.out.println("LOG");
+				return "log";
 			}
 			if(entry.replaceAll("\\s+","").toLowerCase().equals("cheat"))
 				return "cheat";
@@ -453,6 +456,12 @@ public class GameLogic {
 			accusedPlayer = deck.getPlayerCardByName(player);
 			accusedWeapon = deck.getWeaponCardByName(weapon);
 			accusedRoom = deck.getRoomCardByName(room);
+
+			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
+				playerList.getPlayerByIndex
+						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
+						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+			}
 		}
 
 		public static void unsuccessfulGuess() {

@@ -69,6 +69,7 @@ public class AcceptedUserInputs {
         auxiliaryCommands.add("?");
         auxiliaryCommands.add("notes");
         auxiliaryCommands.add("cheat");
+        auxiliaryCommands.add("log");
     }
 
     /**
@@ -113,7 +114,7 @@ public class AcceptedUserInputs {
         // No shortcuts on these - you have to enter the full word
         if (in.equals("done") || in.equals("quit") ||
                 in.equals("notes") || in.equals("cheat") ||
-                in.equals("help") || in.equals("?"))
+                in.equals("help") || in.equals("?") || in.equals("log"))
             return true;
 
         switch(p.getLocationAsString()){
