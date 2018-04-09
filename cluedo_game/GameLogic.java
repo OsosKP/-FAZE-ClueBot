@@ -51,7 +51,7 @@ public class GameLogic {
 		guesses.add(addMe);
 	}
 	
-	public static ArrayList<String> returnArray(){
+	public static ArrayList<String> returnGuessArray(){
 		return guesses;
 	}
 

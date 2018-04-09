@@ -585,7 +585,7 @@ public class QuestionMenu {
                         initialUserDisplay.getContentPane().removeAll();
                        
                         returnTitle = currentPlayerGuessing + " " + " guesses that: " + dynamicGuess.returnString();
-                        System.out.println(returnTitle);
+                        GameLogic.addToGuessArray(returnTitle);
                         
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         QuestionRound firstRound = new QuestionRound();
