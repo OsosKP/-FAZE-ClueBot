@@ -460,10 +460,10 @@ public class GameLogic {
 					(null, "It is now " + Guessing.answeringPlayer.getName() + "'s Turn to Answer.");
 			// TODO: Josh uncomment me when you fix BoardImage movement code
 			if (playerList.getIndexOfPlayerByName(accusedPlayer.getName()) >  0) {
-				System.out.println("Testing " + ui.getCurrentPlayer().getPreviousRoom().getName());
 				playerList.getPlayerByIndex
 						(playerList.getIndexOfPlayerByName(accusedPlayer.getName())).sudoSetSquareOn
 						(ui.getCurrentPlayer().getInRoom().getEntrances().get(0), ui.getBoardImage(), ui);
+				System.out.println("Testing " + ui.getCurrentPlayer().getPreviousRoom().getName() + " " + ui.getCurrentPlayer().getInRoom().getName());
 				BoardImage image=ui.getBoardImage();
 				JPanel movementPanel = image.passageMove(ui.getCurrentPlayer(), ui.getCurrentPlayer().getPreviousRoom(), ui.getCurrentPlayer().getInRoom());
 				ui.getIn().refreshBoard(movementPanel);
