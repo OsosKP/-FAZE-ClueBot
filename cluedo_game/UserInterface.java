@@ -886,6 +886,6 @@ public class UserInterface extends JPanel {
     }
 
     public void removePlayer() {
-        in.refreshBoard(myImg.removePlayer(currentPlayer));
+        in.refreshBoard(myImg.removeFromCellar());
     }
 }

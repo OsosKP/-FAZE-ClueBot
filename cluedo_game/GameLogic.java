@@ -520,8 +520,10 @@ public class GameLogic {
 				p.removeFromGame();
 
 				//TODO: Josh: This breaks everything so I commented it out
-//				BoardImage removed = UserInterface.myImg.removePlayer(p);
-//				UserInterface.getIn().refreshBoard(removed);
+				int[] cellarsquare = {17,12};
+				//System.out.println(cellarsquare[0] +" " + cellarsquare[1]);
+				//JPanel removed = UserInterface.myImg.resetSquare(cellarsquare);
+				//ui.getIn().refreshBoard(removed);
 				playerList.decrementNumberOfPlayers();
 				Dice.setMovesLeft(0);
 				checkEndOfTurn();
