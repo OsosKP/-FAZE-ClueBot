@@ -39,6 +39,8 @@ public class QuestionMenu {
     private String returnString[];
     private String currentPlayerGuessing;
     private Token currentPlayerGuessingToken;
+    /* Returning the Dynamic Title */
+    private String returnTitle;
 
     public QuestionMenu(JFrame initialPanel, JPanel revert, Token playerGuessing) {
         this.currentPlayerGuessing = playerGuessing.getName();
@@ -64,6 +66,10 @@ public class QuestionMenu {
         return this.finalPanel;
     }
 
+    public String returnGuess() {
+    	return this.returnTitle;
+    }
+    
     /**
      * updates the name section of the guessing JLabel
      * @param name = the name of the character we are accusing
@@ -470,6 +476,10 @@ public class QuestionMenu {
         public void setText(String text) {
             this.title.setText(text);
         }
+        
+        public String returnString() {
+        	return title.getText();
+        }
 
         public TitleBar() {
             layout = new GridBagLayout();
@@ -573,6 +583,10 @@ public class QuestionMenu {
 						/* Removing the current JPanel from the screen, and
 							replacing it with the regular game board */
                         initialUserDisplay.getContentPane().removeAll();
+                       
+                        returnTitle = currentPlayerGuessing + " " + " guesses that: " + dynamicGuess.returnString();
+                        System.out.println(returnTitle);
+                        
                         // TODO: Will use this eventually, but first we go to the other question panel in UI
                         QuestionRound firstRound = new QuestionRound();
                         initialUserDisplay.add(firstRound.beginQuestionRound(returnString[0], returnString[1],
@@ -754,6 +768,7 @@ public class QuestionMenu {
                                 currentImage.setIcon(new ImageIcon(image));
                             }
                             else if (name.equals("white")) {
+                            	System.out.println("Am I getting triggered?");
                                 image = ImageIO.read(new File("src/characterCards/WhiteB&W.png"));
                                 currentImage.setIcon(new ImageIcon(image));
                             }
@@ -775,7 +790,7 @@ public class QuestionMenu {
 
                             BufferedImage image;
                             /* Looping though the list and loading the black and white images on all the other character images */
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i < 6; i++) {
                                 /* Need to make sure that we dont over-write all the cards (just all the other ones except the one the user selected */
                                 if (characterPictures[i].objNum != objNum) {
                                     /* Over-writing the specific JLables with the B&W image */
