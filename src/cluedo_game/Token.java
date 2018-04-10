@@ -25,6 +25,7 @@ public class Token {
 	private int initialObjNum;
 	private int positionInRoom;
 	private boolean inGame;
+	private boolean isInRoom = false;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -138,6 +139,8 @@ public class Token {
 	public int getPreviousPlayerFloor() {return previousPlayerFloor;}
 	public int returnDiceNumber() { return this.diceRoll;}
 	public int returnObjNum() {return this.initialObjNum; }
+	public boolean getIsInRoom() {return this.isInRoom;}
+	public void setIsInRoom(Boolean room) {this.isInRoom=room;}
 	public String getLocationAsString() {
 		if(inRoom != null)
 			return "room";

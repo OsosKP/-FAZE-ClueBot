@@ -238,11 +238,13 @@ public class BoardImage {
 	public JPanel moveToRoom(Token player, int[] init, Room room){
 		player.setPreviousPlayerFloor(room.getPlayerSpotInRoom(player));
 		int[] fin = room.getPlayerFloors().get(room.getPlayerSpotInRoom(player));
+		player.setIsInRoom(true);
 		return swapsquares(init, fin);
 	}
 
 	public JPanel movetoExit(Token player, int[] fin, Room room){
 		int[] init = room.getPlayerFloors().get(player.getPreviousPlayerFloor());
+		player.setIsInRoom(false);
 		return swapsquares(init, fin);
 	}
 
