@@ -415,7 +415,7 @@ public class QuestionMenu {
                     isRope = true;
                 }
                 else if (name.equals("wrench")) {
-                	System.out.println("I am gettting called----");
+//                	System.out.println("I am getting called----");
                     dynamicGuess.setText("\"I think Scarlet is the killer, and she used the wrench\"");
                     isWrench = true;               	
                 }

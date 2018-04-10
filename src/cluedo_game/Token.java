@@ -105,11 +105,6 @@ public class Token {
 	}
 
 	public void enterRoom(Room room){
-		if(inRoom != null)
-			System.out.println("CHECK: " + inRoom.getName() + " --- " + room.getName());
-		else
-			System.out.println("CHECK: " + squareOn.getPositionAsString() + " --- " + room.getName());
-
 		this.previous = squareOn;
 		this.squareOn = null;
 
@@ -117,8 +112,6 @@ public class Token {
 		if (this.previousRoom == null) {
 			this.previousRoom = room;
 		}
-		else
-			System.out.println("PREVIOUS: " + previousRoom.getName());
 
 		this.setLocationAsString("room");
 	}

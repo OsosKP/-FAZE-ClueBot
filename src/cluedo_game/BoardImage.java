@@ -216,11 +216,11 @@ public class BoardImage {
 	public JPanel move(int[] init, int[] fin) {
 		//Check to see if you're about to move on an entry square
 		if (GameLogic.currentBoard.getSquare(fin) instanceof EntrySquare){
-			System.out.println("["+fin[0]+","+fin[1]+"] is an entry square " + GameLogic.currentBoard.getSquare(fin).getClass());
+//			System.out.println("["+fin[0]+","+fin[1]+"] is an entry square " + GameLogic.currentBoard.getSquare(fin).getClass());
 			return null;
 		}
 		else{
-			System.out.println("["+fin[0]+","+fin[1]+"] is a " + GameLogic.currentBoard.getSquare(fin).getClass());
+//			System.out.println("["+fin[0]+","+fin[1]+"] is a " + GameLogic.currentBoard.getSquare(fin).getClass());
 			return swapsquares(init, fin);
 		}
 	}
