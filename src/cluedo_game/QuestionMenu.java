@@ -6,11 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -1043,10 +1040,8 @@ public class QuestionMenu {
     	private JFrame currentDisplay;
     	
     	public QuestionRound() {
-            // TODO Auto-generated constructor stub
         }
         
-        //TODO get room working
         public JPanel beginQuestionRound(String character, String weapon, String room, Token playerAsking, JPanel revertToMe, JFrame display) {
         	playerAskingQuestion = playerAsking;
         	revertPane = revertToMe;

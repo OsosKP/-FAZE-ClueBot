@@ -305,8 +305,20 @@ public class GameLogic {
 				 */
 				case "question":
 				case "q":
-					result = questionPrompt();
-					Dice.setMovesLeft(2);
+					// TODO: George
+					/*
+						A player is not supposed to be able to ask a question twice in the
+							same room without leaving that room. I set this boolean and check
+							to prevent them, but the QuestionMenu messes up when it's activated.
+					 */
+//					if (player.getAskedQuestionInRoom()) {
+//						movementSuccessful = false;
+//						return "You have already asked a question in this room without leaving!";
+//					}
+//					else {
+						result = questionPrompt();
+						Dice.setMovesLeft(2);
+//					}
 					break;
 			}
 			return result;

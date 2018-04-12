@@ -346,6 +346,7 @@ public class UserInterface extends JPanel {
 
                                 /* Creating a question menu  */
                                 initialQuestion = new QuestionMenu(display, userDisplay, currentPlayer);
+                                currentPlayer.setAskedQuestionInRoom(true);
                                 
                                 display.remove(userDisplay);
                                 display.add(initialQuestion.returnPanel());

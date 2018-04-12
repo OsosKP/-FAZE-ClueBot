@@ -26,6 +26,7 @@ public class Token {
 	private int positionInRoom;
 	private boolean inGame;
 	private boolean isInRoom = false;
+	private boolean askedQuestionInRoom = false;
 
 	// Variable to help with circularly linked list traversal
 	private Token next;
@@ -119,6 +120,7 @@ public class Token {
 	public void exitRoom(int exitIndex){
 		this.previous = null;
 		this.previousRoom = inRoom;
+		askedQuestionInRoom = false;
 
 		this.setSquareOn(inRoom.getExits().get(exitIndex));
 		this.inRoom = null;
@@ -141,6 +143,9 @@ public class Token {
 	public int returnObjNum() {return this.initialObjNum; }
 	public boolean getIsInRoom() {return this.isInRoom;}
 	public void setIsInRoom(Boolean room) {this.isInRoom=room;}
+	public void setAskedQuestionInRoom(boolean asked) {
+		askedQuestionInRoom = asked;
+	}
 	public String getLocationAsString() {
 		if(inRoom != null)
 			return "room";
@@ -198,6 +203,9 @@ public class Token {
 		this.setPosition(new int[]{-1,-1});
 		this.inRoom = null;
 		this.setLocationAsString("Eliminated");
+	}
+	public boolean getAskedQuestionInRoom() {
+		return askedQuestionInRoom;
 	}
 
 	//
