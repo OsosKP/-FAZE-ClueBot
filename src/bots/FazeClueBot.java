@@ -2,7 +2,7 @@ package bots;
 
 import gameengine.*;
 
-public class Bot1 implements BotAPI {
+public class FazeClueBot implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -17,7 +17,7 @@ public class Bot1 implements BotAPI {
     private Log log;
     private Deck deck;
 
-    public Bot1 (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
+    public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
         this.map = map;
@@ -27,7 +27,7 @@ public class Bot1 implements BotAPI {
     }
 
     public String getName() {
-        return "Bot1"; // must match the class name
+        return "FazeClueBot"; // must match the class name
     }
 
     public String getCommand() {
