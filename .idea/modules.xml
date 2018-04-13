@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cluegit.iml" filepath="$PROJECT_DIR$/cluegit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClueBot.iml" filepath="$PROJECT_DIR$/ClueBot.iml" />
     </modules>
   </component>
 </project>
