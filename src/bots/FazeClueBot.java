@@ -3,12 +3,11 @@
 package bots;
 
 import gameengine.*;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bot1 implements BotAPI {
+public class FazeClueBot implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -23,7 +22,7 @@ public class Bot1 implements BotAPI {
     private Log log;
     private Deck deck;
 
-    public Bot1 (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
+    public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
         this.map = map;
@@ -34,7 +33,7 @@ public class Bot1 implements BotAPI {
     }
 
     public String getName() {
-        return "Bot1"; // must match the class name
+        return "FazeClueBot"; // must match the class name
     }
 
     public String getCommand() {
@@ -44,11 +43,17 @@ public class Bot1 implements BotAPI {
 
     public String getMove() {
         // Add your code here
-        return "r";
+        String move;
+        if (currentRoute == null)
+            beginPing();
+        move = findNextCommandMovingToRoom();
+
+        return move;
     }
 
     public String getSuspect() {
         // Add your code here
+        // TODO: George - just put 'yourNoteCardForSuspects.get(0). Do for all 3
         return Names.SUSPECT_NAMES[0];
     }
 
@@ -64,12 +69,14 @@ public class Bot1 implements BotAPI {
 
     public String getDoor() {
         // Add your code here
-        return "1";
+        return "0";
     }
 
     public String getCard(Cards matchingCards) {
         // Add your code here
-        return matchingCards.get().toString();
+        // TODO: This might be placeholder, but the format is correct - Kelsey
+        Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
+        return matchingCards.get(ourQuery).toString();
     }
 
     public void notifyResponse(Log response) {
@@ -77,20 +84,17 @@ public class Bot1 implements BotAPI {
     }
 
     /*
-        New variables and methods
+        Our Code
      */
 
     /*
-        mainTrack
-            This will hold the main course our bot should take around the cellar
-            It will follow the course, search for rooms to check, and stray from
-                the course to get to a room if needed.
-            Once done, it will either look for a close room or return to the course
+        New variables and methods
      */
 
     // Map coords: 24 x 23
     private List<Integer[]> mainTrack = new ArrayList<>();
     private List<Integer[]> currentRoute = new ArrayList<>();
+    private Room currentRoomDestination;
     private Integer[] currentPosition = new Integer[2];
     private List<Integer[]> doors = new ArrayList<>();
     private String[] doorsReference = new String[18];
@@ -118,21 +122,40 @@ public class Bot1 implements BotAPI {
     }
 
     private String takeTurn() {
-        if (movingToRoom) {
-            return findNextCommandMovingToRoom();
-        }
+        // Update Log
+        //TODO: Josh
 
-        if (inRoom && !guessedInRoom) {
-            return "guess";
-        }
-
-        if (inRoom && guessedInRoom) {
-            return "exit 0";
-        }
-
+        // Check if we have an accusation
         if (checkIfIShouldGoToCellar())
             //TODO: Direct ping to cellar only
             return "placeholder";
+
+        // If not, see if we're en route to a room
+        if (movingToRoom) {
+            // Make sure we still want to go to this room
+            if(shouldIVisitRoom(currentRoomDestination))
+                // If so, continue
+                return findNextCommandMovingToRoom();
+            else {
+                movingToRoom = false;
+                // If not, re-ping
+                beginPing();
+                // And start moving
+                return findNextCommandMovingToRoom();
+            }
+        }
+
+        if (inRoom) {
+            if (guessedInRoom)
+                // Exit - Is this right?
+                getDoor();
+                beginPing();
+
+
+            return "guess";
+        }
+
+
 
         // If we're not in a room and we need to find one to go to, ping and start over
         beginPing();
@@ -143,6 +166,10 @@ public class Bot1 implements BotAPI {
 
     }
 
+    /*
+        When we have a path to follow to a room, this method gets the next step to
+            do and sends the appropriate command
+     */
     private String findNextCommandMovingToRoom() {
         currentRouteProgressIndex++;
         int rowDiff = currentRoute.get(currentRouteProgressIndex-1)[0] -
@@ -179,6 +206,195 @@ public class Bot1 implements BotAPI {
         }
         return found;
     }
+
+    private void beginPing() {
+        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "l"))
+            ping(currentPosition[0], currentPosition[1]-1,
+                    new ArrayList<>(), new boolean[][] {{false}, {false}});
+        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "u"))
+            ping(currentPosition[0]-1, currentPosition[1],
+                    new ArrayList<>(), new boolean[][] {{false}, {false}});
+        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "r"))
+            ping(currentPosition[0], currentPosition[1]+1,
+                    new ArrayList<>(), new boolean[][] {{false}, {false}});
+        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "d"))
+            ping(currentPosition[0]+1, currentPosition[1],
+                    new ArrayList<>(), new boolean[][] {{false}, {false}});
+    }
+
+    /*
+        This is a recursive method that finds the closest path to a room we want to visit
+            Each call updates its own route, and returns it when
+     */
+    private void ping(int row, int col, ArrayList<Integer[]> route, boolean[][] explored) {
+        int counter = 0;
+
+        if (!explored[row][col]) {
+            explored[row][col] = true;
+            route.add(new Integer[]{row, col});
+
+            if (isDoor(row, col, counter)) {
+                if (shouldIVisitRoom(map.getRoom(doorsReference[counter]))) {
+                    currentRoute = route;
+                    movingToRoom = true;
+                    currentRoomDestination = map.getRoom(doorsReference[counter]);
+                    return;
+                }
+            }
+        }
+
+        if (map.isValidMove(new Coordinates(row, col), "l"))
+            ping(row, col-1, route, explored);
+        if (map.isValidMove(new Coordinates(row, col), "u"))
+            ping(row-1, col, route, explored);
+        if (map.isValidMove(new Coordinates(row, col), "r"))
+            ping(row, col+1, route, explored);
+        if (map.isValidMove(new Coordinates(row, col), "d"))
+            ping(row+1, col, route, explored);
+    }
+
+    public boolean checkIfIShouldGoToCellar() {
+        int counter = 0;
+        // Check status of characters guessed
+        for (int i=0; i<6; i++) {
+            if (notes.get(i).probability > 0)
+                // Count how many characters we're unsure about
+                counter++;
+        }
+        // If we're unsure about more than 1, no guessing
+        if (counter > 1)
+            return false;
+
+        counter = 0;
+        // Do the same method for weapons
+        for (int i=0; i<6; i++) {
+            if (notes.get(i+6).probability > 0)
+                // Count how many weapons we're unsure about
+                counter++;
+        }
+        if (counter > 1)
+            return false;
+
+        // Do the same method for rooms
+        for (int i=0; i<9; i++) {
+            if (notes.get(i+12).probability > 0)
+                // Count how many rooms we're unsure about
+                counter++;
+        }
+        // At this point if we only have 1 room to guess, we're ready.
+        // Otherwise, this evaluates to false and we don't guess
+        return (counter == 1);
+    }
+
+
+
+
+
+    /*
+        Guessing
+     */
+    // TODO: An idea I have for storing guess cards. We could change this.
+    public static class NoteCard {
+        private String name;
+        private int probability;
+        private boolean guessed;
+        private String whoHas;
+
+        public NoteCard(String name) {
+            this.name = name;
+            probability = 100;
+            guessed = false;
+            whoHas = "";
+        }
+
+        private boolean isGuessed() {
+            return guessed;
+        }
+
+        private int getProbability() {
+            return probability;
+        }
+
+        private void setShown() {
+            probability = 0;
+        }
+
+        private void setMaybeShown() {
+            if (probability > 25)
+                probability -= 25;
+            else
+                probability = 0;
+        }
+    }
+
+    private void setNoteCards() {
+        for (int i=0; i<6; i++)
+            notes.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+        for (int i=0; i<6; i++)
+            notes.add(new NoteCard(Names.WEAPON_NAMES[i]));
+        for (int i=0; i<9; i++)
+            notes.add(new NoteCard(Names.ROOM_NAMES[i]));
+    }
+
+    private List<NoteCard> getNoteCards() {
+        return notes;
+    }
+
+    private NoteCard getNoteCardByName(String name) {
+        for (NoteCard nc : notes) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        return null;
+    }
+
+    private boolean shouldIVisitRoom(Room room) {
+        for (NoteCard nc : notes) {
+            if (nc.name.equals(room.toString())) {
+                if (nc.probability > 25)
+                    return true;
+                break;
+            }
+        }
+        return false;
+    }
+
+    /*
+        Auxiliary and storage methods
+     */
+
+    private void storeAllDoors() {
+        doors.add(new Integer[]{4,6});
+        doors.add(new Integer[]{8,5});
+        doors.add(new Integer[]{9,7});
+        doors.add(new Integer[]{14,7});
+        doors.add(new Integer[]{15,5});
+        doors.add(new Integer[]{18,4});
+        doors.add(new Integer[]{18,9});
+        doors.add(new Integer[]{22,12});
+        doors.add(new Integer[]{17,16});
+        doors.add(new Integer[]{20,14});
+        doors.add(new Integer[]{17,21});
+        doors.add(new Integer[]{11,18});
+        doors.add(new Integer[]{12,18});
+        doors.add(new Integer[]{14,20});
+        doors.add(new Integer[]{6,19});
+        doors.add(new Integer[]{6,15});
+        doors.add(new Integer[]{7,12});
+        doors.add(new Integer[]{12,17});
+    }
+
+    /*
+        I don't think I'm going to use this
+     */
+
+    /*
+        mainTrack
+            This will hold the main course our bot should take around the cellar
+            It will follow the course, search for rooms to check, and stray from
+                the course to get to a room if needed.
+            Once done, it will either look for a close room or return to the course
+     */
 
     private void setMainTrack() {
         mainTrack.add(new Integer[]{8,8});
@@ -286,178 +502,5 @@ public class Bot1 implements BotAPI {
                 break;
         }
         return path;
-    }
-
-    private void beginPing() {
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "l"))
-            ping(currentPosition[0], currentPosition[1]-1, new ArrayList<>());
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "u"))
-            ping(currentPosition[0]-1, currentPosition[1], new ArrayList<>());
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "r"))
-            ping(currentPosition[0], currentPosition[1]+1, new ArrayList<>());
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "d"))
-            ping(currentPosition[0]+1, currentPosition[1], new ArrayList<>());
-    }
-
-    private void ping(int row, int col, ArrayList<Integer[]> route) {
-        int counter = 0;
-
-        route.add(new Integer[]{row,col});
-
-        if (isDoor(row, col, counter)) {
-            if(shouldIVisitRoom(map.getRoom(doorsReference[counter]))) {
-                currentRoute = route;
-                movingToRoom = true;
-                return;
-            }
-        }
-
-        if (map.isValidMove(new Coordinates(row, col), "l"))
-            ping(row, col-1, route);
-        if (map.isValidMove(new Coordinates(row, col), "u"))
-            ping(row-1, col, route);
-        if (map.isValidMove(new Coordinates(row, col), "r"))
-            ping(row, col+1, route);
-        if (map.isValidMove(new Coordinates(row, col), "d"))
-            ping(row+1, col, route);
-    }
-
-    public boolean checkIfIShouldGoToCellar() {
-        int counter = 0;
-        // Check status of characters guessed
-        for (int i=0; i<6; i++) {
-            if (notes.get(i).probability > 0)
-                // Count how many characters we're unsure about
-                counter++;
-        }
-        // If we're unsure about more than 1, no guessing
-        if (counter > 1)
-            return false;
-
-        counter = 0;
-        // Do the same method for weapons
-        for (int i=0; i<6; i++) {
-            if (notes.get(i+6).probability > 0)
-                // Count how many weapons we're unsure about
-                counter++;
-        }
-        if (counter > 1)
-            return false;
-
-        // Do the same method for rooms
-        for (int i=0; i<9; i++) {
-            if (notes.get(i+12).probability > 0)
-                // Count how many rooms we're unsure about
-                counter++;
-        }
-        // At this point if we only have 1 room to guess, we're ready.
-        // Otherwise, this evaluates to false and we don't guess
-        return (counter == 1);
-    }
-
-
-
-
-
-    /*
-        Guessing
-     */
-    // TODO: An idea I have for storing guess cards. We could change this.
-    public static class NoteCard {
-        private String name;
-        private int probability;
-        private boolean guessed;
-
-        public NoteCard(String name) {
-            this.name = name;
-            probability = 100;
-            guessed = false;
-        }
-
-        private boolean isGuessed() {
-            return guessed;
-        }
-
-        private int getProbability() {
-            return probability;
-        }
-
-        private void setShown() {
-            probability = 0;
-        }
-
-        private void setMaybeShown() {
-            probability -= 25;
-        }
-    }
-
-    private void setNoteCards() {
-        for (int i=0; i<6; i++)
-            notes.add(new NoteCard(Names.SUSPECT_NAMES[i]));
-        for (int i=0; i<6; i++)
-            notes.add(new NoteCard(Names.WEAPON_NAMES[i]));
-        for (int i=0; i<9; i++)
-            notes.add(new NoteCard(Names.ROOM_NAMES[i]));
-    }
-
-    private List<NoteCard> getNoteCards() {
-        return notes;
-    }
-
-    private NoteCard getNoteCardByName(String name) {
-        for (NoteCard nc : notes) {
-            if (nc.name.equals(name))
-                return nc;
-        }
-        return null;
-    }
-
-    private boolean shouldIVisitRoom(Room room) {
-        for (NoteCard nc : notes) {
-            if (nc.name.equals(room.toString())) {
-                if (nc.probability > 25)
-                    return true;
-                break;
-            }
-        }
-        return false;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-        Auxiliary and storage methods
-     */
-
-    private void storeAllDoors() {
-        doors.add(new Integer[]{4,6});
-        doors.add(new Integer[]{8,5});
-        doors.add(new Integer[]{9,7});
-        doors.add(new Integer[]{14,7});
-        doors.add(new Integer[]{15,5});
-        doors.add(new Integer[]{18,4});
-        doors.add(new Integer[]{18,9});
-        doors.add(new Integer[]{22,12});
-        doors.add(new Integer[]{17,16});
-        doors.add(new Integer[]{20,14});
-        doors.add(new Integer[]{17,21});
-        doors.add(new Integer[]{11,18});
-        doors.add(new Integer[]{12,18});
-        doors.add(new Integer[]{14,20});
-        doors.add(new Integer[]{6,19});
-        doors.add(new Integer[]{6,15});
-        doors.add(new Integer[]{7,12});
-        doors.add(new Integer[]{12,17});
     }
 }
