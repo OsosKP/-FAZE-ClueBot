@@ -76,8 +76,6 @@ public class FazeClueBot implements BotAPI {
         // Add your code here
     }
 
-
-
     /*
         New variables and methods
      */
@@ -101,9 +99,6 @@ public class FazeClueBot implements BotAPI {
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
     private int currentRouteProgressIndex = 0;
-
-
-
 
     /*
         Movement
@@ -184,7 +179,6 @@ public class FazeClueBot implements BotAPI {
         }
         return found;
     }
-
 
     private void setMainTrack() {
         mainTrack.add(new Integer[]{8,8});
@@ -296,16 +290,16 @@ public class FazeClueBot implements BotAPI {
 
     private void beginPing() {
         if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "l"))
-            ping(currentPosition[0], currentPosition[1]-1, null);
+            ping(currentPosition[0], currentPosition[1]-1, new ArrayList<>());
         if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "u"))
-            ping(currentPosition[0]-1, currentPosition[1], null);
+            ping(currentPosition[0]-1, currentPosition[1], new ArrayList<>());
         if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "r"))
-            ping(currentPosition[0], currentPosition[1]+1, null);
+            ping(currentPosition[0], currentPosition[1]+1, new ArrayList<>());
         if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "d"))
-            ping(currentPosition[0]+1, currentPosition[1], null);
+            ping(currentPosition[0]+1, currentPosition[1], new ArrayList<>());
     }
 
-    private void ping(int row, int col, @Nullable ArrayList<Integer[]> route) {
+    private void ping(int row, int col, ArrayList<Integer[]> route) {
         int counter = 0;
 
         route.add(new Integer[]{row,col});
