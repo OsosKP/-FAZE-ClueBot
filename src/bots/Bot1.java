@@ -75,6 +75,7 @@ public class Bot1 implements BotAPI {
     }
 
     public void notifyResponse(Log response) {
+    	//See notes for this method
         // Add your code here
     }
 
