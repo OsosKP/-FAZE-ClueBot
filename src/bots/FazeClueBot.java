@@ -3,7 +3,6 @@
 package bots;
 
 import gameengine.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +30,17 @@ public class FazeClueBot implements BotAPI {
         this.deck = deck;
         setMainTrack();
     }
-
+    
+//    
+//    Note: All inputs are sanitized with .trim() and .toLowerCase()
+//
+    
     public String getName() {
         return "FazeClueBot"; // must match the class name
     }
 
     public String getCommand() {
-        // Add your code here
+        // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
         return "done";
     }
 
@@ -54,16 +57,18 @@ public class FazeClueBot implements BotAPI {
     public String getSuspect() {
         // Add your code here
         // TODO: George - just put 'yourNoteCardForSuspects.get(0). Do for all 3
-        return Names.SUSPECT_NAMES[0];
+        // Input must return true for Names.isSuspect(String input)
+        // Possible inputs: u|d|l|r
+        return getSuspect();
     }
 
     public String getWeapon() {
-        // Add your code here
+    	// Input must return true for Names.isWeapon(String input)
         return Names.WEAPON_NAMES[0];
     }
 
     public String getRoom() {
-        // Add your code here
+    	// Input must return true for Names.isRoomCard(String input)
         return Names.ROOM_NAMES[0];
     }
 
@@ -76,10 +81,13 @@ public class FazeClueBot implements BotAPI {
         // Add your code here
         // TODO: This might be placeholder, but the format is correct - Kelsey
         Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
-        return matchingCards.get(ourQuery).toString();
+        // Possible input: 1|2|3|4
+        // Input needs to return true: (at least one card).hasName(String input) in matchingCards
+        return matchingCards.get().toString();
     }
 
     public void notifyResponse(Log response) {
+    	//See notes for this method
         // Add your code here
     }
 
