@@ -28,7 +28,8 @@ public class FazeClueBot implements BotAPI {
         this.dice = dice;
         this.log = log;
         this.deck = deck;
-        setMainTrack();
+        // Store locations to all doors on the board
+        storeAllDoors();
     }
     
 //    
@@ -83,7 +84,7 @@ public class FazeClueBot implements BotAPI {
         Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
         // Possible input: 1|2|3|4
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
-        return matchingCards.get().toString();
+        return matchingCards.get(ourQuery).toString();
     }
 
     public void notifyResponse(Log response) {
@@ -100,7 +101,6 @@ public class FazeClueBot implements BotAPI {
      */
 
     // Map coords: 24 x 23
-    private List<Integer[]> mainTrack = new ArrayList<>();
     private List<Integer[]> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
     private Integer[] currentPosition = new Integer[2];
@@ -163,11 +163,11 @@ public class FazeClueBot implements BotAPI {
             return "guess";
         }
 
-
-
-        // If we're not in a room and we need to find one to go to, ping and start over
-        beginPing();
-        takeTurn();
+        else {
+            // If we're not in a room and we need to find one to go to, ping and start over
+            beginPing();
+            takeTurn();
+        }
 
         // I don't think it should every come to this
         return "placeholder";
@@ -215,6 +215,9 @@ public class FazeClueBot implements BotAPI {
         return found;
     }
 
+    /*
+        Begin a ping in all directions looking for a room to move to
+     */
     private void beginPing() {
         if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "l"))
             ping(currentPosition[0], currentPosition[1]-1,
@@ -231,36 +234,52 @@ public class FazeClueBot implements BotAPI {
     }
 
     /*
-        This is a recursive method that finds the closest path to a room we want to visit
-            Each call updates its own route, and returns it when
+        This is a recursive method that finds the quickest path to a room we want to visit
+            Each call updates its own route, and returns it when a suitable room is found
+               explored is sent as an empty array of booleans, one for each board square
      */
     private void ping(int row, int col, ArrayList<Integer[]> route, boolean[][] explored) {
+        // Counter is supposed to help the bot choose which exit to take from a room
+        // Not using this yet because I'm just having the bot always pick exit 0
         int counter = 0;
 
+        // If we've come to a square that we haven't been to yet...
         if (!explored[row][col]) {
+            // Mark this square as explored
             explored[row][col] = true;
+            // Add this square to the current route
             route.add(new Integer[]{row, col});
-
+            // If we have found a door to a room
             if (isDoor(row, col, counter)) {
+                // If we haven't eliminated the possibility of this room
+                    // being in the murder envelope
                 if (shouldIVisitRoom(map.getRoom(doorsReference[counter]))) {
+                    // Set the current route as the route to this room
                     currentRoute = route;
+                    // Denote that we are moving to a room currently
                     movingToRoom = true;
+                    // Set the room we're moving towards
+                    // We will use this variable to check at the beginning of
+                        // each turn if we should still be moving toward that room
                     currentRoomDestination = map.getRoom(doorsReference[counter]);
+                    // End recursive calls
                     return;
                 }
             }
         }
-
-        if (map.isValidMove(new Coordinates(row, col), "l"))
+        // Check each direction to ensure we can move that way
+        // If so, recursive call to continue in that direction
+        if (map.isValidMove(new Coordinates(row, col-1), "l"))
             ping(row, col-1, route, explored);
-        if (map.isValidMove(new Coordinates(row, col), "u"))
+        if (map.isValidMove(new Coordinates(row-1, col), "u"))
             ping(row-1, col, route, explored);
-        if (map.isValidMove(new Coordinates(row, col), "r"))
+        if (map.isValidMove(new Coordinates(row, col+1), "r"))
             ping(row, col+1, route, explored);
-        if (map.isValidMove(new Coordinates(row, col), "d"))
+        if (map.isValidMove(new Coordinates(row+1, col), "d"))
             ping(row+1, col, route, explored);
     }
 
+    // TODO: George: The skeleton of this is right, but update based on your probability needs
     public boolean checkIfIShouldGoToCellar() {
         int counter = 0;
         // Check status of characters guessed
@@ -301,7 +320,7 @@ public class FazeClueBot implements BotAPI {
     /*
         Guessing
      */
-    // TODO: An idea I have for storing guess cards. We could change this.
+    // TODO: An idea I have for storing guess cards. We could change this. - Kelsey
     public static class NoteCard {
         private String name;
         private int probability;
@@ -390,125 +409,5 @@ public class FazeClueBot implements BotAPI {
         doors.add(new Integer[]{6,15});
         doors.add(new Integer[]{7,12});
         doors.add(new Integer[]{12,17});
-    }
-
-    /*
-        I don't think I'm going to use this
-     */
-
-    /*
-        mainTrack
-            This will hold the main course our bot should take around the cellar
-            It will follow the course, search for rooms to check, and stray from
-                the course to get to a room if needed.
-            Once done, it will either look for a close room or return to the course
-     */
-
-    private void setMainTrack() {
-        mainTrack.add(new Integer[]{8,8});
-        mainTrack.add(new Integer[]{8,9});
-        mainTrack.add(new Integer[]{8,10});
-        mainTrack.add(new Integer[]{8,11});
-        mainTrack.add(new Integer[]{8,12});
-        mainTrack.add(new Integer[]{8,13});
-        mainTrack.add(new Integer[]{8,14});
-        mainTrack.add(new Integer[]{8,15});
-        mainTrack.add(new Integer[]{8,16});
-
-        mainTrack.add(new Integer[]{9,16});
-        mainTrack.add(new Integer[]{10,16});
-        mainTrack.add(new Integer[]{11,16});
-        mainTrack.add(new Integer[]{12,16});
-        mainTrack.add(new Integer[]{13,16});
-        mainTrack.add(new Integer[]{14,16});
-        mainTrack.add(new Integer[]{15,16});
-        mainTrack.add(new Integer[]{16,16});
-
-        mainTrack.add(new Integer[]{17,16});
-        mainTrack.add(new Integer[]{17,15});
-        mainTrack.add(new Integer[]{17,14});
-        mainTrack.add(new Integer[]{17,13});
-        mainTrack.add(new Integer[]{17,12});
-        mainTrack.add(new Integer[]{17,11});
-        mainTrack.add(new Integer[]{17,10});
-        mainTrack.add(new Integer[]{17,9});
-        mainTrack.add(new Integer[]{17,8});
-
-        mainTrack.add(new Integer[]{17,8});
-        mainTrack.add(new Integer[]{16,8});
-        mainTrack.add(new Integer[]{15,8});
-        mainTrack.add(new Integer[]{14,8});
-        mainTrack.add(new Integer[]{13,8});
-        mainTrack.add(new Integer[]{12,8});
-        mainTrack.add(new Integer[]{11,8});
-        mainTrack.add(new Integer[]{10,8});
-        mainTrack.add(new Integer[]{9,8});
-    }
-
-    private List<Integer[]> getPathToRoom(String roomName) {
-        ArrayList<Integer[]> path = new ArrayList<>();
-        switch (roomName) {
-            case "Kitchen":
-                path.add(new Integer[]{8, 8});
-                path.add(new Integer[]{8, 7});
-                path.add(new Integer[]{8, 6});
-                path.add(new Integer[]{8, 5});
-                path.add(new Integer[]{8, 4});
-                path.add(new Integer[]{7, 4});
-                path.add(new Integer[]{6, 4});
-                break;
-            case "Ballroom":
-                path.add(new Integer[]{8, 9});
-                path.add(new Integer[]{7, 9});
-                path.add(new Integer[]{8, 14});
-                path.add(new Integer[]{7, 14});
-                break;
-            case "Conservatory":
-                path.add(new Integer[]{8, 16});
-                path.add(new Integer[]{7, 16});
-                path.add(new Integer[]{6, 16});
-                path.add(new Integer[]{5, 16});
-                path.add(new Integer[]{5, 17});
-                path.add(new Integer[]{5, 18});
-                path.add(new Integer[]{4, 18});
-                break;
-            case "Billiard Room":
-                path.add(new Integer[]{9, 16});
-                path.add(new Integer[]{9, 17});
-                path.add(new Integer[]{9, 18});
-                break;
-            case "Library":
-                path.add(new Integer[]{16, 16});
-                path.add(new Integer[]{16, 17});
-                break;
-            case "Study":
-                path.add(new Integer[]{17, 16});
-                path.add(new Integer[]{18, 16});
-                path.add(new Integer[]{18, 17});
-                path.add(new Integer[]{19, 17});
-                path.add(new Integer[]{20, 17});
-                path.add(new Integer[]{21, 17});
-                break;
-            case "Hall":
-                path.add(new Integer[]{17, 12});
-                path.add(new Integer[]{18, 12});
-                break;
-            case "Lounge":
-                path.add(new Integer[]{17, 8});
-                path.add(new Integer[]{17, 7});
-                path.add(new Integer[]{17, 6});
-                path.add(new Integer[]{18, 6});
-                path.add(new Integer[]{19, 6});
-                break;
-            case "Dining Room":
-                path.add(new Integer[]{12, 8});
-                path.add(new Integer[]{12, 7});
-                break;
-            case "Cellar":
-                path.add(new Integer[]{17, 12});
-                path.add(new Integer[]{16, 12});
-                break;
-        }
-        return path;
     }
 }
