@@ -363,7 +363,7 @@ public class FazeClueBot implements BotAPI {
      */
     public static class NoteCard {
         private String name;
-        private int probability;
+        public int probability;
         private boolean guessed;
         private String whoHas;
 
@@ -561,13 +561,13 @@ public class FazeClueBot implements BotAPI {
     }
 
 
-    private NoteCard getNoteCardByName(String name) {
-        for (NoteCard nc : notes) {
-            if (nc.name.equals(name))
-                return nc;
-        }
-        return null;
-    }
+//    private NoteCard getNoteCardByName(String name) {
+//        for (NoteCard nc : notes) {
+//            if (nc.name.equals(name))
+//                return nc;
+//        }
+//        return null;
+//    }
 
 
 
