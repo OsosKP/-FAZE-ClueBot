@@ -30,9 +30,6 @@ public class FazeClueBot implements BotAPI {
         this.deck = deck;
         // Store locations to all doors on the board
         storeAllDoors();
-        
-        /* Creating the game cards */
-        setNoteCards();
     }
     
 //    
@@ -104,18 +101,12 @@ public class FazeClueBot implements BotAPI {
      */
 
     // Map coords: 24 x 23
-    private List<Integer[]> mainTrack = new ArrayList<>();
     private List<Integer[]> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
     private Integer[] currentPosition = new Integer[2];
     private List<Integer[]> doors = new ArrayList<>();
     private String[] doorsReference = new String[18];
-    
-    /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
-    private List<NoteCard> playerCards = new ArrayList<>();
-    private List<NoteCard> weaponCards = new ArrayList<>();
-    private List<NoteCard> roomCards = new ArrayList<>();
-    
+    private List<NoteCard> notes = new ArrayList<>();
     private boolean movingToRoom = false;
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
@@ -356,7 +347,17 @@ public class FazeClueBot implements BotAPI {
     /*
         Guessing
      */
+<<<<<<< HEAD:src/bots/Bot1.java
+    
+    /* 
+     * If we see the card -- then we drop the probability to 0 
+     * Otherwise we have to deal with the probability another way
+     */
+    
+    // TODO: An idea I have for storing guess cards. We could change this.
+=======
     // TODO: An idea I have for storing guess cards. We could change this. - Kelsey
+>>>>>>> 30947fe1dc1cc5b14426cb121c9ef0554aec15a3:src/bots/FazeClueBot.java
     public static class NoteCard {
         private String name;
         private int probability;
@@ -392,13 +393,16 @@ public class FazeClueBot implements BotAPI {
 
     private void setNoteCards() {
         for (int i=0; i<6; i++)
-            playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+            notes.add(new NoteCard(Names.SUSPECT_NAMES[i]));
         for (int i=0; i<6; i++)
-            weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
+            notes.add(new NoteCard(Names.WEAPON_NAMES[i]));
         for (int i=0; i<9; i++)
-            roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
+            notes.add(new NoteCard(Names.ROOM_NAMES[i]));
     }
 
+    private List<NoteCard> getNoteCards() {
+        return notes;
+    }
 
     private NoteCard getNoteCardByName(String name) {
         for (NoteCard nc : notes) {
@@ -407,21 +411,6 @@ public class FazeClueBot implements BotAPI {
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
         Auxiliary and storage methods
