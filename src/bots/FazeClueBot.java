@@ -396,14 +396,17 @@ public class FazeClueBot implements BotAPI {
     
     /* Going to contain all of the Guessing Logic */
     public class GuessingLogic {
+    	private Boolean readyToAccuse = false;
     	
     	public GuessingLogic() {
 			/* Filling the note cards */
     		setNoteCards();
     	}
     	
+    	/**
+    	 * To be called at the beginning of out bots turn
+    	 */
     	public void startTurnLogic() {
-    		
     		/* Removing the cards from the lists who have a probability of 0 */
     		removePlayers();
     		removeRooms();
@@ -414,9 +417,15 @@ public class FazeClueBot implements BotAPI {
     		sortRooms();
     		sortWeapons();
     		
+    		/* checking to see if we are ready to accuse a player */
+    		accuseCheck();
     	}
     	
-    	
+    	private void accuseCheck() {
+    		if ((playerCards.get(0).guessed == true && playerCards.get(0).probability == 100) && (weaponCards.get(0).guessed == true && weaponCards.get(0).probability == 100) && (roomCards.get(0).probability == 100 && roomCards.get(0).guessed == true)) {
+    			readyToAccuse = true;
+    		}
+    	}
     	
     	private void sortList(List<NoteCard> myList) {
     		NoteCard temp;
@@ -524,6 +533,7 @@ public class FazeClueBot implements BotAPI {
     		removeCards(roomCards);
     	}
     	
+    	/* Getter methods */
     	public NoteCard getCharacterGuess() {
     		return playerCards.get(0);
     	}
@@ -534,6 +544,10 @@ public class FazeClueBot implements BotAPI {
     	
     	public NoteCard getRomGuess() {
     		return roomCards.get(0);
+    	}
+    	
+    	public Boolean getAccuseState() {
+    		return readyToAccuse;
     	}
     }
 
