@@ -4,7 +4,10 @@ package bots;
 
 import gameengine.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import java.util.jar.Attributes.Name;
 
 public class FazeClueBot implements BotAPI {
 
@@ -141,6 +144,15 @@ public class FazeClueBot implements BotAPI {
     private List<NoteCard> playerCards = new ArrayList<>();
     private List<NoteCard> weaponCards = new ArrayList<>();
     private List<NoteCard> roomCards = new ArrayList<>();
+    
+    private List<NoteCard> playerHandCards = new ArrayList<>();
+    private List<NoteCard> weaponHandCards = new ArrayList<>();
+    private List<NoteCard> roomHandCards = new ArrayList<>();
+    
+    /* ArrayList that represents the removedCards */
+    private List<NoteCard> playerRemovedCards = new ArrayList<>();
+    private List<NoteCard> weaponRemovedCards = new ArrayList<>();
+    private List<NoteCard> roomRemovedCards = new ArrayList<>();
     
     private boolean movingToRoom = false;
     private boolean inRoom = false;
@@ -421,7 +433,17 @@ public class FazeClueBot implements BotAPI {
     
     /* Going to contain all of the Guessing Logic */
     public class GuessingLogic {
+    	
     	private Boolean readyToAccuse = false;
+    	
+    	private Boolean lockedInCharacter = false;
+    	private NoteCard lockedInNoteCharacter;
+    	
+    	private Boolean lockedInWeapon = false;
+    	private NoteCard lockedInNoteWeapon;
+    	
+    	private Boolean lockedInRoom = false;
+    	private NoteCard lockedInNoteRoom;
     	
     	public GuessingLogic() {
 			/* Filling the note cards */
@@ -432,22 +454,93 @@ public class FazeClueBot implements BotAPI {
     	 * To be called at the beginning of out bots turn
     	 */
     	public void startTurnLogic() {
-    		/* Removing the cards from the lists who have a probability of 0 */
-    		removePlayers();
-    		removeRooms();
-    		removeWeapons();
-    			
-    		/* Sorting the list so that, the cards with the highest probability are at the beginning of the lists */
-    		sortPlayers();
-    		sortRooms();
-    		sortWeapons();
+    		if (!readyToAccuse) {
+    			/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
+    			reviewLog(log);
     		
-    		/* checking to see if we are ready to accuse a player */
-    		accuseCheck();
+    			/* Removing the cards from the lists who have a probability of 0 */
+    			removePlayers();
+    			removeRooms();
+    			removeWeapons();
+    			
+    			/* Sorting the list so that, the cards with the highest probability are at the beginning of the lists */
+    			sortPlayers();
+    			sortRooms();
+    			sortWeapons();
+    		
+    			/* checking to see if we are ready to accuse a player */
+    			accuseCheck();
+    			lockedInRefresh();
+    		}
+    	}
+    	
+    	private void lockedInRefresh() {
+    		if (playerCards.size() == 1 && playerCards.get(0).guessed == true) {
+    			lockedInCharacter = true;
+    			lockedInNoteCharacter = playerCards.get(0);
+    		}
+    		
+    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed == true) {
+    			lockedInWeapon = true;
+    			lockedInNoteWeapon = playerCards.get(0);
+    		}
+    		
+    		if (roomCards.size() == 1 && roomCards.get(0).guessed == true) {
+    			lockedInRoom = true;
+    			lockedInNoteRoom = playerCards.get(0);
+    		}
+    	}
+    	
+    	/**
+    	 * Going though the log and seeing if we can update any of the probabilities based on the 
+    	 * @param reviewMe
+    	 */
+    	private void reviewLog(Log reviewMe) {
+    		/*  while the log continues  */
+    		
+    		//TODO: josh look at this and see if I can get the first entry in the log
+    		while (reviewMe.hasNext()) {
+    			String tempLookUp = reviewMe.next();
+    			int ourGuessCheck = tempLookUp.indexOf(':');
+    			
+    			if (ourGuessCheck < 0) {
+    			
+    				/* Need to loop though the string and see if we get any matches for the  */
+    				for (int i = 0; i < playerCards.size(); i++) {
+    					String tempName = playerCards.get(i).name;
+    				
+    					/* If we find the player's name in the log string  */
+    					if (tempLookUp.contains(tempName)) {
+    					
+    					}
+    				
+    				}
+    			
+    				/* Looping though the weaponCards */
+    				for (int i = 0; i < weaponCards.size(); i++) {
+    					String tempName = weaponCards.get(i).name;
+    				
+    					/* */
+    					if (tempLookUp.contains(tempName)) {
+    					
+    					}
+    				}
+    			
+    				/* Looping though the characterCards */
+    				for (int i = 0; i < roomCards.size(); i++) {
+    					String tempName = roomCards.get(i).name;
+    				
+    					if (tempLookUp.contains(tempName)) {
+    					
+    					}
+    				}
+    			}
+    		}
+    		
     	}
     	
     	private void accuseCheck() {
-    		if ((playerCards.get(0).guessed == true && playerCards.get(0).probability == 100) && (weaponCards.get(0).guessed == true && weaponCards.get(0).probability == 100) && (roomCards.get(0).probability == 100 && roomCards.get(0).guessed == true)) {
+    		if (lockedInCharacter && lockedInWeapon && lockedInRoom) {
     			readyToAccuse = true;
     		}
     	}
@@ -464,14 +557,26 @@ public class FazeClueBot implements BotAPI {
                         myList.set(i+1, temp);
                     }
                 }
-            }	
+            }
+    		
     	}
     	
-    	private void removeCards(List<NoteCard> myList) {
+    	private void removeCards(List<NoteCard> myList, char type) {
     		int currentIndex = 0;
     		
     		for (NoteCard currCard: myList) {
     			if (currCard.probability == 0) {
+    				
+    				if (type == 'c') {
+    					playerRemovedCards.add(myList.get(currentIndex));
+    				}
+    				else if (type == 'w') {
+    					weaponRemovedCards.add(myList.get(currentIndex));
+    				}
+    				else {
+    					roomRemovedCards.add(myList.get(currentIndex));
+    				}
+    				
     				myList.remove(currentIndex);
     			}
     			currentIndex++;
@@ -481,7 +586,7 @@ public class FazeClueBot implements BotAPI {
     	/**
     	 * Updating guessing based on question feedback
     	 * @param questionLog
-    	 */
+    	 */ 
     	public void questionAnsered(Log questionLog) {
 
     		playerCards.get(0).guessed = true;
@@ -490,9 +595,9 @@ public class FazeClueBot implements BotAPI {
     		
     		/* If none of the cards we guessed were shown back to us */
     		if (!questionLog.hasNext()) {
-    			playerCards.get(0).probability = 100;
-    			weaponCards.get(0).probability = 100;
-    			roomCards.get(0).probability = 100;
+    			playerCards.get(0).probability = 200;
+    			weaponCards.get(0).probability = 200;
+    			roomCards.get(0).probability = 200;
     		}
     		else { //if we get some cards shown back to us:
     			while (questionLog.hasNext()) {
@@ -532,6 +637,7 @@ public class FazeClueBot implements BotAPI {
     				}
     			}
     		}
+    		accuseCheck();
     	}
     	
     	private void sortPlayers() {
@@ -547,28 +653,70 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	private void removePlayers() {
-    		removeCards(playerCards);
+    		removeCards(playerCards, 'p');
     	}
     	
     	private void removeWeapons() {
-    		removeCards(weaponCards);
+    		removeCards(weaponCards, 'w');
     	}
     	
     	private void removeRooms() {
-    		removeCards(roomCards);
+    		removeCards(roomCards, 'r');
     	}
     	
     	/* Getter methods */
     	public NoteCard getCharacterGuess() {
-    		return playerCards.get(0);
+    		if (lockedInCharacter && !timeToAccuse) {
+    			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteCharacter;
+    			}
+    		}
+    		else if (lockedInCharacter && timeToAccuse) {
+    			return lockedInNoteCharacter;
+    		}
+    		else {
+    			return playerCards.get(0);
+    		}
     	}
     	
     	public NoteCard getWeaponGuess() {
-    		return weaponCards.get(0);
+    		if (lockedInWeapon && !timeToAccuse) {
+    			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteWeapon;
+    			}
+    		}
+    		else if (lockedInWeapon && timeToAccuse) {
+    			return lockedInNoteWeapon;
+    		}
+    		else {
+    			return weaponCards.get(0);
+    		}
     	}
     	
     	public NoteCard getRomGuess() {
-    		return roomCards.get(0);
+    		if (lockedInRoom && !timeToAccuse) {
+    			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteRoom;
+    			}
+    		}
+    		else if (lockedInRoom && timeToAccuse) {
+    			return lockedInNoteRoom;
+    		}
+    		else {
+    			return roomCards.get(0);
+    		}
     	}
     	
     	public Boolean getAccuseState() {
@@ -577,12 +725,30 @@ public class FazeClueBot implements BotAPI {
     }
 
     private void setNoteCards() {
-        for (int i=0; i<6; i++)
-            playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
-        for (int i=0; i<6; i++)
-            weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
-        for (int i=0; i<9; i++)
-            roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
+        for (int i=0; i<6; i++) {
+            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
+            	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+            }
+            else {
+            	playerHandCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+            }
+        }
+        for (int i=0; i<6; i++) {
+            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
+            	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
+            }
+            else {
+            	weaponHandCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
+            }
+        }
+        for (int i=0; i<9; i++) {
+        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
+        		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
+        	}
+        	else {
+        		roomHandCards.add(new NoteCard(Names.ROOM_CARD_NAMES[i]));
+        	}
+        }
     }
 
 
@@ -593,20 +759,6 @@ public class FazeClueBot implements BotAPI {
 //        }
 //        return null;
 //    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /*
