@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,12 +17,13 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="94" column="6" lean-forward="true" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="6" />
+            <state relative-caret-position="302">
+              <caret line="294" column="37" selection-start-line="294" selection-start-column="37" selection-end-line="294" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11952#11953#0" expanded="true" />
-                <element signature="e#11980#11981#0" expanded="true" />
+                <element signature="e#10051#10210#0" />
+                <element signature="e#12013#12014#0" expanded="true" />
+                <element signature="e#12041#12042#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,10 +100,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="9" />
+    <option name="x" value="741" />
     <option name="y" value="22" />
-    <option name="width" value="1327" />
-    <option name="height" value="868" />
+    <option name="width" value="697" />
+    <option name="height" value="878" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -241,15 +241,15 @@
       <workItem from="1523789965981" duration="10210000" />
       <workItem from="1523963716634" duration="6716000" />
       <workItem from="1523986092987" duration="81000" />
-      <workItem from="1524035239161" duration="840000" />
+      <workItem from="1524035239161" duration="2673000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18841000" />
+    <option name="totallyTimeSpent" value="20674000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="9" y="22" width="1327" height="868" extended-state="0" />
+    <frame x="741" y="22" width="697" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -265,7 +265,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.06480784" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123385936" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -300,8 +300,9 @@
           <caret line="138" column="33" lean-forward="true" selection-start-line="138" selection-start-column="33" selection-end-line="138" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -345,8 +346,9 @@
           <caret line="119" column="5" lean-forward="true" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -411,8 +413,9 @@
           <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -423,8 +426,9 @@
           <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -456,8 +460,9 @@
           <caret line="56" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -524,8 +529,9 @@
           <caret line="316" column="60" lean-forward="true" selection-start-line="316" selection-start-column="60" selection-end-line="316" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -607,12 +613,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="94" column="6" lean-forward="true" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="6" />
+        <state relative-caret-position="302">
+          <caret line="294" column="37" selection-start-line="294" selection-start-column="37" selection-end-line="294" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11952#11953#0" expanded="true" />
-            <element signature="e#11980#11981#0" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -110,6 +110,7 @@ public class FazeClueBot implements BotAPI {
     private boolean movingToRoom = false;
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
+    private boolean timeToAccuse = false;
     private int currentRouteProgressIndex = 0;
 
     /*
@@ -133,10 +134,15 @@ public class FazeClueBot implements BotAPI {
         // Update Log
         //TODO: Josh
 
-        // Check if we have an accusation
-        if (checkIfIShouldGoToCellar())
-            //TODO: Direct ping to cellar only
-            return "placeholder";
+        /* Check if we have an accusation
+                If so, we will call shouldIVisitRoom.
+                This method checks timeToAccuse and returns the boolean:
+                    (we need to go to the cellar) AND (we are going to the cellar)
+                If timeToAccuse is false, shouldIVisitRoom just looks for the room
+                    it is given and decides whether or not we know it's in the
+                    murder envelope. If we don't know, we'll visit it.
+         */
+        timeToAccuse = checkIfIShouldGoToCellar();
 
         // If not, see if we're en route to a room
         if (movingToRoom) {
@@ -152,26 +158,25 @@ public class FazeClueBot implements BotAPI {
                 return findNextCommandMovingToRoom();
             }
         }
-
+        // If we begin our turn in a room
         if (inRoom) {
+            // Check if we've already guessed in this room. If we have...
             if (guessedInRoom)
-                // Exit - Is this right?
+                // TODO: Exit - Is this right?
+                    // We need to choose a door (or just pick 0), exit, then ping
                 getDoor();
-                beginPing();
-
-
-            return "guess";
+            // Otherwise, make a guess
+            // TODO: George: This is where we do our guessing
+            else
+                return "guess";
         }
-
-        else {
-            // If we're not in a room and we need to find one to go to, ping and start over
-            beginPing();
-            takeTurn();
-        }
-
-        // I don't think it should every come to this
-        return "placeholder";
-
+        /*
+            If we have gotten to this point without returning:
+                We're not in a room (if we were, we just exited) and not on our way
+                to one. So we need to ping to find the closest room we want and redo all this.
+         */
+        beginPing();
+        return takeTurn();
     }
 
     /*
@@ -180,6 +185,11 @@ public class FazeClueBot implements BotAPI {
      */
     private String findNextCommandMovingToRoom() {
         currentRouteProgressIndex++;
+        /*
+            The next square in our route will be different in either the row
+                or column index. Find which one it is (it should only be one) and
+                set our next move command accordingly.
+         */
         int rowDiff = currentRoute.get(currentRouteProgressIndex-1)[0] -
                 currentRoute.get(currentRouteProgressIndex)[0];
         int colDiff = currentRoute.get(currentRouteProgressIndex-1)[1] -
@@ -279,6 +289,27 @@ public class FazeClueBot implements BotAPI {
             ping(row+1, col, route, explored);
     }
 
+    // TODO: George: Change this probability of 25 to whatever you want
+    /*
+        shouldIVisitRoom returns a boolean when passed a room as a parameter.
+            If it decides we want to visit that room, it returns true.
+            It is called from ping() and determines where we go next.
+     */
+    private boolean shouldIVisitRoom(Room room) {
+        // If we need to accuse, just check if we're going to the cellar
+        if (timeToAccuse)
+            return room.hasName("Cellar");
+        // Otherwise, decide if the given room is worth visiting
+        for (NoteCard nc : notes) {
+            if (nc.name.equals(room.toString())) {
+                if (nc.probability > 25)
+                    return true;
+                break;
+            }
+        }
+        return false;
+    }
+
     // TODO: George: The skeleton of this is right, but update based on your probability needs
     public boolean checkIfIShouldGoToCellar() {
         int counter = 0;
@@ -312,10 +343,6 @@ public class FazeClueBot implements BotAPI {
         // Otherwise, this evaluates to false and we don't guess
         return (counter == 1);
     }
-
-
-
-
 
     /*
         Guessing
@@ -373,17 +400,6 @@ public class FazeClueBot implements BotAPI {
                 return nc;
         }
         return null;
-    }
-
-    private boolean shouldIVisitRoom(Room room) {
-        for (NoteCard nc : notes) {
-            if (nc.name.equals(room.toString())) {
-                if (nc.probability > 25)
-                    return true;
-                break;
-            }
-        }
-        return false;
     }
 
     /*
