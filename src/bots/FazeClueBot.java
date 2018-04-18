@@ -20,6 +20,7 @@ public class FazeClueBot implements BotAPI {
     private Dice dice;
     private Log log;
     private Deck deck;
+    private GuessingLogic guessing;
 
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -32,7 +33,7 @@ public class FazeClueBot implements BotAPI {
         storeAllDoors();
         
         /* Creating the game cards */
-        setNoteCards();
+        guessing = new GuessingLogic();
     }
     
 //    
@@ -80,7 +81,8 @@ public class FazeClueBot implements BotAPI {
         // Add your code here
         return "0";
     }
-
+    
+    /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
         // Add your code here
         // TODO: This might be placeholder, but the format is correct - Kelsey
@@ -356,7 +358,6 @@ public class FazeClueBot implements BotAPI {
     /*
         Guessing
      */
-    // TODO: An idea I have for storing guess cards. We could change this. - Kelsey
     public static class NoteCard {
         private String name;
         private int probability;
@@ -388,6 +389,49 @@ public class FazeClueBot implements BotAPI {
             else
                 probability = 0;
         }
+    }
+    
+    /* Going to Contian all of the Guessing Logic */
+    public class GuessingLogic {
+    	
+    	public GuessingLogic() {
+			/* Filling the note cards */
+    		setNoteCards();
+    	}
+    	
+    	public void startTurnLogic() {
+    		/* Sorting the list so that, the cards with the highest probability are at the beginning of the lists */
+    		shufflePlayers();
+    		shuffleRooms();
+    		shuffleWeapons();
+    	}
+    	
+    	private void sortList(List<NoteCard> myList) {
+    		NoteCard temp;
+   
+    		/* Using Bubble sort to arrange the cards with the highest probability at the beginning of the array */
+    		for (int x = 0; x < myList.size(); x++) {
+                for (int i=0; i < myList.size()- x - 1; i++) {
+                    if (myList.get(i).probability < myList.get(i+1).probability) {
+                        temp = myList.get(i);
+                        myList.set(i, myList.get(i+1) );
+                        myList.set(i+1, temp);
+                    }
+                }
+            }   		
+    	}
+    	
+    	private void shufflePlayers() {
+    		sortList(playerCards);
+    	}
+    	private void shuffleWeapons() {
+      		sortList(weaponCards); 	
+    	}
+    	
+    	private void shuffleRooms() {
+    		sortList(roomCards);
+    	}
+    	
     }
 
     private void setNoteCards() {
