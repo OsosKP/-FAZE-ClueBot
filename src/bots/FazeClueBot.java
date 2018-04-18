@@ -91,10 +91,13 @@ public class FazeClueBot implements BotAPI {
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
     }
-
+    
+    /**
+     * Function call that happens when we ask a question and get an answer
+     * TODO: Josh look at this and see if I am going in the right direction
+     */
     public void notifyResponse(Log response) {
-    	//See notes for this method
-        // Add your code here
+    	guessing.questionAnsered(response);
     }
 
     /*
@@ -391,7 +394,7 @@ public class FazeClueBot implements BotAPI {
         }
     }
     
-    /* Going to Contian all of the Guessing Logic */
+    /* Going to contain all of the Guessing Logic */
     public class GuessingLogic {
     	
     	public GuessingLogic() {
@@ -400,11 +403,20 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public void startTurnLogic() {
+    		
+    		/* Removing the cards from the lists who have a probability of 0 */
+    		removePlayers();
+    		removeRooms();
+    		removeWeapons();
+    			
     		/* Sorting the list so that, the cards with the highest probability are at the beginning of the lists */
-    		shufflePlayers();
-    		shuffleRooms();
-    		shuffleWeapons();
+    		sortPlayers();
+    		sortRooms();
+    		sortWeapons();
+    		
     	}
+    	
+    	
     	
     	private void sortList(List<NoteCard> myList) {
     		NoteCard temp;
@@ -418,20 +430,111 @@ public class FazeClueBot implements BotAPI {
                         myList.set(i+1, temp);
                     }
                 }
-            }   		
+            }	
     	}
     	
-    	private void shufflePlayers() {
+    	private void removeCards(List<NoteCard> myList) {
+    		int currentIndex = 0;
+    		
+    		for (NoteCard currCard: myList) {
+    			if (currCard.probability == 0) {
+    				myList.remove(currentIndex);
+    			}
+    			currentIndex++;
+    		}
+    	}
+    	
+    	/**
+    	 * Updating guessing based on question feedback
+    	 * @param questionLog
+    	 */
+    	public void questionAnsered(Log questionLog) {
+
+    		playerCards.get(0).guessed = true;
+    		weaponCards.get(0).guessed = true;
+    		roomCards.get(0).guessed = true;
+    		
+    		/* If none of the cards we guessed were shown back to us */
+    		if (!questionLog.hasNext()) {
+    			playerCards.get(0).probability = 100;
+    			weaponCards.get(0).probability = 100;
+    			roomCards.get(0).probability = 100;
+    		}
+    		else { //if we get some cards shown back to us:
+    			while (questionLog.hasNext()) {
+    				/* Going to hold the responce we get from the iterator */
+    				String temp = questionLog.next();
+    				
+    				/* Need to see if the iterator is on a responce or not */
+    				Boolean returnStatement  = false;
+    				
+    				int startIndex = temp.indexOf(':');
+    				
+    				/* If this is the case -- then we are looking at a question and not a reply */
+    				if (startIndex < 0) {
+    					//Nothing 
+    				}
+    				/* Otherwise we are looking at an answer to the question */
+    				else {
+    					/* We know that the index of  */
+    					int endIndex = temp.indexOf('.');
+    					
+    					/* Grabbing the card name that was returned */
+    					String nameSubstring = temp.substring(startIndex+1, endIndex);
+    					
+    					/*  Checking to see if the card name given is the (weapon, character, or room) we guessed */
+    					if (playerCards.get(0).name.equals(nameSubstring)) {
+    						playerCards.get(0).probability = 0;		
+    					}
+    					else if (weaponCards.get(0).name.equals(nameSubstring)) {
+    						weaponCards.get(0).probability = 0;
+    					}
+    					else  if (roomCards.get(0).name.equals(nameSubstring)){
+    						roomCards.get(0).probability = 0;
+    					}
+    					else {
+    						System.err.println("Someathing fucked up");
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+    	private void sortPlayers() {
     		sortList(playerCards);
     	}
-    	private void shuffleWeapons() {
+    	
+    	private void sortWeapons() {
       		sortList(weaponCards); 	
     	}
     	
-    	private void shuffleRooms() {
+    	private void sortRooms() {
     		sortList(roomCards);
     	}
     	
+    	private void removePlayers() {
+    		removeCards(playerCards);
+    	}
+    	
+    	private void removeWeapons() {
+    		removeCards(weaponCards);
+    	}
+    	
+    	private void removeRooms() {
+    		removeCards(roomCards);
+    	}
+    	
+    	public NoteCard getCharacterGuess() {
+    		return playerCards.get(0);
+    	}
+    	
+    	public NoteCard getWeaponGuess() {
+    		return weaponCards.get(0);
+    	}
+    	
+    	public NoteCard getRomGuess() {
+    		return roomCards.get(0);
+    	}
     }
 
     private void setNoteCards() {
