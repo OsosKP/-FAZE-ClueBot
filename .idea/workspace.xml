@@ -2,34 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/bots/Bot2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/bots/Bot3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/bots/BotAPI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/bots/FazeClueBot.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/BoardPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Card.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Cards.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Cluedo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/CommandPanel$1AddActionListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/CommandPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Coordinates.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Deck.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Dice.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/InfoPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Log.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Map.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Names.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Players.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/PlayersInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Query.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Room.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Token.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Tokens.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/UI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Weapon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ClueBot/gameengine/Weapons.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -42,43 +14,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4020">
-              <caret line="242" column="13" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-179">
-              <caret line="180" column="5" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
+            <state relative-caret-position="302">
+              <caret line="294" column="37" selection-start-line="294" selection-start-column="37" selection-end-line="294" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4901#6490#0" />
-                <element signature="e#6496#9114#0" />
+                <element signature="e#10051#10210#0" />
+                <element signature="e#12013#12014#0" expanded="true" />
+                <element signature="e#12041#12042#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Room.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/Room.java">
+      <file leaf-file-name="Cards.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameengine/Cards.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="80">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Map.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/Map.java">
+      <file leaf-file-name="Query.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+            <state relative-caret-position="160">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4920">
+              <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cluedo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2860">
+              <caret line="150" column="26" selection-start-line="150" selection-start-column="26" selection-end-line="150" selection-end-column="26" />
+              <folding>
+                <element signature="method#passage#0;class#Cluedo#0" />
+                <element signature="method#askQuestion#0;class#Cluedo#0" />
+                <element signature="method#accuse#0;class#Cluedo#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,8 +74,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Bot1</find>
       <find>FaceClueBot</find>
+      <find>Bot1</find>
     </findStrings>
     <replaceStrings>
       <replace>FazeClueBot</replace>
@@ -101,6 +88,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/bots/Bot1.java" />
+        <option value="$PROJECT_DIR$/src/gameengine/UI.java" />
         <option value="$PROJECT_DIR$/src/bots/FazeClueBot.java" />
       </list>
     </option>
@@ -112,10 +100,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="9" />
+    <option name="x" value="741" />
     <option name="y" value="22" />
-    <option name="width" value="1327" />
-    <option name="height" value="868" />
+    <option name="width" value="697" />
+    <option name="height" value="878" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -138,8 +126,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,10 +157,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/uakti/Google Drive/1 UCD/2-2/Software Engineering Project 2 - COMP20050/Project/-FAZE-ClueBot/ClueBot/src/bots/FazeClueBot.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -250,15 +239,17 @@
       <updated>1523612609280</updated>
       <workItem from="1523612612282" duration="994000" />
       <workItem from="1523789965981" duration="10210000" />
-      <workItem from="1523963716634" duration="452000" />
+      <workItem from="1523963716634" duration="6716000" />
+      <workItem from="1523986092987" duration="81000" />
+      <workItem from="1524035239161" duration="2673000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11656000" />
+    <option name="totallyTimeSpent" value="20674000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="9" y="22" width="1327" height="868" extended-state="0" />
+    <frame x="741" y="22" width="697" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -274,7 +265,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.06480784" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123385936" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -284,11 +275,11 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299748" />
+      <window_info anchor="bottom" id="Messages" order="7" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,7 +288,104 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="138" column="33" lean-forward="true" selection-start-line="138" selection-start-column="33" selection-end-line="138" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Cards.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4920">
+          <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2860">
+          <caret line="150" column="26" selection-start-line="150" selection-start-column="26" selection-end-line="150" selection-end-column="26" />
+          <folding>
+            <element signature="method#passage#0;class#Cluedo#0" />
+            <element signature="method#askQuestion#0;class#Cluedo#0" />
+            <element signature="method#accuse#0;class#Cluedo#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2380">
+          <caret line="119" column="5" lean-forward="true" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Cards.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4920">
+          <caret line="291" column="5" lean-forward="true" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2860">
+          <caret line="150" column="26" selection-start-line="150" selection-start-column="26" selection-end-line="150" selection-end-column="26" />
+          <folding>
+            <element signature="method#passage#0;class#Cluedo#0" />
+            <element signature="method#askQuestion#0;class#Cluedo#0" />
+            <element signature="method#accuse#0;class#Cluedo#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4020">
@@ -325,8 +413,9 @@
           <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4901#6490#0" />
-            <element signature="e#6496#9114#0" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -337,8 +426,9 @@
           <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4901#6490#0" />
-            <element signature="e#6496#9114#0" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -364,29 +454,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1080">
           <caret line="56" selection-start-line="56" selection-end-line="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4901#6490#0" />
-            <element signature="e#6496#9114#0" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4020">
-          <caret line="242" column="13" selection-start-line="242" selection-start-column="13" selection-end-line="242" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -432,10 +509,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Deck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="30" column="8" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Coordinates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="316" column="60" lean-forward="true" selection-start-line="316" selection-start-column="60" selection-end-line="316" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-813">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Room.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-492">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/CommandPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-53">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Dice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-284">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        <state relative-caret-position="2860">
+          <caret line="150" column="26" selection-start-line="150" selection-start-column="26" selection-end-line="150" selection-end-column="26" />
+          <folding>
+            <element signature="method#passage#0;class#Cluedo#0" />
+            <element signature="method#askQuestion#0;class#Cluedo#0" />
+            <element signature="method#accuse#0;class#Cluedo#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4920">
+          <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -453,42 +604,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Deck.java">
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="30" column="8" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Coordinates.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Room.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+        <state relative-caret-position="160">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-179">
-          <caret line="180" column="5" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
+        <state relative-caret-position="302">
+          <caret line="294" column="37" selection-start-line="294" selection-start-column="37" selection-end-line="294" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4901#6490#0" />
-            <element signature="e#6496#9114#0" />
+            <element signature="e#10051#10210#0" />
+            <element signature="e#12013#12014#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
           </folding>
         </state>
       </provider>
