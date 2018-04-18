@@ -360,6 +360,12 @@ public class Bot1 implements BotAPI {
     /*
         Guessing
      */
+    
+    /* 
+     * If we see the card -- then we drop the probability to 0 
+     * Otherwise we have to deal with the probability another way
+     */
+    
     // TODO: An idea I have for storing guess cards. We could change this.
     public static class NoteCard {
         private String name;
