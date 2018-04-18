@@ -4,6 +4,7 @@ package bots;
 
 import gameengine.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class FazeClueBot implements BotAPI {
@@ -120,6 +121,11 @@ public class FazeClueBot implements BotAPI {
     private List<NoteCard> playerCards = new ArrayList<>();
     private List<NoteCard> weaponCards = new ArrayList<>();
     private List<NoteCard> roomCards = new ArrayList<>();
+    
+    /* ArrayList that represents the removedCards */
+    private List<NoteCard> playerRemovedCards = new ArrayList<>();
+    private List<NoteCard> weaponRemovedCards = new ArrayList<>();
+    private List<NoteCard> roomRemovedCards = new ArrayList<>();
     
     private boolean movingToRoom = false;
     private boolean inRoom = false;
@@ -407,6 +413,9 @@ public class FazeClueBot implements BotAPI {
     	 * To be called at the beginning of out bots turn
     	 */
     	public void startTurnLogic() {
+    		/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
+    		reviewLog(log);
+    		
     		/* Removing the cards from the lists who have a probability of 0 */
     		removePlayers();
     		removeRooms();
@@ -419,6 +428,50 @@ public class FazeClueBot implements BotAPI {
     		
     		/* checking to see if we are ready to accuse a player */
     		accuseCheck();
+    	}
+    	
+    	/**
+    	 * Going though the log and seeing if we can update any of the probabilities based on the 
+    	 * @param reviewMe
+    	 */
+    	private void reviewLog(Log reviewMe) {
+    		/*  while the log continues  */
+    		
+    		//TODO: josh look at this and see if I can get the first entry in the log
+    		while (reviewMe.hasNext()) {
+    			String tempLookUp = reviewMe.next();
+    			
+    			/* Need to loop though the string and see if we get any matches for the  */
+    			for (int i = 0; i < playerCards.size(); i++) {
+    				String tempName = playerCards.get(i).name;
+    				
+    				/* If we find the player's name in the log string  */
+    				if (tempLookUp.contains(tempName)) {
+    					
+    				}
+    				
+    			}
+    			
+    			/* Looping though the weaponCards */
+    			for (int i = 0; i < weaponCards.size(); i++) {
+    				String tempName = weaponCards.get(i).name;
+    				
+    				/* */
+    				if (tempLookUp.contains(tempName)) {
+    					
+    				}
+    			}
+    			
+    			/* Looping though the characterCards */
+    			for (int i = 0; i < roomCards.size(); i++) {
+    				String tempName = roomCards.get(i).name;
+    				
+    				if (tempLookUp.contains(tempName)) {
+    					
+    				}
+    			}
+    		}
+    		
     	}
     	
     	private void accuseCheck() {
@@ -439,7 +492,8 @@ public class FazeClueBot implements BotAPI {
                         myList.set(i+1, temp);
                     }
                 }
-            }	
+            }
+    		
     	}
     	
     	private void removeCards(List<NoteCard> myList) {
@@ -456,7 +510,7 @@ public class FazeClueBot implements BotAPI {
     	/**
     	 * Updating guessing based on question feedback
     	 * @param questionLog
-    	 */
+    	 */ 
     	public void questionAnsered(Log questionLog) {
 
     		playerCards.get(0).guessed = true;
@@ -554,6 +608,7 @@ public class FazeClueBot implements BotAPI {
     private void setNoteCards() {
         for (int i=0; i<6; i++)
             playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+        	
         for (int i=0; i<6; i++)
             weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
         for (int i=0; i<9; i++)
