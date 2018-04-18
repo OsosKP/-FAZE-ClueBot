@@ -21,6 +21,12 @@ public class FazeClueBot implements BotAPI {
     private Log log;
     private Deck deck;
     private GuessingLogic guessing;
+    private int commandnumber; //int to keep track of which command. 
+//		1: move
+//		2: passage
+//		3: question 
+//		4: accuse 
+//		5: done
 
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -45,6 +51,21 @@ public class FazeClueBot implements BotAPI {
     }
 
     public String getCommand() {
+    	takeTurn();
+    	switch (commandnumber) {
+		case 1:
+			return "move";
+		case 2:
+			return "passage";
+		case 3:
+			return "question";
+		case 4:
+			return "accuse";
+		case 5:
+			return "done";
+		default:
+			break;
+		}
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
         return "done";
     }
@@ -161,9 +182,10 @@ public class FazeClueBot implements BotAPI {
         // If not, see if we're en route to a room
         if (movingToRoom) {
             // Make sure we still want to go to this room
-            if(shouldIVisitRoom(currentRoomDestination))
+            if(shouldIVisitRoom(currentRoomDestination)) {
                 // If so, continue
                 return findNextCommandMovingToRoom();
+            }
             else {
                 movingToRoom = false;
                 // If not, re-ping
@@ -175,14 +197,16 @@ public class FazeClueBot implements BotAPI {
         // If we begin our turn in a room
         if (inRoom) {
             // Check if we've already guessed in this room. If we have...
-            if (guessedInRoom)
-                // TODO: Exit - Is this right?
+            if (guessedInRoom);
+                // TODO: Exit - Is this right? No it's not. We need to decide the door, and have it so when the game calls getDoor() it can see what door we chose.
                     // We need to choose a door (or just pick 0), exit, then ping
-                getDoor();
+                // TODO: This is wrong, this is a function that the game needs to call... 
+            				//getDoor();
             // Otherwise, make a guess
-            // TODO: George: This is where we do our guessing
-            else
-                return "guess";
+            else {
+            	commandnumber=3;//This tells the game that we want to guess
+            	//TODO: George Insert guessing function call code
+            }
         }
         /*
             If we have gotten to this point without returning:
@@ -199,6 +223,7 @@ public class FazeClueBot implements BotAPI {
      */
     private String findNextCommandMovingToRoom() {
         currentRouteProgressIndex++;
+       	commandnumber=1;//Command is move
         /*
             The next square in our route will be different in either the row
                 or column index. Find which one it is (it should only be one) and
@@ -471,10 +496,10 @@ public class FazeClueBot implements BotAPI {
     		}
     		else { //if we get some cards shown back to us:
     			while (questionLog.hasNext()) {
-    				/* Going to hold the responce we get from the iterator */
+    				/* Going to hold the response we get from the iterator */
     				String temp = questionLog.next();
     				
-    				/* Need to see if the iterator is on a responce or not */
+    				/* Need to see if the iterator is on a response or not */
     				Boolean returnStatement  = false;
     				
     				int startIndex = temp.indexOf(':');
