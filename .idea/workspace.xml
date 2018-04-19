@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/bin/bots/FazeClueBot.java.orig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java.orig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameengine/Cluedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameengine/Cluedo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameengine/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameengine/Log.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +17,8 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3274">
-              <caret line="226" column="30" lean-forward="true" selection-start-line="226" selection-start-column="30" selection-end-line="226" selection-end-column="30" />
+            <state relative-caret-position="314">
+              <caret line="775" column="40" selection-start-line="775" selection-start-column="40" selection-end-line="775" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -260,12 +256,12 @@
       <workItem from="1524035239161" duration="2732000" />
       <workItem from="1524046247820" duration="2125000" />
       <workItem from="1524053511045" duration="807000" />
-      <workItem from="1524122285252" duration="2882000" />
+      <workItem from="1524122285252" duration="3116000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26547000" />
+    <option name="totallyTimeSpent" value="26781000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="266" y="22" width="1172" height="878" extended-state="0" />
@@ -680,8 +676,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3274">
-          <caret line="226" column="30" lean-forward="true" selection-start-line="226" selection-start-column="30" selection-end-line="226" selection-end-column="30" />
+        <state relative-caret-position="314">
+          <caret line="775" column="40" selection-start-line="775" selection-start-column="40" selection-end-line="775" selection-end-column="40" />
         </state>
       </provider>
     </entry>

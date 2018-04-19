@@ -121,7 +121,7 @@ public class FazeClueBot implements BotAPI {
      * TODO: Josh look at this and see if I am going in the right direction
      */
     public void notifyResponse(Log response) {
-    	guessing.questionAnsered(response);
+    	guessing.questionAnswered(response);
     }
 
     /*
@@ -363,7 +363,7 @@ public class FazeClueBot implements BotAPI {
         if (timeToAccuse)
             return room.hasName("Cellar");
         // Otherwise, decide if the given room is worth visiting
-        for (NoteCard nc : notes) {
+        for (NoteCard nc : roomHandCards) {
             if (nc.name.equals(room.toString())) {
                 if (nc.probability > 25)
                     return true;
@@ -378,7 +378,7 @@ public class FazeClueBot implements BotAPI {
         int counter = 0;
         // Check status of characters guessed
         for (int i=0; i<6; i++) {
-            if (notes.get(i).probability > 0)
+            if (playerHandCards.get(i).probability > 0)
                 // Count how many characters we're unsure about
                 counter++;
         }
@@ -389,7 +389,7 @@ public class FazeClueBot implements BotAPI {
         counter = 0;
         // Do the same method for weapons
         for (int i=0; i<6; i++) {
-            if (notes.get(i+6).probability > 0)
+            if (weaponHandCards.get(i+6).probability > 0)
                 // Count how many weapons we're unsure about
                 counter++;
         }
@@ -398,7 +398,7 @@ public class FazeClueBot implements BotAPI {
 
         // Do the same method for rooms
         for (int i=0; i<9; i++) {
-            if (notes.get(i+12).probability > 0)
+            if (roomHandCards.get(i+12).probability > 0)
                 // Count how many rooms we're unsure about
                 counter++;
         }
@@ -487,17 +487,17 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	private void lockedInRefresh() {
-    		if (playerCards.size() == 1 && playerCards.get(0).guessed == true) {
+    		if (playerCards.size() == 1 && playerCards.get(0).guessed) {
     			lockedInCharacter = true;
     			lockedInNoteCharacter = playerCards.get(0);
     		}
     		
-    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed == true) {
+    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed) {
     			lockedInWeapon = true;
     			lockedInNoteWeapon = playerCards.get(0);
     		}
     		
-    		if (roomCards.size() == 1 && roomCards.get(0).guessed == true) {
+    		if (roomCards.size() == 1 && roomCards.get(0).guessed) {
     			lockedInRoom = true;
     			lockedInNoteRoom = playerCards.get(0);
     		}
@@ -599,7 +599,7 @@ public class FazeClueBot implements BotAPI {
     	 * Updating guessing based on question feedback
     	 * @param questionLog
     	 */ 
-    	public void questionAnsered(Log questionLog) {
+    	public void questionAnswered(Log questionLog) {
 
     		playerCards.get(0).guessed = true;
     		weaponCards.get(0).guessed = true;
@@ -713,7 +713,7 @@ public class FazeClueBot implements BotAPI {
     		}
     	}
     	
-    	public NoteCard getRomGuess() {
+    	public NoteCard getRoomGuess() {
     		if (lockedInRoom && !timeToAccuse) {
     			if (roomHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -764,13 +764,21 @@ public class FazeClueBot implements BotAPI {
     }
 
 
-//    private NoteCard getNoteCardByName(String name) {
-//        for (NoteCard nc : notes) {
-//            if (nc.name.equals(name))
-//                return nc;
-//        }
-//        return null;
-//    }
+    private NoteCard getNoteCardByName(String name) {
+        for (NoteCard nc : playerHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : weaponHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : roomHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        return null;
+    }
 
 
     /*
