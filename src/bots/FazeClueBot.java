@@ -402,40 +402,6 @@ public class FazeClueBot implements BotAPI {
         return false;
     }
 
-    // TODO: George: The skeleton of this is right, but update based on your probability needs
-    public boolean checkIfIShouldGoToCellar() {
-        int counter = 0;
-        // Check status of characters guessed
-        for (int i=0; i<6; i++) {
-            if (playerHandCards.get(i).probability > 0)
-                // Count how many characters we're unsure about
-                counter++;
-        }
-        // If we're unsure about more than 1, no guessing
-        if (counter > 1)
-            return false;
-
-        counter = 0;
-        // Do the same method for weapons
-        for (int i=0; i<6; i++) {
-            if (weaponHandCards.get(i+6).probability > 0)
-                // Count how many weapons we're unsure about
-                counter++;
-        }
-        if (counter > 1)
-            return false;
-
-        // Do the same method for rooms
-        for (int i=0; i<9; i++) {
-            if (roomHandCards.get(i+12).probability > 0)
-                // Count how many rooms we're unsure about
-                counter++;
-        }
-        // At this point if we only have 1 room to guess, we're ready.
-        // Otherwise, this evaluates to false and we don't guess
-        return (counter == 1);
-    }
-
     /*
         Guessing
      */
