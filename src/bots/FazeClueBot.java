@@ -24,6 +24,12 @@ public class FazeClueBot implements BotAPI {
     private Log log;
     private Deck deck;
     private GuessingLogic guessing;
+    private int commandnumber; //int to keep track of which command. 
+//		1: move
+//		2: passage
+//		3: question 
+//		4: accuse 
+//		5: done
 
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -48,8 +54,23 @@ public class FazeClueBot implements BotAPI {
     }
 
     public String getCommand() {
+    	takeTurn();
+    	switch (commandnumber) {
+		case 1:
+			return "move";
+		case 2:
+			return "passage";
+		case 3:
+			return "question";
+		case 4:
+			return "accuse";
+		case 5:
+			return "done";
+		default:
+			break;
+		}
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
-        return "done";
+        return takeTurn();
     }
 
     public String getMove() {
@@ -100,7 +121,7 @@ public class FazeClueBot implements BotAPI {
      * TODO: Josh look at this and see if I am going in the right direction
      */
     public void notifyResponse(Log response) {
-    	guessing.questionAnsered(response);
+    	guessing.questionAnswered(response);
     }
 
     /*
@@ -157,6 +178,7 @@ public class FazeClueBot implements BotAPI {
     }
 
     private String takeTurn() {
+        System.out.println("CHECK");
         // Update Log
         //TODO: Josh
 
@@ -173,9 +195,10 @@ public class FazeClueBot implements BotAPI {
         // If not, see if we're en route to a room
         if (movingToRoom) {
             // Make sure we still want to go to this room
-            if(shouldIVisitRoom(currentRoomDestination))
+            if(shouldIVisitRoom(currentRoomDestination)) {
                 // If so, continue
                 return findNextCommandMovingToRoom();
+            }
             else {
                 movingToRoom = false;
                 // If not, re-ping
@@ -186,14 +209,28 @@ public class FazeClueBot implements BotAPI {
         }
         // If we begin our turn in a room
         if (inRoom) {
+            // Check if the room has a passage to a room we want to visit
+            if (map.getRoom(getRoom()).hasPassage() &&
+                    shouldIVisitRoom(map.getRoom(getRoom()).getPassageDestination())
+                    // Also make sure we haven't guess in the current room
+                    // This should have the added benefit of not letting us try to
+                        // take a passage after having already moved. I think?
+                    && guessedInRoom)
+                return "passage";
             // Check if we've already guessed in this room. If we have...
-            if (guessedInRoom)
+            if (guessedInRoom) {
                 // TODO: Exit - Is this right?
-                    // We need to choose a door (or just pick 0), exit, then ping
-                getDoor();
-            /* TODO: get guessing to work here! */
-            else
-                return "guess";
+                // Rolling dice should have us exit the room
+                // We should ensure the correct exit is picked prior to rolling,
+                    // because the rollDice() method checks getDoor()
+                // I've just got it returning 0 for now so we don't crash
+                return "roll";
+            }
+            // Otherwise, make a guess
+            else {
+            	commandnumber=3;//This tells the game that we want to guess
+            	//TODO: George Insert guessing function call code
+            }
         }
         /*
             If we have gotten to this point without returning:
@@ -210,6 +247,7 @@ public class FazeClueBot implements BotAPI {
      */
     private String findNextCommandMovingToRoom() {
         currentRouteProgressIndex++;
+       	commandnumber=1;//Command is move
         /*
             The next square in our route will be different in either the row
                 or column index. Find which one it is (it should only be one) and
@@ -325,7 +363,7 @@ public class FazeClueBot implements BotAPI {
         if (timeToAccuse)
             return room.hasName("Cellar");
         // Otherwise, decide if the given room is worth visiting
-        for (NoteCard nc : notes) {
+        for (NoteCard nc : roomHandCards) {
             if (nc.name.equals(room.toString())) {
                 if (nc.probability > 25)
                     return true;
@@ -340,7 +378,7 @@ public class FazeClueBot implements BotAPI {
         int counter = 0;
         // Check status of characters guessed
         for (int i=0; i<6; i++) {
-            if (notes.get(i).probability > 0)
+            if (playerHandCards.get(i).probability > 0)
                 // Count how many characters we're unsure about
                 counter++;
         }
@@ -351,7 +389,7 @@ public class FazeClueBot implements BotAPI {
         counter = 0;
         // Do the same method for weapons
         for (int i=0; i<6; i++) {
-            if (notes.get(i+6).probability > 0)
+            if (weaponHandCards.get(i+6).probability > 0)
                 // Count how many weapons we're unsure about
                 counter++;
         }
@@ -360,7 +398,7 @@ public class FazeClueBot implements BotAPI {
 
         // Do the same method for rooms
         for (int i=0; i<9; i++) {
-            if (notes.get(i+12).probability > 0)
+            if (roomHandCards.get(i+12).probability > 0)
                 // Count how many rooms we're unsure about
                 counter++;
         }
@@ -419,13 +457,10 @@ public class FazeClueBot implements BotAPI {
     	private Boolean lockedInRoom = false;
     	private NoteCard lockedInNoteRoom;
     	
-    	private int logSize;
     	public GuessingLogic() {
 			/* Filling the note cards */
     		setNoteCards();
     	}
-    	
-    	//TODO: add the probability case from the log 
     	
     	/**
     	 * To be called at the beginning of out bots turn
@@ -446,23 +481,23 @@ public class FazeClueBot implements BotAPI {
     			sortWeapons();
     		
     			/* checking to see if we are ready to accuse a player */
-    			lockedInRefresh();
     			accuseCheck();
+    			lockedInRefresh();
     		}
     	}
     	
     	private void lockedInRefresh() {
-    		if (playerCards.size() == 1 && playerCards.get(0).guessed == true) {
+    		if (playerCards.size() == 1 && playerCards.get(0).guessed) {
     			lockedInCharacter = true;
     			lockedInNoteCharacter = playerCards.get(0);
     		}
     		
-    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed == true) {
+    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed) {
     			lockedInWeapon = true;
     			lockedInNoteWeapon = playerCards.get(0);
     		}
     		
-    		if (roomCards.size() == 1 && roomCards.get(0).guessed == true) {
+    		if (roomCards.size() == 1 && roomCards.get(0).guessed) {
     			lockedInRoom = true;
     			lockedInNoteRoom = playerCards.get(0);
     		}
@@ -475,64 +510,53 @@ public class FazeClueBot implements BotAPI {
     	private void reviewLog(Log reviewMe) {
     		/*  while the log continues  */
     		
-    		int tempIndex = 0;
-    		
+    		//TODO: josh look at this and see if I can get the first entry in the log
     		while (reviewMe.hasNext()) {
-    			tempIndex++;
-    			
     			String tempLookUp = reviewMe.next();
     			int ourGuessCheck = tempLookUp.indexOf(':');
     			
     			if (ourGuessCheck < 0) {
-    				if (tempLookUp.contains("showed one card")) {
-    					/* Need to loop though the string and see if we get any matches for the  */
-    					for (int i = 0; i < playerCards.size(); i++) {
-    						String tempName = playerCards.get(i).name;
-    				
-    						/* If we find the player's name in the log string  */
-    						if (tempLookUp.contains(tempName)) {
-    							playerCards.get(i).probability = playerCards.get(i).probability - 11;
-    						}
-    					}
     			
-    					/* Looping though the weaponCards */
-    					for (int i = 0; i < weaponCards.size(); i++) {
-    						String tempName = weaponCards.get(i).name;
+    				/* Need to loop though the string and see if we get any matches for the  */
+    				for (int i = 0; i < playerCards.size(); i++) {
+    					String tempName = playerCards.get(i).name;
     				
-    						/* If we find the weapon name in the log string */
-    						if (tempLookUp.contains(tempName)) {
-    							weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
-    						}
-    					}
-    			
-    					/* Looping though the characterCards */
-    					for (int i = 0; i < roomCards.size(); i++) {
-    						String tempName = roomCards.get(i).name;
-    				
-    						if (tempLookUp.contains(tempName)) {
-    							roomCards.get(i).probability = roomCards.get(i).probability - 11;
-    						}
+    					/* If we find the player's name in the log string  */
+    					if (tempLookUp.contains(tempName)) {
+    					
     					}
     				
     				}
+    			
+    				/* Looping though the weaponCards */
+    				for (int i = 0; i < weaponCards.size(); i++) {
+    					String tempName = weaponCards.get(i).name;
+    				
+    					/* */
+    					if (tempLookUp.contains(tempName)) {
+    					
+    					}
+    				}
+    			
+    				/* Looping though the characterCards */
+    				for (int i = 0; i < roomCards.size(); i++) {
+    					String tempName = roomCards.get(i).name;
+    				
+    					if (tempLookUp.contains(tempName)) {
+    					
+    					}
+    				}
     			}
     		}
-    		logSize = tempIndex;
+    		
     	}
     	
-    	/**
-    	 * Checking to see if we are ready to make an accusation 
-    	 */
     	private void accuseCheck() {
     		if (lockedInCharacter && lockedInWeapon && lockedInRoom) {
     			readyToAccuse = true;
     		}
     	}
     	
-    	/**
-    	 * Simple Bubblesort implementation to sort a given arrayList from high -> low
-    	 * @param myList = a given arrayList to sort
-    	 */
     	private void sortList(List<NoteCard> myList) {
     		NoteCard temp;
    
@@ -549,11 +573,6 @@ public class FazeClueBot implements BotAPI {
     		
     	}
     	
-    	/**
-    	 * Removing all the cards that were marked for removal
-    	 * @param myList = a given list that we are removing elements from
-    	 * @param type = the list type (character, weapon, room)
-    	 */
     	private void removeCards(List<NoteCard> myList, char type) {
     		int currentIndex = 0;
     		
@@ -569,6 +588,7 @@ public class FazeClueBot implements BotAPI {
     				else {
     					roomRemovedCards.add(myList.get(currentIndex));
     				}
+    				
     				myList.remove(currentIndex);
     			}
     			currentIndex++;
@@ -579,33 +599,35 @@ public class FazeClueBot implements BotAPI {
     	 * Updating guessing based on question feedback
     	 * @param questionLog
     	 */ 
-    	public void questionAnsered(Log questionLog) {
-    		
-    		/* Marking the current cards based on what we guessed */
+    	public void questionAnswered(Log questionLog) {
+
     		playerCards.get(0).guessed = true;
     		weaponCards.get(0).guessed = true;
     		roomCards.get(0).guessed = true;
     		
-    		/* Representing the current position in the log */
-    		int tempIndex = 0;
-    		
-    		/* Looping though the log */
-    		while (questionLog.hasNext()) {
-    			/* If we are looking at the 'new' info in the log */
-    			if (tempIndex >= logSize) {
-    				/* Grabbing the log line as a string */
+    		/* If none of the cards we guessed were shown back to us */
+    		if (!questionLog.hasNext()) {
+    			playerCards.get(0).probability = 200;
+    			weaponCards.get(0).probability = 200;
+    			roomCards.get(0).probability = 200;
+    		}
+    		else { //if we get some cards shown back to us:
+    			while (questionLog.hasNext()) {
+    				/* Going to hold the response we get from the iterator */
     				String temp = questionLog.next();
-    
-    				/* If we have the ':' then we know that we are dealing with answers to our question */
+    				
+    				/* Need to see if the iterator is on a response or not */
+    				Boolean returnStatement  = false;
+    				
     				int startIndex = temp.indexOf(':');
     				
-    				/* Case is we do not find the ':' -> meaning we didnt get an answer to our question */
+    				/* If this is the case -- then we are looking at a question and not a reply */
     				if (startIndex < 0) {
     					//Nothing 
     				}
     				/* Otherwise we are looking at an answer to the question */
     				else {
-    					/* We know that the end of the card name we have the '.' char */
+    					/* We know that the index of  */
     					int endIndex = temp.indexOf('.');
     					
     					/* Grabbing the card name that was returned */
@@ -621,27 +643,11 @@ public class FazeClueBot implements BotAPI {
     					else  if (roomCards.get(0).name.equals(nameSubstring)){
     						roomCards.get(0).probability = 0;
     					}
-    					else { //if stuff broke
+    					else {
     						System.err.println("Someathing fucked up");
     					}
     				}
     			}
-    			tempIndex++;
-    		}
-    	
-    		/* If none of the probabilities are changed -- then we have gotten a winning hand! */
-    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && roomCards.get(0).probability != 0) {
-    		    lockedInCharacter = true;
-    			lockedInRoom = true;
-    			lockedInWeapon = true;
-    			
-    			lockedInNoteCharacter = playerCards.get(0);
-    			lockedInNoteRoom = roomCards.get(0);
-    			lockedInNoteWeapon = weaponCards.get(0);
-    			
-    			playerCards.get(0).probability = 200;
-    			weaponCards.get(0).probability = 200;
-    			roomCards.get(0).probability = 200;	
     		}
     		accuseCheck();
     	}
@@ -707,7 +713,7 @@ public class FazeClueBot implements BotAPI {
     		}
     	}
     	
-    	public NoteCard getRomGuess() {
+    	public NoteCard getRoomGuess() {
     		if (lockedInRoom && !timeToAccuse) {
     			if (roomHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -758,13 +764,21 @@ public class FazeClueBot implements BotAPI {
     }
 
 
-//    private NoteCard getNoteCardByName(String name) {
-//        for (NoteCard nc : notes) {
-//            if (nc.name.equals(name))
-//                return nc;
-//        }
-//        return null;
-//    }
+    private NoteCard getNoteCardByName(String name) {
+        for (NoteCard nc : playerHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : weaponHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : roomHandCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        return null;
+    }
 
 
     /*
