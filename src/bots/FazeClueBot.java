@@ -59,23 +59,26 @@ public class FazeClueBot implements BotAPI {
     }
 
     public String getCommand() {
-    	takeTurn();
+        takeTurn();
     	switch (commandnumber) {
-		case 1:
-			return findNextCommandMovingToRoom();
-		case 2:
-			return "passage";
-		case 3:
-			return "question";
-		case 4:
-			return "accuse";
-		case 5:
-			return "done";
-		default:
-			break;
+            case 0:
+                commandnumber++;
+                return "roll";
+            case 1:
+                return findNextCommandMovingToRoom();
+            case 2:
+                return "passage";
+            case 3:
+                return "question";
+            case 4:
+                return "accuse";
+            case 5:
+                return "done";
+            default:
+                break;
 		}
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
-        return takeTurn();
+        return "roll";
     }
 
     public String getMove() {
@@ -84,6 +87,8 @@ public class FazeClueBot implements BotAPI {
         if (currentRoute == null)
             beginPing();
         move = findNextCommandMovingToRoom();
+
+        currentRouteProgressIndex++;
 
         return move;
     }
@@ -135,7 +140,7 @@ public class FazeClueBot implements BotAPI {
     private List<Coordinates> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
     private Coordinates currentPosition;
-    private List<Integer[]> doors = new ArrayList<>();
+    private List<Coordinates> doors = new ArrayList<>();
 
     /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
     private List<NoteCard> playerCards = new ArrayList<>();
@@ -156,19 +161,20 @@ public class FazeClueBot implements BotAPI {
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
     private boolean timeToAccuse = false;
+    private boolean firstMove = true;
     private int currentRouteProgressIndex = 0;
 
     /*
         Movement
      */
     private Coordinates getCurrentPosition() {
-        return currentPosition;
+        return player.getToken().getPosition();
     }
     private int getCurrentRow() {
-        return currentPosition.getRow();
+        return player.getToken().getPosition().getRow();
     }
     private int getCurrenColumn() {
-        return currentPosition.getCol();
+        return player.getToken().getPosition().getCol();
     }
     private void setCurrentPosition(Coordinates coords) {
         currentPosition = coords;
@@ -177,15 +183,16 @@ public class FazeClueBot implements BotAPI {
     private String takeTurn() {
         System.out.println("Location: " + player.getToken().getPosition().toString());
 
-        if (!(movingToRoom || inRoom || guessedInRoom)) {
-            return "roll";
-        }
-
         /* Updating probability */
     	if (firstTurn) {
     		setNoteCards();
     		firstTurn = false;
     	}
+
+    	if (firstMove) {
+    	    firstMove = false;
+    	    return "roll";
+        }
     	
 //    	guessing.startTurnLogic();
 
@@ -255,31 +262,25 @@ public class FazeClueBot implements BotAPI {
             do and sends the appropriate command
      */
     private String findNextCommandMovingToRoom() {
-        currentRouteProgressIndex++;
+       	commandnumber=1;//Command is move
 
-        if (currentRouteProgressIndex >= currentRoute.size()) {
+        if (currentRouteProgressIndex >= currentRoute.size()-1) {
             System.out.println("There's your problem");
             beginPing();
+            for (Coordinates c : currentRoute)
+                System.out.println("ROUTE: " + c.toString());
             currentRouteProgressIndex = 0;
-            return "l";
         }
-
-        System.out.println("Check: from " + currentRoute.get(currentRouteProgressIndex-1)
-                + " to " + currentRoute.get(currentRouteProgressIndex));
-
-       	commandnumber=1;//Command is move
         /*
             The next square in our route will be different in either the row
                 or column index. Find which one it is (it should only be one) and
                 set our next move command accordingly.
          */
         int rowDiff =
-                currentRoute.get(currentRouteProgressIndex-1).getRow() -
-                currentRoute.get(currentRouteProgressIndex).getRow();
-        int colDiff = currentRoute.get(currentRouteProgressIndex-1).getCol() -
-                currentRoute.get(currentRouteProgressIndex).getCol();
-
-        currentPosition = player.getToken().getPosition();
+                currentRoute.get(currentRouteProgressIndex).getRow() -
+                currentRoute.get(currentRouteProgressIndex+1).getRow();
+        int colDiff = currentRoute.get(currentRouteProgressIndex).getCol() -
+                currentRoute.get(currentRouteProgressIndex+1).getCol();
 
         switch (rowDiff) {
             case -1:
@@ -300,13 +301,12 @@ public class FazeClueBot implements BotAPI {
         return "error";
     }
 
-    public boolean isDoor(int col, int row, int counter) {
+    public boolean isDoor(Coordinates coords) {
         boolean found = false;
-        for (Integer[] index : doors) {
-            if (index[0].equals(col) && index[1].equals(row)) {
+        for (Coordinates index : doors) {
+            if (index.getCol() == coords.getCol() && index.getRow() == coords.getRow()) {
                 found = true;
             }
-            counter++;
         }
         return found;
     }
@@ -324,20 +324,18 @@ public class FazeClueBot implements BotAPI {
         System.out.println("Current Position: " + player.getToken().getPosition());
 
 
-        if (map.isValidMove(currentPosition, "l") && currentPosition.getCol() > 0)
-            ping(currentPosition.getCol()-1, currentPosition.getRow(),
-                    new ArrayList<>(), explored);
-        if (map.isValidMove(currentPosition, "u") && currentPosition.getRow() > 0)
-            ping(currentPosition.getCol(), currentPosition.getRow()-1,
-                    new ArrayList<>(), explored);
-        if (map.isValidMove(currentPosition, "r") && currentPosition.getCol() < 23)
-            ping(currentPosition.getCol()+1, currentPosition.getRow(),
-                    new ArrayList<>(), explored);
-        if (map.isValidMove(currentPosition, "d") && currentPosition.getRow() < 24)
-            ping(currentPosition.getCol(), currentPosition.getRow()+1,
-                    new ArrayList<>(), explored);
-
-
+        if (map.isValidMove(player.getToken().getPosition(), "l") && player.getToken().getPosition().getCol() > 0)
+            ping(player.getToken().getPosition().getCol()-1, player.getToken().getPosition().getRow(),
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "u") && player.getToken().getPosition().getRow() > 0)
+            ping(player.getToken().getPosition().getCol(), player.getToken().getPosition().getRow()-1,
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "r") && player.getToken().getPosition().getCol() < 23)
+            ping(player.getToken().getPosition().getCol()+1, player.getToken().getPosition().getRow(),
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "d") && player.getToken().getPosition().getRow() < 24)
+            ping(player.getToken().getPosition().getCol(), player.getToken().getPosition().getRow()+1,
+                    new ArrayList<>(), explored, "");
     }
 
     /*
@@ -345,12 +343,12 @@ public class FazeClueBot implements BotAPI {
             Each call updates its own route, and returns it when a suitable room is found
                explored is sent as an empty array of booleans, one for each board square
      */
-    private void ping(int col, int row, ArrayList<Coordinates> route, boolean[][] explored) {
+    private void ping(int col, int row, ArrayList<Coordinates> route, boolean[][] explored, String command) {
         // Counter is supposed to help the bot choose which exit to take from a room
         // Not using this yet because I'm just having the bot always pick exit 0
         int counter = 0;
 
-        if (col < 0 || row < 0 || col > 22 || row > 23 || explored[col][row])
+        if (col < 0 || row < 0 || col > 22 || row > 23)
             return;
 
         Coordinates coordinates = new Coordinates(col, row);
@@ -359,41 +357,45 @@ public class FazeClueBot implements BotAPI {
 
         // If we've come to a square that we haven't been to yet...
         if (!explored[col][row]) {
-            // Mark this square as explored
-            explored[col][row] = true;
-            // Add this square to the current route
-            route.add(coordinates);
-            // If we have found a door to a room
-            if (isDoor(col, row, counter)) {
-                // If we haven't eliminated the possibility of this room
+                // Mark this square as explored
+                explored[col][row] = true;
+                // Add this square to the current route
+                route.add(coordinates);
+                // If we have found a door to a room
+                if (isDoor(coordinates)) {
+                    // If we haven't eliminated the possibility of this room
                     // being in the murder envelope
-                System.out.println("Coords: (" + col + ", " + row + ")");
-                if (shouldIVisitRoom(map.getRoom(new Coordinates(row, col)))) {
-                    // Set the current route as the route to this room
-                    currentRoute = route;
-                    // Denote that we are moving to a room currently
-                    movingToRoom = true;
-                    // Set the room we're moving towards
-                    // We will use this variable to check at the beginning of
+                    System.out.println("Coords: (" + col + ", " + row + ")");
+                    if (shouldIVisitRoom(map.getRoom(new Coordinates(col, row)))) {
+                        // Set the current route as the route to this room
+                        currentRoute = route;
+                        // Denote that we are moving to a room currently
+                        movingToRoom = true;
+                        // Set the room we're moving towards
+                        // We will use this variable to check at the beginning of
                         // each turn if we should still be moving toward that room
-                    currentRoomDestination = map.getRoom(new Coordinates(row, col));
-                    // End recursive calls
-                    return;
+                        currentRoomDestination = map.getRoom(new Coordinates(col, row));
+                        // End recursive calls
+                        return;
+                    } else
+                        return;
                 }
-                else
-                    return;
-            }
         }
+
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
-        if (map.isValidMove(currentPosition, "l"))
-            ping(col - 1, row, route, explored);
-        if (map.isValidMove(currentPosition, "u"))
-            ping(col, row-1, route, explored);
-        if (map.isValidMove(currentPosition, "r"))
-            ping(col+1, row, route, explored);
-        if (map.isValidMove(currentPosition, "d"))
-            ping(col, row+1, route, explored);
+        if (map.isValidMove(player.getToken().getPosition(), "l") &&
+                col-1 > 0 && !explored[col-1][row])
+            ping(col - 1, row, route, explored, "l");
+        if (map.isValidMove(player.getToken().getPosition(), "u") &&
+                row-1 > 0 && !explored[col][row-1])
+            ping(col, row-1, route, explored, "u");
+        if (map.isValidMove(player.getToken().getPosition(), "r") &&
+                !explored[col+1][row])
+            ping(col+1, row, route, explored, "r");
+        if (map.isValidMove(player.getToken().getPosition(), "d") &&
+                !explored[col][row+1])
+            ping(col, row+1, route, explored, "d");
     }
 
     // TODO: George: Change this probability of 25 to whatever you want
@@ -792,7 +794,7 @@ public class FazeClueBot implements BotAPI {
     	System.out.println("\n");
     	
         for (int i=0; i<6; i++) {
-            if (player.hasCard(Names.SUSPECT_NAMES[i]) == false) {
+            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
             	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
             }
             else {
@@ -800,7 +802,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<6; i++) {       	
-            if (player.hasCard(Names.WEAPON_NAMES[i]) == false) {
+            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
             	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
             }
             else {
@@ -808,7 +810,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<9; i++) {
-        	if (player.hasCard(Names.ROOM_CARD_NAMES[i]) == false) {
+        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
         		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
         	}
         	else {
@@ -867,49 +869,24 @@ public class FazeClueBot implements BotAPI {
     /*
         Auxiliary and storage methods
      */
-
     private void storeAllDoors() {
-        doors.add(new Integer[]{6,4});
-        doors.add(new Integer[]{5,8});
-        doors.add(new Integer[]{7,9});
-        doors.add(new Integer[]{7,14});
-        doors.add(new Integer[]{5,15});
-        doors.add(new Integer[]{4,18});
-        doors.add(new Integer[]{9,18});
-        doors.add(new Integer[]{12,22});
-        doors.add(new Integer[]{16,17});
-        doors.add(new Integer[]{14,20});
-        doors.add(new Integer[]{21,17});
-        doors.add(new Integer[]{18,11});
-        doors.add(new Integer[]{18,12});
-        doors.add(new Integer[]{20,14});
-        doors.add(new Integer[]{17,21});
-        doors.add(new Integer[]{11,18});
-        doors.add(new Integer[]{12,18});
-        doors.add(new Integer[]{14,20});
-        doors.add(new Integer[]{6,19});
-        doors.add(new Integer[]{6,15});
-        doors.add(new Integer[]{7,12});
-        doors.add(new Integer[]{12,17});
+        doors.add(new Coordinates(4,6));
+        doors.add(new Coordinates(8,5));
+        doors.add(new Coordinates(9,7));
+        doors.add(new Coordinates(14,7));
+        doors.add(new Coordinates(15,5));
+        doors.add(new Coordinates(18,4));
+        doors.add(new Coordinates(18,9));
+        doors.add(new Coordinates(22,12));
+        doors.add(new Coordinates(17,16));
+        doors.add(new Coordinates(20,14));
+        doors.add(new Coordinates(17,21));
+        doors.add(new Coordinates(11,18));
+        doors.add(new Coordinates(12,18));
+        doors.add(new Coordinates(14,20));
+        doors.add(new Coordinates(6,19));
+        doors.add(new Coordinates(6,15));
+        doors.add(new Coordinates(7,12));
+        doors.add(new Coordinates(12,16));
     }
-//    private void storeAllDoors() {
-//        doors.add(new Integer[]{4,6});
-//        doors.add(new Integer[]{8,5});
-//        doors.add(new Integer[]{9,7});
-//        doors.add(new Integer[]{14,7});
-//        doors.add(new Integer[]{15,5});
-//        doors.add(new Integer[]{18,4});
-//        doors.add(new Integer[]{18,9});
-//        doors.add(new Integer[]{22,12});
-//        doors.add(new Integer[]{17,16});
-//        doors.add(new Integer[]{20,14});
-//        doors.add(new Integer[]{17,21});
-//        doors.add(new Integer[]{11,18});
-//        doors.add(new Integer[]{12,18});
-//        doors.add(new Integer[]{14,20});
-//        doors.add(new Integer[]{6,19});
-//        doors.add(new Integer[]{6,15});
-//        doors.add(new Integer[]{7,12});
-//        doors.add(new Integer[]{12,17});
-//    }
 }
