@@ -62,7 +62,7 @@ public class FazeClueBot implements BotAPI {
     	takeTurn();
     	switch (commandnumber) {
 		case 1:
-			return "move";
+			return findNextCommandMovingToRoom();
 		case 2:
 			return "passage";
 		case 3:
@@ -133,9 +133,9 @@ public class FazeClueBot implements BotAPI {
 
     // Map coords: 24 x 23
     private List<Integer[]> mainTrack = new ArrayList<>();
-    private List<Integer[]> currentRoute = new ArrayList<>();
+    private List<Coordinates> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
-    private Integer[] currentPosition = new Integer[2];
+    private Coordinates currentPosition;
     private List<Integer[]> doors = new ArrayList<>();
     private String[] doorsReference = new String[18];
     
@@ -163,21 +163,21 @@ public class FazeClueBot implements BotAPI {
     /*
         Movement
      */
-    private Integer[] getCurrentPosition() {
+    private Coordinates getCurrentPosition() {
         return currentPosition;
     }
     private int getCurrentRow() {
-        return currentPosition[0];
+        return currentPosition.getRow();
     }
     private int getCurrenColumn() {
-        return currentPosition[1];
+        return currentPosition.getCol();
     }
     private void setCurrentPosition(Coordinates coords) {
-        this.currentPosition[0] = coords.getRow();
-        this.currentPosition[1] = coords.getCol();
+        currentPosition = coords;
     }
 
     private String takeTurn() {
+        System.out.println("Location: " + player.getToken().getPosition().toString());
         /* Updating probability */
     	if (firstTurn) {
     		setNoteCards();
@@ -185,8 +185,7 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	guessing.startTurnLogic();
-        
-    	System.out.println("CHECK");
+
         // Update Log
         //TODO: Log
 
@@ -256,9 +255,10 @@ public class FazeClueBot implements BotAPI {
         currentRouteProgressIndex++;
 
         if (currentRouteProgressIndex >= currentRoute.size()) {
+            System.out.println("There's your problem");
             beginPing();
             currentRouteProgressIndex = 0;
-            return "";
+            return "left";
         }
 
        	commandnumber=1;//Command is move
@@ -268,34 +268,34 @@ public class FazeClueBot implements BotAPI {
                 set our next move command accordingly.
          */
         int rowDiff =
-                currentRoute.get(currentRouteProgressIndex-1)[0] -
-                currentRoute.get(currentRouteProgressIndex)[0];
-        int colDiff = currentRoute.get(currentRouteProgressIndex-1)[1] -
-                currentRoute.get(currentRouteProgressIndex)[1];
+                currentRoute.get(currentRouteProgressIndex-1).getRow() -
+                currentRoute.get(currentRouteProgressIndex).getRow();
+        int colDiff = currentRoute.get(currentRouteProgressIndex-1).getCol() -
+                currentRoute.get(currentRouteProgressIndex).getCol();
 
         switch (rowDiff) {
             case -1:
-                return "u";
+                return "up";
             case 1:
-                return "d";
+                return "down";
             default:
                 break;
         }
         switch (colDiff) {
             case -1:
-                return "l";
+                return "left";
             case 1:
-                return "r";
+                return "right";
             default:
                 break;
         }
         return "error";
     }
 
-    public boolean isDoor(int row, int col, int counter) {
+    public boolean isDoor(int col, int row, int counter) {
         boolean found = false;
         for (Integer[] index : doors) {
-            if (index[0].equals(row) && index[1].equals(col)) {
+            if (index[0].equals(col) && index[1].equals(row)) {
                 found = true;
             }
             counter++;
@@ -307,25 +307,25 @@ public class FazeClueBot implements BotAPI {
         Begin a ping in all directions looking for a room to move to
      */
     private void beginPing() {
-        boolean[][] explored = new boolean[23][24];
+        boolean[][] explored = new boolean[24][25];
         for (boolean[] b : explored)
             Arrays.fill(b, false);
 
         System.out.println("Begin ping");
-        if (map.isValidMove(new Coordinates(currentPosition[1], currentPosition[0]), "l")) {
-            System.out.println("Move Left");
-            ping(currentPosition[1] - 1, currentPosition[0],
+        if (map.isValidMove(currentPosition, "l") && currentPosition.getCol() > 0)
+            ping(currentPosition.getCol()-1, currentPosition.getRow(),
                     new ArrayList<>(), explored);
-        }
-        if (map.isValidMove(new Coordinates(currentPosition[1], currentPosition[0]), "u"))
-            ping(currentPosition[1], currentPosition[0]-1,
+        if (map.isValidMove(currentPosition, "u") && currentPosition.getRow() > 0)
+            ping(currentPosition.getCol(), currentPosition.getRow()-1,
                     new ArrayList<>(), explored);
-        if (map.isValidMove(new Coordinates(currentPosition[1], currentPosition[0]), "r"))
-            ping(currentPosition[1]+1, currentPosition[0],
+        if (map.isValidMove(currentPosition, "r") && currentPosition.getCol() < 23)
+            ping(currentPosition.getCol()+1, currentPosition.getRow(),
                     new ArrayList<>(), explored);
-        if (map.isValidMove(new Coordinates(currentPosition[1], currentPosition[0]), "d"))
-            ping(currentPosition[1], currentPosition[0]+1,
+        if (map.isValidMove(currentPosition, "d") && currentPosition.getRow() < 24)
+            ping(currentPosition.getCol(), currentPosition.getRow()+1,
                     new ArrayList<>(), explored);
+
+
     }
 
     /*
@@ -333,51 +333,60 @@ public class FazeClueBot implements BotAPI {
             Each call updates its own route, and returns it when a suitable room is found
                explored is sent as an empty array of booleans, one for each board square
      */
-    private void ping(int row, int col, ArrayList<Integer[]> route, boolean[][] explored) {
+    private void ping(int col, int row, ArrayList<Coordinates> route, boolean[][] explored) {
         // Counter is supposed to help the bot choose which exit to take from a room
         // Not using this yet because I'm just having the bot always pick exit 0
         int counter = 0;
+
+        if (col < 0 || row < 0 || col > 22 || row > 23 || explored[col][row])
+            return;
+
+        Coordinates coordinates = new Coordinates(col, row);
+
+        System.out.println("Now: " + coordinates.toString());
 
         // If we've come to a square that we haven't been to yet...
         if (!explored[col][row]) {
             // Mark this square as explored
             explored[col][row] = true;
             // Add this square to the current route
-            route.add(new Integer[]{col, row});
+            route.add(coordinates);
             // If we have found a door to a room
             if (isDoor(col, row, counter)) {
-                System.out.println("Check isDoor");
                 // If we haven't eliminated the possibility of this room
                     // being in the murder envelope
-                if (shouldIVisitRoom(map.getRoom(doorsReference[counter]))) {
+                if (shouldIVisitRoom(map.getRoom(new Coordinates(row, col)))) {
                     System.out.println("Check should visit");
                     // Set the current route as the route to this room
                     currentRoute = route;
-                    for (Integer[] i : route)
-                        System.out.println("Route:" + i[0] + " - " + i[1]);
+                    for (Coordinates c : route)
+                        System.out.println("Route: " + c.toString());
                     // Denote that we are moving to a room currently
                     movingToRoom = true;
                     // Set the room we're moving towards
                     // We will use this variable to check at the beginning of
                         // each turn if we should still be moving toward that room
-                    currentRoomDestination = map.getRoom(doorsReference[counter]);
+                    currentRoomDestination = map.getRoom(new Coordinates(row, col));
                     // End recursive calls
                     return;
                 }
+                else
+                    return;
             }
         }
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
-        if (map.isValidMove(new Coordinates(col-1, row), "l")) {
+        if (map.isValidMove(currentPosition, "l")) {
             Coordinates coords = new Coordinates(col-1, row);
-            System.out.println(coords.toString());
+            System.out.println("Corridor?: " + map.isCorridor(coords));
+            System.out.println("Left: " + coords.toString());
             ping(col - 1, row, route, explored);
         }
-        if (map.isValidMove(new Coordinates(col, row-1), "u"))
+        if (map.isValidMove(currentPosition, "u"))
             ping(col, row-1, route, explored);
-        if (map.isValidMove(new Coordinates(col+1, row), "r"))
+        if (map.isValidMove(currentPosition, "r"))
             ping(col+1, row, route, explored);
-        if (map.isValidMove(new Coordinates(col, row+1), "d"))
+        if (map.isValidMove(currentPosition, "d"))
             ping(col, row+1, route, explored);
     }
 
@@ -388,18 +397,20 @@ public class FazeClueBot implements BotAPI {
             It is called from ping() and determines where we go next.
      */
     private boolean shouldIVisitRoom(Room room) {
-        // If we need to accuse, just check if we're going to the cellar
-        if (timeToAccuse)
-            return room.hasName("Cellar");
-        // Otherwise, decide if the given room is worth visiting
-        for (NoteCard nc : roomHandCards) {
-            if (nc.name.equals(room.toString())) {
-                if (nc.probability > 0)
-                    return true;
-                break;
-            }
-        }
-        return false;
+        System.out.println("Should I visit the " + room.toString() + "?");
+        return true;
+//        // If we need to accuse, just check if we're going to the cellar
+//        if (timeToAccuse)
+//            return room.hasName("Cellar");
+//        // Otherwise, decide if the given room is worth visiting
+//        for (NoteCard nc : roomHandCards) {
+//            if (nc.name.equals(room.toString())) {
+//                if (nc.probability > 0)
+//                    return true;
+//                break;
+//            }
+//        }
+//        return false;
     }
 
     /*
