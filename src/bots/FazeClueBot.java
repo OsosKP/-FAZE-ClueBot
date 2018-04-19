@@ -88,17 +88,17 @@ public class FazeClueBot implements BotAPI {
         // TODO: George - just put 'yourNoteCardForSuspects.get(0). Do for all 3
         // Input must return true for Names.isSuspect(String input)
         // Possible inputs: u|d|l|r
-        return getSuspect();
+        return playerCards.get(0).name;
     }
 
     public String getWeapon() {
     	// Input must return true for Names.isWeapon(String input)
-        return Names.WEAPON_NAMES[0];
+        return weaponCards.get(0).name;
     }
 
     public String getRoom() {
     	// Input must return true for Names.isRoomCard(String input)
-        return Names.ROOM_NAMES[0];
+        return roomCards.get(0).name;
     }
 
     public String getDoor() {
@@ -230,6 +230,7 @@ public class FazeClueBot implements BotAPI {
             else {
             	commandnumber=3;//This tells the game that we want to guess
             	//TODO: George Insert guessing function call code
+            	
             }
         }
         /*
@@ -378,7 +379,7 @@ public class FazeClueBot implements BotAPI {
         int counter = 0;
         // Check status of characters guessed
         for (int i=0; i<6; i++) {
-            if (playerHandCards.get(i).probability > 0)
+            if (playerCards.get(i).probability > 0)
                 // Count how many characters we're unsure about
                 counter++;
         }
@@ -389,7 +390,7 @@ public class FazeClueBot implements BotAPI {
         counter = 0;
         // Do the same method for weapons
         for (int i=0; i<6; i++) {
-            if (weaponHandCards.get(i+6).probability > 0)
+            if (weaponCards.get(i+6).probability > 0)
                 // Count how many weapons we're unsure about
                 counter++;
         }
@@ -398,7 +399,7 @@ public class FazeClueBot implements BotAPI {
 
         // Do the same method for rooms
         for (int i=0; i<9; i++) {
-            if (roomHandCards.get(i+12).probability > 0)
+            if (roomCards.get(i+12).probability > 0)
                 // Count how many rooms we're unsure about
                 counter++;
         }
