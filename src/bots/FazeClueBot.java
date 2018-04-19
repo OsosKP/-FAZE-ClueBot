@@ -42,7 +42,7 @@ public class FazeClueBot implements BotAPI {
 
     public String getCommand() {
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
-        return "done";
+        return takeTurn();
     }
 
     public String getMove() {
@@ -131,6 +131,7 @@ public class FazeClueBot implements BotAPI {
     }
 
     private String takeTurn() {
+        System.out.println("CHECK");
         // Update Log
         //TODO: Josh
 
@@ -160,14 +161,26 @@ public class FazeClueBot implements BotAPI {
         }
         // If we begin our turn in a room
         if (inRoom) {
+            // Check if the room has a passage to a room we want to visit
+            if (map.getRoom(getRoom()).hasPassage() &&
+                    shouldIVisitRoom(map.getRoom(getRoom()).getPassageDestination())
+                    // Also make sure we haven't guess in the current room
+                    // This should have the added benefit of not letting us try to
+                        // take a passage after having already moved. I think?
+                    && guessedInRoom)
+                return "passage";
             // Check if we've already guessed in this room. If we have...
-            if (guessedInRoom)
+            if (guessedInRoom) {
                 // TODO: Exit - Is this right?
-                    // We need to choose a door (or just pick 0), exit, then ping
-                getDoor();
+                // Rolling dice should have us exit the room
+                // We should ensure the correct exit is picked prior to rolling,
+                    // because the rollDice() method checks getDoor()
+                // I've just got it returning 0 for now so we don't crash
+                return "roll";
+            }
             // Otherwise, make a guess
-            // TODO: George: This is where we do our guessing
             else
+                // TODO: This is where we do our guessing
                 return "guess";
         }
         /*
