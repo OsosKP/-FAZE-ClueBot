@@ -24,6 +24,7 @@ public class FazeClueBot implements BotAPI {
     private Deck deck;
     private GuessingLogic guessing;
     private int commandnumber; //int to keep track of which command. 
+    private Boolean firstTurn = true;
 //		1: move
 //		2: passage
 //		3: question 
@@ -40,9 +41,10 @@ public class FazeClueBot implements BotAPI {
         // Store locations to all doors on the board
         storeAllDoors();
         // Populate NoteCards
-        setNoteCards();
+        
         // Set location on board
         setCurrentPosition(player.getToken().getPosition());
+        
 
         /* Creating the game cards */
         guessing = new GuessingLogic();
@@ -182,6 +184,11 @@ public class FazeClueBot implements BotAPI {
 
     private String takeTurn() {
         /* Updating probability */
+    	if (firstTurn) {
+    		setNoteCards();
+    		firstTurn = false;
+    	}
+    	
     	guessing.startTurnLogic();
         
     	System.out.println("CHECK");
@@ -487,7 +494,7 @@ public class FazeClueBot implements BotAPI {
     	private int logSize;
     	public GuessingLogic() {
 			/* Filling the note cards */
-    		setNoteCards();
+    		//setNoteCards();
     	}
     	
     	//TODO: add the probability case from the log 
@@ -557,6 +564,7 @@ public class FazeClueBot implements BotAPI {
     				
     						/* If we find the player's name in the log string  */
     						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match with player!");
     							playerCards.get(i).probability = playerCards.get(i).probability - 11;
     						}
     					}
@@ -567,6 +575,7 @@ public class FazeClueBot implements BotAPI {
     				
     						/* If we find the weapon name in the log string */
     						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match woth wepaon!");
     							weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
     						}
     					}
@@ -576,6 +585,7 @@ public class FazeClueBot implements BotAPI {
     						String tempName = roomCards.get(i).name;
     				
     						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match with room!");
     							roomCards.get(i).probability = roomCards.get(i).probability - 11;
     						}
     					}
@@ -699,7 +709,8 @@ public class FazeClueBot implements BotAPI {
     	
     		/* If none of the probabilities are changed -- then we have gotten a winning hand! */
     		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && roomCards.get(0).probability != 0) {
-    		    lockedInCharacter = true;
+    		    System.err.println("We got a winning hand!");
+    			lockedInCharacter = true;
     			lockedInRoom = true;
     			lockedInWeapon = true;
     			
@@ -799,16 +810,20 @@ public class FazeClueBot implements BotAPI {
     }
 
     private void setNoteCards() {
+    	
+    	System.out.println("This is the cards we are stating with: " + player.getCards().toString());
+    	System.out.println("\n");
+    	
         for (int i=0; i<6; i++) {
-            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
+            if (player.hasCard(Names.SUSPECT_NAMES[i]) == false) {
             	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
             }
             else {
             	playerHandCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
             }
         }
-        for (int i=0; i<6; i++) {
-            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
+        for (int i=0; i<6; i++) {       	
+            if (player.hasCard(Names.WEAPON_NAMES[i]) == false) {
             	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
             }
             else {
@@ -816,13 +831,42 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<9; i++) {
-        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
+        	if (player.hasCard(Names.ROOM_CARD_NAMES[i]) == false) {
         		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
         	}
         	else {
         		roomHandCards.add(new NoteCard(Names.ROOM_CARD_NAMES[i]));
         	}
         }
+        
+        System.out.println("Player Card Array:\n ");
+        for (int i = 0; i < playerCards.size(); i++) {
+        	System.out.println(playerCards.get(i).name);
+        }
+        System.out.println("\nWeapon Card Array:\n ");;
+        for (int i = 0; i < weaponCards.size(); i++) {
+        	System.out.println(weaponCards.get(i).name);
+        }
+        System.out.println("\nRoom Card Arrray:\n ");
+        for (int i = 0; i < roomCards.size(); i++) {
+        	System.out.println(roomCards.get(i).name);
+        }
+        System.out.println("-----------------------\n");
+        
+        System.out.println("Player Hand Array: \n");
+        for (int i = 0; i < playerHandCards.size(); i++) {
+        	System.out.println(playerHandCards.get(i).name);
+        }
+        System.out.println("\nWeapon Hand Array: \n");;
+        for (int i = 0; i < weaponHandCards.size(); i++) {
+        	System.out.println(weaponHandCards.get(i).name);
+        }
+        System.out.println("\nRoom Hand Arrray: \n");
+        for (int i = 0; i < roomHandCards.size(); i++) {
+        	System.out.println(roomHandCards.get(i).name);
+        }
+        System.out.println("-----------------------\n\n");
+               
 }
 
 
