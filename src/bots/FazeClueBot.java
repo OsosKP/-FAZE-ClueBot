@@ -89,20 +89,14 @@ public class FazeClueBot implements BotAPI {
     }
 
     public String getSuspect() {
-        // Add your code here
-        // TODO: George - just put yourNoteCardForSuspects.get(0). Do for all 3
-        // Input must return true for Names.isSuspect(String input)
-        // Possible inputs: u|d|l|r
         return guessing.getCharacterGuess().name;
     }
 
     public String getWeapon() {
-    	// Input must return true for Names.isWeapon(String input)
-        return guessing.getCharacterGuess().name;
+        return guessing.getWeaponGuess().name;
     }
 
     public String getRoom() {
-    	// Input must return true for Names.isRoomCard(String input)
         return guessing.getRoomGuess().name;
     }
 
@@ -150,6 +144,7 @@ public class FazeClueBot implements BotAPI {
     private List<NoteCard> weaponCards = new ArrayList<>();
     private List<NoteCard> roomCards = new ArrayList<>();
     
+    /* ArrayList that will represent the cards that are currently in our hand */
     private List<NoteCard> playerHandCards = new ArrayList<>();
     private List<NoteCard> weaponHandCards = new ArrayList<>();
     private List<NoteCard> roomHandCards = new ArrayList<>();
@@ -242,7 +237,6 @@ public class FazeClueBot implements BotAPI {
             // Otherwise, make a guess
             else {
             	commandnumber=3;//This tells the game that we want to guess
-            	//TODO: George Insert guessing function call code
             }
         }
         /*
