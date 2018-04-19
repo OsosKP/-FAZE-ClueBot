@@ -554,7 +554,7 @@ public class FazeClueBot implements BotAPI {
     				
     						/* If we find the weapon name in the log string */
     						if (tempLookUp.contains(tempName)) {
-    							System.out.println("We got a match woth wepaon!");
+    							System.out.println("We got a match with weapon!");
     							weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
     						}
     					}

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,8 +17,8 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="812" column="57" selection-start-line="812" selection-start-column="57" selection-end-line="812" selection-end-column="57" />
+            <state relative-caret-position="2081">
+              <caret line="556" column="76" selection-start-line="556" selection-start-column="76" selection-end-line="556" selection-end-column="76" />
               <folding>
                 <element signature="e#1557#1558#0" expanded="true" />
                 <element signature="e#1622#1623#0" expanded="true" />
@@ -290,12 +289,12 @@
       <workItem from="1524046247820" duration="2125000" />
       <workItem from="1524053511045" duration="807000" />
       <workItem from="1524122285252" duration="19963000" />
-      <workItem from="1524158314100" duration="4892000" />
+      <workItem from="1524158314100" duration="4950000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48520000" />
+    <option name="totallyTimeSpent" value="48578000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="197" y="22" width="1241" height="878" extended-state="0" />
@@ -801,8 +800,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="812" column="57" selection-start-line="812" selection-start-column="57" selection-end-line="812" selection-end-column="57" />
+        <state relative-caret-position="2081">
+          <caret line="556" column="76" selection-start-line="556" selection-start-column="76" selection-end-line="556" selection-end-column="76" />
           <folding>
             <element signature="e#1557#1558#0" expanded="true" />
             <element signature="e#1622#1623#0" expanded="true" />
