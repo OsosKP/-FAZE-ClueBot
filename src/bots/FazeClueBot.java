@@ -132,13 +132,11 @@ public class FazeClueBot implements BotAPI {
      */
 
     // Map coords: 24 x 23
-    private List<Integer[]> mainTrack = new ArrayList<>();
     private List<Coordinates> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
     private Coordinates currentPosition;
     private List<Integer[]> doors = new ArrayList<>();
-    private String[] doorsReference = new String[18];
-    
+
     /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
     private List<NoteCard> playerCards = new ArrayList<>();
     private List<NoteCard> weaponCards = new ArrayList<>();
@@ -178,13 +176,18 @@ public class FazeClueBot implements BotAPI {
 
     private String takeTurn() {
         System.out.println("Location: " + player.getToken().getPosition().toString());
+
+        if (!(movingToRoom || inRoom || guessedInRoom)) {
+            return "roll";
+        }
+
         /* Updating probability */
     	if (firstTurn) {
     		setNoteCards();
     		firstTurn = false;
     	}
     	
-    	guessing.startTurnLogic();
+//    	guessing.startTurnLogic();
 
         // Update Log
         //TODO: Log
@@ -258,8 +261,11 @@ public class FazeClueBot implements BotAPI {
             System.out.println("There's your problem");
             beginPing();
             currentRouteProgressIndex = 0;
-            return "left";
+            return "l";
         }
+
+        System.out.println("Check: from " + currentRoute.get(currentRouteProgressIndex-1)
+                + " to " + currentRoute.get(currentRouteProgressIndex));
 
        	commandnumber=1;//Command is move
         /*
@@ -273,19 +279,21 @@ public class FazeClueBot implements BotAPI {
         int colDiff = currentRoute.get(currentRouteProgressIndex-1).getCol() -
                 currentRoute.get(currentRouteProgressIndex).getCol();
 
+        currentPosition = player.getToken().getPosition();
+
         switch (rowDiff) {
             case -1:
-                return "up";
+                return "d";
             case 1:
-                return "down";
+                return "u";
             default:
                 break;
         }
         switch (colDiff) {
             case -1:
-                return "left";
+                return "r";
             case 1:
-                return "right";
+                return "l";
             default:
                 break;
         }
@@ -312,6 +320,10 @@ public class FazeClueBot implements BotAPI {
             Arrays.fill(b, false);
 
         System.out.println("Begin ping");
+
+        System.out.println("Current Position: " + player.getToken().getPosition());
+
+
         if (map.isValidMove(currentPosition, "l") && currentPosition.getCol() > 0)
             ping(currentPosition.getCol()-1, currentPosition.getRow(),
                     new ArrayList<>(), explored);
@@ -355,12 +367,10 @@ public class FazeClueBot implements BotAPI {
             if (isDoor(col, row, counter)) {
                 // If we haven't eliminated the possibility of this room
                     // being in the murder envelope
+                System.out.println("Coords: (" + col + ", " + row + ")");
                 if (shouldIVisitRoom(map.getRoom(new Coordinates(row, col)))) {
-                    System.out.println("Check should visit");
                     // Set the current route as the route to this room
                     currentRoute = route;
-                    for (Coordinates c : route)
-                        System.out.println("Route: " + c.toString());
                     // Denote that we are moving to a room currently
                     movingToRoom = true;
                     // Set the room we're moving towards
@@ -376,12 +386,8 @@ public class FazeClueBot implements BotAPI {
         }
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
-        if (map.isValidMove(currentPosition, "l")) {
-            Coordinates coords = new Coordinates(col-1, row);
-            System.out.println("Corridor?: " + map.isCorridor(coords));
-            System.out.println("Left: " + coords.toString());
+        if (map.isValidMove(currentPosition, "l"))
             ping(col - 1, row, route, explored);
-        }
         if (map.isValidMove(currentPosition, "u"))
             ping(col, row-1, route, explored);
         if (map.isValidMove(currentPosition, "r"))
@@ -529,17 +535,17 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	private void lockedInRefresh() {
-    		if (playerCards.size() == 1 && playerCards.get(0).guessed == true) {
+    		if (playerCards.size() == 1 && playerCards.get(0).guessed) {
     			lockedInCharacter = true;
     			lockedInNoteCharacter = playerCards.get(0);
     		}
     		
-    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed == true) {
+    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed) {
     			lockedInWeapon = true;
     			lockedInNoteWeapon = playerCards.get(0);
     		}
     		
-    		if (roomCards.size() == 1 && roomCards.get(0).guessed == true) {
+    		if (roomCards.size() == 1 && roomCards.get(0).guessed) {
     			lockedInRoom = true;
     			lockedInNoteRoom = playerCards.get(0);
     		}
