@@ -127,8 +127,7 @@ public class FazeClueBot implements BotAPI {
     
     @Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
-		return null;
+		return "0.1";
 	}
 
 	@Override
