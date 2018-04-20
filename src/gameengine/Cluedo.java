@@ -40,7 +40,7 @@ public class Cluedo {
         Collections.shuffle(suspectNames);
         if (args.length<NUM_PLAYERS) {
             botNames[0] = "FazeClueBot";
-            botNames[1] = "FazeClueBot";
+            botNames[1] = "Bot1";
             botNames[2] = "FazeClueBot";
         } else {
             for (int i=0; i<NUM_PLAYERS; i++) {

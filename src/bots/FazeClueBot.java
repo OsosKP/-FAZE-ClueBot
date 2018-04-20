@@ -84,13 +84,9 @@ public class FazeClueBot implements BotAPI {
             return "done";
     }
 
-    Random rand;
-
     public String getMove() {
+        Random rand;
         diceRoll--;
-
-        if (diceRoll == 0)
-            return "done";
 
         String move = "done";
 
@@ -121,7 +117,7 @@ public class FazeClueBot implements BotAPI {
                         && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16))
 
                 || (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-                map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn))
+                map.getRoom(map.getNewPosition(lastPosition, move)).toString().equals(lastRoomIn.toString())))
 
                 );
 
@@ -130,6 +126,10 @@ public class FazeClueBot implements BotAPI {
         if (map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) {
             lastRoomIn = roomIn;
             roomIn = map.getRoom(map.getNewPosition(lastPosition, move));
+
+            System.out.println("Last room: " + lastRoomIn);
+            System.out.println("Current room: " + roomIn);
+
             inRoom = true;
         }
 
@@ -154,6 +154,7 @@ public class FazeClueBot implements BotAPI {
     }
     
     /* When someone is asking a question */
+    // TODO:
     public String getCard(Cards matchingCards) {
         // Add your code here
         System.out.println("Suspect:");
@@ -161,9 +162,9 @@ public class FazeClueBot implements BotAPI {
         System.out.println("Weapon");
         System.out.println(getWeapon());
         System.out.println("Room");
-        System.out.println(roomIn.toString());
+        System.out.println(getRoom());
 
-        Query ourQuery = new Query(getSuspect(), getWeapon(), roomIn.toString());
+        Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
         // Possible input: 1|2|3|4
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
@@ -217,8 +218,6 @@ public class FazeClueBot implements BotAPI {
     private Coordinates lastPosition;
     private int diceRoll;
 
-
-
     /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
     private List<NoteCard> playerCards = new ArrayList<>();
     private List<NoteCard> weaponCards = new ArrayList<>();
@@ -237,15 +236,9 @@ public class FazeClueBot implements BotAPI {
     private Room roomIn;
     private Room lastRoomIn;
     
-    private boolean movingToRoom = false;
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
     private boolean timeToAccuse = false;
-    private boolean firstMove = true;
-
-    private void takeTurn() {
-        System.out.println("Location: " + player.getToken().getPosition().toString());
-    }
 
     /*
         shouldIVisitRoom returns a boolean when passed a room as a parameter.
@@ -716,7 +709,7 @@ public class FazeClueBot implements BotAPI {
         for (int i = 0; i < weaponCards.size(); i++) {
         	System.out.println(weaponCards.get(i).name);
         }
-        System.out.println("\nRoom Card Arrray:\n ");
+        System.out.println("\nRoom Card Array:\n ");
         for (int i = 0; i < roomCards.size(); i++) {
         	System.out.println(roomCards.get(i).name);
         }
@@ -730,12 +723,11 @@ public class FazeClueBot implements BotAPI {
         for (int i = 0; i < weaponHandCards.size(); i++) {
         	System.out.println(weaponHandCards.get(i).name);
         }
-        System.out.println("\nRoom Hand Arrray: \n");
+        System.out.println("\nRoom Hand Array: \n");
         for (int i = 0; i < roomHandCards.size(); i++) {
         	System.out.println(roomHandCards.get(i).name);
         }
         System.out.println("-----------------------\n\n");
-
 }
 
 

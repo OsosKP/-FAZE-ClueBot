@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/bots/FazeClueBot1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bots/FazeClueBot2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bots/Bot1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/Bot1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameengine/Cluedo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameengine/Cluedo.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +19,8 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1126">
-              <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
+            <state relative-caret-position="140">
+              <caret line="109" column="26" lean-forward="true" selection-start-line="109" selection-start-column="26" selection-end-line="109" selection-end-column="26" />
               <folding>
                 <element signature="e#1158#1159#0" expanded="true" />
                 <element signature="e#1223#1224#0" expanded="true" />
@@ -38,8 +36,6 @@
                 <element signature="e#5119#5120#0" expanded="true" />
                 <element signature="e#5168#5169#0" expanded="true" />
                 <element signature="e#5187#5188#0" expanded="true" />
-                <element signature="e#7092#7093#0" expanded="true" />
-                <element signature="e#7185#7186#0" expanded="true" />
                 <element signature="e#8452#8453#0" expanded="true" />
                 <element signature="e#8498#8499#0" expanded="true" />
                 <element signature="e#8542#8543#0" expanded="true" />
@@ -74,51 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Coordinates.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/Coordinates.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Bot2.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/bots/Bot2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-978">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Bot1.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/bots/Bot1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-139">
-              <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="335" selection-start-line="335" selection-end-line="335" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Map.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gameengine/Map.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="96" selection-start-line="96" selection-end-line="96" />
-              <folding>
-                <element signature="e#4794#4795#0" expanded="true" />
-                <element signature="e#4865#4866#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="351">
+              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -126,8 +82,17 @@
       <file leaf-file-name="Cluedo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="363" selection-start-line="363" selection-end-line="363" />
+            <state relative-caret-position="259">
+              <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="335" column="50" lean-forward="true" selection-start-line="335" selection-start-column="50" selection-end-line="335" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -177,11 +142,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/bots/Bot1.java" />
         <option value="$PROJECT_DIR$/src/gameengine/Map.java" />
         <option value="$PROJECT_DIR$/src/gameengine/UI.java" />
-        <option value="$PROJECT_DIR$/src/gameengine/Cluedo.java" />
         <option value="$PROJECT_DIR$/src/bots/FazeClueBot2.java" />
+        <option value="$PROJECT_DIR$/src/bots/Bot1.java" />
+        <option value="$PROJECT_DIR$/src/gameengine/Cluedo.java" />
+        <option value="$PROJECT_DIR$/src/bots/Bot2.java" />
         <option value="$PROJECT_DIR$/src/bots/FazeClueBot.java" />
       </list>
     </option>
@@ -195,7 +161,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="45" />
     <option name="y" value="22" />
-    <option name="width" value="1393" />
+    <option name="width" value="1395" />
     <option name="height" value="878" />
   </component>
   <component name="ProjectView">
@@ -324,15 +290,15 @@
       <workItem from="1524053511045" duration="807000" />
       <workItem from="1524122285252" duration="19963000" />
       <workItem from="1524158314100" duration="6704000" />
-      <workItem from="1524207294377" duration="14362000" />
+      <workItem from="1524207294377" duration="16823000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64694000" />
+    <option name="totallyTimeSpent" value="67155000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="45" y="22" width="1393" height="878" extended-state="0" />
+    <frame x="45" y="22" width="1395" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -349,7 +315,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.061737258" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.061648745" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329602" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -417,8 +383,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -490,8 +454,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -584,8 +546,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -629,8 +589,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -695,8 +653,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -768,8 +724,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -909,41 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bots/Bot1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-139">
-          <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bots/Bot2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-978">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="335" selection-start-line="335" selection-end-line="335" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="363" selection-start-line="363" selection-end-line="363" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Coordinates.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameengine/Map.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
@@ -955,6 +874,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/bots/Bot1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bots/Bot2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Coordinates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -962,10 +902,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/Cluedo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gameengine/UI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="335" column="50" lean-forward="true" selection-start-line="335" selection-start-column="50" selection-end-line="335" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1126">
-          <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
+        <state relative-caret-position="140">
+          <caret line="109" column="26" lean-forward="true" selection-start-line="109" selection-start-column="26" selection-end-line="109" selection-end-column="26" />
           <folding>
             <element signature="e#1158#1159#0" expanded="true" />
             <element signature="e#1223#1224#0" expanded="true" />
@@ -981,8 +935,6 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
-            <element signature="e#7092#7093#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
