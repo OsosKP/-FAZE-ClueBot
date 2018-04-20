@@ -23,12 +23,7 @@ public class FazeClueBot implements BotAPI {
     private Log log;
     private Deck deck;
     private GuessingLogic guessing;
-    private int commandnumber; //int to keep track of which command. 
     private Boolean firstTurn = true;
-//		1: move
-//		3: question 
-//		4: accuse 
-//		5: done
 
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -51,10 +46,10 @@ public class FazeClueBot implements BotAPI {
 
     boolean rollOrDone = false;
 
-    public String getCommand() {
+    public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
+    	// We will only be using: roll, question, accuse, done
         if (firstTurn) {
-            /* Creating the game cards */
-            setNoteCards();
+            setNoteCards(); /* Creating the game cards */
             firstTurn = false;
         }
 
@@ -85,30 +80,6 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
-
-//        switch (commandnumber) {
-//            case 0:
-//                commandnumber++;
-//                return "roll";
-//            case 1:
-//                System.out.println("Case 1");
-//                return "done";
-//            case 2:
-//                System.out.println("Case 2");
-//                return "passage";
-//            case 3:
-//                System.out.println("Case 3");
-//                return "question";
-//            case 4:
-//                System.out.println("Case 4");
-//                return "accuse";
-//            case 5:
-//                System.out.println("Case 5");
-//                return "done";
-//            default:
-//                break;
-//		}
-//        // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
 //        return "roll";
     }
 
