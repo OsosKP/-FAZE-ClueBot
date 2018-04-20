@@ -89,7 +89,6 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
-//        return "roll";
     }
 
     public String getMove() {
@@ -188,7 +187,7 @@ public class FazeClueBot implements BotAPI {
     public void notifyResponse(Log response) {
     	guessing.questionAnswered(response);
     }
-   
+
 	@Override
 	public void notifyPlayerName(String playerName) {
     }
