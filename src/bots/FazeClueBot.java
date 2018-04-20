@@ -34,6 +34,7 @@ public class FazeClueBot implements BotAPI {
         this.dice = dice;
         this.log = log;
         this.deck = deck;
+        this.rand = new Random();
 
         guessing = new GuessingLogic();
     }
@@ -91,19 +92,11 @@ public class FazeClueBot implements BotAPI {
         else
             return "done";
     }
-
+ 
     public String getMove() {
-        Random rand;
-        diceRoll--;
-
-        String move = "done";
-
-        rand = new Random();
-
+        String move = "Error in move logic";
         do {
-            int commandInt = rand.nextInt(4);
-
-            switch (commandInt) {
+            switch (rand.nextInt(4)) { //TODO: Currently random, need to change that back
                 case 0:
                     move = "u";
                     break;
@@ -117,17 +110,8 @@ public class FazeClueBot implements BotAPI {
                     move = "r";
                     break;
             }
-        } while (map.getNewPosition(player.getToken().getPosition(), move) == lastPosition
-                || !map.isValidMove(player.getToken().getPosition(), move)
 
-                ||
-                (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-                        && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16))
-
-                || (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-                map.getRoom(map.getNewPosition(lastPosition, move)).toString().equals(lastRoomIn.toString())))
-
-                );
+        } while (shouldLoopAgain(move)); 
 
         lastPosition = player.getToken().getPosition();
 
@@ -143,7 +127,23 @@ public class FazeClueBot implements BotAPI {
 
         return move;
     }
-
+  
+    
+    private Boolean shouldLoopAgain(String move) {
+        // Keep running this while one of these conditions is met:
+            // 1. If we are trying to move back to the last position 
+            // 2. If it is a not valid move
+            // 3. If it's not time to accuse, and the door leads to the cellar 
+            // 4. If we are trying to go back into a room we were just in
+    	
+    	Boolean backtolastposition = map.getNewPosition(player.getToken().getPosition(), move) == lastPosition;
+        Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
+        Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12) && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
+		Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) && map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
+		return (backtolastposition || validmove || cellarcase || backtracking);
+    }
+    
+  
     public String getSuspect() {
         return guessing.getCharacterGuess().name;
     }
@@ -161,7 +161,6 @@ public class FazeClueBot implements BotAPI {
     }
     
     /* When someone is asking a question */
-    // TODO:
     public String getCard(Cards matchingCards) {
         // Add your code here
         System.out.println("Suspect:");
@@ -172,7 +171,6 @@ public class FazeClueBot implements BotAPI {
         System.out.println(getRoom());
 
         Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
-        // Possible input: 1|2|3|4
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
     }
@@ -181,14 +179,10 @@ public class FazeClueBot implements BotAPI {
         return "FazeClueBot";
     }
     
-    /*
-     * Function call that happens when we ask a question and get an answer
-     * TODO: Josh look at this and see if I am going in the right direction
-     */
     public void notifyResponse(Log response) {
     	guessing.questionAnswered(response);
     }
-
+    
 	@Override
 	public void notifyPlayerName(String playerName) {
     }
@@ -219,6 +213,8 @@ public class FazeClueBot implements BotAPI {
     // Map coords: 24 x 23
     private Coordinates lastPosition;
     private int diceRoll;
+
+
 
     /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
     private List<NoteCard> playerCards = new ArrayList<>();
@@ -759,7 +755,7 @@ public class FazeClueBot implements BotAPI {
         for (int i = 0; i < weaponCards.size(); i++) {
         	System.out.println(weaponCards.get(i).name);
         }
-        System.out.println("\nRoom Card Array:\n ");
+        System.out.println("\nRoom Card Arrray:\n ");
         for (int i = 0; i < roomCards.size(); i++) {
         	System.out.println(roomCards.get(i).name);
         }

@@ -41,7 +41,7 @@ public class Cluedo {
         if (args.length<NUM_PLAYERS) {
             botNames[0] = "FazeClueBot";
             botNames[1] = "Bot1";
-            botNames[2] = "FazeClueBot";
+            botNames[2] = "Bot1";
 
         } else {
             for (int i=0; i<NUM_PLAYERS; i++) {
