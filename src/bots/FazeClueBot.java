@@ -34,6 +34,7 @@ public class FazeClueBot implements BotAPI {
         this.dice = dice;
         this.log = log;
         this.deck = deck;
+        this.rand = new Random();
 
         guessing = new GuessingLogic();
     }
@@ -50,8 +51,6 @@ public class FazeClueBot implements BotAPI {
 	public String getVersion() {
 		return "0.1";
 	}
-
-
 
     public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
     	// We will only be using: roll, question, accuse, done
@@ -91,20 +90,12 @@ public class FazeClueBot implements BotAPI {
             return "done";
     }
 
+  
+   
     public String getMove() {
-        diceRoll--;
-
-        if (diceRoll == 0)
-            return "done";
-
-        String move = "done";
-
-        rand = new Random();
-
+        String move = "Error in move logic";
         do {
-            int commandInt = rand.nextInt(4);
-
-            switch (commandInt) {
+            switch (rand.nextInt(4)) { //TODO: Currently random, need to change that back
                 case 0:
                     move = "u";
                     break;
@@ -118,17 +109,8 @@ public class FazeClueBot implements BotAPI {
                     move = "r";
                     break;
             }
-        } while (map.getNewPosition(player.getToken().getPosition(), move) == lastPosition
-                || !map.isValidMove(player.getToken().getPosition(), move)
 
-                ||
-                (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-                        && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16))
-
-                || (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-                map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn))
-
-                );
+        } while (shouldLoopAgain(move)); 
 
         lastPosition = player.getToken().getPosition();
 
@@ -140,7 +122,23 @@ public class FazeClueBot implements BotAPI {
 
         return move;
     }
-
+  
+    
+    private Boolean shouldLoopAgain(String move) {
+        // Keep running this while one of these conditions is met:
+            // 1. If we are trying to move back to the last position 
+            // 2. If it is a not valid move
+            // 3. If it's not time to accuse, and the door leads to the cellar 
+            // 4. If we are trying to go back into a room we were just in
+    	
+    	Boolean backtolastposition = map.getNewPosition(player.getToken().getPosition(), move) == lastPosition;
+        Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
+        Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12) && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
+		Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) && map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
+		return (backtolastposition || validmove || cellarcase || backtracking);
+    }
+    
+  
     public String getSuspect() {
         return guessing.getCharacterGuess().name;
     }
