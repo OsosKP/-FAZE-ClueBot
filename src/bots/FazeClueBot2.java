@@ -8,7 +8,7 @@ import gameengine.Map;
 import java.util.*;
 import java.util.jar.Attributes.Name;
 
-public class FazeClueBot implements BotAPI {
+public class FazeClueBot2 implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -23,14 +23,9 @@ public class FazeClueBot implements BotAPI {
     private Log log;
     private Deck deck;
     private GuessingLogic guessing;
-    private int commandnumber; //int to keep track of which command. 
     private Boolean firstTurn = true;
-//		1: move
-//		3: question 
-//		4: accuse 
-//		5: done
 
-    public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
+    public FazeClueBot2 (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
         this.map = map;
@@ -38,8 +33,6 @@ public class FazeClueBot implements BotAPI {
         this.log = log;
         this.deck = deck;
 
-        /* Creating the game cards */
-        setNoteCards();
         guessing = new GuessingLogic();
     }
     
@@ -48,7 +41,7 @@ public class FazeClueBot implements BotAPI {
 //
     
     public String getName() {
-        return "FazeClueBot"; // must match the class name
+        return "FazeClueBot2"; // must match the class name
     }
 
     boolean rollOrDone = false;
@@ -87,30 +80,6 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
-
-//        switch (commandnumber) {
-//            case 0:
-//                commandnumber++;
-//                return "roll";
-//            case 1:
-//                System.out.println("Case 1");
-//                return "done";
-//            case 2:
-//                System.out.println("Case 2");
-//                return "passage";
-//            case 3:
-//                System.out.println("Case 3");
-//                return "question";
-//            case 4:
-//                System.out.println("Case 4");
-//                return "accuse";
-//            case 5:
-//                System.out.println("Case 5");
-//                return "done";
-//            default:
-//                break;
-//		}
-//        // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
 //        return "roll";
     }
 
@@ -127,7 +96,6 @@ public class FazeClueBot implements BotAPI {
         rand = new Random();
 
         do {
-
             int commandInt = rand.nextInt(4);
 
             switch (commandInt) {
@@ -204,7 +172,6 @@ public class FazeClueBot implements BotAPI {
 
 	@Override
 	public void notifyPlayerName(String playerName) {
-		// TODO Auto-generated method stub
     }
 
 	@Override
@@ -261,16 +228,6 @@ public class FazeClueBot implements BotAPI {
 
     private void takeTurn() {
         System.out.println("Location: " + player.getToken().getPosition().toString());
-
-        /* Updating probability */
-        if (firstTurn) {
-            setNoteCards();
-            firstTurn = false;
-        }
-
-//    	guessing.startTurnLogic();
-
-        timeToAccuse = guessing.getAccuseState();
     }
 
     /*
@@ -780,52 +737,4 @@ public class FazeClueBot implements BotAPI {
         }
         return null;
     }
-
-
-    /*
-        Auxiliary and storage methods
-     */
-
-    private void storeAllDoors() {
-        doors.add(new Coordinates(4,6));
-        doors.add(new Coordinates(8,5));
-        doors.add(new Coordinates(9,7));
-        doors.add(new Coordinates(14,7));
-        doors.add(new Coordinates(15,5));
-        doors.add(new Coordinates(18,4));
-        doors.add(new Coordinates(18,9));
-        doors.add(new Coordinates(22,12));
-        doors.add(new Coordinates(17,16));
-        doors.add(new Coordinates(20,14));
-        doors.add(new Coordinates(17,21));
-        doors.add(new Coordinates(11,18));
-        doors.add(new Coordinates(12,18));
-        doors.add(new Coordinates(14,20));
-        doors.add(new Coordinates(6,19));
-        doors.add(new Coordinates(6,15));
-        doors.add(new Coordinates(7,12));
-        doors.add(new Coordinates(12,16));
-    }
-//    private void storeAllDoors() {
-//        doors.add(new Integer[]{4,6});
-//        doors.add(new Integer[]{8,5});
-//        doors.add(new Integer[]{9,7});
-//        doors.add(new Integer[]{14,7});
-//        doors.add(new Integer[]{15,5});
-//        doors.add(new Integer[]{18,4});
-//        doors.add(new Integer[]{18,9});
-//        doors.add(new Integer[]{22,12});
-//        doors.add(new Integer[]{17,16});
-//        doors.add(new Integer[]{20,14});
-//        doors.add(new Integer[]{17,21});
-//        doors.add(new Integer[]{11,18});
-//        doors.add(new Integer[]{12,18});
-//        doors.add(new Integer[]{14,20});
-//        doors.add(new Integer[]{6,19});
-//        doors.add(new Integer[]{6,15});
-//        doors.add(new Integer[]{7,12});
-//        doors.add(new Integer[]{12,17});
-//    }
-
-	
 }
