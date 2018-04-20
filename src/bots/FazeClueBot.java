@@ -185,7 +185,6 @@ public class FazeClueBot implements BotAPI {
     
     @Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
 		return "0.1";
 	}
 
@@ -766,4 +765,52 @@ public class FazeClueBot implements BotAPI {
         }
         return null;
     }
+
+
+    /*
+        Auxiliary and storage methods
+     */
+
+    private void storeAllDoors() {
+        doors.add(new Coordinates(4,6));
+        doors.add(new Coordinates(8,5));
+        doors.add(new Coordinates(9,7));
+        doors.add(new Coordinates(14,7));
+        doors.add(new Coordinates(15,5));
+        doors.add(new Coordinates(18,4));
+        doors.add(new Coordinates(18,9));
+        doors.add(new Coordinates(22,12));
+        doors.add(new Coordinates(17,16));
+        doors.add(new Coordinates(20,14));
+        doors.add(new Coordinates(17,21));
+        doors.add(new Coordinates(11,18));
+        doors.add(new Coordinates(12,18));
+        doors.add(new Coordinates(14,20));
+        doors.add(new Coordinates(6,19));
+        doors.add(new Coordinates(6,15));
+        doors.add(new Coordinates(7,12));
+        doors.add(new Coordinates(12,16));
+    }
+//    private void storeAllDoors() {
+//        doors.add(new Integer[]{4,6});
+//        doors.add(new Integer[]{8,5});
+//        doors.add(new Integer[]{9,7});
+//        doors.add(new Integer[]{14,7});
+//        doors.add(new Integer[]{15,5});
+//        doors.add(new Integer[]{18,4});
+//        doors.add(new Integer[]{18,9});
+//        doors.add(new Integer[]{22,12});
+//        doors.add(new Integer[]{17,16});
+//        doors.add(new Integer[]{20,14});
+//        doors.add(new Integer[]{17,21});
+//        doors.add(new Integer[]{11,18});
+//        doors.add(new Integer[]{12,18});
+//        doors.add(new Integer[]{14,20});
+//        doors.add(new Integer[]{6,19});
+//        doors.add(new Integer[]{6,15});
+//        doors.add(new Integer[]{7,12});
+//        doors.add(new Integer[]{12,17});
+//    }
+
+	
 }
