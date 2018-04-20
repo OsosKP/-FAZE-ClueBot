@@ -3,8 +3,10 @@
 package bots;
 
 import gameengine.*;
-import java.util.ArrayList;
-import java.util.List;
+import gameengine.Map;
+
+import java.util.*;
+import java.util.jar.Attributes.Name;
 
 public class FazeClueBot implements BotAPI {
 
@@ -20,6 +22,14 @@ public class FazeClueBot implements BotAPI {
     private Dice dice;
     private Log log;
     private Deck deck;
+    private GuessingLogic guessing;
+    private int commandnumber; //int to keep track of which command. 
+    private Boolean firstTurn = true;
+//		1: move
+//		2: passage
+//		3: question 
+//		4: accuse 
+//		5: done
 
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -30,6 +40,14 @@ public class FazeClueBot implements BotAPI {
         this.deck = deck;
         // Store locations to all doors on the board
         storeAllDoors();
+        // Populate NoteCards
+        
+        // Set location on board
+        setCurrentPosition(player.getToken().getPosition());
+        
+
+        /* Creating the game cards */
+        guessing = new GuessingLogic();
     }
     
 //    
@@ -41,8 +59,26 @@ public class FazeClueBot implements BotAPI {
     }
 
     public String getCommand() {
+        takeTurn();
+    	switch (commandnumber) {
+            case 0:
+                commandnumber++;
+                return "roll";
+            case 1:
+                return findNextCommandMovingToRoom();
+            case 2:
+                return "passage";
+            case 3:
+                return "question";
+            case 4:
+                return "accuse";
+            case 5:
+                return "done";
+            default:
+                break;
+		}
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
-        return "done";
+        return "roll";
     }
 
     public String getMove() {
@@ -52,32 +88,29 @@ public class FazeClueBot implements BotAPI {
             beginPing();
         move = findNextCommandMovingToRoom();
 
+        currentRouteProgressIndex++;
+
         return move;
     }
 
     public String getSuspect() {
-        // Add your code here
-        // TODO: George - just put 'yourNoteCardForSuspects.get(0). Do for all 3
-        // Input must return true for Names.isSuspect(String input)
-        // Possible inputs: u|d|l|r
-        return getSuspect();
+        return guessing.getCharacterGuess().name;
     }
 
     public String getWeapon() {
-    	// Input must return true for Names.isWeapon(String input)
-        return Names.WEAPON_NAMES[0];
+        return guessing.getWeaponGuess().name;
     }
 
     public String getRoom() {
-    	// Input must return true for Names.isRoomCard(String input)
-        return Names.ROOM_NAMES[0];
+        return guessing.getRoomGuess().name;
     }
 
     public String getDoor() {
         // Add your code here
         return "0";
     }
-
+    
+    /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
         // Add your code here
         // TODO: This might be placeholder, but the format is correct - Kelsey
@@ -86,10 +119,13 @@ public class FazeClueBot implements BotAPI {
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
     }
-
+    
+    /*
+     * Function call that happens when we ask a question and get an answer
+     * TODO: Josh look at this and see if I am going in the right direction
+     */
     public void notifyResponse(Log response) {
-    	//See notes for this method
-        // Add your code here
+    	guessing.questionAnswered(response);
     }
 
     /*
@@ -101,38 +137,81 @@ public class FazeClueBot implements BotAPI {
      */
 
     // Map coords: 24 x 23
-    private List<Integer[]> currentRoute = new ArrayList<>();
+    private List<Coordinates> currentRoute = new ArrayList<>();
     private Room currentRoomDestination;
-    private Integer[] currentPosition = new Integer[2];
-    private List<Integer[]> doors = new ArrayList<>();
-    private String[] doorsReference = new String[18];
-    private List<NoteCard> notes = new ArrayList<>();
+    private Coordinates currentPosition;
+    private List<Coordinates> doors = new ArrayList<>();
+
+    /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
+    private List<NoteCard> playerCards = new ArrayList<>();
+    private List<NoteCard> weaponCards = new ArrayList<>();
+    private List<NoteCard> roomCards = new ArrayList<>();
+    
+    /* ArrayList that will represent the cards that are currently in our hand */
+    private List<NoteCard> playerHandCards = new ArrayList<>();
+    private List<NoteCard> weaponHandCards = new ArrayList<>();
+    private List<NoteCard> roomHandCards = new ArrayList<>();
+    
+    /* ArrayList that represents the removedCards */
+    private List<NoteCard> playerRemovedCards = new ArrayList<>();
+    private List<NoteCard> weaponRemovedCards = new ArrayList<>();
+    private List<NoteCard> roomRemovedCards = new ArrayList<>();
+    
     private boolean movingToRoom = false;
     private boolean inRoom = false;
     private boolean guessedInRoom = false;
     private boolean timeToAccuse = false;
+    private boolean firstMove = true;
     private int currentRouteProgressIndex = 0;
 
     /*
         Movement
      */
-    private Integer[] getCurrentPosition() {
-        return currentPosition;
+    private Coordinates getCurrentPosition() {
+        return player.getToken().getPosition();
     }
     private int getCurrentRow() {
-        return currentPosition[0];
+        return player.getToken().getPosition().getRow();
     }
     private int getCurrenColumn() {
-        return currentPosition[1];
+        return player.getToken().getPosition().getCol();
     }
     private void setCurrentPosition(Coordinates coords) {
-        this.currentPosition[0] = coords.getRow();
-        this.currentPosition[1] = coords.getCol();
+        currentPosition = coords;
     }
 
     private String takeTurn() {
+<<<<<<< HEAD
+    	
+=======
+        System.out.println("Location: " + player.getToken().getPosition().toString());
+
+>>>>>>> 6a8cf183987cba8d5f7faec03e96726ef6a11eea
+        /* Updating probability */
+    	if (firstTurn) {
+    		System.err.println("Am I gettting called/");
+    		setNoteCards();
+    		firstTurn = false;
+    	}
+
+    	if (firstMove) {
+    	    firstMove = false;
+    	    return "roll";
+        }
+    	
+    	guessing.startTurnLogic();
+    	
+    	
+    	System.out.println("Location: " + player.getToken().getPosition().toString());
+
+        if (!(movingToRoom || inRoom || guessedInRoom)) {
+            return "roll";
+        }
+
+
+
         // Update Log
-        //TODO: Josh
+        //TODO: Log
 
         /* Check if we have an accusation
                 If so, we will call shouldIVisitRoom.
@@ -142,14 +221,15 @@ public class FazeClueBot implements BotAPI {
                     it is given and decides whether or not we know it's in the
                     murder envelope. If we don't know, we'll visit it.
          */
-        timeToAccuse = checkIfIShouldGoToCellar();
+        timeToAccuse = guessing.getAccuseState();
 
         // If not, see if we're en route to a room
         if (movingToRoom) {
             // Make sure we still want to go to this room
-            if(shouldIVisitRoom(currentRoomDestination))
+            if(shouldIVisitRoom(currentRoomDestination)) {
                 // If so, continue
                 return findNextCommandMovingToRoom();
+            }
             else {
                 movingToRoom = false;
                 // If not, re-ping
@@ -160,15 +240,27 @@ public class FazeClueBot implements BotAPI {
         }
         // If we begin our turn in a room
         if (inRoom) {
+            // Check if the room has a passage to a room we want to visit
+            if (map.getRoom(getRoom()).hasPassage() &&
+                    shouldIVisitRoom(map.getRoom(getRoom()).getPassageDestination())
+                    // Also make sure we haven't guess in the current room
+                    // This should have the added benefit of not letting us try to
+                        // take a passage after having already moved. I think?
+                    && guessedInRoom)
+                return "passage";
             // Check if we've already guessed in this room. If we have...
-            if (guessedInRoom)
+            if (guessedInRoom) {
                 // TODO: Exit - Is this right?
-                    // We need to choose a door (or just pick 0), exit, then ping
-                getDoor();
+                // Rolling dice should have us exit the room
+                // We should ensure the correct exit is picked prior to rolling,
+                    // because the rollDice() method checks getDoor()
+                // I've just got it returning 0 for now so we don't crash
+                return "roll";
+            }
             // Otherwise, make a guess
-            // TODO: George: This is where we do our guessing
-            else
-                return "guess";
+            else {
+            	commandnumber=3;//This tells the game that we want to guess
+            }
         }
         /*
             If we have gotten to this point without returning:
@@ -176,7 +268,7 @@ public class FazeClueBot implements BotAPI {
                 to one. So we need to ping to find the closest room we want and redo all this.
          */
         beginPing();
-        return takeTurn();
+        return findNextCommandMovingToRoom();
     }
 
     /*
@@ -184,43 +276,51 @@ public class FazeClueBot implements BotAPI {
             do and sends the appropriate command
      */
     private String findNextCommandMovingToRoom() {
-        currentRouteProgressIndex++;
+       	commandnumber=1;//Command is move
+
+        if (currentRouteProgressIndex >= currentRoute.size()-1) {
+            System.out.println("There's your problem");
+            beginPing();
+            for (Coordinates c : currentRoute)
+                System.out.println("ROUTE: " + c.toString());
+            currentRouteProgressIndex = 0;
+        }
         /*
             The next square in our route will be different in either the row
                 or column index. Find which one it is (it should only be one) and
                 set our next move command accordingly.
          */
-        int rowDiff = currentRoute.get(currentRouteProgressIndex-1)[0] -
-                currentRoute.get(currentRouteProgressIndex)[0];
-        int colDiff = currentRoute.get(currentRouteProgressIndex-1)[1] -
-                currentRoute.get(currentRouteProgressIndex)[1];
+        int rowDiff =
+                currentRoute.get(currentRouteProgressIndex).getRow() -
+                currentRoute.get(currentRouteProgressIndex+1).getRow();
+        int colDiff = currentRoute.get(currentRouteProgressIndex).getCol() -
+                currentRoute.get(currentRouteProgressIndex+1).getCol();
 
         switch (rowDiff) {
             case -1:
-                return "u";
-            case 1:
                 return "d";
+            case 1:
+                return "u";
             default:
                 break;
         }
         switch (colDiff) {
             case -1:
-                return "l";
-            case 1:
                 return "r";
+            case 1:
+                return "l";
             default:
                 break;
         }
         return "error";
     }
 
-    public boolean isDoor(int row, int col, int counter) {
+    public boolean isDoor(Coordinates coords) {
         boolean found = false;
-        for (Integer[] index : doors) {
-            if (index[0].equals(row) && index[1].equals(col)) {
+        for (Coordinates index : doors) {
+            if (index.getCol() == coords.getCol() && index.getRow() == coords.getRow()) {
                 found = true;
             }
-            counter++;
         }
         return found;
     }
@@ -229,18 +329,27 @@ public class FazeClueBot implements BotAPI {
         Begin a ping in all directions looking for a room to move to
      */
     private void beginPing() {
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "l"))
-            ping(currentPosition[0], currentPosition[1]-1,
-                    new ArrayList<>(), new boolean[][] {{false}, {false}});
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "u"))
-            ping(currentPosition[0]-1, currentPosition[1],
-                    new ArrayList<>(), new boolean[][] {{false}, {false}});
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "r"))
-            ping(currentPosition[0], currentPosition[1]+1,
-                    new ArrayList<>(), new boolean[][] {{false}, {false}});
-        if (map.isValidMove(new Coordinates(currentPosition[0], currentPosition[1]), "d"))
-            ping(currentPosition[0]+1, currentPosition[1],
-                    new ArrayList<>(), new boolean[][] {{false}, {false}});
+        boolean[][] explored = new boolean[24][25];
+        for (boolean[] b : explored)
+            Arrays.fill(b, false);
+
+        System.out.println("Begin ping");
+
+        System.out.println("Current Position: " + player.getToken().getPosition());
+
+
+        if (map.isValidMove(player.getToken().getPosition(), "l") && player.getToken().getPosition().getCol() > 0)
+            ping(player.getToken().getPosition().getCol()-1, player.getToken().getPosition().getRow(),
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "u") && player.getToken().getPosition().getRow() > 0)
+            ping(player.getToken().getPosition().getCol(), player.getToken().getPosition().getRow()-1,
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "r") && player.getToken().getPosition().getCol() < 23)
+            ping(player.getToken().getPosition().getCol()+1, player.getToken().getPosition().getRow(),
+                    new ArrayList<>(), explored, "");
+        if (map.isValidMove(player.getToken().getPosition(), "d") && player.getToken().getPosition().getRow() < 24)
+            ping(player.getToken().getPosition().getCol(), player.getToken().getPosition().getRow()+1,
+                    new ArrayList<>(), explored, "");
     }
 
     /*
@@ -248,45 +357,59 @@ public class FazeClueBot implements BotAPI {
             Each call updates its own route, and returns it when a suitable room is found
                explored is sent as an empty array of booleans, one for each board square
      */
-    private void ping(int row, int col, ArrayList<Integer[]> route, boolean[][] explored) {
+    private void ping(int col, int row, ArrayList<Coordinates> route, boolean[][] explored, String command) {
         // Counter is supposed to help the bot choose which exit to take from a room
         // Not using this yet because I'm just having the bot always pick exit 0
         int counter = 0;
 
+        if (col < 0 || row < 0 || col > 22 || row > 23)
+            return;
+
+        Coordinates coordinates = new Coordinates(col, row);
+
+        System.out.println("Now: " + coordinates.toString());
+
         // If we've come to a square that we haven't been to yet...
-        if (!explored[row][col]) {
-            // Mark this square as explored
-            explored[row][col] = true;
-            // Add this square to the current route
-            route.add(new Integer[]{row, col});
-            // If we have found a door to a room
-            if (isDoor(row, col, counter)) {
-                // If we haven't eliminated the possibility of this room
+        if (!explored[col][row]) {
+                // Mark this square as explored
+                explored[col][row] = true;
+                // Add this square to the current route
+                route.add(coordinates);
+                // If we have found a door to a room
+                if (isDoor(coordinates)) {
+                    // If we haven't eliminated the possibility of this room
                     // being in the murder envelope
-                if (shouldIVisitRoom(map.getRoom(doorsReference[counter]))) {
-                    // Set the current route as the route to this room
-                    currentRoute = route;
-                    // Denote that we are moving to a room currently
-                    movingToRoom = true;
-                    // Set the room we're moving towards
-                    // We will use this variable to check at the beginning of
+                    System.out.println("Coords: (" + col + ", " + row + ")");
+                    if (shouldIVisitRoom(map.getRoom(new Coordinates(col, row)))) {
+                        // Set the current route as the route to this room
+                        currentRoute = route;
+                        // Denote that we are moving to a room currently
+                        movingToRoom = true;
+                        // Set the room we're moving towards
+                        // We will use this variable to check at the beginning of
                         // each turn if we should still be moving toward that room
-                    currentRoomDestination = map.getRoom(doorsReference[counter]);
-                    // End recursive calls
-                    return;
+                        currentRoomDestination = map.getRoom(new Coordinates(col, row));
+                        // End recursive calls
+                        return;
+                    } else
+                        return;
                 }
-            }
         }
+
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
-        if (map.isValidMove(new Coordinates(row, col-1), "l"))
-            ping(row, col-1, route, explored);
-        if (map.isValidMove(new Coordinates(row-1, col), "u"))
-            ping(row-1, col, route, explored);
-        if (map.isValidMove(new Coordinates(row, col+1), "r"))
-            ping(row, col+1, route, explored);
-        if (map.isValidMove(new Coordinates(row+1, col), "d"))
-            ping(row+1, col, route, explored);
+        if (map.isValidMove(player.getToken().getPosition(), "l") &&
+                col-1 > 0 && !explored[col-1][row])
+            ping(col - 1, row, route, explored, "l");
+        if (map.isValidMove(player.getToken().getPosition(), "u") &&
+                row-1 > 0 && !explored[col][row-1])
+            ping(col, row-1, route, explored, "u");
+        if (map.isValidMove(player.getToken().getPosition(), "r") &&
+                !explored[col+1][row])
+            ping(col+1, row, route, explored, "r");
+        if (map.isValidMove(player.getToken().getPosition(), "d") &&
+                !explored[col][row+1])
+            ping(col, row+1, route, explored, "d");
     }
 
     // TODO: George: Change this probability of 25 to whatever you want
@@ -296,71 +419,28 @@ public class FazeClueBot implements BotAPI {
             It is called from ping() and determines where we go next.
      */
     private boolean shouldIVisitRoom(Room room) {
-        // If we need to accuse, just check if we're going to the cellar
-        if (timeToAccuse)
-            return room.hasName("Cellar");
-        // Otherwise, decide if the given room is worth visiting
-        for (NoteCard nc : notes) {
-            if (nc.name.equals(room.toString())) {
-                if (nc.probability > 25)
-                    return true;
-                break;
-            }
-        }
-        return false;
-    }
-
-    // TODO: George: The skeleton of this is right, but update based on your probability needs
-    public boolean checkIfIShouldGoToCellar() {
-        int counter = 0;
-        // Check status of characters guessed
-        for (int i=0; i<6; i++) {
-            if (notes.get(i).probability > 0)
-                // Count how many characters we're unsure about
-                counter++;
-        }
-        // If we're unsure about more than 1, no guessing
-        if (counter > 1)
-            return false;
-
-        counter = 0;
-        // Do the same method for weapons
-        for (int i=0; i<6; i++) {
-            if (notes.get(i+6).probability > 0)
-                // Count how many weapons we're unsure about
-                counter++;
-        }
-        if (counter > 1)
-            return false;
-
-        // Do the same method for rooms
-        for (int i=0; i<9; i++) {
-            if (notes.get(i+12).probability > 0)
-                // Count how many rooms we're unsure about
-                counter++;
-        }
-        // At this point if we only have 1 room to guess, we're ready.
-        // Otherwise, this evaluates to false and we don't guess
-        return (counter == 1);
+        System.out.println("Should I visit the " + room.toString() + "?");
+        return true;
+//        // If we need to accuse, just check if we're going to the cellar
+//        if (timeToAccuse)
+//            return room.hasName("Cellar");
+//        // Otherwise, decide if the given room is worth visiting
+//        for (NoteCard nc : roomHandCards) {
+//            if (nc.name.equals(room.toString())) {
+//                if (nc.probability > 0)
+//                    return true;
+//                break;
+//            }
+//        }
+//        return false;
     }
 
     /*
         Guessing
      */
-<<<<<<< HEAD:src/bots/Bot1.java
-    
-    /* 
-     * If we see the card -- then we drop the probability to 0 
-     * Otherwise we have to deal with the probability another way
-     */
-    
-    // TODO: An idea I have for storing guess cards. We could change this.
-=======
-    // TODO: An idea I have for storing guess cards. We could change this. - Kelsey
->>>>>>> 30947fe1dc1cc5b14426cb121c9ef0554aec15a3:src/bots/FazeClueBot.java
     public static class NoteCard {
         private String name;
-        private int probability;
+        public int probability;
         private boolean guessed;
         private String whoHas;
 
@@ -390,50 +470,486 @@ public class FazeClueBot implements BotAPI {
                 probability = 0;
         }
     }
+    
+    public class GuessingLogic {
+    	
+    	private Boolean readyToAccuse = false;
+    	
+    	private Boolean lockedInCharacter = false;
+    	private NoteCard lockedInNoteCharacter;
+    	
+    	private Boolean lockedInWeapon = false;
+    	private NoteCard lockedInNoteWeapon;
+    	
+    	private Boolean lockedInRoom = false;
+    	private NoteCard lockedInNoteRoom;
+    	
+    	private int logSize;
+    	
+    	private boolean firstGuessCharacter;
+    	private boolean firstGuessWeapon;
+    	private boolean firstGuessRoom;
+    	
+    	public GuessingLogic() {
+			/* Filling the note cards */
+    		firstGuessCharacter = true;
+    		firstGuessWeapon = true;
+    		firstGuessRoom = true;
+    	}
+    	
+    	//TODO: add the probability case from the log 
+    	
+    	/**
+    	 * To be called at the beginning of out bots turn
+    	 */
+    	public void startTurnLogic() {
+    		if (!readyToAccuse) {
+    			/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
+    			reviewLog(log);
+    		
+    			/* Removing the cards from the lists who have a probability of 0 */
+    			removePlayers();
+    			removeRooms();
+    			removeWeapons();
+    			
+    			/* Sorting the list so that, the cards with the highest probability are at the beginning of the lists */
+    			sortPlayers();
+    			sortRooms();
+    			sortWeapons();
+    		
+    			/* checking to see if we are ready to accuse a player */
+    			lockedInRefresh();
+    			accuseCheck();
+    		}
+    	}
+    	
+    	private void lockedInRefresh() {
+    		if (playerCards.size() == 1 && playerCards.get(0).guessed) {
+    			lockedInCharacter = true;
+    			lockedInNoteCharacter = playerCards.get(0);
+    		}
+    		
+    		if (weaponCards.size() == 1 && weaponCards.get(0).guessed) {
+    			lockedInWeapon = true;
+    			lockedInNoteWeapon = playerCards.get(0);
+    		}
+    		
+    		if (roomCards.size() == 1 && roomCards.get(0).guessed) {
+    			lockedInRoom = true;
+    			lockedInNoteRoom = playerCards.get(0);
+    		}
+    	}
+    	
+    	/**
+    	 * Going though the log and seeing if we can update any of the probabilities based on the 
+    	 * @param reviewMe
+    	 */
+    	private void reviewLog(Log reviewMe) {
+    		/*  while the log continues  */
+    		int tempIndex = 0;
+    		
+    		reviewMe.iterator();
+    		
+    		while (reviewMe.hasNext()) {
+    			tempIndex++;
+    			
+    			String tempLookUp = reviewMe.next();
+    			int ourGuessCheck = tempLookUp.indexOf(':');
+    			System.out.println(tempLookUp);
+    			
+    			if (ourGuessCheck < 0) {
+    				if (tempLookUp.contains("showed one card")) {
+    					/* Need to loop though the string and see if we get any matches for the  */
+    					for (int i = 0; i < playerCards.size(); i++) {
+    						String tempName = playerCards.get(i).name;
+    				
+    						/* If we find the player's name in the log string  */
+    						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match with player!");
+    							playerCards.get(i).probability = playerCards.get(i).probability - 11;
+    						}
+    					}
+    			
+    					/* Looping though the weaponCards */
+    					for (int i = 0; i < weaponCards.size(); i++) {
+    						String tempName = weaponCards.get(i).name;
+    				
+    						/* If we find the weapon name in the log string */
+    						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match with weapon!");
+    							weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
+    						}
+    					}
+    			
+    					/* Looping though the characterCards */
+    					for (int i = 0; i < roomCards.size(); i++) {
+    						String tempName = roomCards.get(i).name;
+    				
+    						if (tempLookUp.contains(tempName)) {
+    							System.out.println("We got a match with room!");
+    							roomCards.get(i).probability = roomCards.get(i).probability - 11;
+    						}
+    					}
+    				
+    				}
+    			}
+    		}
+    		logSize = tempIndex;
+    	}
+    	
+    	/**
+    	 * Checking to see if we are ready to make an accusation 
+    	 */
+    	private void accuseCheck() {
+    		if (lockedInCharacter && lockedInWeapon && lockedInRoom) {
+    			readyToAccuse = true;
+    		}
+    	}
+    	
+    	/**
+    	 * Simple Bubblesort implementation to sort a given arrayList from high -> low
+    	 * @param myList = a given arrayList to sort
+    	 */
+    	private void sortList(List<NoteCard> myList) {
+    		NoteCard temp;
+   
+    		/* Using Bubble sort to arrange the cards with the highest probability at the beginning of the array */
+    		for (int x = 0; x < myList.size(); x++) {
+                for (int i=0; i < myList.size()- x - 1; i++) {
+                    if (myList.get(i).probability < myList.get(i+1).probability) {
+                        temp = myList.get(i);
+                        myList.set(i, myList.get(i+1) );
+                        myList.set(i+1, temp);
+                    }
+                }
+            }
+    		
+    	}
+    	
+    	/**
+    	 * Removing all the cards that were marked for removal
+    	 * @param myList = a given list that we are removing elements from
+    	 * @param type = the list type (character, weapon, room)
+    	 */
+    	private void removeCards(List<NoteCard> myList, char type) {
+    		int currentIndex = 0;
+    		
+    		for (NoteCard currCard: myList) {
+    			if (currCard.probability == 0) {
+    				
+    				if (type == 'c') {
+    					playerRemovedCards.add(myList.get(currentIndex));
+    				}
+    				else if (type == 'w') {
+    					weaponRemovedCards.add(myList.get(currentIndex));
+    				}
+    				else {
+    					roomRemovedCards.add(myList.get(currentIndex));
+    				}
+    				myList.remove(currentIndex);
+    			}
+    			currentIndex++;
+    		}
+    	}
+    	
+    	/**
+    	 * Updating guessing based on question feedback
+    	 * @param questionLog
+    	 */ 
+    	public void questionAnswered(Log questionLog) {
+    		
+    		questionLog.iterator();
+    		
+    		/* Marking the current cards based on what we guessed */
+    		playerCards.get(0).guessed = true;
+    		weaponCards.get(0).guessed = true;
+    		roomCards.get(0).guessed = true;
+    		
+    		/* Representing the current position in the log */
+    		int tempIndex = 0;
+    		
+    		/* Looping though the log */
+    		while (questionLog.hasNext()) {
+    			/* If we are looking at the 'new' info in the log */
+    			if (tempIndex >= logSize) {
+    				/* Grabbing the log line as a string */
+    				String temp = questionLog.next();
+    
+    				/* If we have the ':' then we know that we are dealing with answers to our question */
+    				int startIndex = temp.indexOf(':');
+    				
+    				/* Case is we do not find the ':' -> meaning we didnt get an answer to our question */
+    				if (startIndex < 0) {
+    					//Nothing 
+    				}
+    				/* Otherwise we are looking at an answer to the question */
+    				else {
+    					/* We know that the end of the card name we have the '.' char */
+    					int endIndex = temp.indexOf('.');
+    					
+    					/* Grabbing the card name that was returned */
+    					String nameSubstring = temp.substring(startIndex+1, endIndex);
+    					
+    					/*  Checking to see if the card name given is the (weapon, character, or room) we guessed */
+    					if (playerCards.get(0).name.equals(nameSubstring)) {
+    						playerCards.get(0).probability = 0;		
+    					}
+    					else if (weaponCards.get(0).name.equals(nameSubstring)) {
+    						weaponCards.get(0).probability = 0;
+    					}
+    					else  if (roomCards.get(0).name.equals(nameSubstring)){
+    						roomCards.get(0).probability = 0;
+    					}
+    					else { //if stuff broke
+    						System.err.println("Someathing fucked up");
+    					}
+    				}
+    			}
+    			tempIndex++;
+    		}
+    	
+    		/* If none of the probabilities are changed -- then we have gotten a winning hand! */
+    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && roomCards.get(0).probability != 0) {
+    		    System.err.println("We got a winning hand!");
+    			lockedInCharacter = true;
+    			lockedInRoom = true;
+    			lockedInWeapon = true;
+    			
+    			lockedInNoteCharacter = playerCards.get(0);
+    			lockedInNoteRoom = roomCards.get(0);
+    			lockedInNoteWeapon = weaponCards.get(0);
+    			
+    			playerCards.get(0).probability = 200;
+    			weaponCards.get(0).probability = 200;
+    			roomCards.get(0).probability = 200;	
+    		}
+    		accuseCheck();
+    	}
+    	
+    	private void sortPlayers() {
+    		sortList(playerCards);
+    	}
+    	
+    	private void sortWeapons() {
+      		sortList(weaponCards); 	
+    	}
+    	
+    	private void sortRooms() {
+    		sortList(roomCards);
+    	}
+    	
+    	private void removePlayers() {
+    		removeCards(playerCards, 'p');
+    	}
+    	
+    	private void removeWeapons() {
+    		removeCards(weaponCards, 'w');
+    	}
+    	
+    	private void removeRooms() {
+    		removeCards(roomCards, 'r');
+    	}
+    	
+    	/* Getter methods */
+    	public NoteCard getCharacterGuess() {
+    		
+    		/* If this is the first guess we are making: -- we throw off the other bots by making a "winning" guess */
+    		if (firstGuessCharacter) {
+    			firstGuessCharacter = false;
+     			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return playerCards.get(0);
+    			}   			
+    		}
+  
+    		
+    		if (lockedInCharacter && !timeToAccuse) {
+    			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteCharacter;
+    			}
+    		}
+    		else if (lockedInCharacter && timeToAccuse) {
+    			return lockedInNoteCharacter;
+    		}
+    		else {
+    			return playerCards.get(0);
+    		}
+    	}
+    	
+    	public NoteCard getWeaponGuess() {
+    	
+    		/* If this is the first guess we are making: */
+    		if (firstGuessWeapon) {
+    			firstGuessWeapon = false;
+     			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return weaponCards.get(0);
+    			}   			
+    		}
+    		
+    		if (lockedInWeapon && !timeToAccuse) {
+    			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteWeapon;
+    			}
+    		}
+    		else if (lockedInWeapon && timeToAccuse) {
+    			return lockedInNoteWeapon;
+    		}
+    		else {
+    			return weaponCards.get(0);
+    		}
+    	}
+    	
+    	public NoteCard getRoomGuess() {
+    		
+    		/* If this is the first guess we are making: */
+    		if (firstGuessRoom) {
+    			firstGuessRoom = false;
+     			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return roomCards.get(0);
+    			}   			
+    		}
+    		
+    		
+    		if (lockedInRoom && !timeToAccuse) {
+    			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return lockedInNoteRoom;
+    			}
+    		}
+    		else if (lockedInRoom && timeToAccuse) {
+    			return lockedInNoteRoom;
+    		}
+    		else {
+    			return roomCards.get(0);
+    		}
+    	}
+    	
+    	public Boolean getAccuseState() {
+    		return readyToAccuse;
+    	}
+    }
 
     private void setNoteCards() {
-        for (int i=0; i<6; i++)
-            notes.add(new NoteCard(Names.SUSPECT_NAMES[i]));
-        for (int i=0; i<6; i++)
-            notes.add(new NoteCard(Names.WEAPON_NAMES[i]));
-        for (int i=0; i<9; i++)
-            notes.add(new NoteCard(Names.ROOM_NAMES[i]));
-    }
+    	
+    	System.out.println("This is the cards we are stating with: " + player.getCards().toString());
+    	System.out.println("\n");
+    	
+        for (int i=0; i<6; i++) {
+            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
+            	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+            }
+            else {
+            	playerHandCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
+            }
+        }
+        for (int i=0; i<6; i++) {       	
+            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
+            	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
+            }
+            else {
+            	weaponHandCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
+            }
+        }
+        for (int i=0; i<9; i++) {
+        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
+        		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
+        	}
+        	else {
+        		roomHandCards.add(new NoteCard(Names.ROOM_CARD_NAMES[i]));
+        	}
+        }
+        
+        System.out.println("Player Card Array:\n ");
+        for (int i = 0; i < playerCards.size(); i++) {
+        	System.out.println(playerCards.get(i).name);
+        }
+        System.out.println("\nWeapon Card Array:\n ");;
+        for (int i = 0; i < weaponCards.size(); i++) {
+        	System.out.println(weaponCards.get(i).name);
+        }
+        System.out.println("\nRoom Card Arrray:\n ");
+        for (int i = 0; i < roomCards.size(); i++) {
+        	System.out.println(roomCards.get(i).name);
+        }
+        System.out.println("-----------------------\n");
+        
+        System.out.println("Player Hand Array: \n");
+        for (int i = 0; i < playerHandCards.size(); i++) {
+        	System.out.println(playerHandCards.get(i).name);
+        }
+        System.out.println("\nWeapon Hand Array: \n");;
+        for (int i = 0; i < weaponHandCards.size(); i++) {
+        	System.out.println(weaponHandCards.get(i).name);
+        }
+        System.out.println("\nRoom Hand Arrray: \n");
+        for (int i = 0; i < roomHandCards.size(); i++) {
+        	System.out.println(roomHandCards.get(i).name);
+        }
+        System.out.println("-----------------------\n\n");
+               
+}
 
-    private List<NoteCard> getNoteCards() {
-        return notes;
-    }
 
     private NoteCard getNoteCardByName(String name) {
-        for (NoteCard nc : notes) {
+        for (NoteCard nc : playerCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : weaponCards) {
+            if (nc.name.equals(name))
+                return nc;
+        }
+        for (NoteCard nc : roomCards) {
             if (nc.name.equals(name))
                 return nc;
         }
         return null;
     }
 
+
     /*
         Auxiliary and storage methods
      */
-
     private void storeAllDoors() {
-        doors.add(new Integer[]{4,6});
-        doors.add(new Integer[]{8,5});
-        doors.add(new Integer[]{9,7});
-        doors.add(new Integer[]{14,7});
-        doors.add(new Integer[]{15,5});
-        doors.add(new Integer[]{18,4});
-        doors.add(new Integer[]{18,9});
-        doors.add(new Integer[]{22,12});
-        doors.add(new Integer[]{17,16});
-        doors.add(new Integer[]{20,14});
-        doors.add(new Integer[]{17,21});
-        doors.add(new Integer[]{11,18});
-        doors.add(new Integer[]{12,18});
-        doors.add(new Integer[]{14,20});
-        doors.add(new Integer[]{6,19});
-        doors.add(new Integer[]{6,15});
-        doors.add(new Integer[]{7,12});
-        doors.add(new Integer[]{12,17});
+        doors.add(new Coordinates(4,6));
+        doors.add(new Coordinates(8,5));
+        doors.add(new Coordinates(9,7));
+        doors.add(new Coordinates(14,7));
+        doors.add(new Coordinates(15,5));
+        doors.add(new Coordinates(18,4));
+        doors.add(new Coordinates(18,9));
+        doors.add(new Coordinates(22,12));
+        doors.add(new Coordinates(17,16));
+        doors.add(new Coordinates(20,14));
+        doors.add(new Coordinates(17,21));
+        doors.add(new Coordinates(11,18));
+        doors.add(new Coordinates(12,18));
+        doors.add(new Coordinates(14,20));
+        doors.add(new Coordinates(6,19));
+        doors.add(new Coordinates(6,15));
+        doors.add(new Coordinates(7,12));
+        doors.add(new Coordinates(12,16));
     }
 }

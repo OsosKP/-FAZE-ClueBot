@@ -313,7 +313,7 @@ public class FazeClueBot implements BotAPI {
             if (index.getCol() == coords.getCol() && index.getRow() == coords.getRow()) {
                 found = true;
             }
-            counter++;
+            
         }
         return found;
     }
@@ -390,7 +390,6 @@ public class FazeClueBot implements BotAPI {
                 else
                     return;
             }
-        }
 
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
@@ -481,9 +480,16 @@ public class FazeClueBot implements BotAPI {
     	private NoteCard lockedInNoteRoom;
     	
     	private int logSize;
+    	
+    	private Boolean firstCharacterGuess;
+    	private Boolean firstWeaponGuess;
+    	private Boolean firstRoomGuess;
+    	
     	public GuessingLogic() {
 			/* Filling the note cards */
-    		//setNoteCards();
+    		firstCharacterGuess = true;
+    		firstWeaponGuess = true;
+    		firstRoomGuess = true;
     	}
     	
     	//TODO: add the probability case from the log 
@@ -740,6 +746,18 @@ public class FazeClueBot implements BotAPI {
     	
     	/* Getter methods */
     	public NoteCard getCharacterGuess() {
+    		/* checking to see if we cane make a winning 'guess' to try and get the other bots out */
+    		if (firstCharacterGuess) {
+     			firstCharacterGuess = false;
+    			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return playerCards.get(0);
+    			}   			
+    		}
+    		
     		if (lockedInCharacter && !timeToAccuse) {
     			if (playerHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -758,6 +776,19 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getWeaponGuess() {
+    		/* checking to see if we can make a winning 'guess' to try and get the other bots out */
+    		if (firstWeaponGuess) {
+    			firstWeaponGuess = false;
+    			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return weaponCards.get(0);
+    			}
+    		}
+    		
+    		
     		if (lockedInWeapon && !timeToAccuse) {
     			if (weaponHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -776,6 +807,18 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getRoomGuess() {
+    		/* Checking to see if we can make a winning 'guess' to get the other bots out */
+     		if (firstRoomGuess) {
+     			firstRoomGuess = false;
+    			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return roomCards.get(0);
+    			}
+    		}   		
+    		
     		if (lockedInRoom && !timeToAccuse) {
     			if (roomHandCards.size() > 0) {
     				Random randomGenerator = new Random();
