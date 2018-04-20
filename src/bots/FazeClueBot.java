@@ -526,13 +526,24 @@ public class FazeClueBot implements BotAPI {
     				}
     				/* Otherwise we are looking at an answer to the question */
     				else {
+
     					/* We know that the end of the card name we have the '.' char */
     					int endIndex = temp.indexOf('.');
     					
     					/* Grabbing the card name that was returned */
     					String nameSubstring = temp.substring(startIndex+1, endIndex);
     					
+     					
     					/*  Checking to see if the card name given is the (weapon, character, or room) we guessed */
+    					
+    					System.out.println("\n\n\n\n\n---------------------");	
+     					System.err.println("We made a guess and got an answer!");
+     					System.out.println("This is the stirng: "+ temp);
+     					
+    					System.out.println(playerCards.get(0).name);
+    					System.out.println(weaponCards.get(0).name);
+    					System.out.println(roomCards.get(0).name);
+    					
     					if (playerCards.get(0).name.equals(nameSubstring)) {
     						playerCards.get(0).probability = 0;		
     					}
@@ -771,26 +782,26 @@ public class FazeClueBot implements BotAPI {
         Auxiliary and storage methods
      */
 
-    private void storeAllDoors() {
-        doors.add(new Coordinates(4,6));
-        doors.add(new Coordinates(8,5));
-        doors.add(new Coordinates(9,7));
-        doors.add(new Coordinates(14,7));
-        doors.add(new Coordinates(15,5));
-        doors.add(new Coordinates(18,4));
-        doors.add(new Coordinates(18,9));
-        doors.add(new Coordinates(22,12));
-        doors.add(new Coordinates(17,16));
-        doors.add(new Coordinates(20,14));
-        doors.add(new Coordinates(17,21));
-        doors.add(new Coordinates(11,18));
-        doors.add(new Coordinates(12,18));
-        doors.add(new Coordinates(14,20));
-        doors.add(new Coordinates(6,19));
-        doors.add(new Coordinates(6,15));
-        doors.add(new Coordinates(7,12));
-        doors.add(new Coordinates(12,16));
-    }
+//    private void storeAllDoors() {
+//        doors.add(new Coordinates(4,6));
+//        doors.add(new Coordinates(8,5));
+//        doors.add(new Coordinates(9,7));
+//        doors.add(new Coordinates(14,7));
+//        doors.add(new Coordinates(15,5));
+//        doors.add(new Coordinates(18,4));
+//        doors.add(new Coordinates(18,9));
+//        doors.add(new Coordinates(22,12));
+//        doors.add(new Coordinates(17,16));
+//        doors.add(new Coordinates(20,14));
+//        doors.add(new Coordinates(17,21));
+//        doors.add(new Coordinates(11,18));
+//        doors.add(new Coordinates(12,18));
+//        doors.add(new Coordinates(14,20));
+//        doors.add(new Coordinates(6,19));
+//        doors.add(new Coordinates(6,15));
+//        doors.add(new Coordinates(7,12));
+//        doors.add(new Coordinates(12,16));
+//    }
 //    private void storeAllDoors() {
 //        doors.add(new Integer[]{4,6});
 //        doors.add(new Integer[]{8,5});
