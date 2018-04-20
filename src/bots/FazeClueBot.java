@@ -54,12 +54,13 @@ public class FazeClueBot implements BotAPI {
         }
 
         guessing.startTurnLogic();
-        
+
         timeToAccuse = guessing.getAccuseState();
 
+        System.out.println("Time to Accuse: " + timeToAccuse);
+
         diceRoll = dice.getTotal();
-        
-        //rollOrDone true: roll, false: done
+
         rollOrDone = !rollOrDone;
         if (inRoom && guessedInRoom) {
             inRoom = false;
@@ -114,12 +115,20 @@ public class FazeClueBot implements BotAPI {
             }
         } while (map.getNewPosition(player.getToken().getPosition(), move) == lastPosition
                 || !map.isValidMove(player.getToken().getPosition(), move)
-                || (map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-                    && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16);
+
+                ||
+                (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
+                        && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16))
+
+                || (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
+                map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn))
+
+                );
 
         lastPosition = player.getToken().getPosition();
 
         if (map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) {
+            lastRoomIn = roomIn;
             roomIn = map.getRoom(map.getNewPosition(lastPosition, move));
             inRoom = true;
         }
@@ -145,6 +154,14 @@ public class FazeClueBot implements BotAPI {
     
     /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
+        // Add your code here
+        System.out.println("Suspect:");
+        System.out.println(getSuspect());
+        System.out.println("Weapon");
+        System.out.println(getWeapon());
+        System.out.println("Room");
+        System.out.println(roomIn.toString());
+
         Query ourQuery = new Query(getSuspect(), getWeapon(), roomIn.toString());
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
@@ -212,6 +229,7 @@ public class FazeClueBot implements BotAPI {
     private List<NoteCard> roomRemovedCards = new ArrayList<>();
 
     private Room roomIn;
+    private Room lastRoomIn;
     
     private boolean movingToRoom = false;
     private boolean inRoom = false;
