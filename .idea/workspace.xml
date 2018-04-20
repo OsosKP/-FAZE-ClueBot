@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77e1de93-60d7-4093-97ea-c0e7ba224bc2" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/bots/FazeClueBot1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bots/FazeClueBot2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bots/FazeClueBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bots/FazeClueBot.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -17,11 +21,11 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="128" column="91" selection-start-line="128" selection-start-column="91" selection-end-line="128" selection-end-column="91" />
+            <state relative-caret-position="1126">
+              <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
               <folding>
-                <element signature="e#1346#1347#0" expanded="true" />
-                <element signature="e#1411#1412#0" expanded="true" />
+                <element signature="e#1158#1159#0" expanded="true" />
+                <element signature="e#1223#1224#0" expanded="true" />
                 <element signature="e#4073#4074#0" expanded="true" />
                 <element signature="e#4129#4130#0" expanded="true" />
                 <element signature="e#4162#4163#0" expanded="true" />
@@ -57,6 +61,15 @@
                 <element signature="e#20672#20673#0" expanded="true" />
                 <element signature="e#20707#20708#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FazeClueBot2.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="23" column="22" lean-forward="true" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -146,6 +159,7 @@
       <find>&quot;question</find>
       <find>winning</find>
       <find>start</find>
+      <find>getCommand()</find>
     </findStrings>
     <replaceStrings>
       <replace>FazeClueBot</replace>
@@ -167,6 +181,7 @@
         <option value="$PROJECT_DIR$/src/gameengine/Map.java" />
         <option value="$PROJECT_DIR$/src/gameengine/UI.java" />
         <option value="$PROJECT_DIR$/src/gameengine/Cluedo.java" />
+        <option value="$PROJECT_DIR$/src/bots/FazeClueBot2.java" />
         <option value="$PROJECT_DIR$/src/bots/FazeClueBot.java" />
       </list>
     </option>
@@ -182,22 +197,6 @@
     <option name="y" value="22" />
     <option name="width" value="1393" />
     <option name="height" value="878" />
-  </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id />
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>Android</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -243,7 +242,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -325,12 +324,12 @@
       <workItem from="1524053511045" duration="807000" />
       <workItem from="1524122285252" duration="19963000" />
       <workItem from="1524158314100" duration="6704000" />
-      <workItem from="1524207294377" duration="13909000" />
+      <workItem from="1524207294377" duration="14362000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64241000" />
+    <option name="totallyTimeSpent" value="64694000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="22" width="1393" height="878" extended-state="0" />
@@ -378,13 +377,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/gameengine/Cards.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gameengine/Query.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
@@ -411,8 +403,8 @@
         <state relative-caret-position="2760">
           <caret line="138" column="33" lean-forward="true" selection-start-line="138" selection-start-column="33" selection-end-line="138" selection-end-column="33" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -484,8 +476,8 @@
         <state relative-caret-position="2380">
           <caret line="119" column="5" lean-forward="true" selection-start-line="119" selection-start-column="5" selection-end-line="119" selection-end-column="5" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -578,8 +570,8 @@
         <state relative-caret-position="1700">
           <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -623,8 +615,8 @@
         <state relative-caret-position="1080">
           <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -689,8 +681,8 @@
         <state relative-caret-position="1080">
           <caret line="56" selection-start-line="56" selection-end-line="56" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -762,8 +754,8 @@
         <state relative-caret-position="461">
           <caret line="316" column="60" lean-forward="true" selection-start-line="316" selection-start-column="60" selection-end-line="316" selection-end-column="60" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />
@@ -963,13 +955,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="23" column="22" lean-forward="true" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="128" column="91" selection-start-line="128" selection-start-column="91" selection-end-line="128" selection-end-column="91" />
+        <state relative-caret-position="1126">
+          <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
           <folding>
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1223#1224#0" expanded="true" />
             <element signature="e#4073#4074#0" expanded="true" />
             <element signature="e#4129#4130#0" expanded="true" />
             <element signature="e#4162#4163#0" expanded="true" />

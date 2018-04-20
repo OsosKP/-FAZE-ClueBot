@@ -8,7 +8,7 @@ import gameengine.Map;
 import java.util.*;
 import java.util.jar.Attributes.Name;
 
-public class FazeClueBot implements BotAPI {
+public class FazeClueBot2 implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -25,7 +25,7 @@ public class FazeClueBot implements BotAPI {
     private GuessingLogic guessing;
     private Boolean firstTurn = true;
 
-    public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
+    public FazeClueBot2 (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
         this.map = map;
@@ -41,7 +41,7 @@ public class FazeClueBot implements BotAPI {
 //
     
     public String getName() {
-        return "FazeClueBot"; // must match the class name
+        return "FazeClueBot2"; // must match the class name
     }
 
     boolean rollOrDone = false;
@@ -56,8 +56,6 @@ public class FazeClueBot implements BotAPI {
         guessing.startTurnLogic();
 
         timeToAccuse = guessing.getAccuseState();
-
-        System.out.println("Time to Accuse: " + timeToAccuse);
 
         diceRoll = dice.getTotal();
 
@@ -82,6 +80,7 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
+//        return "roll";
     }
 
     Random rand;
@@ -115,20 +114,12 @@ public class FazeClueBot implements BotAPI {
             }
         } while (map.getNewPosition(player.getToken().getPosition(), move) == lastPosition
                 || !map.isValidMove(player.getToken().getPosition(), move)
-
-                ||
-                (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-                        && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16))
-
-                || (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-                map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn))
-
-                );
+                || (map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
+                    && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16);
 
         lastPosition = player.getToken().getPosition();
 
         if (map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) {
-            lastRoomIn = roomIn;
             roomIn = map.getRoom(map.getNewPosition(lastPosition, move));
             inRoom = true;
         }
@@ -156,13 +147,6 @@ public class FazeClueBot implements BotAPI {
     /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
         // Add your code here
-        System.out.println("Suspect:");
-        System.out.println(getSuspect());
-        System.out.println("Weapon");
-        System.out.println(getWeapon());
-        System.out.println("Room");
-        System.out.println(roomIn.toString());
-
         Query ourQuery = new Query(getSuspect(), getWeapon(), roomIn.toString());
         // Possible input: 1|2|3|4
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
@@ -235,7 +219,6 @@ public class FazeClueBot implements BotAPI {
     private List<NoteCard> roomRemovedCards = new ArrayList<>();
 
     private Room roomIn;
-    private Room lastRoomIn;
     
     private boolean movingToRoom = false;
     private boolean inRoom = false;
