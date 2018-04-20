@@ -51,8 +51,6 @@ public class FazeClueBot implements BotAPI {
 		return "0.1";
 	}
 
-
-
     public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
     	// We will only be using: roll, question, accuse, done
         if (firstTurn) {
@@ -63,6 +61,9 @@ public class FazeClueBot implements BotAPI {
         guessing.startTurnLogic();
 
         timeToAccuse = guessing.getAccuseState();
+
+        if (timeToAccuse && roomIn.toString().equals("Cellar"))
+            return "accuse";
 
         System.out.println("Time to Accuse: " + timeToAccuse);
 
@@ -242,28 +243,6 @@ public class FazeClueBot implements BotAPI {
     private boolean timeToAccuse = false;
 
     /*
-        shouldIVisitRoom returns a boolean when passed a room as a parameter.
-            If it decides we want to visit that room, it returns true.
-            It is called from ping() and determines where we go next.
-     */
-        private boolean shouldIVisitRoom (Room room){
-            System.out.println("Should I visit the " + room.toString() + "?");
-            return true;
-//        // If we need to accuse, just check if we're going to the cellar
-//        if (timeToAccuse)
-//            return room.hasName("Cellar");
-//        // Otherwise, decide if the given room is worth visiting
-//        for (NoteCard nc : roomHandCards) {
-//            if (nc.name.equals(room.toString())) {
-//                if (nc.probability > 0)
-//                    return true;
-//                break;
-//            }
-//        }
-//        return false;
-        }
-
-    /*
         Guessing
      */
         public static class NoteCard {
@@ -386,9 +365,13 @@ public class FazeClueBot implements BotAPI {
     			
     			String delim = "[ ]+";
     			String[] tempArray = tempLookUp.split(delim);
+
+    			for (String s : tempArray)
+    			    s = s.replaceFirst("\\.", "");
+
     			System.out.println(tempArray[0]);
     			
-    			if (tempArray[0].equals(getName()) == false) {
+    			if (!tempArray[0].equals(getName())) {
     				System.out.println("we got though there?");
     				if (reviewMe.hasNext()) {
     					tempIndex++;
