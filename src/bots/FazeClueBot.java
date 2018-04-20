@@ -58,8 +58,11 @@ public class FazeClueBot implements BotAPI {
             firstTurn = false;
         }
 
+        guessing.startTurnLogic();
+
+        timeToAccuse = guessing.getAccuseState();
+
         diceRoll = dice.getTotal();
-//        guessing.startTurnLogic();
 
         rollOrDone = !rollOrDone;
         if (inRoom && guessedInRoom) {
@@ -198,25 +201,21 @@ public class FazeClueBot implements BotAPI {
 
 	@Override
 	public void notifyPlayerName(String playerName) {
-		// TODO Auto-generated method stub
     }
 
 	@Override
 	public void notifyTurnOver(String playerName, String position) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void notifyQuery(String playerName, String query) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void notifyReply(String playerName, boolean cardShown) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
     /*
@@ -258,10 +257,6 @@ public class FazeClueBot implements BotAPI {
 
     private void takeTurn() {
         System.out.println("Location: " + player.getToken().getPosition().toString());
-
-//    	guessing.startTurnLogic();
-
-        timeToAccuse = guessing.getAccuseState();
     }
 
     /*

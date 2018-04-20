@@ -17,8 +17,8 @@
       <file leaf-file-name="FazeClueBot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="175" column="62" selection-start-line="175" selection-start-column="62" selection-end-line="175" selection-end-column="62" />
+            <state relative-caret-position="323">
+              <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
               <folding>
                 <element signature="e#1346#1347#0" expanded="true" />
                 <element signature="e#1411#1412#0" expanded="true" />
@@ -34,6 +34,8 @@
                 <element signature="e#5119#5120#0" expanded="true" />
                 <element signature="e#5168#5169#0" expanded="true" />
                 <element signature="e#5187#5188#0" expanded="true" />
+                <element signature="e#7092#7093#0" expanded="true" />
+                <element signature="e#7185#7186#0" expanded="true" />
                 <element signature="e#8452#8453#0" expanded="true" />
                 <element signature="e#8498#8499#0" expanded="true" />
                 <element signature="e#8542#8543#0" expanded="true" />
@@ -123,7 +125,6 @@
       <find>from</find>
       <find>Current Pos</find>
       <find>)</find>
-      <find>start</find>
       <find>route</find>
       <find>&quot;l&quot;</find>
       <find>return</find>
@@ -134,6 +135,7 @@
       <find>firstTurn</find>
       <find>&quot;question</find>
       <find>winning</find>
+      <find>start</find>
     </findStrings>
     <replaceStrings>
       <replace>FazeClueBot</replace>
@@ -313,12 +315,12 @@
       <workItem from="1524053511045" duration="807000" />
       <workItem from="1524122285252" duration="19963000" />
       <workItem from="1524158314100" duration="6704000" />
-      <workItem from="1524207294377" duration="12406000" />
+      <workItem from="1524207294377" duration="12638000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62738000" />
+    <option name="totallyTimeSpent" value="62970000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="22" width="1393" height="878" extended-state="0" />
@@ -413,6 +415,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -484,6 +488,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -576,6 +582,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -619,6 +627,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -683,6 +693,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -754,6 +766,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
@@ -940,8 +954,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/bots/FazeClueBot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="175" column="62" selection-start-line="175" selection-start-column="62" selection-end-line="175" selection-end-column="62" />
+        <state relative-caret-position="323">
+          <caret line="65" lean-forward="true" selection-start-line="65" selection-end-line="65" />
           <folding>
             <element signature="e#1346#1347#0" expanded="true" />
             <element signature="e#1411#1412#0" expanded="true" />
@@ -957,6 +971,8 @@
             <element signature="e#5119#5120#0" expanded="true" />
             <element signature="e#5168#5169#0" expanded="true" />
             <element signature="e#5187#5188#0" expanded="true" />
+            <element signature="e#7092#7093#0" expanded="true" />
+            <element signature="e#7185#7186#0" expanded="true" />
             <element signature="e#8452#8453#0" expanded="true" />
             <element signature="e#8498#8499#0" expanded="true" />
             <element signature="e#8542#8543#0" expanded="true" />
