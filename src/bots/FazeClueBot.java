@@ -476,24 +476,22 @@ public class FazeClueBot implements BotAPI {
     	 * @param type = the list type (character, weapon, room)
     	 */
     	private void removeCards(List<NoteCard> myList, char type) {
-    		int currentIndex = 0;
-    		
-    		for (NoteCard currCard: myList) {
-    			if (currCard.probability == 0) {
-    				
-    				if (type == 'c') {
-    					playerRemovedCards.add(myList.get(currentIndex));
-    				}
-    				else if (type == 'w') {
-    					weaponRemovedCards.add(myList.get(currentIndex));
-    				}
-    				else {
-    					roomRemovedCards.add(myList.get(currentIndex));
-    				}
-    				myList.remove(currentIndex);
+    		/* Will hold the values that we are going to delete for this turn  */
+    		List<NoteCard> deleteCandidates = new ArrayList<>(); 
+		
+    		/* First pass -- grab the values we want to delete */
+    		for (NoteCard currValue : myList) {
+    			/* If we get a value that is marked for deletion */
+    			if (currValue.probability == 0) {
+    				deleteCandidates.add(currValue);
     			}
-    			currentIndex++;
-    		}
+    		}	
+		 
+    		/* Last Pass -- actually removing the values */
+    		for (NoteCard deleteCandidate : deleteCandidates) {
+    			myList.remove(deleteCandidate);
+    		}   		
+
     	}
     	
     	/**
