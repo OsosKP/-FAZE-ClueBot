@@ -54,11 +54,12 @@ public class FazeClueBot implements BotAPI {
         }
 
         guessing.startTurnLogic();
-
+        
         timeToAccuse = guessing.getAccuseState();
 
         diceRoll = dice.getTotal();
-
+        
+        //rollOrDone true: roll, false: done
         rollOrDone = !rollOrDone;
         if (inRoom && guessedInRoom) {
             inRoom = false;
@@ -80,7 +81,6 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
-//        return "roll";
     }
 
     Random rand;
@@ -139,16 +139,13 @@ public class FazeClueBot implements BotAPI {
         return guessing.getRoomGuess().name;
     }
 
-    public String getDoor() {
-        // Add your code here
+    public String getDoor() { // Gets the door you want to exit from
         return "1";
     }
     
     /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
-        // Add your code here
         Query ourQuery = new Query(getSuspect(), getWeapon(), roomIn.toString());
-        // Possible input: 1|2|3|4
         // Input needs to return true: (at least one card).hasName(String input) in matchingCards
         return matchingCards.get(ourQuery).toString();
     }
@@ -157,10 +154,6 @@ public class FazeClueBot implements BotAPI {
         return "FazeClueBot";
     }
     
-    /*
-     * Function call that happens when we ask a question and get an answer
-     * TODO: Josh look at this and see if I am going in the right direction
-     */
     public void notifyResponse(Log response) {
     	guessing.questionAnswered(response);
     }
