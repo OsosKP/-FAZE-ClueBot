@@ -24,7 +24,9 @@ public class FazeClueBot implements BotAPI {
     private Deck deck;
     private GuessingLogic guessing;
     private Boolean firstTurn = true;
-
+    private Random rand;
+    private boolean rollOrDone = false;
+    
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
@@ -44,7 +46,12 @@ public class FazeClueBot implements BotAPI {
         return "FazeClueBot"; // must match the class name
     }
 
-    boolean rollOrDone = false;
+    @Override
+	public String getVersion() {
+		return "0.1";
+	}
+
+
 
     public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
     	// We will only be using: roll, question, accuse, done
@@ -82,6 +89,7 @@ public class FazeClueBot implements BotAPI {
         }
         else
             return "done";
+//        return "roll";
     }
 
     public String getMove() {
@@ -148,8 +156,7 @@ public class FazeClueBot implements BotAPI {
         return guessing.getRoomGuess().name;
     }
 
-    public String getDoor() {
-        // Add your code here
+    public String getDoor() { // Gets the door you want to exit from
         return "1";
     }
     
@@ -181,12 +188,7 @@ public class FazeClueBot implements BotAPI {
     public void notifyResponse(Log response) {
     	guessing.questionAnswered(response);
     }
-    
-    @Override
-	public String getVersion() {
-		return "0.1";
-	}
-
+   
 	@Override
 	public void notifyPlayerName(String playerName) {
     }
@@ -383,16 +385,44 @@ public class FazeClueBot implements BotAPI {
     			String tempLookUp = reviewMe.next();
     			int ourGuessCheck = tempLookUp.indexOf(':');
     			
-    			if (ourGuessCheck < 0) {
-    				if (tempLookUp.contains("showed one card")) {
+    			String delim = "[ ]+";
+    			String[] tempArray = tempLookUp.split(delim);
+    			System.out.println(tempArray[0]);
+    			
+    			if (tempArray[0].equals(getName()) == false) {
+    				System.out.println("we got though there?");
+    				if (reviewMe.hasNext()) {
+    					tempIndex++;
+    					String tempNext = reviewMe.next();
+    				
+    				if (tempNext.contains("showed one card")) {
+    					System.out.println(tempNext);
+    					System.out.println(tempLookUp);
+    					
+    					System.out.println("\n\n\n\n\n");
+    					System.out.println("The player: ");
+    					System.out.println(tempArray[6]);
+    					System.out.println("The weapon: ");
+    					System.out.println(tempArray[9]);
+    					System.out.println("The room: ");
+    					System.out.println(tempArray[12]);
+    					System.out.println("\n\n\n\n\n\n\n");
+    					
     					/* Need to loop though the string and see if we get any matches for the  */
     					for (int i = 0; i < playerCards.size(); i++) {
     						String tempName = playerCards.get(i).name;
     				
     						/* If we find the player's name in the log string  */
-    						if (tempLookUp.contains(tempName)) {
-    							System.out.println("We got a match with player!");
+    						if (tempArray[6].equals(tempName)) {
+    							System.out.println("**We got a match with player!**");
+     							System.out.println("\n\n\n");
+    							System.out.println("Original String: ");
+    							System.out.println(tempLookUp);
+    							System.out.println("Our character: ");
+    							System.out.println(playerCards.get(i).name);
+    							System.out.println("\n\n\n\n");   							
     							playerCards.get(i).probability = playerCards.get(i).probability - 11;
+    							break;
     						}
     					}
     			
@@ -401,9 +431,30 @@ public class FazeClueBot implements BotAPI {
     						String tempName = weaponCards.get(i).name;
     				
     						/* If we find the weapon name in the log string */
-    						if (tempLookUp.contains(tempName)) {
-    							System.out.println("We got a match with weapon!");
+    						if (tempArray[9].equals(tempName)) {
+    							System.out.println("**We got a match with weapon!**");
+    							System.out.println("\n\n\n");
+    							System.out.println("Original String: ");
+    							System.out.println(tempLookUp);
+    							System.out.println("Our weapon: ");
+    							System.out.println(weaponCards.get(i).name);
+    							System.out.println("\n\n\n\n");
     							weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
+    							break;
+    						}
+    						else {
+    							String[] tempSplit = tempName.split(delim);
+    							if (tempArray[9].equals(tempSplit[0])) {
+    								System.out.println("**We got a match with weapon!**");
+     							System.out.println("\n\n\n");
+    							System.out.println("Original String: ");
+    							System.out.println(tempLookUp);
+    							System.out.println("Our Weapon: ");
+    							System.out.println(weaponCards.get(i).name);
+    							System.out.println("\n\n\n\n");
+    								weaponCards.get(i).probability = weaponCards.get(i).probability - 11;
+    								break;   								
+    							}
     						}
     					}
     			
@@ -411,13 +462,21 @@ public class FazeClueBot implements BotAPI {
     					for (int i = 0; i < roomCards.size(); i++) {
     						String tempName = roomCards.get(i).name;
     				
-    						if (tempLookUp.contains(tempName)) {
-    							System.out.println("We got a match with room!");
+    						if (tempArray[12].contains(tempName)) {
+    							System.out.println("**We got a match with room!**");
+     							System.out.println("\n\n\n");
+    							System.out.println("Original String: ");
+    							System.out.println(tempLookUp);
+    							System.out.println("Our Room: ");
+    							System.out.println(roomCards.get(i).name);
+    							System.out.println("\n\n\n\n");
     							roomCards.get(i).probability = roomCards.get(i).probability - 11;
+    							break;
     						}
     					}
     				
     				}
+    			}
     			}
     		}
     		logSize = tempIndex;
@@ -503,7 +562,7 @@ public class FazeClueBot implements BotAPI {
     				int startIndex = temp.indexOf(':');
     				
     				/* Case is we do not find the ':' -> meaning we didnt get an answer to our question */
-    				if (startIndex < 0) {
+    				if (startIndex < 0 && temp.contains(getName())) {
     					//Nothing 
     				}
     				/* Otherwise we are looking at an answer to the question */
@@ -512,16 +571,25 @@ public class FazeClueBot implements BotAPI {
     					int endIndex = temp.indexOf('.');
     					
     					/* Grabbing the card name that was returned */
-    					String nameSubstring = temp.substring(startIndex+1, endIndex);
+    					String nameSubstring = temp.substring(startIndex+2, endIndex);
+    					System.out.println("This is the stirng: " + temp);
+    					System.out.println("This is the sub: " + nameSubstring);
+    					
     					
     					/*  Checking to see if the card name given is the (weapon, character, or room) we guessed */
     					if (playerCards.get(0).name.equals(nameSubstring)) {
+    						System.out.println("We got a match!");
+    						System.out.println("This is our guess?: " + playerCards.get(0).name);
     						playerCards.get(0).probability = 0;		
     					}
     					else if (weaponCards.get(0).name.equals(nameSubstring)) {
+     						System.out.println("We got a match!");
+    						System.out.println("This is our guess?: " + weaponCards.get(0).name);   						
     						weaponCards.get(0).probability = 0;
     					}
     					else  if (roomCards.get(0).name.equals(nameSubstring)){
+    						System.out.println("We got a match!");
+    						System.out.println("This is our guess?: " + roomCards.get(0).name);
     						roomCards.get(0).probability = 0;
     					}
     					else { //if stuff broke
