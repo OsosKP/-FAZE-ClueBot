@@ -11,11 +11,6 @@ public class Log implements Iterable<String>, Iterator<String> {
     private final ArrayList<String> messages = new ArrayList<>();
     private Iterator<String> iterator;
 
-    Log () {
-        messages.add(" TEST ");
-    }
-
-    /* Is someone else asks us a question */
     void addExchange(Player currentPlayer, Player queriedPlayer, Query query, boolean cardFound) {
         messages.add(currentPlayer + " questioned " + queriedPlayer + " about " + query.getSuspect() + " with the "
                 + query.getWeapon() + " in the " + query.getRoom() + ".");
@@ -26,7 +21,6 @@ public class Log implements Iterable<String>, Iterator<String> {
         }
     }
 
-    /* If we ask a question */
     void addExchange(Player currentPlayer, Player queriedPlayer, Query query, Card card) {
         messages.add(currentPlayer + " questioned " + queriedPlayer + " about " + query.getSuspect() + " with the "
                 + query.getWeapon() + " in the " + query.getRoom() + ".");

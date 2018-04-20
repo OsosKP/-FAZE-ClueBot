@@ -26,7 +26,6 @@ public class FazeClueBot implements BotAPI {
     private int commandnumber; //int to keep track of which command. 
     private Boolean firstTurn = true;
 //		1: move
-//		2: passage
 //		3: question 
 //		4: accuse 
 //		5: done
@@ -67,12 +66,10 @@ public class FazeClueBot implements BotAPI {
             case 1:
                 return findNextCommandMovingToRoom();
             case 2:
-                return "passage";
-            case 3:
                 return "question";
-            case 4:
+            case 3:
                 return "accuse";
-            case 5:
+            case 4:
                 return "done";
             default:
                 break;
