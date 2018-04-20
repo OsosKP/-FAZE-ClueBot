@@ -92,7 +92,7 @@ public class FazeClueBot implements BotAPI {
 //        return "roll";
     }
 
-    Random rand;
+    
 
     public String getMove() {
         diceRoll--;
@@ -188,10 +188,7 @@ public class FazeClueBot implements BotAPI {
     	guessing.questionAnswered(response);
     }
     
-    @Override
-	public String getVersion() {
-		return "0.1";
-	}
+
 
 	@Override
 	public void notifyPlayerName(String playerName) {
