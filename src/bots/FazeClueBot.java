@@ -175,19 +175,24 @@ public class FazeClueBot implements BotAPI {
     }
 
     private String takeTurn() {
-        System.out.println("Location: " + player.getToken().getPosition().toString());
+    	
+        /* Updating probability */
+    	if (firstTurn) {
+    		System.err.println("Am I gettting called/");
+    		setNoteCards();
+    		firstTurn = false;
+    	}
+    	
+    	guessing.startTurnLogic();
+    	
+    	
+    	System.out.println("Location: " + player.getToken().getPosition().toString());
 
         if (!(movingToRoom || inRoom || guessedInRoom)) {
             return "roll";
         }
 
-        /* Updating probability */
-    	if (firstTurn) {
-    		setNoteCards();
-    		firstTurn = false;
-    	}
-    	
-//    	guessing.startTurnLogic();
+
 
         // Update Log
         //TODO: Log
@@ -469,9 +474,16 @@ public class FazeClueBot implements BotAPI {
     	private NoteCard lockedInNoteRoom;
     	
     	private int logSize;
+    	
+    	private boolean firstGuessCharacter;
+    	private boolean firstGuessWeapon;
+    	private boolean firstGuessRoom;
+    	
     	public GuessingLogic() {
 			/* Filling the note cards */
-    		//setNoteCards();
+    		firstGuessCharacter = true;
+    		firstGuessWeapon = true;
+    		firstGuessRoom = true;
     	}
     	
     	//TODO: add the probability case from the log 
@@ -523,8 +535,8 @@ public class FazeClueBot implements BotAPI {
     	 */
     	private void reviewLog(Log reviewMe) {
     		/*  while the log continues  */
-    		System.err.println("I am working!");
     		int tempIndex = 0;
+    		
     		reviewMe.iterator();
     		
     		while (reviewMe.hasNext()) {
@@ -532,6 +544,7 @@ public class FazeClueBot implements BotAPI {
     			
     			String tempLookUp = reviewMe.next();
     			int ourGuessCheck = tempLookUp.indexOf(':');
+    			System.out.println(tempLookUp);
     			
     			if (ourGuessCheck < 0) {
     				if (tempLookUp.contains("showed one card")) {
@@ -728,6 +741,20 @@ public class FazeClueBot implements BotAPI {
     	
     	/* Getter methods */
     	public NoteCard getCharacterGuess() {
+    		
+    		/* If this is the first guess we are making: -- we throw off the other bots by making a "winning" guess */
+    		if (firstGuessCharacter) {
+    			firstGuessCharacter = false;
+     			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return playerCards.get(0);
+    			}   			
+    		}
+  
+    		
     		if (lockedInCharacter && !timeToAccuse) {
     			if (playerHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -746,6 +773,19 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getWeaponGuess() {
+    	
+    		/* If this is the first guess we are making: */
+    		if (firstGuessWeapon) {
+    			firstGuessWeapon = false;
+     			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return weaponCards.get(0);
+    			}   			
+    		}
+    		
     		if (lockedInWeapon && !timeToAccuse) {
     			if (weaponHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -764,6 +804,20 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getRoomGuess() {
+    		
+    		/* If this is the first guess we are making: */
+    		if (firstGuessRoom) {
+    			firstGuessRoom = false;
+     			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return roomCards.get(0);
+    			}   			
+    		}
+    		
+    		
     		if (lockedInRoom && !timeToAccuse) {
     			if (roomHandCards.size() > 0) {
     				Random randomGenerator = new Random();
