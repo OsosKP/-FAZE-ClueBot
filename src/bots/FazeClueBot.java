@@ -75,7 +75,7 @@ public class FazeClueBot implements BotAPI {
                 break;
 		}
         // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
-        return "roll";
+        return takeTurn();
     }
 
     public String getMove() {
@@ -267,7 +267,13 @@ public class FazeClueBot implements BotAPI {
             for (Coordinates c : currentRoute)
                 System.out.println("ROUTE: " + c.toString());
             currentRouteProgressIndex = 0;
+            return "l";
         }
+
+        System.out.println("Check: from " + currentRoute.get(currentRouteProgressIndex-1)
+                + " to " + currentRoute.get(currentRouteProgressIndex));
+
+       	commandnumber=1;//Command is move
         /*
             The next square in our route will be different in either the row
                 or column index. Find which one it is (it should only be one) and
@@ -304,6 +310,7 @@ public class FazeClueBot implements BotAPI {
             if (index.getCol() == coords.getCol() && index.getRow() == coords.getRow()) {
                 found = true;
             }
+            
         }
         return found;
     }
@@ -377,7 +384,9 @@ public class FazeClueBot implements BotAPI {
                     } else
                         return;
                 }
-        }
+                else
+                    return;
+            }
 
         // Check each direction to ensure we can move that way
         // If so, recursive call to continue in that direction
@@ -468,9 +477,16 @@ public class FazeClueBot implements BotAPI {
     	private NoteCard lockedInNoteRoom;
     	
     	private int logSize;
+    	
+    	private Boolean firstCharacterGuess;
+    	private Boolean firstWeaponGuess;
+    	private Boolean firstRoomGuess;
+    	
     	public GuessingLogic() {
 			/* Filling the note cards */
-    		//setNoteCards();
+    		firstCharacterGuess = true;
+    		firstWeaponGuess = true;
+    		firstRoomGuess = true;
     	}
     	
     	//TODO: add the probability case from the log 
@@ -727,6 +743,18 @@ public class FazeClueBot implements BotAPI {
     	
     	/* Getter methods */
     	public NoteCard getCharacterGuess() {
+    		/* checking to see if we cane make a winning 'guess' to try and get the other bots out */
+    		if (firstCharacterGuess) {
+     			firstCharacterGuess = false;
+    			if (playerHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return playerHandCards.get(randomGenerator.nextInt(playerHandCards.size()));
+    			}
+    			else {
+    				return playerCards.get(0);
+    			}   			
+    		}
+    		
     		if (lockedInCharacter && !timeToAccuse) {
     			if (playerHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -745,6 +773,19 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getWeaponGuess() {
+    		/* checking to see if we can make a winning 'guess' to try and get the other bots out */
+    		if (firstWeaponGuess) {
+    			firstWeaponGuess = false;
+    			if (weaponHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return weaponHandCards.get(randomGenerator.nextInt(weaponHandCards.size()));
+    			}
+    			else {
+    				return weaponCards.get(0);
+    			}
+    		}
+    		
+    		
     		if (lockedInWeapon && !timeToAccuse) {
     			if (weaponHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -763,6 +804,18 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	public NoteCard getRoomGuess() {
+    		/* Checking to see if we can make a winning 'guess' to get the other bots out */
+     		if (firstRoomGuess) {
+     			firstRoomGuess = false;
+    			if (roomHandCards.size() > 0) {
+    				Random randomGenerator = new Random();
+    				return roomHandCards.get(randomGenerator.nextInt(roomHandCards.size()));
+    			}
+    			else {
+    				return roomCards.get(0);
+    			}
+    		}   		
+    		
     		if (lockedInRoom && !timeToAccuse) {
     			if (roomHandCards.size() > 0) {
     				Random randomGenerator = new Random();
@@ -791,7 +844,7 @@ public class FazeClueBot implements BotAPI {
     	System.out.println("\n");
     	
         for (int i=0; i<6; i++) {
-            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
+            if (player.hasCard(Names.SUSPECT_NAMES[i]) == false) {
             	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
             }
             else {
@@ -799,7 +852,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<6; i++) {       	
-            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
+            if (player.hasCard(Names.WEAPON_NAMES[i]) == false) {
             	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
             }
             else {
@@ -807,7 +860,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<9; i++) {
-        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
+        	if (player.hasCard(Names.ROOM_CARD_NAMES[i]) == false) {
         		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
         	}
         	else {
@@ -866,6 +919,7 @@ public class FazeClueBot implements BotAPI {
     /*
         Auxiliary and storage methods
      */
+
     private void storeAllDoors() {
         doors.add(new Coordinates(4,6));
         doors.add(new Coordinates(8,5));
@@ -886,4 +940,24 @@ public class FazeClueBot implements BotAPI {
         doors.add(new Coordinates(7,12));
         doors.add(new Coordinates(12,16));
     }
+//    private void storeAllDoors() {
+//        doors.add(new Integer[]{4,6});
+//        doors.add(new Integer[]{8,5});
+//        doors.add(new Integer[]{9,7});
+//        doors.add(new Integer[]{14,7});
+//        doors.add(new Integer[]{15,5});
+//        doors.add(new Integer[]{18,4});
+//        doors.add(new Integer[]{18,9});
+//        doors.add(new Integer[]{22,12});
+//        doors.add(new Integer[]{17,16});
+//        doors.add(new Integer[]{20,14});
+//        doors.add(new Integer[]{17,21});
+//        doors.add(new Integer[]{11,18});
+//        doors.add(new Integer[]{12,18});
+//        doors.add(new Integer[]{14,20});
+//        doors.add(new Integer[]{6,19});
+//        doors.add(new Integer[]{6,15});
+//        doors.add(new Integer[]{7,12});
+//        doors.add(new Integer[]{12,17});
+//    }
 }
