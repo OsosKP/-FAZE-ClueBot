@@ -24,7 +24,9 @@ public class FazeClueBot implements BotAPI {
     private Deck deck;
     private GuessingLogic guessing;
     private Boolean firstTurn = true;
-
+    private Random rand;
+    private boolean rollOrDone = false;
+    
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
         this.playersInfo = playersInfo;
@@ -44,7 +46,12 @@ public class FazeClueBot implements BotAPI {
         return "FazeClueBot"; // must match the class name
     }
 
-    boolean rollOrDone = false;
+    @Override
+	public String getVersion() {
+		return "0.1";
+	}
+
+
 
     public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
     	// We will only be using: roll, question, accuse, done
@@ -83,8 +90,6 @@ public class FazeClueBot implements BotAPI {
         else
             return "done";
     }
-
-    Random rand;
 
     public String getMove() {
         diceRoll--;
@@ -175,11 +180,6 @@ public class FazeClueBot implements BotAPI {
     	guessing.questionAnswered(response);
     }
     
-    @Override
-	public String getVersion() {
-		return "0.1";
-	}
-
 	@Override
 	public void notifyPlayerName(String playerName) {
     }
