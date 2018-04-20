@@ -55,6 +55,7 @@ public class FazeClueBot implements BotAPI {
 
     public String getCommand() {
         diceRoll = dice.getTotal();
+//        guessing.startTurnLogic();
 
         rollOrDone = !rollOrDone;
         if (inRoom && guessedInRoom) {
@@ -695,7 +696,7 @@ public class FazeClueBot implements BotAPI {
     	System.out.println("\n");
     	
         for (int i=0; i<6; i++) {
-            if (player.hasCard(Names.SUSPECT_NAMES[i]) == false) {
+            if (!player.hasCard(Names.SUSPECT_NAMES[i])) {
             	playerCards.add(new NoteCard(Names.SUSPECT_NAMES[i]));
             }
             else {
@@ -703,7 +704,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<6; i++) {       	
-            if (player.hasCard(Names.WEAPON_NAMES[i]) == false) {
+            if (!player.hasCard(Names.WEAPON_NAMES[i])) {
             	weaponCards.add(new NoteCard(Names.WEAPON_NAMES[i]));
             }
             else {
@@ -711,7 +712,7 @@ public class FazeClueBot implements BotAPI {
             }
         }
         for (int i=0; i<9; i++) {
-        	if (player.hasCard(Names.ROOM_CARD_NAMES[i]) == false) {
+        	if (!player.hasCard(Names.ROOM_CARD_NAMES[i])) {
         		roomCards.add(new NoteCard(Names.ROOM_NAMES[i]));
         	}
         	else {
