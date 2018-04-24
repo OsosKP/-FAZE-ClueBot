@@ -316,6 +316,36 @@ public class FazeClueBot implements BotAPI {
     	 * To be called at the beginning of out bots turn
     	 */
     	public void startTurnLogic() {
+    		
+
+    		
+    		System.out.println("\n\n\n\n\n\n\n\n");
+    		System.out.println("---Print out of possible cards---");
+    		
+    		System.out.println("Weapon Cards: ");
+    		for (int i = 0; i < weaponCards.size(); i++) {
+    			System.out.print("| " + weaponCards.get(i).name +  " |");
+    		}
+    		
+    		System.out.println("\nCharacter Cards: ");
+     		for (int i = 0; i < playerCards.size(); i++) {
+    			System.out.print("| " + playerCards.get(i).name +  " |");
+    		}   
+     		
+     		System.out.println("\nRom Cards: ");
+     		for (int i = 0; i < roomCards.size(); i++) {
+    			System.out.print("| " + roomCards.get(i).name +  " |");
+    		}    		
+     		
+     		System.out.println("\n\n");
+    		
+     		try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+     		
     		if (!readyToAccuse) {
     			/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
     			reviewLog(log);
@@ -476,6 +506,35 @@ public class FazeClueBot implements BotAPI {
     	private void accuseCheck() {
     		if (lockedInCharacter && lockedInWeapon && lockedInRoom) {
     			readyToAccuse = true;
+    		
+    		    
+    			try {
+					wait(200);
+    			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+    			}
+    			
+    			System.out.println("\n\n\n\n\n\n\n\n");
+    		    System.out.println("---Print out of possible cards---");
+    		
+    		    System.out.println("Weapon Cards: ");
+    		    for (int i = 0; i < weaponCards.size(); i++) {
+    		    	System.out.print("| " + weaponCards.get(i).name +  " |");
+    		    }
+    		
+    		    System.out.println("\nCharacter Cards: ");
+    		    for (int i = 0; i < playerCards.size(); i++) {
+    		    	System.out.print("| " + playerCards.get(i).name +  " |");
+    		    }   
+     		
+    		    System.out.println("\nRom Cards: ");
+    		    for (int i = 0; i < roomCards.size(); i++) {
+    		    	System.out.print("| " + roomCards.get(i).name +  " |");
+    		    }    		
+     		
+    		    System.out.println("\n\n");
+    		
     		}
     	}
     	
@@ -523,6 +582,20 @@ public class FazeClueBot implements BotAPI {
 
     	}
     	
+    	public boolean canEnterRoom(String roomName) {
+    		String nameSubstring = roomName.replaceAll("\\s+","");
+    		
+    		/* Checking to see if we can enter a given room */
+    		for (int i = 0; i < roomCards.size(); i++) {    					
+    			String arrayString = roomCards.get(i).name.replaceAll("\\s+","");
+    			if (arrayString.equals(nameSubstring)) {
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+    		
+    	
     	/**
     	 * Updating guessing based on question feedback
     	 * @param questionLog
@@ -530,6 +603,10 @@ public class FazeClueBot implements BotAPI {
     	public void questionAnswered(Log questionLog) {
     		
     		questionLog.iterator();
+    		
+    		Boolean roomFound = false;
+    		int roomFoundIndex = -1;
+    		String nameSubstring = null;
     		
     		/* Marking the current cards based on what we guessed */
     		playerCards.get(0).guessed = true;
@@ -558,11 +635,36 @@ public class FazeClueBot implements BotAPI {
     					/* We know that the end of the card name we have the '.' char */
     					int endIndex = temp.indexOf('.');
     					
+    					    					
     					/* Grabbing the card name that was returned */
-    					String nameSubstring = temp.substring(startIndex+2, endIndex);
+    					nameSubstring = temp.substring(startIndex+2, endIndex);
+    					nameSubstring = nameSubstring.replaceAll("\\s+","");
+    					
     					System.out.println("This is the stirng: " + temp);
     					System.out.println("This is the sub: " + nameSubstring);
     					
+    					String compareWeapom = weaponCards.get(0).name.replaceAll("\\s+","");
+    					
+     					if (nameSubstring.length() > 11) {
+     						break;
+     					}
+    					
+    					
+    					/* Checking to see if we got a match for the room */
+    					for (int i = 0; i < roomCards.size(); i++) {
+    						
+    						String arrayString = roomCards.get(i).name.replaceAll("\\s+","");
+    						System.out.println(roomCards.get(i).name + " =? " + nameSubstring);
+    						
+    						if (arrayString.equals(nameSubstring)) {
+    							System.out.println("We got a match!");
+    							System.out.println("This is our guess?: " + roomCards.get(i).name);
+    							roomCards.get(i).probability = 0;   							
+    							roomFound = true;
+    							roomFoundIndex = i;
+    							break;
+    						}
+    					} 
     					
     					/*  Checking to see if the card name given is the (weapon, character, or room) we guessed */
     					if (playerCards.get(0).name.equals(nameSubstring)) {
@@ -570,18 +672,42 @@ public class FazeClueBot implements BotAPI {
     						System.out.println("This is our guess?: " + playerCards.get(0).name);
     						playerCards.get(0).probability = 0;		
     					}
-    					else if (weaponCards.get(0).name.equals(nameSubstring)) {
+    					else if (compareWeapom.equals(nameSubstring)) {
      						System.out.println("We got a match!");
     						System.out.println("This is our guess?: " + weaponCards.get(0).name);   						
     						weaponCards.get(0).probability = 0;
     					}
-    					else  if (roomCards.get(0).name.equals(nameSubstring)){
-    						System.out.println("We got a match!");
-    						System.out.println("This is our guess?: " + roomCards.get(0).name);
-    						roomCards.get(0).probability = 0;
-    					}
     					else { //if stuff broke
-    						System.err.println("Error");
+    						if (!roomFound) {
+    							System.out.println("\n\n\n\n\n---We got an error in the guessingLogic---");
+    							System.out.println("This is the name substring: ");
+    							System.out.println(nameSubstring);
+    							
+    							System.out.println("---Print out of possible cards---");
+    		
+    							System.out.println("Weapon Cards: ");
+    							for (int i = 0; i < weaponCards.size(); i++) {
+    								System.out.print("| " + weaponCards.get(i).name +  " |");
+    							}
+    		
+    							System.out.println("\nCharacter Cards: ");
+    							for (int i = 0; i < playerCards.size(); i++) {
+    								System.out.print("| " + playerCards.get(i).name +  " |");
+    							}   
+     		
+    							System.out.println("\nRom Cards: ");
+    							for (int i = 0; i < roomCards.size(); i++) {
+    								System.out.print("| " + roomCards.get(i).name +  " |");
+    							}    		
+     		
+    							System.out.println("\n\n");   				
+    							try {
+									wait(200);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+    						}
     					}
     				}
     			}
@@ -589,20 +715,34 @@ public class FazeClueBot implements BotAPI {
     		}
     	
     		/* If none of the probabilities are changed -- then we have gotten a winning hand! */
-    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && roomCards.get(0).probability != 0) {
-    		    System.err.println("We got a winning hand!");
-    			lockedInCharacter = true;
-    			lockedInRoom = true;
+    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && !roomFound && (nameSubstring.length() > 11 == false)) {
+    			
+
+     			System.out.println("\n\n\n\n\n");   				    			
+    		    System.out.println("We got a winning hand!");
+    		    System.out.println("This is the sub:");
+    		    System.out.println(nameSubstring);
+     			System.out.println("\n\n\n\n\n");
+     			
+    		    try {
+					wait(200);
+    			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+    			}
+    			
+    		    lockedInCharacter = true;
     			lockedInWeapon = true;
+    			lockedInRoom = true;
     			
     			lockedInNoteCharacter = playerCards.get(0);
-    			lockedInNoteRoom = roomCards.get(0);
+    			lockedInNoteRoom = roomCards.get(roomFoundIndex);
     			lockedInNoteWeapon = weaponCards.get(0);
     			
     			playerCards.get(0).probability = 200;
     			weaponCards.get(0).probability = 200;
     			roomCards.get(0).probability = 200;	
-    		}
+    		}	
     		accuseCheck();
     	}
     	
