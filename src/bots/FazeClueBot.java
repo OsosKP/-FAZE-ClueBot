@@ -334,13 +334,13 @@ public class FazeClueBot implements BotAPI {
      		
      		System.out.println("\n\n");
     		
-     		try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-     		
+//     		try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//     		
     		if (!readyToAccuse) {
     			/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
     			reviewLog(log);
