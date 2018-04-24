@@ -577,6 +577,20 @@ public class FazeClueBot implements BotAPI {
 
     	}
     	
+    	public boolean canEnterRoom(String roomName) {
+    		String nameSubstring = roomName.replaceAll("\\s+","");
+    		
+    		/* Checking to see if we can enter a given room */
+    		for (int i = 0; i < roomCards.size(); i++) {    					
+    			String arrayString = roomCards.get(i).name.replaceAll("\\s+","");
+    			if (arrayString.equals(nameSubstring)) {
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+    		
+    	
     	/**
     	 * Updating guessing based on question feedback
     	 * @param questionLog
