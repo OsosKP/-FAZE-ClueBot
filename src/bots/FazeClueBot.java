@@ -102,11 +102,6 @@ public class FazeClueBot implements BotAPI {
         // rollOrDone is just a simple switch
         rollOrDone = !rollOrDone;
 
-		System.out.println("Roll or Done: " + rollOrDone +
-							"\nIn room: " + inRoom +
-							"\nGuess in room: " + guessedInRoom +
-							"\nMoved this turn: " + movedThisTurn);
-
         if (inRoom && guessedInRoom && !movedThisTurn) {
             inRoom = false;
             guessedInRoom = false;
@@ -151,8 +146,7 @@ public class FazeClueBot implements BotAPI {
                     move = "r";
                     break;
             }
-
-        } while (shouldLoopAgain(move)); 
+        } while (shouldLoopAgain(move));
 
         lastPosition = player.getToken().getPosition();
 
@@ -185,20 +179,21 @@ public class FazeClueBot implements BotAPI {
 			- Don't go in room if the probability for it is 0
 			- Find a way to go to cellar when we have an accusation
 		 */
-    	
+
     	Boolean backtolastposition = map.getNewPosition(player.getToken().getPosition(), move) == lastPosition;
 
-    	Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
+    	Boolean validmove = !map.isValidMove( player.getToken().getPosition(), move);
 
-    	Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-				&& map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
+		Boolean cellarcase = (!timeToAccuse &&
+				(map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move))) &&
+				(map.getRoom(map.getNewPosition( player.getToken().getPosition(), move))).toString().equals("Cellar"));
 
-    	Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move)))
-				&& map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
+    	Boolean backtracking = (lastRoomIn != null && ((map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move)))
+				&& map.getRoom(map.getNewPosition( player.getToken().getPosition(), move)) == lastRoomIn));
 
-    	Boolean needRoom = ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-				!guessing.canEnterRoom(map.getRoom(map.getNewPosition(lastPosition, move)).toString()));
-
+    	Boolean needRoom = ((map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move))) &&
+				!guessing.canEnterRoom(map.getRoom(map.getNewPosition( player.getToken().getPosition(), move)).toString()));
+    	
 		return (backtolastposition || validmove || cellarcase || backtracking || needRoom);
     }
   
@@ -633,7 +628,7 @@ public class FazeClueBot implements BotAPI {
     					nameSubstring = temp.substring(startIndex+2, endIndex);
     					nameSubstring = nameSubstring.replaceAll("\\s+","");
     					
-    					System.out.println("This is the stirng: " + temp);
+    					System.out.println("This is the string: " + temp);
     					System.out.println("This is the sub: " + nameSubstring);
     					
     					String compareWeapom = weaponCards.get(0).name.replaceAll("\\s+","");
