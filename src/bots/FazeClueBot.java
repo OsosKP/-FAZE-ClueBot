@@ -101,6 +101,12 @@ public class FazeClueBot implements BotAPI {
 
         // rollOrDone is just a simple switch
         rollOrDone = !rollOrDone;
+
+		System.out.println("Roll or Done: " + rollOrDone +
+							"\nIn room: " + inRoom +
+							"\nGuess in room: " + guessedInRoom +
+							"\nMoved this turn: " + movedThisTurn);
+
         if (inRoom && guessedInRoom && !movedThisTurn) {
             inRoom = false;
             guessedInRoom = false;
@@ -189,7 +195,6 @@ public class FazeClueBot implements BotAPI {
 				&& map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
 		return (backtolastposition || validmove || cellarcase || backtracking);
     }
-    
   
     public String getSuspect() {
         return guessing.getCharacterGuess().name;
@@ -797,4 +802,59 @@ public class FazeClueBot implements BotAPI {
         }
         return null;
     }
+
+	static int R = 100;
+    static int D = 101;
+	public static int GRID[][] = {
+			{R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} , 
+			{R , R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , 5 , 5 , 5 , R , R , R , R , R , R , R} , 
+			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} , 
+			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} , 
+			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , D , R , R , R , R , R} , 
+			{R , R , R , R , R , R , 2 , 2 , D , R , R , R , R , R , R , D , 5 , 5 , 6 , R , R , R , R , R} , 
+			{R , R , R , R , D , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , 6 , 6 , 6 , 6 , R} , 
+			{R , 1 , 1 , 1 , 1 , 1 , 2 , 2 , R , D , R , R , R , R , D , R , 4 , 7 , 7 , 6 , 6 , 6 , 6 , R} , 
+			{R , 1 , 1 , 1 , 1 , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 4 , 7 , R , R , R , R , R , R} , 
+			{R , R , R , R , R , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 7 , 7 , D , R , R , R , R , R} , 
+			{R , R , R , R , R , R , R , R , 17, 3 , R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , R , D , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , D , R} ,
+			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 8 , 8 , 8 , 8 , 8 , 10, 10, R} ,
+			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 9 , 9 , 8 , R , R , D , R , R , R} , // 14
+			{R , R , R , R , R , R , D , R , 17, 17, R , R , R , R , R , 9 , 9 , R , R , R , R , R , R , R} ,
+			{R , 16, 16, 16, 16, 16, 16, 16, 14, 14, R , R , D , R , R , 9 , 9 , D , R , R , R , R , R , R} ,
+			{R , 15, 16, 16, 16, 16, 16, 16, 14, 14, 14, 14, 13, 13, 13, 9 , 9 , R , R , R , R , R , R , R} ,
+			{R , 15, 15, 15, 15, 15, 15, 15, 15, R , R , D , D , R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , D , 15, 15, R , R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12, R} ,
+			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , D , 11, 12, 12, 12, 12, 12, 12, 12, R} ,
+			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, D , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
+			{R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} , 
+	};
+
+//	static Coordinates[] doorCoordinates = {
+//			// Cellar
+//			new Coordinates(12, 16),
+//			new Coordinates(4, 6),
+//			new Coordinates(8, 5),
+//			new Coordinates(9, 7),
+//			new Coordinates(14, 7),
+//			new Coordinates(15, 5),
+//			// Conservatory
+//			new Coordinates(18, 4),
+//			new Coordinates(18, 9),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//			new Coordinates(),
+//
+//	}
+        
 }
