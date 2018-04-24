@@ -585,7 +585,7 @@ public class FazeClueBot implements BotAPI {
     		}    		
      		
      		System.out.println("\n\n");
-     		sleepMe(mili);
+//     		sleepMe(mili);
     	}
     		
     	
