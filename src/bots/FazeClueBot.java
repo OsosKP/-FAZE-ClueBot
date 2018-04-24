@@ -102,11 +102,6 @@ public class FazeClueBot implements BotAPI {
         // rollOrDone is just a simple switch
         rollOrDone = !rollOrDone;
 
-		System.out.println("Roll or Done: " + rollOrDone +
-							"\nIn room: " + inRoom +
-							"\nGuess in room: " + guessedInRoom +
-							"\nMoved this turn: " + movedThisTurn);
-
         if (inRoom && guessedInRoom && !movedThisTurn) {
             inRoom = false;
             guessedInRoom = false;
@@ -151,8 +146,7 @@ public class FazeClueBot implements BotAPI {
                     move = "r";
                     break;
             }
-
-        } while (shouldLoopAgain(move)); 
+        } while (shouldLoopAgain(move));
 
         lastPosition = player.getToken().getPosition();
 
@@ -186,19 +180,20 @@ public class FazeClueBot implements BotAPI {
 			- Don't go in room if the probability for it is 0
 			- Find a way to go to cellar when we have an accusation
 		 */
-    	
+
     	Boolean backtolastposition = map.getNewPosition(player.getToken().getPosition(), move) == lastPosition;
 
-    	Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
+    	Boolean validmove = !map.isValidMove( player.getToken().getPosition(), move);
 
-    	Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
-				&& map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
+		Boolean cellarcase = (!timeToAccuse &&
+				(map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move))) &&
+				(map.getRoom(map.getNewPosition( player.getToken().getPosition(), move))).toString().equals("Cellar"));
 
-    	Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move)))
-				&& map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
+    	Boolean backtracking = (lastRoomIn != null && ((map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move)))
+				&& map.getRoom(map.getNewPosition( player.getToken().getPosition(), move)) == lastRoomIn));
 
-    	Boolean needRoom = ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
-				!guessing.canEnterRoom(map.getRoom(map.getNewPosition(lastPosition, move)).toString()));
+    	Boolean needRoom = ((map.isDoor( player.getToken().getPosition(), map.getNewPosition( player.getToken().getPosition(), move))) &&
+				!guessing.canEnterRoom(map.getRoom(map.getNewPosition( player.getToken().getPosition(), move)).toString()));
 
 		return (backtolastposition || validmove || cellarcase || backtracking || needRoom);
     }
@@ -649,7 +644,7 @@ public class FazeClueBot implements BotAPI {
     					nameSubstring = temp.substring(startIndex+2, endIndex);
     					nameSubstring = nameSubstring.replaceAll("\\s+","");
     					
-    					System.out.println("This is the stirng: " + temp);
+    					System.out.println("This is the string: " + temp);
     					System.out.println("This is the sub: " + nameSubstring);
     					
     					//String compareWeapom = weaponCards.get(0).name.replaceAll("\\s+","");
@@ -1001,58 +996,67 @@ public class FazeClueBot implements BotAPI {
         return null;
     }
 
-	static int R = 100;
-    static int D = 101;
-	public static int GRID[][] = {
-			{R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} , 
-			{R , R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , 5 , 5 , 5 , R , R , R , R , R , R , R} , 
-			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} , 
-			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} , 
-			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , D , R , R , R , R , R} , 
-			{R , R , R , R , R , R , 2 , 2 , D , R , R , R , R , R , R , D , 5 , 5 , 6 , R , R , R , R , R} , 
-			{R , R , R , R , D , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , 6 , 6 , 6 , 6 , R} , 
-			{R , 1 , 1 , 1 , 1 , 1 , 2 , 2 , R , D , R , R , R , R , D , R , 4 , 7 , 7 , 6 , 6 , 6 , 6 , R} , 
-			{R , 1 , 1 , 1 , 1 , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 4 , 7 , R , R , R , R , R , R} , 
-			{R , R , R , R , R , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 7 , 7 , D , R , R , R , R , R} , 
-			{R , R , R , R , R , R , R , R , 17, 3 , R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , R , D , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , D , R} ,
-			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 8 , 8 , 8 , 8 , 8 , 10, 10, R} ,
-			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 9 , 9 , 8 , R , R , D , R , R , R} , // 14
-			{R , R , R , R , R , R , D , R , 17, 17, R , R , R , R , R , 9 , 9 , R , R , R , R , R , R , R} ,
-			{R , 16, 16, 16, 16, 16, 16, 16, 14, 14, R , R , D , R , R , 9 , 9 , D , R , R , R , R , R , R} ,
-			{R , 15, 16, 16, 16, 16, 16, 16, 14, 14, 14, 14, 13, 13, 13, 9 , 9 , R , R , R , R , R , R , R} ,
-			{R , 15, 15, 15, 15, 15, 15, 15, 15, R , R , D , D , R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , D , 15, 15, R , R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12, R} ,
-			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , D , 11, 12, 12, 12, 12, 12, 12, 12, R} ,
-			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, D , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
-			{R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} , 
-	};
-
-//	static Coordinates[] doorCoordinates = {
+    // Probably not going to use this code
+//	static int R = 100;
+//	private static int GRID[][] = {
+//			{R , R , R , R , R , R , R , R , R , 2 , R , R , R , R , 5 , R , R , R , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , 5 , 5 , 5 , R , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , R , R , 5 , 5 , 5 , 6 , R , R , R , R , R} ,
+//			{R , R , R , R , 1 , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , 6 , 6 , 6 , 6 , 6} ,
+//			{R , 1 , 1 , 1 , 1 , 1 , 2 , 2 , R , 3 , R , R , R , R , 4 , R , 4 , 7 , 7 , 6 , 6 , 6 , 6 , R} ,
+//			{R , 1 , 1 , 1 , 1 , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 4 , 7 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 7 , 7 , 7 , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , R , 17, 3 , R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , 17, 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , 10, R} ,
+//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 8 , 8 , 8 , 8 , 8 , 10, 10, R} ,
+//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 9 , 9 , 8 , R , R , 8 , R , R , R} , // 14
+//			{R , R , R , R , R , R , 16, R , 17, 17, R , R , R , R , R , 9 , 9 , R , R , R , R , R , R , R} ,
+//			{R , 16, 16, 16, 16, 16, 16, 16, 14, 14, R , R , 0 , R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
+//			{15, 15, 16, 16, 16, 16, 16, 16, 14, 14, 14, 14, 13, 13, 13, 9 , 9 , R , R , R , R , R , R , R} ,
+//			{R , 15, 15, 15, 15, 15, 15, 15, 15, R , R , 14, 13, R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , 15, 15, 15, R , R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12,12} ,
+//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12, 12, R} ,
+//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, 12, R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
+//			{R , R , R , R , R , R , R , 15, R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} ,
+//	};
+//
+//	private static Coordinates[] doorCoordinates = {
 //			// Cellar
-//			new Coordinates(12, 16),
+//			new Coordinates(12, 16),		// 0
+//			// Kitchen
 //			new Coordinates(4, 6),
+//			// Ballroom
 //			new Coordinates(8, 5),
 //			new Coordinates(9, 7),
 //			new Coordinates(14, 7),
-//			new Coordinates(15, 5),
+//			new Coordinates(15, 5),			// 5
 //			// Conservatory
 //			new Coordinates(18, 4),
+//			// Billiard Room
 //			new Coordinates(18, 9),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
-//			new Coordinates(),
+//			new Coordinates(22, 12),
+//			// Library
+//			new Coordinates(17, 16),
+//			new Coordinates(20, 14),		// 10
+//			// Hall 1
+//			new Coordinates(14, 20),
+//			// Study
+//			new Coordinates(17, 21),
+//			// Hall 2
+//			new Coordinates(12, 18),
+//			new Coordinates(11, 18),
+//			// Lounge
+//			new Coordinates(6, 19),			// 15
+//			// Dining Room
+//			new Coordinates(6, 15),
+//			new Coordinates(7, 12),
 //
-//	}
+//	};
         
 }
