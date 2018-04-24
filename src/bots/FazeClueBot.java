@@ -168,14 +168,16 @@ public class FazeClueBot implements BotAPI {
 
         return move;
     }
-  
     
     private Boolean shouldLoopAgain(String move) {
+    	if (lastPosition == null)
+    		return false;
         // Keep running this while one of these conditions is met:
             // 1. If we are trying to move back to the last position 
             // 2. If it is a not valid move
             // 3. If it's not time to accuse, and the door leads to the cellar 
             // 4. If we are trying to go back into a room we were just in
+			// 5. The room we're trying to enter is one we don't need to ask about
 
 		// TODO:
 		/*
@@ -193,7 +195,11 @@ public class FazeClueBot implements BotAPI {
 
     	Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move)))
 				&& map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
-		return (backtolastposition || validmove || cellarcase || backtracking);
+
+    	Boolean needRoom = ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) &&
+				!guessing.canEnterRoom(map.getRoom(map.getNewPosition(lastPosition, move)).toString()));
+
+		return (backtolastposition || validmove || cellarcase || backtracking || needRoom);
     }
   
     public String getSuspect() {
@@ -332,19 +338,12 @@ public class FazeClueBot implements BotAPI {
     			System.out.print("| " + playerCards.get(i).name +  " |");
     		}   
      		
-     		System.out.println("\nRom Cards: ");
+     		System.out.println("\nRoom Cards: ");
      		for (int i = 0; i < roomCards.size(); i++) {
     			System.out.print("| " + roomCards.get(i).name +  " |");
     		}    		
      		
      		System.out.println("\n\n");
-    		
-     		try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
      		
     		if (!readyToAccuse) {
     			/* Reviewing turn's prior log and seeing if we can update the probability of anything in the ArrayLists */
@@ -506,14 +505,6 @@ public class FazeClueBot implements BotAPI {
     	private void accuseCheck() {
     		if (lockedInCharacter && lockedInWeapon && lockedInRoom) {
     			readyToAccuse = true;
-    		
-    		    
-    			try {
-					wait(200);
-    			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-					e.printStackTrace();
-    			}
     			
     			System.out.println("\n\n\n\n\n\n\n\n");
     		    System.out.println("---Print out of possible cards---");
@@ -528,7 +519,7 @@ public class FazeClueBot implements BotAPI {
     		    	System.out.print("| " + playerCards.get(i).name +  " |");
     		    }   
      		
-    		    System.out.println("\nRom Cards: ");
+    		    System.out.println("\nRoom Cards: ");
     		    for (int i = 0; i < roomCards.size(); i++) {
     		    	System.out.print("| " + roomCards.get(i).name +  " |");
     		    }    		
@@ -586,7 +577,9 @@ public class FazeClueBot implements BotAPI {
     		String nameSubstring = roomName.replaceAll("\\s+","");
     		
     		/* Checking to see if we can enter a given room */
-    		for (int i = 0; i < roomCards.size(); i++) {    					
+    		for (int i = 0; i < roomCards.size(); i++) {
+				System.out.println("Comparing " + nameSubstring +
+						" to " + roomCards.get(i).name.replaceAll("\\s+",""));
     			String arrayString = roomCards.get(i).name.replaceAll("\\s+","");
     			if (arrayString.equals(nameSubstring)) {
     				return true;
@@ -604,7 +597,7 @@ public class FazeClueBot implements BotAPI {
     		
     		questionLog.iterator();
     		
-    		Boolean roomFound = false;
+    		Boolean roomNotFound = true;
     		int roomFoundIndex = -1;
     		String nameSubstring = null;
     		
@@ -660,7 +653,7 @@ public class FazeClueBot implements BotAPI {
     							System.out.println("We got a match!");
     							System.out.println("This is our guess?: " + roomCards.get(i).name);
     							roomCards.get(i).probability = 0;   							
-    							roomFound = true;
+    							roomNotFound = false;
     							roomFoundIndex = i;
     							break;
     						}
@@ -678,7 +671,7 @@ public class FazeClueBot implements BotAPI {
     						weaponCards.get(0).probability = 0;
     					}
     					else { //if stuff broke
-    						if (!roomFound) {
+    						if (!roomNotFound) {
     							System.out.println("\n\n\n\n\n---We got an error in the guessingLogic---");
     							System.out.println("This is the name substring: ");
     							System.out.println(nameSubstring);
@@ -695,18 +688,12 @@ public class FazeClueBot implements BotAPI {
     								System.out.print("| " + playerCards.get(i).name +  " |");
     							}   
      		
-    							System.out.println("\nRom Cards: ");
+    							System.out.println("\nRoom Cards: ");
     							for (int i = 0; i < roomCards.size(); i++) {
     								System.out.print("| " + roomCards.get(i).name +  " |");
     							}    		
      		
     							System.out.println("\n\n");   				
-    							try {
-									wait(200);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
     						}
     					}
     				}
@@ -715,7 +702,7 @@ public class FazeClueBot implements BotAPI {
     		}
     	
     		/* If none of the probabilities are changed -- then we have gotten a winning hand! */
-    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && !roomFound && (nameSubstring.length() > 11 == false)) {
+    		if (playerCards.get(0).probability != 0 && weaponCards.get(0).probability != 0 && !roomNotFound && (nameSubstring.length() > 11 == false)) {
     			
 
      			System.out.println("\n\n\n\n\n");   				    			
@@ -723,13 +710,6 @@ public class FazeClueBot implements BotAPI {
     		    System.out.println("This is the sub:");
     		    System.out.println(nameSubstring);
      			System.out.println("\n\n\n\n\n");
-     			
-    		    try {
-					wait(200);
-    			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-					e.printStackTrace();
-    			}
     			
     		    lockedInCharacter = true;
     			lockedInWeapon = true;
