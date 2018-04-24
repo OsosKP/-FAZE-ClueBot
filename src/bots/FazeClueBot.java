@@ -26,6 +26,35 @@ public class FazeClueBot implements BotAPI {
     private Boolean firstTurn = true;
     private Random rand;
     private boolean rollOrDone = false;
+
+	// Map coords: 24 x 23
+	private Coordinates lastPosition;
+	private int diceRoll;
+
+
+
+	/* ArrayLists that will represent the different cards in the game that the bot will guess */
+	private List<NoteCard> playerCards = new ArrayList<>();
+	private List<NoteCard> weaponCards = new ArrayList<>();
+	private List<NoteCard> roomCards = new ArrayList<>();
+
+	/* ArrayList that will represent the cards that are currently in our hand */
+	private List<NoteCard> playerHandCards = new ArrayList<>();
+	private List<NoteCard> weaponHandCards = new ArrayList<>();
+	private List<NoteCard> roomHandCards = new ArrayList<>();
+
+	/* ArrayList that represents the removedCards */
+	private List<NoteCard> playerRemovedCards = new ArrayList<>();
+	private List<NoteCard> weaponRemovedCards = new ArrayList<>();
+	private List<NoteCard> roomRemovedCards = new ArrayList<>();
+
+	private Room roomIn;
+	private Room lastRoomIn;
+
+	private boolean inRoom = false;
+	private boolean guessedInRoom = false;
+	private boolean movedThisTurn = false;
+	private boolean timeToAccuse = false;
     
     public FazeClueBot (Player player, PlayersInfo playersInfo, Map map, Dice dice, Log log, Deck deck) {
         this.player = player;
@@ -49,7 +78,7 @@ public class FazeClueBot implements BotAPI {
 
     @Override
 	public String getVersion() {
-		return "0.1";
+		return "0.2";
 	}
 
     public String getCommand() { // Possible inputs: quit|done|roll|passage|notes|cheat|question|log|accuse|help
@@ -70,30 +99,36 @@ public class FazeClueBot implements BotAPI {
 
         diceRoll = dice.getTotal();
 
+        // rollOrDone is just a simple switch
         rollOrDone = !rollOrDone;
-        if (inRoom && guessedInRoom) {
+        if (inRoom && guessedInRoom && !movedThisTurn) {
             inRoom = false;
             guessedInRoom = false;
             System.out.println(player.getToken().getName() + " has left the room.");
+            movedThisTurn = true;
             return "roll";
         }
-        else if (inRoom) {
+        else if (inRoom && !guessedInRoom) {
             guessedInRoom = true;
             System.out.println(player.getToken().getName() +
                     " is asking a question.\n In the " + roomIn.toString());
             return "question";
         }
 
-        if (rollOrDone) {
+        if (rollOrDone && !movedThisTurn) {
             guessedInRoom = false;
             inRoom = false;
+            movedThisTurn = true;
             return "roll";
         }
-        else
-            return "done";
+        else {
+        	movedThisTurn = false;
+			return "done";
+		}
     }
  
     public String getMove() {
+    	movedThisTurn = true;
         String move = "Error in move logic";
         do {
             switch (rand.nextInt(4)) { //TODO: Currently random, need to change that back
@@ -135,11 +170,23 @@ public class FazeClueBot implements BotAPI {
             // 2. If it is a not valid move
             // 3. If it's not time to accuse, and the door leads to the cellar 
             // 4. If we are trying to go back into a room we were just in
+
+		// TODO:
+		/*
+			More checks we can add:
+			- Don't go in room if the probability for it is 0
+			- Find a way to go to cellar when we have an accusation
+		 */
     	
     	Boolean backtolastposition = map.getNewPosition(player.getToken().getPosition(), move) == lastPosition;
-        Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
-        Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12) && map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
-		Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move))) && map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
+
+    	Boolean validmove = !map.isValidMove(player.getToken().getPosition(), move);
+
+    	Boolean cellarcase = (!timeToAccuse && ((map.getNewPosition(player.getToken().getPosition(), move).getCol() == 12)
+				&& map.getNewPosition(player.getToken().getPosition(), move).getRow() == 16));
+
+    	Boolean backtracking = (lastRoomIn != null && ((map.isDoor(lastPosition, map.getNewPosition(lastPosition, move)))
+				&& map.getRoom(map.getNewPosition(lastPosition, move)) == lastRoomIn));
 		return (backtolastposition || validmove || cellarcase || backtracking);
     }
     
@@ -162,17 +209,7 @@ public class FazeClueBot implements BotAPI {
     
     /* When someone is asking a question */
     public String getCard(Cards matchingCards) {
-        // Add your code here
-        System.out.println("Suspect:");
-        System.out.println(getSuspect());
-        System.out.println("Weapon");
-        System.out.println(getWeapon());
-        System.out.println("Room");
-        System.out.println(getRoom());
-
-        Query ourQuery = new Query(getSuspect(), getWeapon(), getRoom());
-        // Input needs to return true: (at least one card).hasName(String input) in matchingCards
-        return matchingCards.get(ourQuery).toString();
+        return matchingCards.get().toString();
     }
 
     public String getPlayerName() {
@@ -205,38 +242,6 @@ public class FazeClueBot implements BotAPI {
     /*
         Our Code
      */
-
-    /*
-        New variables and methods
-     */
-
-    // Map coords: 24 x 23
-    private Coordinates lastPosition;
-    private int diceRoll;
-
-
-
-    /* ArrayLists that will represent the different cards in the game that the bot will guess */ 
-    private List<NoteCard> playerCards = new ArrayList<>();
-    private List<NoteCard> weaponCards = new ArrayList<>();
-    private List<NoteCard> roomCards = new ArrayList<>();
-    
-    /* ArrayList that will represent the cards that are currently in our hand */
-    private List<NoteCard> playerHandCards = new ArrayList<>();
-    private List<NoteCard> weaponHandCards = new ArrayList<>();
-    private List<NoteCard> roomHandCards = new ArrayList<>();
-    
-    /* ArrayList that represents the removedCards */
-    private List<NoteCard> playerRemovedCards = new ArrayList<>();
-    private List<NoteCard> weaponRemovedCards = new ArrayList<>();
-    private List<NoteCard> roomRemovedCards = new ArrayList<>();
-
-    private Room roomIn;
-    private Room lastRoomIn;
-    
-    private boolean inRoom = false;
-    private boolean guessedInRoom = false;
-    private boolean timeToAccuse = false;
 
     /*
         Guessing
