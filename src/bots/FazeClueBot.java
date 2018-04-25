@@ -256,7 +256,7 @@ public class FazeClueBot implements BotAPI {
      */
         public static class NoteCard {
             private String name;
-            public int probability;
+            public int probability;//Represents probablility that each card is in the envelope
             private boolean guessed;
             private String whoHas;
 
@@ -342,6 +342,7 @@ public class FazeClueBot implements BotAPI {
     	}
     	
     	private void lockedInRefresh() {
+    		//We "lock in" a card when it's confirmed to be in the envelope
     		if (playerCards.size() == 1) {
     			System.out.println("we got one!");
     			printOut(1000);
@@ -398,14 +399,14 @@ public class FazeClueBot implements BotAPI {
     					System.out.println(tempNext);
     					System.out.println(tempLookUp);
     					
-    					System.out.println("\n\n\n\n\n");
+    					System.out.println("\n\n");
     					System.out.println("The player: ");
     					System.out.println(tempArray[6]);
     					System.out.println("The weapon: ");
     					System.out.println(tempArray[9]);
     					System.out.println("The room: ");
     					System.out.println(tempArray[12]);
-    					System.out.println("\n\n\n\n\n\n\n");
+    					System.out.println("\n\n");
     					
     					/* Need to loop though the string and see if we get any matches for the  */
     					
@@ -995,68 +996,6 @@ public class FazeClueBot implements BotAPI {
         }
         return null;
     }
-
-    // Probably not going to use this code
-//	static int R = 100;
-//	private static int GRID[][] = {
-//			{R , R , R , R , R , R , R , R , R , 2 , R , R , R , R , 5 , R , R , R , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , 5 , 5 , 5 , R , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , 2 , 2 , 2 , R , R , R , R , R , R , 5 , 5 , 5 , 6 , R , R , R , R , R} ,
-//			{R , R , R , R , 1 , R , 2 , 2 , R , R , R , R , R , R , R , R , 5 , 5 , 6 , 6 , 6 , 6 , 6 , 6} ,
-//			{R , 1 , 1 , 1 , 1 , 1 , 2 , 2 , R , 3 , R , R , R , R , 4 , R , 4 , 7 , 7 , 6 , 6 , 6 , 6 , R} ,
-//			{R , 1 , 1 , 1 , 1 , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 4 , 7 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , 1 , 1 , 3 , 3 , 3 , 3 , 3 , 3 , 4 , 4 , 4 , 7 , 7 , 7 , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , R , 17, 3 , R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , 17, 17, 17, R , R , R , R , R , 7 , 7 , 7 , R , R , R , R , 10, R} ,
-//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 7 , 8 , 8 , 8 , 8 , 8 , 10, 10, R} ,
-//			{R , R , R , R , R , R , R , R , 17, 17, R , R , R , R , R , 9 , 9 , 8 , R , R , 8 , R , R , R} , // 14
-//			{R , R , R , R , R , R , 16, R , 17, 17, R , R , R , R , R , 9 , 9 , R , R , R , R , R , R , R} ,
-//			{R , 16, 16, 16, 16, 16, 16, 16, 14, 14, R , R , 0 , R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
-//			{15, 15, 16, 16, 16, 16, 16, 16, 14, 14, 14, 14, 13, 13, 13, 9 , 9 , R , R , R , R , R , R , R} ,
-//			{R , 15, 15, 15, 15, 15, 15, 15, 15, R , R , 14, 13, R , R , 9 , 9 , 9 , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , 15, 15, 15, R , R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12,12} ,
-//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , 11, 11, 12, 12, 12, 12, 12, 12, 12, R} ,
-//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, 12, R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , 15, 15, R , R , R , R , R , R , 11, 12, R , R , R , R , R , R , R} ,
-//			{R , R , R , R , R , R , R , 15, R , R , R , R , R , R , R , R , R , R , R , R , R , R , R , R} ,
-//	};
-//
-//	private static Coordinates[] doorCoordinates = {
-//			// Cellar
-//			new Coordinates(12, 16),		// 0
-//			// Kitchen
-//			new Coordinates(4, 6),
-//			// Ballroom
-//			new Coordinates(8, 5),
-//			new Coordinates(9, 7),
-//			new Coordinates(14, 7),
-//			new Coordinates(15, 5),			// 5
-//			// Conservatory
-//			new Coordinates(18, 4),
-//			// Billiard Room
-//			new Coordinates(18, 9),
-//			new Coordinates(22, 12),
-//			// Library
-//			new Coordinates(17, 16),
-//			new Coordinates(20, 14),		// 10
-//			// Hall 1
-//			new Coordinates(14, 20),
-//			// Study
-//			new Coordinates(17, 21),
-//			// Hall 2
-//			new Coordinates(12, 18),
-//			new Coordinates(11, 18),
-//			// Lounge
-//			new Coordinates(6, 19),			// 15
-//			// Dining Room
-//			new Coordinates(6, 15),
-//			new Coordinates(7, 12),
-//
-//	};
-        
 }
+
+   
